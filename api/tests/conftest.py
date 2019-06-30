@@ -28,6 +28,7 @@ from rest_framework import fields as rest_fields
 from rest_framework.test import APIClient, APIRequestFactory
 
 from funkwhale_api.activity import record
+from funkwhale_api.common import plugins
 from funkwhale_api.federation import actors
 from funkwhale_api.moderation import mrf
 
@@ -437,3 +438,12 @@ def mrf_outbox_registry(mocker):
     registry = mrf.Registry()
     mocker.patch("funkwhale_api.moderation.mrf.outbox", registry)
     return registry
+
+
+@pytest.fixture
+def plugins_registry(mocker):
+    mocker.patch.dict(plugins.registry, {})
+    mocker.patch.object(
+        plugins.Plugin, "_path_from_module", return_value="/tmp/dummypath"
+    )
+    return plugins.registry
