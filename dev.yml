@@ -67,6 +67,7 @@ services:
       - "CACHE_URL=redis://redis:6379/0"
       - "STATIC_ROOT=/staticfiles"
       - "MEDIA_ROOT=/data/media"
+      - "PLUGINS_FAIL_LOUDLY=True"
 
     depends_on:
       - postgres
@@ -95,6 +96,7 @@ services:
       - "DATABASE_URL=postgresql://postgres@postgres/postgres"
       - "CACHE_URL=redis://redis:6379/0"
       - "MEDIA_ROOT=/data/media"
+      - "PLUGINS_FAIL_LOUDLY=True"
     volumes:
       - ./api:/app
       - "${MUSIC_DIRECTORY_SERVE_PATH-./data/music}:/music:ro"
