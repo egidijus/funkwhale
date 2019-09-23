@@ -83,7 +83,7 @@ def test_get_all_plugins(mocker):
     assert all_plugins == [pl1, pl2]
 
 
-def test_generate_plugin_conf(factories, plugin_class):
+def test_generate_plugins_conf(factories, plugin_class):
     plugin1 = plugin_class("test1", "test1")
     plugin2 = plugin_class("test2", "test2")
     plugin3 = plugin_class("test3", "test3")
@@ -122,11 +122,11 @@ def test_generate_plugin_conf(factories, plugin_class):
         {"obj": plugin4, "settings": plugin4_db_conf.config, "user": None},
     ]
 
-    conf = plugins.generate_plugin_conf([plugin1, plugin2, plugin3, plugin4], user=user)
+    conf = plugins.generate_plugins_conf([plugin1, plugin2, plugin3, plugin4], user=user)
     assert conf == expected
 
 
-def test_generate_plugin_conf_anonymous_user(factories, plugin_class):
+def test_generate_plugins_conf_anonymous_user(factories, plugin_class):
     plugin1 = plugin_class("test1", "test1")
     plugin2 = plugin_class("test2", "test2")
     plugin3 = plugin_class("test3", "test3")
@@ -154,28 +154,28 @@ def test_generate_plugin_conf_anonymous_user(factories, plugin_class):
         {"obj": plugin4, "settings": plugin4_db_conf.config, "user": None},
     ]
 
-    conf = plugins.generate_plugin_conf([plugin1, plugin2, plugin3, plugin4], user=None)
+    conf = plugins.generate_plugins_conf([plugin1, plugin2, plugin3, plugin4], user=None)
     assert conf == expected
 
 
-def test_attach_plugin_conf(mocker):
+def test_attach_plugins_conf(mocker):
     request = mocker.Mock()
-    generate_plugin_conf = mocker.patch.object(plugins, "generate_plugin_conf")
+    generate_plugins_conf = mocker.patch.object(plugins, "generate_plugins_conf")
     get_all_plugins = mocker.patch.object(plugins, "get_all_plugins")
     user = mocker.Mock()
 
-    plugins.attach_plugin_conf(request, user=user)
+    plugins.attach_plugins_conf(request, user=user)
 
-    generate_plugin_conf.assert_called_once_with(
+    generate_plugins_conf.assert_called_once_with(
         plugins=get_all_plugins.return_value, user=user
     )
-    assert request.plugin_conf == generate_plugin_conf.return_value
+    assert request.plugins_conf == generate_plugins_conf.return_value
 
 
 def test_attach_plugin_noop_if_plugins_disabled(mocker, preferences):
     preferences["plugins__enabled"] = False
     request = mocker.Mock()
 
-    plugins.attach_plugin_conf(request, user=None)
+    plugins.attach_plugins_conf(request, user=None)
 
-    assert request.plugin_conf is None
+    assert request.plugins_conf is None

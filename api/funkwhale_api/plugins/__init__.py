@@ -140,10 +140,10 @@ def get_all_plugins():
     ]
 
 
-def generate_plugin_conf(plugins, user=None):
+def generate_plugins_conf(plugins, user=None):
     from . import models
 
-    plugin_conf = []
+    plugins_conf = []
     qs = models.Plugin.objects.filter(is_enabled=True).values("name", "config")
     by_plugin_name = {obj["name"]: obj["config"] for obj in qs}
     for plugin in plugins:
@@ -154,28 +154,28 @@ def generate_plugin_conf(plugins, user=None):
             "user": None,
             "settings": by_plugin_name[plugin.name] or {},
         }
-        plugin_conf.append(conf)
+        plugins_conf.append(conf)
 
-    if plugin_conf and user and user.is_authenticated:
+    if plugins_conf and user and user.is_authenticated:
         qs = models.UserPlugin.objects.filter(
             user=user, plugin__is_enabled=True, is_enabled=True
         ).values("plugin__name", "config")
         by_plugin_name = {obj["plugin__name"]: obj["config"] for obj in qs}
-        for row in plugin_conf:
+        for row in plugins_conf:
             if row["obj"].name in by_plugin_name:
                 row["user"] = {
                     "id": user.pk,
                     "settings": by_plugin_name[row["obj"].name],
                 }
-    return plugin_conf
+    return plugins_conf
 
 
-def attach_plugin_conf(obj, user):
+def attach_plugins_conf(obj, user):
     from funkwhale_api.common import preferences
 
     plugins_enabled = preferences.get("plugins__enabled")
     if plugins_enabled:
-        conf = generate_plugin_conf(plugins=get_all_plugins(), user=user)
+        conf = generate_plugins_conf(plugins=get_all_plugins(), user=user)
     else:
         conf = None
-    setattr(obj, "plugin_conf", conf)
+    setattr(obj, "plugins_conf", conf)
