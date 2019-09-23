@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
+from funkwhale_api import plugins
 from funkwhale_api.activity import serializers as activity_serializers
+from funkwhale_api.common import utils
 from funkwhale_api.federation import serializers as federation_serializers
 from funkwhale_api.music.serializers import TrackActivitySerializer, TrackSerializer
 from funkwhale_api.users.serializers import UserActivitySerializer, UserBasicSerializer
@@ -53,4 +55,12 @@ class ListeningWriteSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data["user"] = self.context["user"]
 
-        return super().create(validated_data)
+        instance = super().create(validated_data)
+        plugins_conf = getattr(self.context["request"], "plugins_conf", None)
+        utils.on_commit(
+            plugins.hooks.dispatch,
+            "history.listening.created",
+            listening=instance,
+            plugins_conf=plugins_conf,
+        )
+        return instance
