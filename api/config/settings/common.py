@@ -81,11 +81,15 @@ else:
         logger.info("Loaded env file at %s/.env", path)
         break
 
-FUNKWHALE_PLUGINS_PATH = env(
-    "FUNKWHALE_PLUGINS_PATH", default="/srv/funkwhale/plugins/"
+FUNKWHALE_PLUGINS_PATH = env.list(
+    "FUNKWHALE_PLUGINS_PATH",
+    default=["/srv/funkwhale/plugins/", str(ROOT_DIR.path("plugins"))],
 )
-sys.path.append(FUNKWHALE_PLUGINS_PATH)
 
+for path in FUNKWHALE_PLUGINS_PATH:
+    sys.path.append(path)
+
+print("HELLO", sys.path)
 FUNKWHALE_HOSTNAME = None
 FUNKWHALE_HOSTNAME_SUFFIX = env("FUNKWHALE_HOSTNAME_SUFFIX", default=None)
 FUNKWHALE_HOSTNAME_PREFIX = env("FUNKWHALE_HOSTNAME_PREFIX", default=None)
@@ -186,6 +190,7 @@ if RAVEN_ENABLED:
 # Apps specific for this project go here.
 LOCAL_APPS = (
     "funkwhale_api.common.apps.CommonConfig",
+    "funkwhale_api.plugins",
     "funkwhale_api.activity.apps.ActivityConfig",
     "funkwhale_api.users",  # custom users app
     "funkwhale_api.users.oauth",

@@ -24,6 +24,7 @@ from aioresponses import aioresponses
 from dynamic_preferences.registries import global_preferences_registry
 from rest_framework.test import APIClient, APIRequestFactory
 
+from funkwhale_api import plugins
 from funkwhale_api.activity import record
 from funkwhale_api.federation import actors
 from funkwhale_api.moderation import mrf
@@ -422,3 +423,17 @@ def clear_license_cache(db):
     licenses._cache = None
     yield
     licenses._cache = None
+
+
+@pytest.fixture
+def plugin_class():
+    class DummyPlugin(plugins.Plugin):
+        path = "noop"
+
+    return DummyPlugin
+
+
+@pytest.fixture
+def plugin(plugin_class):
+
+    return plugin_class("test", "test")
