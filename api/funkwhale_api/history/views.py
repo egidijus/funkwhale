@@ -1,9 +1,11 @@
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, viewsets, response
+from rest_framework.decorators import action
 
 from django.db.models import Prefetch
 
+from funkwhale_api import plugins
 from funkwhale_api.activity import record
-from funkwhale_api.common import fields, permissions
+from funkwhale_api.common import fields, permissions, utils
 from funkwhale_api.music.models import Track
 from funkwhale_api.music import utils as music_utils
 from . import filters, models, serializers
@@ -54,3 +56,16 @@ class ListeningViewSet(
         context = super().get_serializer_context()
         context["user"] = self.request.user
         return context
+
+    @action(methods=["post"], detail=False)
+    def now(self, request, *args, **kwargs):
+        serializer = serializers.NowSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        utils.on_commit(
+            plugins.hooks.dispatch,
+            "history.listening.now",
+            user=request.user,
+            track=serializer.validated_data["track"],
+            plugins_conf=request.plugins_conf,
+        )
+        return response.Response({}, status=204)

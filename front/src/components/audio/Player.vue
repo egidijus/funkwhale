@@ -266,7 +266,8 @@ export default {
       soundsCache: [],
       soundId: null,
       playTimeout: null,
-      nextTrackPreloaded: false
+      nextTrackPreloaded: false,
+      nowPlayingTimeout: null,
     }
   },
   mounted() {
@@ -408,6 +409,11 @@ export default {
           })
         },
         onplay: function () {
+          if (trackData.id === self.currentTrack.id) {
+            self.nowPlayingTimeout = setTimeout(() => {
+              self.$store.dispatch('player/nowPlaying', trackData)
+            }, 5000)
+          }
           self.$store.commit('player/isLoadingAudio', false)
           self.$store.commit('player/resetErrorCount')
           self.$store.commit('player/errored', false)
@@ -713,6 +719,9 @@ export default {
   watch: {
     currentTrack: {
       async handler (newValue, oldValue) {
+        if (this.nowPlayingTimeout) {
+          clearTimeout(this.nowPlayingTimeout)
+        }
         if (newValue === oldValue) {
           return
         }
@@ -746,6 +755,9 @@ export default {
         if (newValue === true) {
           this.soundId = this.currentSound.play(this.soundId)
         } else {
+          if (this.nowPlayingTimeout) {
+            clearTimeout(this.nowPlayingTimeout)
+          }
           this.currentSound.pause(this.soundId)
         }
       } else {

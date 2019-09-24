@@ -126,6 +126,14 @@ export default {
         logger.default.error('Could not record track in history')
       })
     },
+    nowPlaying ({commit, rootState}, trackData) {
+      if (!rootState.auth.authenticated) {
+        return
+      }
+      return axios.post('history/listenings/now/', {'track': trackData.id}).then((response) => {}, (response) => {
+        logger.default.error('Could not set track as now playing')
+      })
+    },
     trackEnded ({dispatch, rootState}, track) {
       dispatch('trackListened', track)
       let queueState = rootState.queue

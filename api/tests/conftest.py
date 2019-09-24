@@ -437,3 +437,9 @@ def plugin_class():
 def plugin(plugin_class):
 
     return plugin_class("test", "test")
+
+
+@pytest.fixture
+def plugins_conf(mocker):
+    plugins_conf = mocker.patch("funkwhale_api.plugins.generate_plugins_conf")
+    return plugins_conf.return_value

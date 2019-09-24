@@ -4,6 +4,7 @@ from funkwhale_api import plugins
 from funkwhale_api.activity import serializers as activity_serializers
 from funkwhale_api.common import utils
 from funkwhale_api.federation import serializers as federation_serializers
+from funkwhale_api.music import models as music_models
 from funkwhale_api.music.serializers import TrackActivitySerializer, TrackSerializer
 from funkwhale_api.users.serializers import UserActivitySerializer, UserBasicSerializer
 
@@ -64,3 +65,9 @@ class ListeningWriteSerializer(serializers.ModelSerializer):
             plugins_conf=plugins_conf,
         )
         return instance
+
+
+class NowSerializer(serializers.Serializer):
+    track = serializers.PrimaryKeyRelatedField(
+        queryset=music_models.Track.objects.all()
+    )
