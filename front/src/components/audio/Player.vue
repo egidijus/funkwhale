@@ -395,7 +395,7 @@ export default {
         },
         onunlock: function () {
           if (self.$store.state.player.playing) {
-            self.soundId = self.sound.play(self.soundId)
+            self.soundId = sound.play(self.soundId)
           }
         },
         onload: function () {

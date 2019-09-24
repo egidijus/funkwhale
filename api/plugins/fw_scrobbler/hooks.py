@@ -19,7 +19,7 @@ def forward_to_scrobblers(listening, plugin_conf, **kwargs):
     if username and password:
         plugin.logger.info("Forwarding scrobbler to %s", url)
         session = plugin.get_requests_session()
-        session_key, scrobble_url = scrobbler.handshake_v1(
+        session_key, _, scrobble_url = scrobbler.handshake_v1(
             session=session, url=url, username=username, password=password
         )
         scrobbler.submit_scrobble_v1(
@@ -28,6 +28,30 @@ def forward_to_scrobblers(listening, plugin_conf, **kwargs):
             scrobble_time=listening.creation_date,
             session_key=session_key,
             scrobble_url=scrobble_url,
+        )
+    else:
+        plugin.logger.debug("No scrobbler configuration for user, skipping")
+
+
+@plugin.hooks.connect("history.listening.now")
+def forward_to_now_playing(track, user, plugin_conf, **kwargs):
+    if plugin_conf["user"] is None:
+        raise plugins.Skip()
+
+    username = plugin_conf["user"]["settings"].get("service__username")
+    password = plugin_conf["user"]["settings"].get("service__password")
+    url = plugin_conf["user"]["settings"].get("service__url", DEFAULT_SCROBBLER_URL)
+    if username and password:
+        plugin.logger.info("Forwarding scrobbler to %s", url)
+        session = plugin.get_requests_session()
+        session_key, now_playing_url, _ = scrobbler.handshake_v1(
+            session=session, url=url, username=username, password=password
+        )
+        scrobbler.submit_now_playing_v1(
+            session=session,
+            track=track,
+            session_key=session_key,
+            now_playing_url=now_playing_url,
         )
     else:
         plugin.logger.debug("No scrobbler configuration for user, skipping")
