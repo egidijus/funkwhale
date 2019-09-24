@@ -3,6 +3,8 @@ from django.utils import timezone
 
 from funkwhale_api.music.models import Track
 
+from . import signals
+
 
 class Listening(models.Model):
     creation_date = models.DateTimeField(default=timezone.now, null=True, blank=True)

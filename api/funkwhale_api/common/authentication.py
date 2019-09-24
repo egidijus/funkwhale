@@ -1,11 +1,24 @@
 from django.utils.encoding import smart_text
 from django.utils.translation import ugettext as _
+from oauth2_provider.contrib.rest_framework import (
+    OAuth2Authentication as BaseOAuth2Authentication,
+)
 from rest_framework import exceptions
 from rest_framework_jwt import authentication
 from rest_framework_jwt.settings import api_settings
+from rest_framework.authentication import BasicAuthentication as BaseBasicAuthentication
+from rest_framework.authentication import (
+    SessionAuthentication as BaseSessionAuthentication,
+)
 
 
-class JSONWebTokenAuthenticationQS(authentication.BaseJSONWebTokenAuthentication):
+from funkwhale_api.plugins import authentication as plugin_authentication
+
+
+class JSONWebTokenAuthenticationQS(
+    plugin_authentication.AttachPluginsConfMixin,
+    authentication.BaseJSONWebTokenAuthentication,
+):
 
     www_authenticate_realm = "api"
 
@@ -22,7 +35,10 @@ class JSONWebTokenAuthenticationQS(authentication.BaseJSONWebTokenAuthentication
         )
 
 
-class BearerTokenHeaderAuth(authentication.BaseJSONWebTokenAuthentication):
+class BearerTokenHeaderAuth(
+    plugin_authentication.AttachPluginsConfMixin,
+    authentication.BaseJSONWebTokenAuthentication,
+):
     """
     For backward compatibility purpose, we used Authorization: JWT <token>
     but Authorization: Bearer <token> is probably better.
@@ -65,7 +81,10 @@ class BearerTokenHeaderAuth(authentication.BaseJSONWebTokenAuthentication):
         return auth
 
 
-class JSONWebTokenAuthentication(authentication.JSONWebTokenAuthentication):
+class JSONWebTokenAuthentication(
+    plugin_authentication.AttachPluginsConfMixin,
+    authentication.JSONWebTokenAuthentication,
+):
     def authenticate(self, request):
         auth = super().authenticate(request)
 
@@ -73,3 +92,21 @@ class JSONWebTokenAuthentication(authentication.JSONWebTokenAuthentication):
             if not auth[0].actor:
                 auth[0].create_actor()
         return auth
+
+
+class OAuth2Authentication(
+    plugin_authentication.AttachPluginsConfMixin, BaseOAuth2Authentication
+):
+    pass
+
+
+class BasicAuthentication(
+    plugin_authentication.AttachPluginsConfMixin, BaseBasicAuthentication
+):
+    pass
+
+
+class SessionAuthentication(
+    plugin_authentication.AttachPluginsConfMixin, BaseSessionAuthentication
+):
+    pass

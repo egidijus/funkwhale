@@ -229,6 +229,7 @@ MIDDLEWARE = (
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "funkwhale_api.plugins.middleware.AttachPluginsConfMiddleware",
     "funkwhale_api.common.middleware.SPAFallbackMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -616,12 +617,12 @@ REST_FRAMEWORK = {
         "funkwhale_api.federation.parsers.ActivityParser",
     ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
+        "funkwhale_api.common.authentication.OAuth2Authentication",
         "funkwhale_api.common.authentication.JSONWebTokenAuthenticationQS",
         "funkwhale_api.common.authentication.BearerTokenHeaderAuth",
         "funkwhale_api.common.authentication.JSONWebTokenAuthentication",
-        "rest_framework.authentication.BasicAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
+        "funkwhale_api.common.authentication.BasicAuthentication",
+        "funkwhale_api.common.authentication.SessionAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": (
         "funkwhale_api.users.oauth.permissions.ScopePermission",

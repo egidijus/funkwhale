@@ -85,90 +85,81 @@ def test_get_all_plugins(mocker):
 
 def test_generate_plugins_conf(factories, plugin_class):
     plugin1 = plugin_class("test1", "test1")
-    plugin2 = plugin_class("test2", "test2")
-    plugin3 = plugin_class("test3", "test3")
-    plugin4 = plugin_class("test4", "test4")
+    plugin2 = plugin_class("test3", "test3")
+    plugin3 = plugin_class("test4", "test4")
 
-    user = factories["users.User"]()
     # this one is enabled
     plugin1_db_conf = factories["plugins.Plugin"](name=plugin1.name)
-    # this one is enabled, with additional user-level configuration (see below)
-    plugin2_db_conf = factories["plugins.Plugin"](name=plugin2.name)
     # this one is disabled at the plugin level, so it shouldn't appear in the final conf
-    plugin3_db_conf = factories["plugins.Plugin"](name=plugin3.name, is_enabled=False)
-    # this one is enabled, but disabled at user level (see below)
-    plugin4_db_conf = factories["plugins.Plugin"](name=plugin4.name)
+    factories["plugins.Plugin"](name=plugin3.name, is_enabled=False)
     # this one doesn't match any registered app
     factories["plugins.Plugin"](name="noop")
 
-    # a user-level configuration but with a different user, so irrelevant
-    factories["plugins.UserPlugin"](plugin=plugin1_db_conf)
-    # a user-level configuration but the plugin is disabled
-    factories["plugins.UserPlugin"](user=user, plugin=plugin3_db_conf)
-    # a user-level configuration, plugin is enabled, should be reflected in the final conf
-    plugin2_user_db_conf = factories["plugins.UserPlugin"](
-        user=user, plugin=plugin2_db_conf
-    )
-    # a user-level configuration, plugin is enabled but disabled by user, should be reflected in the final conf
-    factories["plugins.UserPlugin"](user=user, plugin=plugin4_db_conf, is_enabled=False)
+    expected = [{"obj": plugin1, "settings": plugin1_db_conf.config, "user": None}]
 
-    expected = [
-        {"obj": plugin1, "settings": plugin1_db_conf.config, "user": None},
-        {
-            "obj": plugin2,
-            "settings": plugin2_db_conf.config,
-            "user": {"id": user.pk, "settings": plugin2_user_db_conf.config},
-        },
-        {"obj": plugin4, "settings": plugin4_db_conf.config, "user": None},
-    ]
-
-    conf = plugins.generate_plugins_conf([plugin1, plugin2, plugin3, plugin4], user=user)
+    conf = plugins.generate_plugins_conf([plugin1, plugin2, plugin3])
     assert conf == expected
 
 
-def test_generate_plugins_conf_anonymous_user(factories, plugin_class):
+def test_update_plugins_conf_with_user_settings(factories, plugin_class):
     plugin1 = plugin_class("test1", "test1")
     plugin2 = plugin_class("test2", "test2")
     plugin3 = plugin_class("test3", "test3")
-    plugin4 = plugin_class("test4", "test4")
 
     user = factories["users.User"]()
-    # this one is enabled
-    plugin1_db_conf = factories["plugins.Plugin"](name=plugin1.name)
-    # this one is enabled, with additional user-level configuration (see below)
-    plugin2_db_conf = factories["plugins.Plugin"](name=plugin2.name)
-    # this one is disabled at the plugin level, so it shouldn't appear in the final conf
-    plugin3_db_conf = factories["plugins.Plugin"](name=plugin3.name, is_enabled=False)
-    # this one is enabled, but disabled at user level (see below)
-    plugin4_db_conf = factories["plugins.Plugin"](name=plugin4.name)
-    # this one doesn't match any registered app
-    factories["plugins.Plugin"](name="noop")
 
-    # a user-level configuration but with a different user, so irrelevant
-    factories["plugins.UserPlugin"](plugin=plugin1_db_conf)
-    # a user-level configuration but the plugin is disabled
-    factories["plugins.UserPlugin"](user=user, plugin=plugin3_db_conf)
+    # user has enabled this plugin and has custom settings
+    plugin1_user_conf = factories["plugins.UserPlugin"](
+        plugin__name=plugin1.name, user=user
+    )
+    # plugin is disabled by user
+    plugin2_user_conf = factories["plugins.UserPlugin"](
+        plugin__name=plugin2.name, user=user, is_enabled=False
+    )
+    # Plugin is enabled by another user
+    plugin3_user_conf = factories["plugins.UserPlugin"](plugin__name=plugin3.name)
+
+    expected = [
+        {
+            "obj": plugin1,
+            "settings": plugin1_user_conf.plugin.config,
+            "user": {"id": user.pk, "settings": plugin1_user_conf.config},
+        },
+        {"obj": plugin2, "settings": plugin2_user_conf.plugin.config, "user": None},
+        {"obj": plugin3, "settings": plugin3_user_conf.plugin.config, "user": None},
+    ]
+
+    conf = plugins.generate_plugins_conf([plugin1, plugin2, plugin3])
+    assert plugins.update_plugins_conf_with_user_settings(conf, user=user) == expected
+
+
+def test_update_plugins_conf_with_user_settings_anonymous(factories, plugin_class):
+    plugin1 = plugin_class("test1", "test1")
+    plugin2 = plugin_class("test2", "test2")
+    plugin3 = plugin_class("test3", "test3")
+
+    plugin1_db_conf = factories["plugins.Plugin"](name=plugin1.name)
+    plugin2_db_conf = factories["plugins.Plugin"](name=plugin2.name)
+    plugin3_db_conf = factories["plugins.Plugin"](name=plugin3.name)
+
     expected = [
         {"obj": plugin1, "settings": plugin1_db_conf.config, "user": None},
         {"obj": plugin2, "settings": plugin2_db_conf.config, "user": None},
-        {"obj": plugin4, "settings": plugin4_db_conf.config, "user": None},
+        {"obj": plugin3, "settings": plugin3_db_conf.config, "user": None},
     ]
 
-    conf = plugins.generate_plugins_conf([plugin1, plugin2, plugin3, plugin4], user=None)
-    assert conf == expected
+    conf = plugins.generate_plugins_conf([plugin1, plugin2, plugin3])
+    assert plugins.update_plugins_conf_with_user_settings(conf, user=None) == expected
 
 
 def test_attach_plugins_conf(mocker):
     request = mocker.Mock()
     generate_plugins_conf = mocker.patch.object(plugins, "generate_plugins_conf")
     get_all_plugins = mocker.patch.object(plugins, "get_all_plugins")
-    user = mocker.Mock()
 
-    plugins.attach_plugins_conf(request, user=user)
+    plugins.attach_plugins_conf(request)
 
-    generate_plugins_conf.assert_called_once_with(
-        plugins=get_all_plugins.return_value, user=user
-    )
+    generate_plugins_conf.assert_called_once_with(plugins=get_all_plugins.return_value)
     assert request.plugins_conf == generate_plugins_conf.return_value
 
 
@@ -176,6 +167,6 @@ def test_attach_plugin_noop_if_plugins_disabled(mocker, preferences):
     preferences["plugins__enabled"] = False
     request = mocker.Mock()
 
-    plugins.attach_plugins_conf(request, user=None)
+    plugins.attach_plugins_conf(request)
 
     assert request.plugins_conf is None

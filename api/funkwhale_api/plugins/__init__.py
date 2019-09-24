@@ -5,6 +5,8 @@ from django import apps
 
 import logging
 
+from funkwhale_api.common import session
+
 from . import config
 
 logger = logging.getLogger(__name__)
@@ -12,21 +14,27 @@ logger = logging.getLogger(__name__)
 
 class Plugin(apps.AppConfig):
     _is_funkwhale_plugin = True
+    version = None
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.hooks = HookRegistry()
         self.settings = SettingRegistry()
         self.user_settings = SettingRegistry()
+        self.logger = None
 
     def ready(self):
         super().ready()
         logging.info("Loading plugin %s…", self.label)
+        self.logger = logging.getLogger("funkwhale_api.plugin.{}".format(self.name))
         self.load()
         logging.info("Plugin %s loaded", self.label)
 
     def load(self):
         pass
+
+    def get_requests_session(self):
+        return session.get_session()
 
 
 class FuncRegistry(persisting_theory.Registry):
@@ -77,6 +85,12 @@ class SignalsRegistry(persisting_theory.Registry):
         """
         Call all handlers connected to hook_name in turn.
         """
+        from django.conf import settings
+
+        if not plugins_conf:
+            logger.debug("[Plugin:hook:dispatch] No plugin configured")
+            return
+
         if hook_name not in self:
             raise LookupError(hook_name)
         logger.debug("[Plugin:hook:%s] Dispatching hook", hook_name)
@@ -105,14 +119,20 @@ class SignalsRegistry(persisting_theory.Registry):
                 handler(plugin_conf=row, **kwargs)
             except Skip:
                 logger.debug("[Plugin:hook:%s] handler skipped", hook_name)
-            except Exception:
+            except Exception as e:
                 logger.exception(
                     "[Plugin:hook:%s] unknown exception with handler %s",
                     hook_name,
                     handler,
                 )
+                if settings.PLUGINS_FAIL_LOUDLY:
+                    raise e
             else:
-                logger.debug("[Plugin:hook:%s] handler %s called successfully", handler)
+                logger.debug(
+                    "[Plugin:hook:%s] handler %s called successfully",
+                    hook_name,
+                    handler,
+                )
 
         logger.debug("[Plugin:hook:%s] Done", hook_name)
 
@@ -155,6 +175,14 @@ def generate_plugins_conf(plugins, user=None):
             "settings": by_plugin_name[plugin.name] or {},
         }
         plugins_conf.append(conf)
+    return plugins_conf
+
+
+def update_plugins_conf_with_user_settings(plugins_conf, user):
+    if not plugins_conf:
+        return
+
+    from . import models
 
     if plugins_conf and user and user.is_authenticated:
         qs = models.UserPlugin.objects.filter(
@@ -170,12 +198,12 @@ def generate_plugins_conf(plugins, user=None):
     return plugins_conf
 
 
-def attach_plugins_conf(obj, user):
+def attach_plugins_conf(obj):
     from funkwhale_api.common import preferences
 
     plugins_enabled = preferences.get("plugins__enabled")
     if plugins_enabled:
-        conf = generate_plugins_conf(plugins=get_all_plugins(), user=user)
+        conf = generate_plugins_conf(plugins=get_all_plugins())
     else:
         conf = None
     setattr(obj, "plugins_conf", conf)

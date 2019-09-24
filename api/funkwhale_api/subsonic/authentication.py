@@ -5,6 +5,8 @@ from rest_framework import authentication, exceptions
 
 from funkwhale_api.users.models import User
 
+from funkwhale_api.plugins import authentication as plugin_authentication
+
 
 def get_token(salt, password):
     to_hash = password + salt
@@ -41,8 +43,15 @@ def authenticate_salt(username, salt, token):
     return (user, None)
 
 
-class SubsonicAuthentication(authentication.BaseAuthentication):
+class SubsonicAuthentication(
+    plugin_authentication.AttachPluginsConfMixin, authentication.BaseAuthentication
+):
     def authenticate(self, request):
+        auth = self.perform_authentication(request)
+        self.update_plugins_conf(request, auth)
+        return auth
+
+    def perform_authentication(self, request):
         data = request.GET or request.POST
         username = data.get("u")
         if not username:
@@ -56,5 +65,4 @@ class SubsonicAuthentication(authentication.BaseAuthentication):
 
         if p:
             return authenticate(username, p)
-
         return authenticate_salt(username, s, t)
