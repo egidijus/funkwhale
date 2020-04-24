@@ -10,87 +10,15 @@ This changelog is viewable on the web at https://docs.funkwhale.audio/changelog.
 
 .. towncrier
 
-0.21-rc2 (2020-04-22)
----------------------
+0.21 "Agate" (2020-04-24)
+-------------------------
+
+This 0.21 release is dedicated to Agate, to thank her, for both having created the Funkwhale project, being the current lead developer, and for her courage of coming out. Thank you Agate from all the members of the Funkwhale community <3
+
+We are truly grateful as well to the dozens of people who contributed to this release with translations, development, documentation, reviews, design, testing, feedback, financial support, third-party projects and integrations… You made it possible!
 
 Upgrade instructions are available at
-https://docs.funkwhale.audio/index.html
-
-More reliable CLI importer [manual change suggested]
-----------------------------------------------------
-
-Our CLI importer is now more reliable and less prone to Out-of-Memory issues, especially when scanning large libraries. (hundreds of GB or bigger)
-
-We've also improved the directory crawling logic, so that you don't have to use glob patterns or specify extensions when importing.
-
-This means you can replace scripts that look like this::
-
-    python api/manage.py import_files $LIBRARY_ID "/srv/funkwhale/data/music/**/*.ogg" "/srv/funkwhale/data/music/**/*.mp3" --recursive --noinput
-
-By this::
-
-    python api/manage.py import_files $LIBRARY_ID "/srv/funkwhale/data/music/" --recursive --noinput
-
-And Funkwhale will happily import any supported audio file from the specified directory.
-
-Enhancements:
-
-- CLI Importer is now more reliable and less resource-hungry on large libraries
-- Add support custom domain for S3 storage
-- Better placeholders for channels when there are no episodes or series
-- Updated documentation for 0.21 release
-- Improved performance and error handling when fetching remote attachments
-
-Bugfixes:
-
-- Remove double spaces in ChannelForm
-- Deduplicate tags in Audio ActivityPub representation
-- Add support custom domain for S3 storage
-- Fix #1079: fixed z-index issues with dropdowns (#1079 and #1075)
-- Exclude external podcasts from library home
-- Fixed broken channel save when description is too long
-- Fixed 500 error when federation is disabled and application+json is requested
-- Fixed minor subsonic API crash
-- Fixed broken local profile page when allow-list is enabled
-- Fixed issue with confirmation email not sending when signup-approval was enabled
-- Ensure 0 quota on user is honored
-- Fixed attachments URL not honoring media URL
-- Fix grammar in msg string in TrackBase.vue
-- Fix typo in SubscribeButton.vue
-
-Translations:
-
-- Arabic
-- Catalan
-- English (United Kingdom)
-- German
-- Occitan
-- Portuguese (Brazil)
-- Russian
-
-
-Contributors to this release (translation, development, documentation, reviews, design, testing, third-party projects):
-
-- Agate
-- ButterflyOfFire
-- Ciarán Ainsworth
-- Creak
-- Daniele Lira Mereb
-- Eloisa
-- Francesc Galí
-- gerhardbeck
-- marzzzello
-- Quentin PAGÈS
-- Satsuki Yanagi
-- SpcCw
-- Xaloc
-
-0.21-rc1 (2020-04-09)
----------------------
-
-Upgrade instructions are available at
-https://docs.funkwhale.audio/index.html, there are also additional operations you need to execute, listed in the changelog below (search "Manual action").
-
+https://docs.funkwhale.audio/admin/upgrading.html, there are also additional operations you need to execute, listed in the changelog below (search "Manual action").
 
 Channels and podcasts
 ^^^^^^^^^^^^^^^^^^^^^
@@ -170,6 +98,23 @@ the CLI.
 
 If you enable this, ensure you have a SMTP server configured too.
 
+More reliable CLI importer [manual action required]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Our CLI importer is now more reliable and less prone to Out-of-Memory issues, especially when scanning large libraries. (hundreds of GB or bigger)
+
+We've also improved the directory crawling logic, so that you don't have to use glob patterns or specify extensions when importing. As a result, the syntax for providing directories to the command as changed slightly.
+
+If you use the ``import_files`` command, this means you should replace scripts that look like this::
+
+    python api/manage.py import_files $LIBRARY_ID "/srv/funkwhale/data/music/**/*.ogg" "/srv/funkwhale/data/music/**/*.mp3" --recursive --noinput
+
+By this::
+
+    python api/manage.py import_files $LIBRARY_ID "/srv/funkwhale/data/music/" --recursive --noinput
+
+And Funkwhale will happily import any supported audio file from the specified directory.
+
 User management through the server CLI
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -248,6 +193,8 @@ you can remove the backups/old files::
     rm -rf ../postgres.bak
     rm -rf postgres-10
 
+Full list of changes
+^^^^^^^^^^^^^^^^^^^^
 
 Features:
 
@@ -259,7 +206,6 @@ Features:
 - Make it possible to enforce email verification (#1039)
 - Added a new radio based on another user listenings (#1060)
 - User management through the server CLI
-
 
 Enhancements:
 
@@ -283,7 +229,11 @@ Enhancements:
 - Support modifying album cover art through the web UI (#588)
 - Use a dedicated scope for throttling subsonic to avoid intrusive rate-limiting
 - Use same markdown widget for all content fields (rules, description, reports, notes, etc.)
-
+- CLI Importer is now more reliable and less resource-hungry on large libraries
+- Add support custom domain for S3 storage
+- Better placeholders for channels when there are no episodes or series
+- Updated documentation for 0.21 release
+- Improved performance and error handling when fetching remote attachments
 
 Bugfixes:
 
@@ -302,19 +252,48 @@ Bugfixes:
 - Replaced PDF icon by List icon in playlist placeholder (#943)
 - Resolve an issue where disc numbers were not taken into consideration when playing an album from the album card (#1006)
 - Set correct size for album covers in playlist cards (#680)
+- Remove double spaces in ChannelForm
+- Deduplicate tags in Audio ActivityPub representation
+- Add support custom domain for S3 storage
+- Fix #1079: fixed z-index issues with dropdowns (#1079 and #1075)
+- Exclude external podcasts from library home
+- Fixed broken channel save when description is too long
+- Fixed 500 error when federation is disabled and application+json is requested
+- Fixed minor subsonic API crash
+- Fixed broken local profile page when allow-list is enabled
+- Fixed issue with confirmation email not sending when signup-approval was enabled
+- Ensure 0 quota on user is honored
+- Fixed attachments URL not honoring media URL
+- Fix grammar in msg string in TrackBase.vue
+- Fix typo in SubscribeButton.vue
+
+Translations:
+
+- Arabic
+- Catalan
+- English (United Kingdom)
+- German
+- Hungarian
+- Japanese
+- Occitan
+- Portuguese (Brazil)
+- Russian
 
 Contributors to this release (translation, development, documentation, reviews, design, testing, third-party projects):
 
+- Agate
 - annando
 - Anton Strömkvist
 - Audrey
 - ButterflyOfFire
 - Ciarán Ainsworth
+- Creak
+- Daniele Lira Mereb
 - dashie
-- Eliot Berriot
 - Eloisa
 - eorn
 - Francesc Galí
+- gerhardbeck
 - GinnyMcQueen
 - guillermau
 - Haelwenn
@@ -327,21 +306,23 @@ Contributors to this release (translation, development, documentation, reviews, 
 - Mélanie Chauvel
 - Mjourdan
 - Morgan Kesler
-- Noureddine HADDAG
 - Noe Gaumont
+- Noureddine HADDAG
 - Ollie
 - Peter Wickenberg
+- Quentin PAGÈS
 - Renon
 - Satsuki Yanagi
 - Shlee
+- SpcCw
 - techknowlogick
 - ThibG
 - Tony Wasserka
 - unklebonehead
 - wakest
 - wxcafé
+- Xaloc
 - Xosé M
-
 
 0.20.1 (2019-10-28)
 -------------------
