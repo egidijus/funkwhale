@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: front 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2020-02-05 05:14+0000\n"
+"PO-Revision-Date: 2020-04-24 21:07+0000\n"
 "Last-Translator: Xosé M <xosem@disroot.org>\n"
 "Language-Team: none\n"
 "Language: gl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9\n"
+"X-Generator: Weblate 3.11.3\n"
 
 #: front/src/components/playlists/PlaylistModal.vue:6
 msgctxt "Popup/Playlist/Paragraph"
@@ -25,12 +25,12 @@ msgstr "\"%{ title }\", de %{ artist }"
 
 #: front/src/components/audio/ChannelCard.vue:28
 msgid "{{ object.artist.modification_date | fromNow }}"
-msgstr ""
+msgstr "{{ object.artist.modification_date | fromNow }}"
 
 #: front/src/components/RemoteSearchForm.vue:71
 msgctxt "Head/Fetch/Field.Placeholder"
 msgid "@channel@pod.example or https://website.example/rss.xml"
-msgstr ""
+msgstr "@canal@pod.exemplo ou https://website.exemplo/rss.xml"
 
 #: front/src/components/auth/Authorize.vue:16
 msgctxt "Content/Auth/Title"
