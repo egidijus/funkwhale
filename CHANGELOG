@@ -1952,11 +1952,11 @@ existing instance, do a backup of your ``.env`` and ``docker-compose.yml`` files
     - Ensure MUSIC_DIRECTORY_SERVE_PATH is uncommented and set to the absolute path on your host were your music files
       are stored (``/srv/funkwhale/data/music`` by default)
 - Edit your docker-compose.yml file to reflect the changes:
-    - Search for volumes (there should be two occurences) that contains ``/app/funkwhale_api/media`` on the right side, and
+    - Search for volumes (there should be two occurrences) that contains ``/app/funkwhale_api/media`` on the right side, and
       replace the whole line with ``- "${MEDIA_ROOT}:${MEDIA_ROOT}"``
     - Search for a volume that contains ``/app/staticfiles`` on the right side, and
       replace the whole line with ``- "${STATIC_ROOT}:${STATIC_ROOT}"``
-    - If you use in-place import, search for volumes (there should be two occurences) that contains ``/music:ro`` on the right side, and
+    - If you use in-place import, search for volumes (there should be two occurrences) that contains ``/music:ro`` on the right side, and
       replace the whole line with ``- "${MUSIC_DIRECTORY_SERVE_PATH}:${MUSIC_DIRECTORY_PATH}:ro"``
 
 In the end, the ``volumes`` directives of your containers should look like that::

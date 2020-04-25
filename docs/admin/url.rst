@@ -22,7 +22,7 @@ Example output:
    python manage.py fix_federation_ids https://old-url https://new-url --no-dry-run --no-input
 
    # Output
-   Will replace 108 found occurences of 'https://old-url' by 'https://new-url':
+   Will replace 108 found occurrences of 'https://old-url' by 'https://new-url':
 
    - 20 music.Artist
    - 13 music.Album
