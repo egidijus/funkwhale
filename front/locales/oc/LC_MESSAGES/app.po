@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: front 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2020-04-12 21:05+0000\n"
+"PO-Revision-Date: 2020-04-25 21:50+0000\n"
 "Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
 "Language-Team: none\n"
 "Language: oc\n"
@@ -4143,7 +4143,7 @@ msgstr "Publicatz la musica que fasètz coma una bona discografia d’albums e s
 #: front/src/views/content/Home.vue:10
 msgctxt "Content/Library/Title/Verb"
 msgid "Publish your work in a channel"
-msgstr "Publicatz vòstra trabalh dins una cadena"
+msgstr "Publicar vòstre trabalh dins una cadena"
 
 #: front/src/components/manage/moderation/AccountsTable.vue:188
 #: front/src/components/manage/moderation/DomainsTable.vue:192
