@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: front 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2020-04-25 21:50+0000\n"
+"PO-Revision-Date: 2020-04-26 20:08+0000\n"
 "Last-Translator: Xosé M <xosem@disroot.org>\n"
 "Language-Team: none\n"
 "Language: gl\n"
@@ -4371,10 +4371,9 @@ msgstr "Rexeitar"
 
 #: front/src/components/manage/moderation/UserRequestCard.vue:48
 #: front/src/views/admin/moderation/RequestsList.vue:26
-#, fuzzy
 msgctxt "Content/*/*/Short"
 msgid "Refused"
-msgstr "Pausada"
+msgstr "Rexeitada"
 
 #: front/src/components/About.vue:88
 msgctxt "*/*/*"
@@ -4394,7 +4393,6 @@ msgid "Regular user"
 msgstr "usuaria normal"
 
 #: front/src/components/notifications/NotificationRow.vue:79
-#, fuzzy
 msgctxt "Content/*/Button.Label/Verb"
 msgid "Reject"
 msgstr "Rexeitar"
@@ -4418,16 +4416,14 @@ msgid "Rejected"
 msgstr "Rexeitado"
 
 #: front/src/components/library/TrackDetail.vue:145
-#, fuzzy
 msgctxt "Content/*/Title/Noun"
 msgid "Related Libraries"
-msgstr "Bibliotecas remotas"
+msgstr "Bibliotecas relacionadas"
 
 #: front/src/components/library/TrackDetail.vue:139
-#, fuzzy
 msgctxt "Content/*/Title/Noun"
 msgid "Related Playlists"
-msgstr "Crear lista reprodución"
+msgstr "Listas relacionadas"
 
 #: front/src/components/manage/library/AlbumsTable.vue:43
 #: front/src/components/mixins/Translations.vue:69 src/edits.js:71
@@ -4437,10 +4433,9 @@ msgid "Release date"
 msgstr "Data da última vista"
 
 #: front/src/components/library/TrackDetail.vue:64
-#, fuzzy
 msgctxt "Content/*/*"
 msgid "Release Details"
-msgstr "Data da última vista"
+msgstr "Detalles da publicación"
 
 #: front/src/components/library/FileUpload.vue:63
 msgctxt "Content/Library/Paragraph"
@@ -4448,10 +4443,9 @@ msgid "Remaining storage space"
 msgstr "Almacenaxe restante"
 
 #: front/src/components/channels/UploadModal.vue:25
-#, fuzzy
 msgctxt "Content/Library/Paragraph"
 msgid "Remaining storage space:"
-msgstr "Almacenaxe restante"
+msgstr "Almacenaxe dispoñible:"
 
 #: front/src/views/Notifications.vue:18 src/views/Notifications.vue:52
 msgctxt "Content/Notifications/Label"
@@ -4540,10 +4534,9 @@ msgstr "Informar sobre este artista…"
 
 #: front/src/components/mixins/Report.vue:54
 #: src/components/mixins/Report.vue:55
-#, fuzzy
 msgctxt "*/Moderation/*/Verb"
 msgid "Report this channel…"
-msgstr "Informar sobre este álbume…"
+msgstr "Denunciar este canal…"
 
 #: front/src/components/mixins/Report.vue:90
 #: src/components/mixins/Report.vue:91
@@ -4581,10 +4574,9 @@ msgid "Reports"
 msgstr "Informes"
 
 #: front/src/components/manage/moderation/UserRequestCard.vue:5
-#, fuzzy
 msgctxt "Content/Moderation/Card/Short"
 msgid "Request %{ id }"
-msgstr "Informar %{ id }"
+msgstr "Solicitar %{ id }"
 
 #: front/src/components/auth/SubsonicTokenForm.vue:37
 #: front/src/components/auth/SubsonicTokenForm.vue:40
@@ -4608,10 +4600,9 @@ msgid "Requesting a fetch…"
 msgstr "Solicitando a obtención…"
 
 #: front/src/views/admin/moderation/AccountsDetail.vue:279
-#, fuzzy
 msgctxt "Content/Moderation/Table.Label/Noun"
 msgid "Requests"
-msgstr "Solicitar un contrasinal"
+msgstr "Peticións"
 
 #: front/src/components/admin/SignupFormBuilder.vue:49
 msgctxt "*/*/Form-builder,Help"
@@ -4658,10 +4649,9 @@ msgid "Restrict to unreviewed edits"
 msgstr "Restrinxir a edicións non revisadas"
 
 #: front/src/views/library/DetailBase.vue:170
-#, fuzzy
 msgctxt "Content/Library/Card.Help text"
 msgid "Restricted"
-msgstr "Rexeitado"
+msgstr "Restrinxido"
 
 #: front/src/components/favorites/List.vue:39
 #: src/components/library/Albums.vue:34
@@ -4687,10 +4677,9 @@ msgid "Retry"
 msgstr "Reintentar"
 
 #: front/src/components/library/FileUpload.vue:104
-#, fuzzy
 msgctxt "Content/Library/Table"
 msgid "Retry failed uploads"
-msgstr "Biblioteca actualizada"
+msgstr "Voltar a intentar as subidas"
 
 #: front/src/views/auth/EmailConfirm.vue:17
 msgctxt "Content/Signup/Link/Verb"
