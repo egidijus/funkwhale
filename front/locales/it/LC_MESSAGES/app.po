@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
 "PO-Revision-Date: 2020-05-01 23:42+0000\n"
-"Last-Translator: Stefano Pigozzi <ste.pigozzi@gmail.com>\n"
+"Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -526,10 +526,9 @@ msgid "Add new"
 msgstr "Aggiungi nuovo"
 
 #: front/src/components/manage/moderation/NoteForm.vue:12
-#, fuzzy
 msgctxt "Content/Moderation/Button.Label/Verb"
 msgid "Add note"
-msgstr "Aggiungi contenuto"
+msgstr "Aggiungi nota"
 
 #: front/src/components/library/Albums.vue:71
 #: src/components/library/Artists.vue:62
@@ -540,10 +539,9 @@ msgstr "Aggiungi musica"
 #: front/src/components/manage/moderation/DomainsTable.vue:197
 #: front/src/views/admin/moderation/DomainsDetail.vue:46
 #: front/src/views/admin/moderation/DomainsList.vue:18
-#, fuzzy
 msgctxt "Content/Moderation/Action/Verb"
 msgid "Add to allow-list"
-msgstr "Aggiungi alla playlist…"
+msgstr "Aggiungi alla lista dei consentiti"
 
 #: front/src/components/audio/PlayButton.vue:85
 msgctxt "*/Queue/Dropdown/Button/Title"
@@ -728,10 +726,11 @@ msgstr ""
 "Si è verificato un errore durante il tentativo di aggiornamento dei dati:"
 
 #: front/src/components/federation/FetchButton.vue:41
-#, fuzzy
 msgctxt "*/*/Error"
 msgid "An HTTP error occurred while contacting the remote server"
-msgstr "Si è verificato un errore HTTP contattando il server remoto"
+msgstr ""
+"Si è verificato un errore HTTP durante il tentativo di contatto del server "
+"remoto"
 
 #: front/src/components/admin/SignupFormBuilder.vue:24
 msgctxt "*/*/Help"
@@ -1000,10 +999,9 @@ msgid "Browse"
 msgstr "Sfoglia"
 
 #: front/src/components/Home.vue:134
-#, fuzzy
 msgctxt "Content/Home/Link"
 msgid "Browse public content"
-msgstr "Aggiorna tabella dei contenuti"
+msgstr "Naviga tra i contenuti pubblici"
 
 #: front/src/components/favorites/List.vue:68
 msgctxt "Content/*/Verb"
