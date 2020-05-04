@@ -1,0 +1,1 @@
+Make URL-building logic more resilient against reverse proxy misconfiguration (#1085)

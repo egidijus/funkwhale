@@ -1302,3 +1302,10 @@ PODCASTS_RSS_FEED_MAX_ITEMS = env.int("PODCASTS_RSS_FEED_MAX_ITEMS", default=250
 """
 Maximum number of RSS items to load in each podcast feed.
 """
+
+IGNORE_FORWARDED_HOST_AND_PROTO = env.bool(
+    "IGNORE_FORWARDED_HOST_AND_PROTO", default=True
+)
+"""
+Use :attr:`FUNKWHALE_HOSTNAME` and :attr:`FUNKWHALE_PROTOCOL ` instead of request header.
+"""
