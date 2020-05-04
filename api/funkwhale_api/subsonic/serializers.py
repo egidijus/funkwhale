@@ -130,7 +130,7 @@ def get_track_data(album, track, upload):
         data["bitrate"] = int(upload.bitrate / 1000)
     if upload.size:
         data["size"] = upload.size
-    if album.release_date:
+    if album and album.release_date:
         data["year"] = album.release_date.year
     else:
         data["year"] = track.creation_date.year
