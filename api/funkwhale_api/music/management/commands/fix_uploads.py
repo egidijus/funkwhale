@@ -16,20 +16,44 @@ class Command(BaseCommand):
             default=False,
             help="Do not execute anything",
         )
+        parser.add_argument(
+            "--mimetypes",
+            action="store_true",
+            dest="mimetypes",
+            default=True,
+            help="Check and fix mimetypes",
+        )
+        parser.add_argument(
+            "--audio-data",
+            action="store_true",
+            dest="data",
+            default=False,
+            help="Check and fix bitrate and duration, can be really slow because it needs to access files",
+        )
+        parser.add_argument(
+            "--size",
+            action="store_true",
+            dest="size",
+            default=False,
+            help="Check and fix file size, can be really slow because it needs to access files",
+        )
 
     def handle(self, *args, **options):
         if options["dry_run"]:
             self.stdout.write("Dry-run on, will not commit anything")
-        self.fix_mimetypes(**options)
-        self.fix_file_data(**options)
-        self.fix_file_size(**options)
+        if options["mimetypes"]:
+            self.fix_mimetypes(**options)
+        if options["data"]:
+            self.fix_file_data(**options)
+        if options["size"]:
+            self.fix_file_size(**options)
 
     @transaction.atomic
     def fix_mimetypes(self, dry_run, **kwargs):
         self.stdout.write("Fixing missing mimetypes...")
-        matching = models.Upload.objects.filter(source__startswith="file://").exclude(
-            mimetype__startswith="audio/"
-        )
+        matching = models.Upload.objects.filter(
+            Q(source__startswith="file://") | Q(source__startswith="upload://")
+        ).exclude(mimetype__startswith="audio/")
         self.stdout.write(
             "[mimetypes] {} entries found with bad or no mimetype".format(
                 matching.count()

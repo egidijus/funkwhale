@@ -203,7 +203,7 @@ pages:
     - cd docs
     - apt-get update
     - apt-get install -y graphviz
-    - pip install sphinx sphinx_rtd_theme
+    - pip install sphinx sphinx_rtd_theme django-environ django
   script:
     - ./build_docs.sh
   cache:

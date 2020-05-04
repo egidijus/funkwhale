@@ -197,3 +197,64 @@ def test_attach_file_content(factories, r_mock):
     assert new_attachment.file.read() == b"content"
     assert new_attachment.url is None
     assert new_attachment.mimetype == data["mimetype"]
+
+
+@pytest.mark.parametrize(
+    "ignore, hostname, protocol, meta, path, expected",
+    [
+        (
+            False,
+            "test.hostname",
+            "http",
+            {
+                "HTTP_X_FORWARDED_HOST": "real.hostname",
+                "HTTP_X_FORWARDED_PROTO": "https",
+            },
+            "/hello",
+            "https://real.hostname/hello",
+        ),
+        (
+            False,
+            "test.hostname",
+            "http",
+            {
+                "HTTP_X_FORWARDED_HOST": "real.hostname",
+                "HTTP_X_FORWARDED_PROTO": "http",
+            },
+            "/hello",
+            "http://real.hostname/hello",
+        ),
+        (
+            True,
+            "test.hostname",
+            "http",
+            {
+                "HTTP_X_FORWARDED_HOST": "real.hostname",
+                "HTTP_X_FORWARDED_PROTO": "https",
+            },
+            "/hello",
+            "http://test.hostname/hello",
+        ),
+        (
+            True,
+            "test.hostname",
+            "https",
+            {
+                "HTTP_X_FORWARDED_HOST": "real.hostname",
+                "HTTP_X_FORWARDED_PROTO": "http",
+            },
+            "/hello",
+            "https://test.hostname/hello",
+        ),
+    ],
+)
+def test_monkey_patch_request_build_absolute_uri(
+    ignore, hostname, protocol, meta, path, expected, fake_request, settings
+):
+    settings.IGNORE_FORWARDED_HOST_AND_PROTO = ignore
+    settings.ALLOWED_HOSTS = "*"
+    settings.FUNKWHALE_HOSTNAME = hostname
+    settings.FUNKWHALE_PROTOCOL = protocol
+    request = fake_request.get("/", **meta)
+
+    assert request.build_absolute_uri(path) == expected
