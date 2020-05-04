@@ -22,6 +22,8 @@ def guess_mimetype(f):
         mt, _ = mimetypes.guess_type(f.name)
         if mt:
             t = mt
+        else:
+            t = EXTENSION_TO_MIMETYPE.get(f.name.split(".")[-1])
     return t
 
 
