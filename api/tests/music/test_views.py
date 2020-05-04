@@ -824,6 +824,7 @@ def test_user_can_create_draft_upload(
     assert upload.source == "upload://test"
     assert upload.import_reference == "test"
     assert upload.import_status == "draft"
+    assert upload.mimetype == "audio/ogg"
     assert upload.track is None
     m.assert_not_called()
 
