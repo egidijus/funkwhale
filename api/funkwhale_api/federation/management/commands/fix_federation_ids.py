@@ -78,7 +78,7 @@ class Command(BaseCommand):
         if total:
             self.stdout.write(
                 self.style.WARNING(
-                    "Will replace {} found occurences of '{}' by '{}':".format(
+                    "Will replace {} found occurrences of '{}' by '{}':".format(
                         total, old_prefix, new_prefix
                     )
                 )
