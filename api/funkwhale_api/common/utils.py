@@ -1,6 +1,7 @@
 import datetime
 
 from django.core.files.base import ContentFile
+from django.http import request
 from django.utils.deconstruct import deconstructible
 
 import bleach.sanitizer
@@ -433,3 +434,27 @@ def update_modification_date(obj, field="modification_date", date=None):
         obj.__class__.objects.filter(pk=obj.pk).update(**{field: date})
 
     return date
+
+
+def monkey_patch_request_build_absolute_uri():
+    """
+    Since we have FUNKWHALE_HOSTNAME and PROTOCOL hardcoded in settings, we can
+    override django's multisite logic which can break when reverse proxy aren't configured
+    properly.
+    """
+    builtin_scheme = request.HttpRequest.scheme
+
+    def scheme(self):
+        if settings.IGNORE_FORWARDED_HOST_AND_PROTO:
+            return settings.FUNKWHALE_PROTOCOL
+        return builtin_scheme.fget(self)
+
+    builtin_get_host = request.HttpRequest.get_host
+
+    def get_host(self):
+        if settings.IGNORE_FORWARDED_HOST_AND_PROTO:
+            return settings.FUNKWHALE_HOSTNAME
+        return builtin_get_host(self)
+
+    request.HttpRequest.scheme = property(scheme)
+    request.HttpRequest.get_host = get_host
