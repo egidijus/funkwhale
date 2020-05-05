@@ -23,7 +23,21 @@ Mono-container installation
 
     This installation method was contributed by @thetarkus, at https://github.com/thetarkus/docker-funkwhale
 
-First, ensure you have `Docker <https://docs.docker.com/engine/installation/>`_ installed.
+These are the installation steps:
+
+1. Install docker
+2. Create ``funkwhale`` user
+3. Create ``.env`` file
+4. Create ``docker-compose.yml`` file
+5. Start Funkwhale service
+
+Install docker
+~~~~~~~~~~~~~~
+
+Ensure you have `Docker <https://docs.docker.com/engine/installation/>`_ and `docker-compose <https://docs.docker.com/compose/install/>`_ installed.
+
+Create ``funkwhale`` user
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Create the user and the directory:
 
@@ -38,11 +52,10 @@ Log in as the newly created user from now on:
 
     sudo -u funkwhale -H bash
 
-Export the `version you want <https://hub.docker.com/r/funkwhale/all-in-one/tags>`_ to deploy (e.g., ``0.19.1``):
+Create ``.env`` file
+~~~~~~~~~~~~~~~~~~~~
 
-.. parsed-literal::
-
-    export FUNKWHALE_VERSION="|version|"
+Export the `version you want <https://hub.docker.com/r/funkwhale/all-in-one/tags>`_ to deploy (e.g., ``0.21``):
 
 Create an env file to store a few important configuration options:
 
@@ -50,7 +63,7 @@ Create an env file to store a few important configuration options:
 
     touch .env
     chmod 600 .env  # reduce permissions on the .env file since it contains sensitive data
-    cat > .env <<EOD
+    cat > .env << EOF
     # Replace 'your.funkwhale.example' with your actual domain
     FUNKWHALE_HOSTNAME=your.funkwhale.example
     # Protocol may also be: http
@@ -65,29 +78,44 @@ Create an env file to store a few important configuration options:
     DJANGO_SECRET_KEY=$(openssl rand -hex 45)
     # Remove this if you expose the container directly on ports 80/443
     NESTED_PROXY=1
-    EOD
+    EOF
 
+Create ``docker-compose.yml`` file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Then start the container:
+.. code-block:: yaml
 
-.. code-block:: shell
-
-    docker run \
-        --name=funkwhale \
-        --restart=unless-stopped \
-        --env-file=/srv/funkwhale/.env \
-        -v /srv/funkwhale/data:/data \
-        -v /path/to/your/music/dir:/music:ro \
-        -e PUID=$UID \
-        -e PGID=$GID \
-        -p 5000:80 \
-        -d \
-        funkwhale/all-in-one:$FUNKWHALE_VERSION
+    version: "3"
+    services:
+      funkwhale:
+        container_name: funkwhale
+        restart: unless-stopped
+        # change version number here when you want to do an upgrade
+        image: funkwhale/all-in-one:|version|
+        env_file: .env
+        environment:
+          # adapt to the pid/gid that own /srv/funkwhale/data
+          - PUID=1000
+          - PGID=1000
+        volumes:
+          - /srv/funkwhale/data:/data
+          - /path/to/your/music/dir:/music:ro
+        ports:
+          - "5000:80"
 
 .. note::
 
-    - ``-e PUID`` and ``-e PGID`` are optional but useful to prevent permission issues with docker volumes
-    - ``-v /path/to/your/music/dir`` should point to a path on your host were is located music you want to import in your Funkwhale instance. You can safely remove the volume if you don't want to import music that way.
+    - ``PUID`` and ``PGID`` are optional but useful to prevent permission issues with docker volumes
+    - ``/path/to/your/music/dir`` should point to a path on your host where music you would like to import is located. You can safely remove the volume if you don't want to import music that way.
+
+Start Funkwhale service
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Start the container:
+
+.. code-block:: shell
+
+    docker-compose up -d
 
 Your container should start in the background, and your instance be available at ``yourip:5000`` shortly.
 
@@ -95,66 +123,17 @@ You will need an admin account to login and manage your account, create one usin
 
 Useful commands:
 
+- You can start and stop your instance using ``docker-compose start`` and ``docker-compose stop``, respectively
 - You can examine the logs by running ``docker logs -f --tail=50 funkwhale``
-- You can start and stop your instance using ``docker start funkwhale`` and ``docker stop funkwhale``, respectively
 - To have a better idea of the resource usage of your instance (CPU, memory), run ``docker stats funkwhale``
+
+Now, you just need to configure your :ref:`reverse-proxy <reverse-proxy-setup>`. Don't worry, it's quite easy.
 
 .. note::
 
-    The container will not pick up changes made in .env file automatically.
-    In order to load new configuration, run:
+    To upgrade your service, change the version number in ``docker-compose.yml`` and re-run ``docker-compose up -d``.
 
-    .. parsed-literal::
-
-        export FUNKWHALE_VERSION="|version|"
-
-    .. code-block:: shell
-
-        # stop and remove the existing container
-        docker stop funkwhale
-        docker rm funkwhale
-        # relaunch a new container
-        docker run \
-            --name=funkwhale \
-            --restart=unless-stopped \
-            --env-file=/srv/funkwhale/.env \
-            -v /srv/funkwhale/data:/data \
-            -v /path/to/your/music/dir:/music:ro \
-            -e PUID=$UID \
-            -e PGID=$GID \
-            -p 5000:80 \
-            -d \
-            funkwhale/all-in-one:$FUNKWHALE_VERSION
-
-
-    You can use the following docker-compose file to make the management process easier:
-
-    .. code-block:: yaml
-
-        version: "3"
-
-        services:
-          funkwhale:
-            container_name: funkwhale
-            restart: unless-stopped
-            # add the version number in your .env file, or hardcode it
-            image: funkwhale/all-in-one:${FUNKWHALE_VERSION}
-            env_file: .env
-            environment:
-              # adapt to the pid/gid that own /srv/funkwhale/data
-              - PUID=1000
-              - PGID=1000
-            volumes:
-              - /srv/funkwhale/data:/data
-              - /path/to/your/music/dir:/music:ro
-            ports:
-              - "5000:80"
-
-    Then start the container:
-
-    .. code-block:: shell
-
-        docker-compose up -d
+    Don't forget you might have manual changes to do when upgrading to a newer version.
 
 .. _docker-multi-container:
 
@@ -163,7 +142,7 @@ Multi-container installation
 
 First, ensure you have `Docker <https://docs.docker.com/engine/installation/>`_ and `docker-compose <https://docs.docker.com/compose/install/>`_ installed.
 
-Export the `version you want <https://hub.docker.com/r/funkwhale/all-in-one/tags>`_ to deploy (e.g., ``0.19.1``):
+Export the `version you want <https://hub.docker.com/r/funkwhale/all-in-one/tags>`_ to deploy (e.g., ``0.21``):
 
 .. parsed-literal::
 
