@@ -4,10 +4,10 @@
       <div class="ui stackable equal height stackable grid">
         <section class="four wide column">
           <h4 v-if="podName" class="ui header ellipsis">
-            <translate translate-context="Footer/About/Title" :translate-params="{instanceName: podName}" >About %{instanceName}</translate>
+            <span v-translate="{instanceName: podName}" translate-context="Footer/About/Title">About %{instanceName}</span>
           </h4>
           <h4 v-else class="ui header ellipsis">
-            <translate translate-context="Footer/About/Title" :translate-params="{instanceUrl: instanceHostname}" >About %{instanceUrl}</translate>
+            <span v-translate="{instanceUrl: instanceHostname}" translate-context="Footer/About/Title">About %{instanceUrl}</span>
           </h4>
           <div class="ui link list">
             <router-link class="item" to="/about">

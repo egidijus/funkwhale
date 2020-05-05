@@ -66,6 +66,7 @@ export default {
       instanceUrl: null,
       showShortcutsModal: false,
       showSetInstanceModal: false,
+      initialTitle: document.title,
     }
   },
   async created () {
@@ -147,7 +148,6 @@ export default {
   },
   mounted () {
     let self = this
-
     // slight hack to allow use to have internal links in <translate> tags
     // while preserving router behaviour
     document.documentElement.addEventListener('click', function (event) {
@@ -281,7 +281,7 @@ export default {
       if (this.$store.state.ui.pageTitle) {
         parts.push(this.$store.state.ui.pageTitle)
       }
-      parts.push(this.$store.state.instance.settings.instance.name.value || 'Funkwhale')
+      parts.push(this.initialTitle || 'Funkwhale')
       document.title = parts.join(' – ')
     },
 
