@@ -1,6 +1,6 @@
+import html
 import time
 import pytest
-
 from django.http import HttpResponse
 from django.urls import reverse
 
@@ -55,10 +55,12 @@ def test_should_fallback(path, expected, mocker):
 
 
 def test_serve_spa_from_cache(mocker, settings, preferences, no_api_auth):
-
+    preferences["instance__name"] = 'Best Funkwhale "pod"'
     request = mocker.Mock(path="/")
     get_spa_html = mocker.patch.object(
-        middleware, "get_spa_html", return_value="<html><head></head></html>"
+        middleware,
+        "get_spa_html",
+        return_value="<html><head><title>Funkwhale</title></head></html>",
     )
     mocker.patch.object(
         middleware,
@@ -84,7 +86,8 @@ def test_serve_spa_from_cache(mocker, settings, preferences, no_api_auth):
 
     assert response.status_code == 200
     expected = [
-        "<html><head>",
+        "<html><head>"
+        "<title>{}</title>".format(html.escape(preferences["instance__name"])),
         '<meta content="custom title" property="og:title" />',
         '<meta content="custom description" property="og:description" />',
         '<meta content="default site name" property="og:site_name" />',
