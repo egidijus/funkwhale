@@ -46,7 +46,7 @@ def verify(request, public_key):
     verify_date(date)
     try:
         return requests_http_signature.HTTPSignatureAuth.verify(
-            request, key_resolver=lambda **kwargs: public_key, use_auth_header=False
+            request, key_resolver=lambda **kwargs: public_key, scheme="Signature"
         )
     except cryptography.exceptions.InvalidSignature:
         logger.warning(
@@ -98,8 +98,7 @@ def verify_django(django_request, public_key):
 
 
 def get_auth(private_key, private_key_id):
-    return requests_http_signature.HTTPSignatureAuth(
-        use_auth_header=False,
+    return requests_http_signature.HTTPSignatureHeaderAuth(
         headers=["(request-target)", "user-agent", "host", "date"],
         algorithm="rsa-sha256",
         key=private_key.encode("utf-8"),
