@@ -39,6 +39,9 @@ def serve_spa(request):
             settings.FUNKWHALE_SPA_REWRITE_MANIFEST_URL
             or federation_utils.full_url(urls.reverse("api:v1:instance:spa-manifest"))
         )
+        title = preferences.get("instance__name")
+        if title:
+            head = replace_title(head, title)
         head = replace_manifest_url(head, new_url)
 
     if not preferences.get("common__api_authentication_required"):
@@ -82,11 +85,18 @@ def serve_spa(request):
 
 
 MANIFEST_LINK_REGEX = re.compile(r"<link [^>]*rel=(?:'|\")?manifest(?:'|\")?[^>]*>")
+TITLE_REGEX = re.compile(r"<title>.*</title>")
 
 
 def replace_manifest_url(head, new_url):
     replacement = '<link rel=manifest href="{}">'.format(new_url)
     head = MANIFEST_LINK_REGEX.sub(replacement, head)
+    return head
+
+
+def replace_title(head, new_title):
+    replacement = "<title>{}</title>".format(html.escape(new_title))
+    head = TITLE_REGEX.sub(replacement, head)
     return head
 
 

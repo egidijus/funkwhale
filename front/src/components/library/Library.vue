@@ -1,6 +1,6 @@
 <template>
   <div class="main library pusher">
-    <router-view></router-view>
+    <router-view :key="$router.currentRoute.name"></router-view>
   </div>
 </template>
 
