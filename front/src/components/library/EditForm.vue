@@ -127,8 +127,7 @@
         <translate v-if="canEdit" key="1" translate-context="Content/Library/Button.Label/Verb">Submit and apply edit</translate>
         <translate v-else key="2" translate-context="Content/Library/Button.Label/Verb">Submit suggestion</translate>
       </button>
-      </form>
-    </div>
+    </form>
   </div>
 </template>
 

@@ -11,7 +11,7 @@
         @click.prevent.stop="selectPage(page)"
         :class="[{'active': page === current}, 'item']">
         {{ page }}
-      </a href>
+      </a>
       <div v-else class="disabled item">
         …
       </div>

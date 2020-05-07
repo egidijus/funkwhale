@@ -56,7 +56,7 @@
                     <i class="wikipedia w icon"></i>
                     <translate translate-context="Content/*/Button.Label/Verb">Search on Wikipedia</translate>
                   </a>
-                  <a v-if="discogsUrl ":href="discogsUrl" target="_blank" rel="noreferrer noopener" class="basic item">
+                  <a v-if="discogsUrl" :href="discogsUrl" target="_blank" rel="noreferrer noopener" class="basic item">
                     <i class="external icon"></i>
                     <translate translate-context="Content/*/Button.Label/Verb">Search on Discogs</translate>
                   </a>

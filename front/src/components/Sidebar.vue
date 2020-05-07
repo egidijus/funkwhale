@@ -78,8 +78,8 @@
             <actor-avatar v-else :actor="{preferred_username: $store.state.auth.username, full_username: $store.state.auth.username}" />
             <div class="menu">
               <router-link class="item" :to="{name: 'profile.overview', params: {username: $store.state.auth.username}}"><translate translate-context="*/*/*/Noun">Profile</translate></router-link>
-              <router-link class="item" :to="{path: '/settings'}"></i><translate translate-context="*/*/*/Noun">Settings</translate></router-link>
-              <router-link class="item" :to="{name: 'logout'}"></i><translate translate-context="Sidebar/Login/List item.Link/Verb">Logout</translate></router-link>
+              <router-link class="item" :to="{path: '/settings'}"><translate translate-context="*/*/*/Noun">Settings</translate></router-link>
+              <router-link class="item" :to="{name: 'logout'}"><translate translate-context="Sidebar/Login/List item.Link/Verb">Logout</translate></router-link>
             </div>
           </div>
         </div>
