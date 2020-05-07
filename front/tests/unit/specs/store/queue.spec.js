@@ -133,7 +133,7 @@ describe('store/queue', () => {
       testAction({
         action: store.actions.cleanTrack,
         payload: 3,
-        params: {state: {currentIndex: 2, tracks: []}},
+        params: {state: {currentIndex: 2, tracks: [1, 2, 3, 4, 5]}},
         expectedMutations: [
           { type: 'splice', payload: {start: 3, size: 1} }
         ]

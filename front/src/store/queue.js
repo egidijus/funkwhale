@@ -104,8 +104,13 @@ export default {
       commit('splice', {start: index, size: 1})
       if (index < state.currentIndex) {
         commit('currentIndex', state.currentIndex - 1)
-      }
-      if (current) {
+      } else if (index > 0 && index === state.tracks.length) {
+        // kind of a edge case: if you delete the last track of the queue
+        // we set current index to the previous one to avoid the queue tab from
+        // being stuck because the player disappeared
+        // cf #1092
+        commit('currentIndex', state.tracks.length - 1)
+      } else if (current) {
         // we play next track, which now have the same index
         commit('currentIndex', index)
       }
