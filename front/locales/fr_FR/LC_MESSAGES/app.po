@@ -4,8 +4,8 @@ msgstr ""
 "Project-Id-Version: French (Funkwhale)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2020-04-29 07:14+0000\n"
-"Last-Translator: appzer0 <appzer0@free.fr>\n"
+"PO-Revision-Date: 2020-05-07 16:36+0000\n"
+"Last-Translator: Raphaël Ventura <raphael.ventura90@gmail.com>\n"
 "Language-Team: French <https://translate.funkwhale.audio/projects/funkwhale/"
 "front/fr/>\n"
 "Language: fr_FR\n"
@@ -2525,9 +2525,10 @@ msgstr ""
 "élément."
 
 #: front/src/components/moderation/ReportModal.vue:53
+#, fuzzy
 msgctxt "*/*/Field.Label/Verb"
 msgid "Forward to %{ domain}"
-msgstr ""
+msgstr "Transférer vers %{ domain}"
 
 #: front/src/components/auth/Authorize.vue:28
 msgctxt "Content/Auth/Label/Noun"
@@ -6223,7 +6224,6 @@ msgstr ""
 "}</time>"
 
 #: front/src/components/channels/UploadForm.vue:83
-#, fuzzy
 msgctxt "Channels/*/*"
 msgid "Uploading"
 msgstr "Envoi en cours"
