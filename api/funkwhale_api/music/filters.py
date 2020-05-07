@@ -1,3 +1,5 @@
+from django.db.models import Q
+
 from django_filters import rest_framework as filters
 
 from funkwhale_api.audio import filters as audio_filters
@@ -112,6 +114,9 @@ class TrackFilter(
     scope = common_filters.ActorScopeFilter(
         actor_field="uploads__library__actor", distinct=True
     )
+    artist = filters.ModelChoiceFilter(
+        field_name="_", method="filter_artist", queryset=models.Artist.objects.all()
+    )
 
     class Meta:
         model = models.Track
@@ -119,7 +124,6 @@ class TrackFilter(
             "title": ["exact", "iexact", "startswith", "icontains"],
             "playable": ["exact"],
             "id": ["exact"],
-            "artist": ["exact"],
             "album": ["exact"],
             "license": ["exact"],
             "scope": ["exact"],
@@ -133,6 +137,9 @@ class TrackFilter(
     def filter_playable(self, queryset, name, value):
         actor = utils.get_actor_from_request(self.request)
         return queryset.playable_by(actor, value).distinct()
+
+    def filter_artist(self, queryset, name, value):
+        return queryset.filter(Q(artist=value) | Q(album__artist=value))
 
 
 class UploadFilter(audio_filters.IncludeChannelsFilterSet):
