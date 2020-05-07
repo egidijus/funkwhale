@@ -867,6 +867,8 @@ def test_clean_transcoding_cache(preferences, now, factories):
 
 def test_get_prunable_tracks(factories):
     prunable_track = factories["music.Track"]()
+    # track is still prunable if it has a skipped upload linked to it
+    factories["music.Upload"](import_status="skipped", track=prunable_track)
     # non prunable tracks
     factories["music.Upload"]()
     factories["favorites.TrackFavorite"]()
