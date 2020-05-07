@@ -184,3 +184,22 @@ def test_library_filter_artist(factories, queryset_equal_list, mocker, anonymous
     )
 
     assert filterset.qs == [upload.track.artist]
+
+
+def test_track_filter_artist_includes_album_artist(
+    factories, mocker, queryset_equal_list, anonymous_user
+):
+    factories["music.Track"]()
+    track1 = factories["music.Track"]()
+    track2 = factories["music.Track"](
+        album__artist=track1.artist, artist=factories["music.Artist"]()
+    )
+
+    qs = models.Track.objects.all()
+    filterset = filters.TrackFilter(
+        {"artist": track1.artist.pk},
+        request=mocker.Mock(user=anonymous_user),
+        queryset=qs,
+    )
+
+    assert filterset.qs == [track2, track1]
