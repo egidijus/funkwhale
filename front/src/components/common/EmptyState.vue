@@ -16,7 +16,7 @@
       <button v-if="refresh" class="ui button" @click="$emit('refresh')">
         <translate translate-context="Content/*/Button.Label/Short, Verb">
           Refresh
-        </translate></button>
+        </translate>
       </button>
     </div>
   </div>

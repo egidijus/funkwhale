@@ -30,7 +30,7 @@
           <button @click="copy" class="ui right teal labeled icon floated button"><i class="copy icon"></i><translate translate-context="*/*/Button.Label/Short, Verb">Copy</translate></button>
           <label for="embed-width"><translate translate-context="Popup/Embed/Input.Label/Noun">Embed code</translate></label>
           <p><translate translate-context="Popup/Embed/Paragraph">Copy/paste this code in your website HTML</translate></p>
-          <textarea ref="textarea":value="embedCode" rows="5" readonly>
+          <textarea ref="textarea" :value="embedCode" rows="5" readonly>
           </textarea>
           <div class="ui right">
           <p class="message" v-if=copied><translate translate-context="Content/*/Paragraph">Text copied to clipboard!</translate></p>

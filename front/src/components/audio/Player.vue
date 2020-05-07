@@ -9,7 +9,7 @@
       <div class="controls-row">
 
         <div class="controls track-controls queue-not-focused desktop-and-up">
-          <div @click.stop.prevent="" class="ui tiny image" @click.stop.prevent="$router.push({name: 'library.tracks.detail', params: {id: currentTrack.id }})">
+          <div class="ui tiny image" @click.stop.prevent="$router.push({name: 'library.tracks.detail', params: {id: currentTrack.id }})">
             <img ref="cover" v-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.medium_square_crop)">
             <img v-else src="../../assets/audio/default-cover.png">
           </div>

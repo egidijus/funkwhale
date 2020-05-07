@@ -87,7 +87,6 @@
             </div>
           </div>
         </template>
-        </div>
         <template v-else>
           <div class="ui placeholder segment">
             <div class="ui icon header">

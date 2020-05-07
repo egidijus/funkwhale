@@ -13,25 +13,24 @@
         class="ui field"
         :key="(f.name, index)"
         :ref="f.name">
-          <div :class="['ui', 'search', 'selection', 'dropdown', {'autocomplete': f.autocomplete}, {'multiple': f.type === 'list'}]">
-            <i class="dropdown icon"></i>
-            <div class="default text">{{ f.placeholder }}</div>
-            <input v-if="f.type === 'list' && config[f.name]" :value="config[f.name].join(',')" type="hidden">
-            <div v-if="config[f.name]" class="ui menu">
-              <div
-                v-if="f.type === 'list'"
-                v-for="(v, index) in config[f.name]"
-                class="ui item"
-                :data-value="v">
-                  <template v-if="config.names">
-                    {{ config.names[index] }}
-                  </template>
-                  <template v-else>{{ v }}</template>
-                </div>
-              </div>
+        <div :class="['ui', 'search', 'selection', 'dropdown', {'autocomplete': f.autocomplete}, {'multiple': f.type === 'list'}]">
+          <i class="dropdown icon"></i>
+          <div class="default text">{{ f.placeholder }}</div>
+          <input v-if="f.type === 'list' && config[f.name]" :value="config[f.name].join(',')" type="hidden">
+          <div v-if="config[f.name]" class="ui menu">
+            <div
+              v-if="f.type === 'list'"
+              v-for="(v, index) in config[f.name]"
+              class="ui item"
+              :data-value="v">
+                <template v-if="config.names">
+                  {{ config.names[index] }}
+                </template>
+                <template v-else>{{ v }}</template>
             </div>
           </div>
         </div>
+      </div>
     </td>
     <td>
       <span
