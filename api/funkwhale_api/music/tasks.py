@@ -817,9 +817,15 @@ def get_prunable_tracks(
     Returns a list of tracks with no associated uploads,
     excluding the one that were listened/favorited/included in playlists.
     """
-
+    purgeable_tracks_with_upload = (
+        models.Upload.objects.exclude(track=None)
+        .filter(import_status="skipped")
+        .values("track")
+    )
     queryset = models.Track.objects.all()
-    queryset = queryset.filter(uploads__isnull=True)
+    queryset = queryset.filter(
+        Q(uploads__isnull=True) | Q(pk__in=purgeable_tracks_with_upload)
+    )
     if exclude_favorites:
         queryset = queryset.filter(track_favorites__isnull=True)
     if exclude_playlists:
