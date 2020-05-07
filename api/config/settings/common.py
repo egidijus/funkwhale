@@ -1211,7 +1211,10 @@ VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
         ("medium_square_crop", "crop__200x200"),
     ],
 }
-VERSATILEIMAGEFIELD_SETTINGS = {"create_images_on_demand": False}
+VERSATILEIMAGEFIELD_SETTINGS = {
+    "create_images_on_demand": False,
+    "jpeg_resize_quality": env.int("THUMBNAIL_JPEG_RESIZE_QUALITY", default=95),
+}
 RSA_KEY_SIZE = 2048
 # for performance gain in tests, since we don't need to actually create the
 # thumbnails
