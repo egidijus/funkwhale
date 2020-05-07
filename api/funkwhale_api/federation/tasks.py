@@ -50,6 +50,7 @@ def clean_music_cache():
         )
         .local(False)
         .exclude(audio_file="")
+        .filter(Q(source__startswith="http://") | Q(source__startswith="https://"))
         .only("audio_file", "id")
         .order_by("id")
     )

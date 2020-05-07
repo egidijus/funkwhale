@@ -16,20 +16,28 @@ def test_clean_federation_music_cache_if_no_listen(preferences, factories):
     preferences["federation__music_cache_duration"] = 60
     remote_library = factories["music.Library"]()
     upload1 = factories["music.Upload"](
-        library=remote_library, accessed_date=timezone.now()
+        library=remote_library,
+        accessed_date=timezone.now(),
+        source="https://upload1.mp3",
     )
     upload2 = factories["music.Upload"](
         library=remote_library,
         accessed_date=timezone.now() - datetime.timedelta(minutes=61),
+        source="https://upload2.mp3",
     )
-    upload3 = factories["music.Upload"](library=remote_library, accessed_date=None)
+    upload3 = factories["music.Upload"](
+        library=remote_library, accessed_date=None, source="http://upload3.mp3"
+    )
     # local upload, should not be cleaned
     upload4 = factories["music.Upload"](library__actor__local=True, accessed_date=None)
+    # non-http source , not cleaned
+    upload5 = factories["music.Upload"](accessed_date=None, source="noop")
 
     path1 = upload1.audio_file_path
     path2 = upload2.audio_file_path
     path3 = upload3.audio_file_path
     path4 = upload4.audio_file_path
+    path5 = upload5.audio_file_path
 
     tasks.clean_music_cache()
 
@@ -37,15 +45,18 @@ def test_clean_federation_music_cache_if_no_listen(preferences, factories):
     upload2.refresh_from_db()
     upload3.refresh_from_db()
     upload4.refresh_from_db()
+    upload5.refresh_from_db()
 
     assert bool(upload1.audio_file) is True
     assert bool(upload2.audio_file) is False
     assert bool(upload3.audio_file) is False
     assert bool(upload4.audio_file) is True
+    assert bool(upload5.audio_file) is True
     assert os.path.exists(path1) is True
     assert os.path.exists(path2) is False
     assert os.path.exists(path3) is False
     assert os.path.exists(path4) is True
+    assert os.path.exists(path5) is True
 
 
 def test_clean_federation_music_cache_orphaned(settings, preferences, factories):
