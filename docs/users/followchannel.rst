@@ -20,7 +20,7 @@ If you have the channel's full social network name:
   URL to the channel
 - Click "Subscribe" 
 
-Following Funwkhale Channels Through the Fediverse
+Following Funkwhale Channels Through the Fediverse
 --------------------------------------------------
 
 Funkwhale channels can be followed from different ActivityPub-enabled applications
