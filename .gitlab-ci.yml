@@ -224,7 +224,7 @@ docker_release:
   before_script:
     - docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
     - cp -r front/dist api/frontend
-    - (if [ "$CI_COMMIT_REF_NAME" == "develop" ]; then ./scripts/set-api-build-metadata.sh $(echo $CI_COMMIT_SHA | cut -c 1-8); fi);
+    - (if [ "$CI_COMMIT_REF_NAME" == "develop" ] || [ "$CI_COMMIT_REF_NAME" == "master" ]; then ./scripts/set-api-build-metadata.sh $(echo $CI_COMMIT_SHA | cut -c 1-8); fi);
   script:
     - if [[ ! -z "$CI_COMMIT_TAG" ]]; then (./docs/get-releases-json.py | scripts/is-docker-latest.py $CI_COMMIT_TAG -) && export DOCKER_LATEST_TAG="-t $IMAGE_LATEST" || export DOCKER_LATEST_TAG=; fi
     - cd api
@@ -233,6 +233,7 @@ docker_release:
     - if [[ ! -z "$DOCKER_LATEST_TAG" ]]; then docker push $IMAGE_LATEST; fi
   only:
     - develop@funkwhale/funkwhale
+    - master@funkwhale/funkwhale
     - tags@funkwhale/funkwhale
   tags:
     - docker-build
@@ -246,7 +247,7 @@ docker_all_in_one_release:
     BUILD_PATH: all_in_one
   before_script:
     - docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
-    - (if [ "$CI_COMMIT_REF_NAME" == "develop" ]; then ./scripts/set-api-build-metadata.sh $(echo $CI_COMMIT_SHA | cut -c 1-8); fi);
+    - (if [ "$CI_COMMIT_REF_NAME" == "develop" ] || [ "$CI_COMMIT_REF_NAME" == "master" ]; then ./scripts/set-api-build-metadata.sh $(echo $CI_COMMIT_SHA | cut -c 1-8); fi);
   script:
     - if [[ ! -z "$CI_COMMIT_TAG" ]]; then (./docs/get-releases-json.py | scripts/is-docker-latest.py $CI_COMMIT_TAG -) && export DOCKER_LATEST_TAG="-t $ALL_IN_ONE_IMAGE_LATEST" || export DOCKER_LATEST_TAG=; fi
     - wget $ALL_IN_ONE_ARTIFACT_URL -O all_in_one.zip
@@ -261,6 +262,7 @@ docker_all_in_one_release:
     - if [[ ! -z "$DOCKER_LATEST_TAG" ]]; then docker push $ALL_IN_ONE_IMAGE_LATEST; fi
   only:
     - develop@funkwhale/funkwhale
+    - master@funkwhale/funkwhale
     - tags@funkwhale/funkwhale
   tags:
     - docker-build
@@ -275,7 +277,7 @@ build_api:
       - api
   script:
     - rm -rf api/tests
-    - (if [ "$CI_COMMIT_REF_NAME" == "develop" ]; then ./scripts/set-api-build-metadata.sh $(echo $CI_COMMIT_SHA | cut -c 1-8); fi);
+    - (if [ "$CI_COMMIT_REF_NAME" == "develop" ] || [ "$CI_COMMIT_REF_NAME" == "master" ]; then ./scripts/set-api-build-metadata.sh $(echo $CI_COMMIT_SHA | cut -c 1-8); fi);
     - chmod -R 750 api
     - echo Done!
   only:
