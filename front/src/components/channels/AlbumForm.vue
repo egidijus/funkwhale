@@ -12,7 +12,6 @@
       </label>
       <input type="text" v-model="values.title">
     </div>
-    </div>
   </form>
 </template>
 <script>

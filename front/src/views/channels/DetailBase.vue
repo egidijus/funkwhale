@@ -125,7 +125,7 @@
               <div class="left aligned" :title="object.artist.name">
                 {{ object.artist.name }}
                 <div class="ui hidden very small divider"></div>
-                <div class="sub header ellipsis" v-if="object.actor ":title="object.actor.full_username">
+                <div class="sub header ellipsis" v-if="object.actor" :title="object.actor.full_username">
                   {{ object.actor.full_username }}
                 </div>
                 <div v-else class="sub header ellipsis">

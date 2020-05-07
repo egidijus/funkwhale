@@ -271,7 +271,7 @@
         <div class="ui warning message">
           <translate translate-context="Content/Settings/Paragraph'">Your account will be deleted from our servers within a few minutes. We will also notify other servers who may have a copy of some of your data so they can proceed to deletion. Please note that some of these servers may be offline or unwilling to comply though.</translate>
         </div>
-        <div class="ui form"">
+        <div class="ui form">
           <div v-if="accountDeleteErrors.length > 0" class="ui negative message">
             <div class="header"><translate translate-context="Content/Settings/Error message.Title">We cannot delete your account</translate></div>
             <ul class="list">
