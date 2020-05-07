@@ -23,6 +23,18 @@ from django.utils import timezone
 logger = logging.getLogger(__name__)
 
 
+def batch(iterable, n=1):
+    has_entries = True
+    while has_entries:
+        current = []
+        for i in range(0, n):
+            try:
+                current.append(next(iterable))
+            except StopIteration:
+                has_entries = False
+        yield current
+
+
 def rename_file(instance, field_name, new_name, allow_missing_file=False):
     field = getattr(instance, field_name)
     current_name, extension = os.path.splitext(field.name)
