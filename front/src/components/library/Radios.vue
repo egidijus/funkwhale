@@ -79,22 +79,13 @@
         </router-link>
       </div>
       <div
-        v-if="result"
-        v-masonry
-        transition-duration="0"
-        item-selector=".card"
-        percent-position="true"
-        stagger="0">
-        <div
-          v-if="result.results.length > 0"
-          class="ui cards">
-          <radio-card
-            type="custom"
-            v-masonry-tile
-            v-for="radio in result.results"
-            :key="radio.id"
-            :custom-radio="radio"></radio-card>
-        </div>
+        v-if="result && result.results.length > 0"
+        class="ui cards">
+        <radio-card
+          type="custom"
+          v-for="radio in result.results"
+          :key="radio.id"
+          :custom-radio="radio"></radio-card>
       </div>
       <div class="ui center aligned basic segment">
         <pagination

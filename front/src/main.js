@@ -11,7 +11,6 @@ import moment from 'moment'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-import {VueMasonryPlugin} from 'vue-masonry'
 import VueLazyload from 'vue-lazyload'
 import store from './store'
 import GetTextPlugin from 'vue-gettext'
@@ -27,7 +26,6 @@ sync(store, router)
 
 window.$ = window.jQuery = require('jquery')
 require('./semantic.js')
-require('masonry-layout')
 let APP = null
 
 let availableLanguages = (function () {
@@ -59,7 +57,6 @@ Vue.use(GetTextPlugin, {
   silent: true
 })
 
-Vue.use(VueMasonryPlugin)
 Vue.use(VueLazyload)
 Vue.config.productionTip = false
 Vue.directive('title', function (el, binding) {
