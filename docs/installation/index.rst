@@ -1,6 +1,19 @@
 Installation
 =============
 
+Requirements
+------------
+
+Regardless of your chosen installation method, the following requirements must be met in order to successfully deploy Funkwhale:
+
+- **A dedicated domain or subdomain**: it is not possible to deploy Funkwhale on a subdirectory of an existing domain.
+- **Access to ports 80 and/or 443**: if you cannot serve the Funkwhale web app and API on these ports, federation will not work
+
+.. note::
+
+    Because of the federated nature of Funkwhale, **we strongly recommend you not to change the Funkwhale domain after initial deployment**, as it is likely to break
+    your installation.
+
 Available installation methods
 -------------------------------
 
