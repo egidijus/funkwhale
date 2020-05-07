@@ -5,6 +5,7 @@ import pytest
 from django.utils import timezone
 from django.urls import reverse
 
+from funkwhale_api.common import utils as common_utils
 from funkwhale_api.music import importers, models, tasks
 from funkwhale_api.federation import utils as federation_utils
 
@@ -162,6 +163,17 @@ def test_audio_track_mime_type(extention, mimetype, factories):
     upload = factories["music.Upload"](audio_file__from_path=path, mimetype=None)
 
     assert upload.mimetype == mimetype
+
+
+@pytest.mark.parametrize("name", ["test.ogg", "test.mp3"])
+def test_audio_track_checksum(name, factories):
+
+    path = os.path.join(DATA_DIR, name)
+    upload = factories["music.Upload"](audio_file__from_path=path, mimetype=None)
+
+    with open(path, "rb") as f:
+        expected = common_utils.get_file_hash(f)
+    assert upload.checksum == expected
 
 
 def test_upload_file_name(factories):

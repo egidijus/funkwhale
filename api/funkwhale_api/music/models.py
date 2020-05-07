@@ -655,6 +655,14 @@ class Track(APIModelMixin):
 
 
 class UploadQuerySet(common_models.NullsLastQuerySet):
+    def in_place(self, include=True):
+        query = models.Q(source__startswith="file://") & (
+            models.Q(audio_file="") | models.Q(audio_file=None)
+        )
+        if not include:
+            query = ~query
+        return self.filter(query)
+
     def playable_by(self, actor, include=True):
         libraries = Library.objects.viewable_by(actor)
 
@@ -754,6 +762,9 @@ class Upload(models.Model):
     )
     downloads_count = models.PositiveIntegerField(default=0)
 
+    # stores checksums such as `sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`
+    checksum = models.CharField(max_length=100, db_index=True, null=True, blank=True)
+
     objects = UploadQuerySet.as_manager()
 
     @property
@@ -833,7 +844,7 @@ class Upload(models.Model):
     def get_audio_file(self):
         if self.audio_file:
             return self.audio_file.open()
-        if self.source.startswith("file://"):
+        if self.source and self.source.startswith("file://"):
             return open(self.source.replace("file://", "", 1), "rb")
 
     def get_audio_data(self):
@@ -866,6 +877,15 @@ class Upload(models.Model):
                 self.mimetype = mimetypes.guess_type(self.source)[0]
         if not self.size and self.audio_file:
             self.size = self.audio_file.size
+        if not self.checksum:
+            try:
+                audio_file = self.get_audio_file()
+            except FileNotFoundError:
+                pass
+            else:
+                if audio_file:
+                    self.checksum = common_utils.get_file_hash(audio_file)
+
         if not self.pk and not self.fid and self.library.actor.get_user():
             self.fid = self.get_federation_id()
         return super().save(**kwargs)

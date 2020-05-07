@@ -851,3 +851,71 @@ def update_library_entity(obj, data):
     obj.save(update_fields=list(data.keys()))
 
     return obj
+
+
+UPDATE_CONFIG = {
+    "track": {
+        "position": {},
+        "title": {},
+        "mbid": {},
+        "disc_number": {},
+        "copyright": {},
+        "license": {
+            "getter": lambda data, field: licenses.match(
+                data.get("license"), data.get("copyright")
+            )
+        },
+    },
+    "album": {"title": {}, "mbid": {}, "release_date": {}},
+    "artist": {"name": {}, "mbid": {}},
+    "album_artist": {"name": {}, "mbid": {}},
+}
+
+
+@transaction.atomic
+def update_track_metadata(audio_metadata, track):
+    # XXX: implement this to support updating metadata when an imported files
+    # is updated by an outside tool (e.g beets).
+    serializer = metadata.TrackMetadataSerializer(data=audio_metadata)
+    serializer.is_valid(raise_exception=True)
+    new_data = serializer.validated_data
+
+    to_update = [
+        ("track", track, lambda data: data),
+        ("album", track.album, lambda data: data["album"]),
+        ("artist", track.artist, lambda data: data["artists"][0]),
+        (
+            "album_artist",
+            track.album.artist if track.album else None,
+            lambda data: data["album"]["artists"][0],
+        ),
+    ]
+    for id, obj, data_getter in to_update:
+        if not obj:
+            continue
+        obj_updated_fields = []
+        try:
+            obj_data = data_getter(new_data)
+        except IndexError:
+            continue
+        for field, config in UPDATE_CONFIG[id].items():
+            getter = config.get(
+                "getter", lambda data, field: data[config.get("field", field)]
+            )
+            try:
+                new_value = getter(obj_data, field)
+            except KeyError:
+                continue
+            old_value = getattr(obj, field)
+            if new_value == old_value:
+                continue
+            obj_updated_fields.append(field)
+            setattr(obj, field, new_value)
+
+        if obj_updated_fields:
+            obj.save(update_fields=obj_updated_fields)
+
+    if track.album and "album" in new_data and new_data["album"].get("cover_data"):
+        common_utils.attach_file(
+            track.album, "attachment_cover", new_data["album"].get("cover_data")
+        )
