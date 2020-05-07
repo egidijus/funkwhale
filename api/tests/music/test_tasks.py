@@ -1329,3 +1329,40 @@ def test_can_import_track_with_same_position_in_same_discs_skipped(factories, mo
     new_upload.refresh_from_db()
 
     assert new_upload.import_status == "skipped"
+
+
+def test_update_track_metadata(factories):
+    track = factories["music.Track"]()
+    data = {
+        "title": "Peer Gynt Suite no. 1, op. 46: I. Morning",
+        "artist": "Edvard Grieg",
+        "album_artist": "Edvard Grieg; Musopen Symphony Orchestra",
+        "album": "Peer Gynt Suite no. 1, op. 46",
+        "date": "2012-08-15",
+        "position": "4",
+        "disc_number": "2",
+        "musicbrainz_albumid": "a766da8b-8336-47aa-a3ee-371cc41ccc75",
+        "mbid": "bd21ac48-46d8-4e78-925f-d9cc2a294656",
+        "musicbrainz_artistid": "013c8e5b-d72a-4cd3-8dee-6c64d6125823",
+        "musicbrainz_albumartistid": "013c8e5b-d72a-4cd3-8dee-6c64d6125823;5b4d7d2d-36df-4b38-95e3-a964234f520f",
+        "license": "Dummy license: http://creativecommons.org/licenses/by-sa/4.0/",
+        "copyright": "Someone",
+        "comment": "hello there",
+    }
+    tasks.update_track_metadata(metadata.FakeMetadata(data), track)
+
+    track.refresh_from_db()
+
+    assert track.title == data["title"]
+    assert track.position == int(data["position"])
+    assert track.disc_number == int(data["disc_number"])
+    assert track.license.code == "cc-by-sa-4.0"
+    assert track.copyright == data["copyright"]
+    assert str(track.mbid) == data["mbid"]
+    assert track.album.title == data["album"]
+    assert track.album.release_date == datetime.date(2012, 8, 15)
+    assert str(track.album.mbid) == data["musicbrainz_albumid"]
+    assert track.artist.name == data["artist"]
+    assert str(track.artist.mbid) == data["musicbrainz_artistid"]
+    assert track.album.artist.name == "Edvard Grieg"
+    assert str(track.album.artist.mbid) == "013c8e5b-d72a-4cd3-8dee-6c64d6125823"

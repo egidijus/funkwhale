@@ -1,21 +1,38 @@
-Importing music
-================
+Importing music from the server
+===============================
 
-From music directory on the server
-----------------------------------
-
-You can import music files in Funkwhale assuming they are located on the server
-and readable by the Funkwhale application. Your music files should contain at
+Funkwhale can import music files that are located on the server assuming
+they readable by the Funkwhale application. Your music files should contain at
 least an ``artist``, ``album`` and ``title`` tags, but we recommend you tag
 it extensively using a proper tool, such as Beets or Musicbrainz Picard.
 
-You can import those tracks as follows, assuming they are located in
+Funkwhale supports two different import modes:
+
+- copy (the default): files are copied into Funkwhale's internal storage. This means importing a 1GB library will result in the same amount of space being used by Funkwhale.
+- :ref:`in-place <in-place-import>` (when the ``--in-place`` is provided): files are referenced in Funkwhale's DB but not copied or touched in anyway. This is useful if you have a huge library, or one that is updated by an external tool such as Beets..
+
+.. note::
+
+    In Funkwhale 1.0, **the default behaviour will change to in-place import**
+
+Regardless of the mode you're choosing, import works as described below, assuming your files are located in
 ``/srv/funkwhale/data/music``:
 
 .. code-block:: bash
 
     export LIBRARY_ID="<your_libary_id>"
     python api/manage.py import_files $LIBRARY_ID "/srv/funkwhale/data/music/" --recursive --noinput
+
+.. note::
+    You'll have to create a library in the Web UI before to get your library ID. Simply visit
+    https://yourdomain/content/libraries/ to create one.
+
+    Library IDs are available in library urls or sharing link. In this example:
+    https://funkwhale.instance/content/libraries/769a2ae3-eb3d-4aff-9f94-2c4d80d5c2d1,
+    the library ID is 769a2bc3-eb1d-4aff-9f84-2c4d80d5c2d1
+
+    You can use only the first characters of the ID when calling the command, like that:
+    ``export LIBRARY_ID="769a2bc3"``
 
 When you use docker, the ``/srv/funkwhale/data/music`` is mounted from the host
 to the ``/music`` directory on the container:
@@ -32,16 +49,6 @@ When you installed Funkwhale via ansible, you need to call a script instead of P
     export LIBRARY_ID="<your_libary_id>"
     /srv/funkwhale/manage import_files $LIBRARY_ID "/srv/funkwhale/data/music/" --recursive --noinput
 
-.. note::
-    You'll have to create a library in the Web UI before to get your library ID. Simply visit
-    https://yourdomain/content/libraries/ to create one.
-
-    Library IDs are available in library urls or sharing link. In this example:
-    https://funkwhale.instance/content/libraries/769a2ae3-eb3d-4aff-9f94-2c4d80d5c2d1,
-    the library ID is 769a2bc3-eb1d-4aff-9f84-2c4d80d5c2d1
-
-    You can use only the first characters of the ID when calling the command, like that:
-    ``export LIBRARY_ID="769a2bc3"``
 
 The import command supports several options, and you can check the help to
 get details::
@@ -61,6 +68,7 @@ get details::
 .. note::
 
     At the moment, only Flac, OGG/Vorbis and MP3 files with ID3 tags are supported
+
 
 
 .. _in-place-import:
@@ -87,14 +95,6 @@ configuration options to ensure the webserver can serve them properly:
 
 - :ref:`setting-MUSIC_DIRECTORY_PATH`
 - :ref:`setting-MUSIC_DIRECTORY_SERVE_PATH`
-
-.. warning::
-
-    While in-place import is faster and less disk-space-hungry, it's also
-    more fragile: if, for some reason, you move or rename the source files,
-    Funkwhale will not be able to serve those files anymore.
-
-    Thus, be especially careful when you manipulate the source files.
 
 We recommend you symlink all your music directories into ``/srv/funkwhale/data/music``
 and run the `import_files` command from that directory. This will make it possible
@@ -134,6 +134,49 @@ If you want to go with symlinks, ensure each symlinked directory is mounted as a
       # add your symlinked dirs here
       - /media/nfsshare:/media/nfsshare:ro
 
+Metadata updates
+^^^^^^^^^^^^^^^^
+
+When doing an import with in ``in-place`` mode, the importer will also check and update existing entries
+found in the database. For instance, if a file was imported, the ID3 Title tag was updated, and you rerun a scan,
+Funkwhale will pick up the new title. The following fields can be updated this way:
+
+- Track mbid
+- Track title
+- Track position and disc number
+- Track license and copyright
+- Album cover
+- Album title
+- Album mbid
+- Album release date
+- Artist name
+- Artist mbid
+- Album artist name
+- Album artist mbid
+
+
+React to filesystem events with ``--watch``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you have a really big library or one that is updated quite often, running the ``import_files`` command by hand
+may not be practical. To help with this use case, the ``import_files`` command supports a ``--watch`` flag that will observes filesystem events
+instead of performing a full import.
+
+File creation, move, update and removal are handled when ``--watch`` is provided:
+
+- Files created in the watched directory are imported immediatly
+- If using ``in-place`` mode, files updates trigger a metadata update on the corresponding entries
+- If using ``in-place`` mode, files that are moved and known by Funkwhale will see their path updated in Funkwhale's DB
+- If using ``in-place`` mode, files that are removed and known by Funkwhale will be removed from Funkwhale's DB
+
+Pruning dangling metadata with ``--prune``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Funkwhale is, by design, conservative with music metadata in its database. If you remove a file from Funkwhale's DB,
+the corresponding artist, album and track object won't be deleted by default.
+
+If you want to prune dangling metadata from the database once the ``import_files`` command is over, simply add the ``--prune`` flag.
+This also works in with ``--watch``.
 
 Album covers
 ^^^^^^^^^^^^
@@ -159,9 +202,3 @@ under creative commons (courtesy of Jamendo):
     ./download-tracks.sh music.txt
 
 This will download a bunch of zip archives (one per album) under the ``data/music`` directory and unzip their content.
-
-From other instances
---------------------
-
-Funkwhale also supports importing music from other instances. Please refer
-to :doc:`../federation/index` for more details.

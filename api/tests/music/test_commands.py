@@ -1,6 +1,7 @@
 import os
 import pytest
 
+from funkwhale_api.common import utils as common_utils
 from funkwhale_api.music.management.commands import check_inplace_files
 from funkwhale_api.music.management.commands import fix_uploads
 from funkwhale_api.music.management.commands import prune_library
@@ -18,7 +19,7 @@ def test_fix_uploads_bitrate_length(factories, mocker):
         return_value={"bitrate": 42, "length": 43},
     )
 
-    c.fix_file_data(dry_run=False)
+    c.fix_file_data(dry_run=False, batch_size=100)
 
     upload1.refresh_from_db()
     upload2.refresh_from_db()
@@ -41,7 +42,7 @@ def test_fix_uploads_size(factories, mocker):
 
     mocker.patch("funkwhale_api.music.models.Upload.get_file_size", return_value=2)
 
-    c.fix_file_size(dry_run=False)
+    c.fix_file_size(dry_run=False, batch_size=100)
 
     upload1.refresh_from_db()
     upload2.refresh_from_db()
@@ -69,13 +70,32 @@ def test_fix_uploads_mimetype(factories, mocker):
         mimetype="audio/something",
     )
     c = fix_uploads.Command()
-    c.fix_mimetypes(dry_run=False)
+    c.fix_mimetypes(dry_run=False, batch_size=100)
 
     upload1.refresh_from_db()
     upload2.refresh_from_db()
 
     assert upload1.mimetype == "audio/mpeg"
     assert upload2.mimetype == "audio/something"
+
+
+def test_fix_uploads_checksum(factories, mocker):
+    upload1 = factories["music.Upload"]()
+    upload2 = factories["music.Upload"]()
+    upload1.__class__.objects.filter(pk=upload1.pk).update(checksum="test")
+    upload2.__class__.objects.filter(pk=upload2.pk).update(checksum=None)
+    c = fix_uploads.Command()
+
+    c.fix_file_checksum(dry_run=False, batch_size=100)
+
+    upload1.refresh_from_db()
+    upload2.refresh_from_db()
+
+    # not updated
+    assert upload1.checksum == "test"
+
+    # updated
+    assert upload2.checksum == common_utils.get_file_hash(upload2.audio_file)
 
 
 def test_prune_library_dry_run(factories):

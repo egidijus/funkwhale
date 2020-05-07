@@ -1,1 +1,1 @@
-Fixed mimetype detection issue that broke transcoding on some tracks (#1093). Run ``python manage.py fix_uploads --mimetypes`` to set proper mimetypes on existing uploads.
+Fixed mimetype detection issue that broke transcoding on some tracks (#1093). Run ``python manage.py fix_uploads --mimetype`` to set proper mimetypes on existing uploads.

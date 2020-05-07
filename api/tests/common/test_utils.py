@@ -258,3 +258,12 @@ def test_monkey_patch_request_build_absolute_uri(
     request = fake_request.get("/", **meta)
 
     assert request.build_absolute_uri(path) == expected
+
+
+def test_get_file_hash(tmpfile, settings):
+    settings.HASHING_ALGORITHM = "sha256"
+    content = b"hello"
+    tmpfile.write(content)
+    # echo -n "hello" | sha256sum
+    expected = "sha256:2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+    assert utils.get_file_hash(tmpfile) == expected
