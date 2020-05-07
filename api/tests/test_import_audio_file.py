@@ -4,6 +4,8 @@ import pytest
 from django.core.management import call_command
 from django.core.management.base import CommandError
 
+from funkwhale_api.common import utils as common_utils
+from funkwhale_api.music.management.commands import import_files
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "files")
 
@@ -159,3 +161,194 @@ def test_import_files_in_place(factories, mocker, settings):
 def test_storage_rename_utf_8_files(factories):
     upload = factories["music.Upload"](audio_file__filename="été.ogg")
     assert upload.audio_file.name.endswith("ete.ogg")
+
+
+@pytest.mark.parametrize("name", ["modified", "moved", "created", "deleted"])
+def test_handle_event(name, mocker):
+    handler = mocker.patch.object(import_files, "handle_{}".format(name))
+
+    event = {"type": name}
+    stdout = mocker.Mock()
+    kwargs = {"hello": "world"}
+    import_files.handle_event(event, stdout, **kwargs)
+
+    handler.assert_called_once_with(event=event, stdout=stdout, **kwargs)
+
+
+def test_handle_created(mocker):
+    handle_modified = mocker.patch.object(import_files, "handle_modified")
+
+    event = mocker.Mock()
+    stdout = mocker.Mock()
+    kwargs = {"hello": "world"}
+    import_files.handle_created(event, stdout, **kwargs)
+
+    handle_modified.assert_called_once_with(event, stdout, **kwargs)
+
+
+def test_handle_deleted(factories, mocker):
+    stdout = mocker.Mock()
+    event = {
+        "path": "/path.mp3",
+    }
+    library = factories["music.Library"]()
+    deleted = factories["music.Upload"](
+        library=library,
+        source="file://{}".format(event["path"]),
+        import_status="finished",
+        audio_file=None,
+    )
+    kept = [
+        factories["music.Upload"](
+            library=library,
+            source="file://{}".format(event["path"]),
+            import_status="finished",
+        ),
+        factories["music.Upload"](
+            source="file://{}".format(event["path"]),
+            import_status="finished",
+            audio_file=None,
+        ),
+    ]
+
+    import_files.handle_deleted(
+        event=event, stdout=stdout, library=library, in_place=True
+    )
+
+    with pytest.raises(deleted.DoesNotExist):
+        deleted.refresh_from_db()
+
+    for upload in kept:
+        upload.refresh_from_db()
+
+
+def test_handle_moved(factories, mocker):
+    stdout = mocker.Mock()
+    event = {
+        "src_path": "/path.mp3",
+        "dest_path": "/new_path.mp3",
+    }
+    library = factories["music.Library"]()
+    updated = factories["music.Upload"](
+        library=library,
+        source="file://{}".format(event["src_path"]),
+        import_status="finished",
+        audio_file=None,
+    )
+    untouched = [
+        factories["music.Upload"](
+            library=library,
+            source="file://{}".format(event["src_path"]),
+            import_status="finished",
+        ),
+        factories["music.Upload"](
+            source="file://{}".format(event["src_path"]),
+            import_status="finished",
+            audio_file=None,
+        ),
+    ]
+
+    import_files.handle_moved(
+        event=event, stdout=stdout, library=library, in_place=True
+    )
+
+    updated.refresh_from_db()
+    assert updated.source == "file://{}".format(event["dest_path"])
+    for upload in untouched:
+        source = upload.source
+        upload.refresh_from_db()
+        assert source == upload.source
+
+
+def test_handle_modified_creates_upload(tmpfile, factories, mocker):
+    stdout = mocker.Mock()
+    event = {
+        "path": tmpfile.name,
+    }
+    process_upload = mocker.patch("funkwhale_api.music.tasks.process_upload")
+    library = factories["music.Library"]()
+    import_files.handle_modified(
+        event=event,
+        stdout=stdout,
+        library=library,
+        in_place=True,
+        reference="hello",
+        replace=False,
+        dispatch_outbox=False,
+        broadcast=False,
+    )
+    upload = library.uploads.latest("id")
+    assert upload.source == "file://{}".format(event["path"])
+
+    process_upload.assert_called_once_with(upload_id=upload.pk)
+
+
+def test_handle_modified_skips_existing_checksum(tmpfile, factories, mocker):
+    stdout = mocker.Mock()
+    event = {
+        "path": tmpfile.name,
+    }
+    tmpfile.write(b"hello")
+
+    library = factories["music.Library"]()
+    factories["music.Upload"](
+        checksum=common_utils.get_file_hash(tmpfile),
+        library=library,
+        import_status="finished",
+    )
+    import_files.handle_modified(
+        event=event, stdout=stdout, library=library, in_place=True,
+    )
+    assert library.uploads.count() == 1
+
+
+def test_handle_modified_update_existing_path_if_found(tmpfile, factories, mocker):
+    stdout = mocker.Mock()
+    event = {
+        "path": tmpfile.name,
+    }
+    update_track_metadata = mocker.patch(
+        "funkwhale_api.music.tasks.update_track_metadata"
+    )
+    get_metadata = mocker.patch("funkwhale_api.music.models.Upload.get_metadata")
+    library = factories["music.Library"]()
+    track = factories["music.Track"](attributed_to=library.actor)
+    upload = factories["music.Upload"](
+        source="file://{}".format(event["path"]),
+        track=track,
+        checksum="old",
+        library=library,
+        import_status="finished",
+        audio_file=None,
+    )
+    import_files.handle_modified(
+        event=event, stdout=stdout, library=library, in_place=True,
+    )
+    update_track_metadata.assert_called_once_with(
+        get_metadata.return_value, upload.track,
+    )
+
+
+def test_handle_modified_update_existing_path_if_found_and_attributed_to(
+    tmpfile, factories, mocker
+):
+    stdout = mocker.Mock()
+    event = {
+        "path": tmpfile.name,
+    }
+    update_track_metadata = mocker.patch(
+        "funkwhale_api.music.tasks.update_track_metadata"
+    )
+    library = factories["music.Library"]()
+    factories["music.Upload"](
+        source="file://{}".format(event["path"]),
+        checksum="old",
+        library=library,
+        track__attributed_to=factories["federation.Actor"](),
+        import_status="finished",
+        audio_file=None,
+    )
+    import_files.handle_modified(
+        event=event, stdout=stdout, library=library, in_place=True,
+    )
+    update_track_metadata.assert_not_called()

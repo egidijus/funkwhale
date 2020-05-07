@@ -1309,3 +1309,6 @@ IGNORE_FORWARDED_HOST_AND_PROTO = env.bool(
 """
 Use :attr:`FUNKWHALE_HOSTNAME` and :attr:`FUNKWHALE_PROTOCOL ` instead of request header.
 """
+
+HASHING_ALGORITHM = "sha256"
+HASHING_CHUNK_SIZE = 1024 * 100
