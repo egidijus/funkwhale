@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: front 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2020-04-10 03:50+0000\n"
+"PO-Revision-Date: 2020-05-09 01:54+0000\n"
 "Last-Translator: Ciarán Ainsworth <ciaranainsworth@posteo.net>\n"
 "Language-Team: none\n"
 "Language: en_GB\n"
@@ -4135,10 +4135,9 @@ msgid "Publish audio"
 msgstr "Publish audio"
 
 #: front/src/components/audio/ChannelForm.vue:198
-#, fuzzy
 msgctxt "Content/Channels/Help"
 msgid "Publish music you make as a nice discography of albums and singles."
-msgstr "Publish music  you make as a nice discography of albums and singles."
+msgstr "Publish music you make as a nice discography of albums and singles."
 
 #: front/src/views/content/Home.vue:10
 msgctxt "Content/Library/Title/Verb"
@@ -6017,7 +6016,6 @@ msgid "Unresolved"
 msgstr "Unresolved"
 
 #: front/src/components/channels/SubscribeButton.vue:19
-#, fuzzy
 msgctxt "Content/Channel/Button/Verb"
 msgid "Unsubscribe"
 msgstr "Unsubscribe"
@@ -6171,10 +6169,11 @@ msgid "Uploaded by <a class=\"internal\" href=\"%{ uploaderUrl }\">%{ uploader }
 msgstr "Uploaded by <a class=\"internal\" href=\"%{ uploaderUrl }\">%{ uploader }</a> on <time title=\"%{ date }\" datetime=\"%{ date }\">%{ prettyDate }</time>"
 
 #: front/src/components/library/TrackBase.vue:279
-#, fuzzy
 msgctxt "Content/Track/Paragraph"
 msgid "Uploaded on <time title=\"%{ date }\" datetime=\"%{ date }\">%{ prettyDate }</time>"
-msgstr "Uploaded by on <time title=\"%{ date }\" datetime=\"%{ date }\">%{ prettyDate }</time>"
+msgstr ""
+"Uploaded on <time title=\"%{ date }\" datetime=\"%{ date }\">%{ prettyDate "
+"}</time>"
 
 #: front/src/components/channels/UploadForm.vue:83
 msgctxt "Channels/*/*"
@@ -6661,16 +6660,14 @@ msgid "You may need to follow this library to see its content."
 msgstr "You may need to follow this library to see its content."
 
 #: front/src/components/audio/ChannelEntries.vue:17
-#, fuzzy
 msgctxt "Content/Channels/*"
 msgid "You may need to subscribe to this channel to see its content."
-msgstr "You may need to follow this library to see its content."
+msgstr "You may need to subscribe to this channel to see its content."
 
 #: front/src/components/audio/ChannelSeries.vue:22
-#, fuzzy
 msgctxt "Content/Channels/*"
 msgid "You may need to subscribe to this channel to see its contents."
-msgstr "You may need to follow this library to see its content."
+msgstr "You may need to subscribe to this channel to see its contents."
 
 #: front/src/components/notifications/NotificationRow.vue:45
 msgctxt "Content/Notifications/Paragraph"
