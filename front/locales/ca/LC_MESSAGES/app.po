@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: front 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2020-04-24 07:32+0000\n"
+"PO-Revision-Date: 2020-05-08 08:24+0000\n"
 "Last-Translator: Francesc Galí <francescgali@protonmail.com>\n"
 "Language-Team: none\n"
 "Language: ca\n"
@@ -6142,7 +6142,7 @@ msgstr "Quota de pujada"
 #: front/src/views/content/Home.vue:23
 msgctxt "Content/Library/Title/Verb"
 msgid "Upload third-party content in a library"
-msgstr "Carrega contingut de tercers en una biblioteca"
+msgstr "Carrega contingut de tercers a una biblioteca"
 
 #: front/src/components/library/FileUpload.vue:291
 msgctxt "Content/Library/Help text"
