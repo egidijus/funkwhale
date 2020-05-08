@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: front 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2020-04-27 12:40+0000\n"
+"PO-Revision-Date: 2020-05-09 01:54+0000\n"
 "Last-Translator: Xosé M <xosem@disroot.org>\n"
 "Language-Team: none\n"
 "Language: gl\n"
@@ -263,7 +263,7 @@ msgstr "Acerca desta licenza"
 #: front/src/components/About.vue:23 src/components/About.vue:53
 msgctxt "Content/About/Header"
 msgid "About this pod"
-msgstr "Acerca de esta instancia"
+msgstr "Acerca desta instancia"
 
 #: front/src/components/Sidebar.vue:145
 msgctxt "Sidebar/*/List item.Link"
@@ -1128,7 +1128,7 @@ msgstr "Cambiar decorado"
 #: front/src/views/auth/PasswordResetConfirm.vue:62
 msgctxt "*/Signup/Title"
 msgid "Change your password"
-msgstr "Cambiar o seu contrasinal"
+msgstr "Cambiar o contrasinal"
 
 #: front/src/components/auth/Settings.vue:86
 msgctxt "Popup/Settings/Title"
@@ -1143,7 +1143,9 @@ msgstr "Cambios sincronizados co servidor"
 #: front/src/components/auth/Settings.vue:62
 msgctxt "Content/Settings/Paragraph'"
 msgid "Changing your password will also change your Subsonic API password if you have requested one."
-msgstr "Ao cambiar o contrasinal tamén cambia o seu contrasinal no API Subsonic si é que solicitou un."
+msgstr ""
+"Ao cambiar o contrasinal tamén cambias o contrasinal no API Subsonic si é "
+"que solicitaches un."
 
 #: front/src/components/auth/Settings.vue:88
 msgctxt "Popup/Settings/Paragraph"
@@ -1756,13 +1758,15 @@ msgstr "Detalles"
 #: front/src/views/admin/moderation/AccountsDetail.vue:530
 msgctxt "Content/Moderation/Help text"
 msgid "Determine how much content the user can upload. Leave empty to use the default value of the instance."
-msgstr "Indique canto contido pode subir a usuaria. Deixe baldeiro para utilizar o valor por omisión da instancia."
+msgstr ""
+"Indicar canto contido pode subir a usuaria. Deixar baleiro para utilizar o "
+"valor por omisión da instancia."
 
 #: front/src/components/mixins/Translations.vue:8
 #: front/src/components/mixins/Translations.vue:9
 msgctxt "Content/Settings/Dropdown.Help text"
 msgid "Determine the visibility level of your activity"
-msgstr "Indique o nivel de visibilidade da súa actividade"
+msgstr "Indica o nivel de visibilidade da túa actividade"
 
 #: front/src/components/auth/Settings.vue:94
 #: front/src/components/auth/SubsonicTokenForm.vue:54
@@ -1832,22 +1836,22 @@ msgstr "Gozas de Funkwhale?"
 #: front/src/components/playlists/Editor.vue:51
 msgctxt "Popup/Playlist/Title"
 msgid "Do you want to clear the playlist \"%{ playlist }\"?"
-msgstr "Quere baldeirar a lista  de reprodución \"%{ playlist }\"?"
+msgstr "Queres baleirar a lista de reprodución \"%{ playlist }\"?"
 
 #: front/src/components/common/DangerousButton.vue:7
 msgctxt "Modal/*/Title"
 msgid "Do you want to confirm this action?"
-msgstr "Quere confirmar esta acción?"
+msgstr "Queres confirmar esta acción?"
 
 #: front/src/views/playlists/Detail.vue:43
 msgctxt "Popup/Playlist/Title/Call to action"
 msgid "Do you want to delete the playlist \"%{ playlist }\"?"
-msgstr "Quere eliminar esta lista de reprodución \"%{ playlist }\"?"
+msgstr "Queres eliminar esta lista de reprodución \"%{ playlist }\"?"
 
 #: front/src/views/radios/Detail.vue:26
 msgctxt "Popup/Radio/Title"
 msgid "Do you want to delete the radio \"%{ radio }\"?"
-msgstr "Quere eliminar a radio \"%{ radio }\"?"
+msgstr "Queres eliminar a radio \"%{ radio }\"?"
 
 #: front/src/components/auth/Settings.vue:288
 msgctxt "Popup/Settings/Title"
@@ -2093,12 +2097,12 @@ msgstr "Activado"
 #: front/src/views/content/remote/ScanForm.vue:50
 msgctxt "Content/Library/Input.Placeholder"
 msgid "Enter a library URL"
-msgstr "Introduza un URL de biblioteca"
+msgstr "Escribe o URL dunha biblioteca"
 
 #: front/src/components/library/Radios.vue:154
 msgctxt "Content/Search/Input.Placeholder"
 msgid "Enter a radio name…"
-msgstr "Introduza un nome de radio…"
+msgstr "Escribe un nome de radio…"
 
 #: front/src/components/library/Albums.vue:138
 msgctxt "Content/Search/Input.Placeholder"
@@ -2108,7 +2112,7 @@ msgstr "Escribir título de álbume…"
 #: front/src/components/library/Artists.vue:128
 msgctxt "Content/Search/Input.Placeholder"
 msgid "Enter artist name…"
-msgstr "Introduza nome de artista…"
+msgstr "Escribe o nome de artista…"
 
 #: front/src/components/playlists/PlaylistModal.vue:176
 msgctxt "Popup/Playlist/Form/Placeholder"
@@ -2128,23 +2132,23 @@ msgstr "Introducir o enderezo de correo ligado a súa conta"
 #: front/src/components/auth/SignupForm.vue:134
 msgctxt "Content/Signup/Form/Placeholder"
 msgid "Enter your email"
-msgstr "Introduza o seu correo-e"
+msgstr "Escribe o teu email"
 
 #: front/src/components/auth/SignupForm.vue:129
 #: front/src/components/auth/SignupForm.vue:131
 msgctxt "Content/Signup/Form/Placeholder"
 msgid "Enter your invitation code (case insensitive)"
-msgstr "Introduza o seu código de convite (dif. maiúsculas)"
+msgstr "Escribe o código de convite (dif. maiúsculas)"
 
 #: front/src/components/auth/SignupForm.vue:133
 msgctxt "Content/Signup/Form/Placeholder"
 msgid "Enter your username"
-msgstr "Introduza o nome de usuaria"
+msgstr "Escribe o teu nome de usuaria"
 
 #: front/src/components/auth/LoginForm.vue:86
 msgctxt "Content/Login/Input.Placeholder"
 msgid "Enter your username or email"
-msgstr "Introduza o nome de usuaria ou correo-e"
+msgstr "Escribe o teu nome de usuaria ou email"
 
 #: front/src/components/library/TrackDetail.vue:9
 msgctxt "Content/*/*"
@@ -2914,12 +2918,12 @@ msgstr "Saber máis"
 #: front/src/components/manage/users/InvitationForm.vue:58
 msgctxt "Content/Admin/Input.Placeholder"
 msgid "Leave empty for a random code"
-msgstr "Deixar baldeiro para un código aleatorio"
+msgstr "Deixar baleiro para un código aleatorio"
 
 #: front/src/components/audio/EmbedWizard.vue:17
 msgctxt "Popup/Embed/Paragraph"
 msgid "Leave empty for a responsive widget"
-msgstr "Deixar baldeiro para un trebello interactivo"
+msgstr "Deixar baleiro para un widget interactivo"
 
 #: front/src/components/mixins/Translations.vue:79
 #: front/src/components/mixins/Translations.vue:80
@@ -4001,7 +4005,7 @@ msgstr "Por favor, contacta coa administración e pídelle que actualicen o axus
 #: front/src/components/auth/Settings.vue:70
 msgctxt "Content/Settings/Error message.List item/Call to action"
 msgid "Please double-check your password is correct"
-msgstr "Por favor, comprobe que o seu contrasinal é correcto"
+msgstr "Comproba que o contrasinal é correcto"
 
 #: front/src/components/auth/LoginForm.vue:9
 msgctxt "Content/Login/Error message.List item/Call to action"
@@ -4619,7 +4623,7 @@ msgstr "Restablecer ao valor inicial"
 #: src/views/auth/PasswordReset.vue:4 front/src/views/auth/PasswordReset.vue:53
 msgctxt "*/Login/*/Verb"
 msgid "Reset your password"
-msgstr "Restablecer o seu contrasinal"
+msgstr "Restablecer o contrasinal"
 
 #: front/src/components/manage/moderation/ReportCard.vue:83
 #: front/src/components/manage/moderation/UserRequestCard.vue:69
@@ -5129,7 +5133,9 @@ msgstr "Rexistro"
 #: front/src/components/Home.vue:109
 msgctxt "Content/Home/Paragraph"
 msgid "Sign up now to keep a track of your favorites, create playlists, discover new content and much more!"
-msgstr "Rexístrate agora para gardar os teus favoritos, creas listas, descubrir novo contido e moito máis!"
+msgstr ""
+"Rexístrate agora para gardar os teus favoritos, crear listas, descubrir novo "
+"contido e moito máis!"
 
 #: front/src/components/manage/users/UsersTable.vue:40
 msgctxt "Content/Admin/Table.Label/Short, Noun (Value is a date)"
@@ -5461,7 +5467,7 @@ msgstr "Rexeitar petición"
 #: front/src/components/About.vue:37 src/components/About.vue:63
 msgctxt "Content/About/Header"
 msgid "Terms and privacy policy"
-msgstr "Termos e política de intimidade"
+msgstr "Termos e política de privacidade"
 
 #: front/src/components/audio/EmbedWizard.vue:35
 #: front/src/components/common/CopyInput.vue:3
@@ -5733,13 +5739,15 @@ msgstr "Esta biblioteca contén a miña música persoal, espero que che guste."
 #: src/views/library/DetailTracks.vue:9
 msgctxt "*/*/*"
 msgid "This library is empty, you should upload something in it!"
-msgstr "Esta biblioteca está baldeira, deberías subir algo!"
+msgstr "Esta biblioteca está baleira, deberías subir algo!"
 
 #: front/src/views/content/remote/Card.vue:173
 #: src/views/library/DetailBase.vue:174
 msgctxt "Content/Library/Card.Help text"
 msgid "This library is private and your approval from its owner is needed to access its content"
-msgstr "Esta biblioteca é privada e precisa que a usuaria lle conceda permiso para acceder ao contido"
+msgstr ""
+"Esta biblioteca é privada e precisas que a usuaria che conceda permiso para "
+"acceder ao contido"
 
 #: front/src/views/content/remote/Card.vue:174
 #: src/views/library/DetailBase.vue:176
@@ -6288,17 +6296,21 @@ msgstr "Utilizar outra instancia"
 #: front/src/components/Home.vue:148
 msgctxt "Content/Home/Link"
 msgid "Use Funkwhale on other devices with our apps"
-msgstr "Utilice Funkwhale en outros dispositivos coas nosas apps"
+msgstr "Usa Funkwhale noutros dispositivos coas nosas apps"
 
 #: front/src/components/moderation/ReportModal.vue:44
 msgctxt "*/*/Field,Help"
 msgid "Use this field to provide additional context to the moderator that will handle your report."
-msgstr "Utilice este campo para proporcionar contexto adicional a moderación para xestionar o seu informe."
+msgstr ""
+"Utiliza este campo para proporcionar contexto adicional a moderación para "
+"xestionar o teu informe."
 
 #: front/src/views/auth/PasswordReset.vue:12
 msgctxt "Content/Signup/Paragraph"
 msgid "Use this form to request a password reset. We will send an email to the given address with instructions to reset your password."
-msgstr "Utilice este formulario para solicitar o restablecemento do contrasinal. Enviarémoslle un correo-e con instrucións para restablecelo."
+msgstr ""
+"Utiliza este formulario para solicitar o restablecemento do contrasinal. "
+"Enviarémosche un email con instrucións para restablecelo."
 
 #: front/src/components/RemoteSearchForm.vue:17
 msgctxt "Content/Fetch/Paragraph"
@@ -6309,12 +6321,14 @@ msgstr ""
 #: front/src/components/moderation/ReportModal.vue:18
 msgctxt "*/Moderation/Popup,Paragraph"
 msgid "Use this form to submit a report to our moderation team."
-msgstr "Utilice este formulario para enviar un informe ao equipo de moderación."
+msgstr "Utiliza este formulario para enviar un informe ao equipo de moderación."
 
 #: front/src/components/manage/moderation/InstancePolicyForm.vue:111
 msgctxt "Content/Moderation/Help text"
 msgid "Use this setting to temporarily enable/disable the policy without completely removing it."
-msgstr "Utilice este axuste para activar/desactivar temporalmente a condición sen elminala completamente."
+msgstr ""
+"Utiliza este axuste para activar/desactivar temporalmente a condición sen "
+"eliminala completamente."
 
 #: front/src/components/manage/users/InvitationsTable.vue:49
 msgctxt "Content/Admin/Table"
@@ -6398,7 +6412,9 @@ msgstr "Usuarias"
 #: front/src/components/Home.vue:112
 msgctxt "Content/Home/Paragraph"
 msgid "Users on this pod also get %{ quota } of free storage to upload their own content!"
-msgstr "As usuarias de este servidor tamén teñen %{ quota } de almacenaxe gratuíta para o seu contido!"
+msgstr ""
+"As usuarias deste servidor tamén teñen %{ quota } de almacenaxe gratuíta "
+"para o seu contido!"
 
 #: front/src/components/Footer.vue:32
 msgctxt "Footer/*/Title"
@@ -6527,7 +6543,7 @@ msgstr "Benvida"
 #: front/src/components/Home.vue:5
 msgctxt "Content/Home/Header"
 msgid "Welcome to %{ podName }!"
-msgstr "Ben vida a %{ podName }!"
+msgstr "Benvida a %{ podName }!"
 
 #: front/src/components/audio/ChannelForm.vue:11
 msgctxt "Content/Channel/Paragraph"
@@ -6814,7 +6830,7 @@ msgstr "Non se pode cambiar o contrasinal"
 #: front/src/views/auth/PasswordResetConfirm.vue:29
 msgctxt "Content/Signup/Card.Paragraph"
 msgid "Your password has been updated successfully."
-msgstr "O seu contrasinal foi actualizado correctamente."
+msgstr "O contrasinal foi actualizado correctamente."
 
 #: front/src/components/auth/Settings.vue:14
 msgctxt "Content/Settings/Error message.Title"
@@ -6824,7 +6840,9 @@ msgstr "Non se actualizaron os axustes"
 #: front/src/components/auth/Settings.vue:91
 msgctxt "Popup/Settings/List item"
 msgid "Your Subsonic password will be changed to a new, random one, logging you out from devices that used the old Subsonic password"
-msgstr "O seu contrasinal Subsonic será cambiado por un novo, aleatorio, desconectándoa de todos os dispositivos que utilicen os contrasinal antigo"
+msgstr ""
+"O teu contrasinal Subsonic será cambiado por un novo, aleatorio, "
+"desconectándote de todos os dispositivos que utilicen o contrasinal antigo"
 
 #: front/src/views/channels/DetailOverview.vue:36
 msgctxt "Content/Channel/Paragraph"
