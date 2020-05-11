@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import axios from 'axios'
-import jwtDecode from 'jwt-decode'
 import logger from '@/logging'
 import router from '@/router'
 import lodash from '@/lodash'
 
+function getDefaultScopedTokens () {
+  return {
+    listen: null,
+  }
+}
 export default {
   namespaced: true,
   state: {
@@ -18,7 +22,7 @@ export default {
     },
     profile: null,
     token: '',
-    tokenData: {}
+    scopedTokens: getDefaultScopedTokens()
   },
   getters: {
     header: state => {
@@ -34,7 +38,7 @@ export default {
       state.username = ''
       state.fullUsername = ''
       state.token = ''
-      state.tokenData = {}
+      state.scopedTokens = getDefaultScopedTokens()
       state.availablePermissions = {
         federation: false,
         settings: false,
@@ -51,8 +55,8 @@ export default {
         state.username = null
         state.fullUsername = null
         state.token = null
-        state.tokenData = null
         state.profile = null
+        state.scopedTokens = getDefaultScopedTokens()
         state.availablePermissions = {}
       }
     },
@@ -69,11 +73,9 @@ export default {
     },
     token: (state, value) => {
       state.token = value
-      if (value) {
-        state.tokenData = jwtDecode(value)
-      } else {
-        state.tokenData = {}
-      }
+    },
+    scopedTokens: (state, value) => {
+      state.scopedTokens = {...value}
     },
     permission: (state, {key, status}) => {
       state.availablePermissions[key] = status
@@ -159,6 +161,9 @@ export default {
         commit("profile", data)
         commit("username", data.username)
         commit("fullUsername", data.full_username)
+        if (data.tokens) {
+          commit("scopedTokens", data.tokens)
+        }
         Object.keys(data.permissions).forEach(function(key) {
           // this makes it easier to check for permissions in templates
           commit("permission", {

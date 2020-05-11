@@ -15,6 +15,7 @@ from funkwhale_api.federation import api_serializers as federation_api_serialize
 from funkwhale_api.federation import utils as federation_utils
 from funkwhale_api.federation import tasks as federation_tasks
 from funkwhale_api.music import licenses, models, serializers, tasks, views
+from funkwhale_api.users import authentication as users_authentication
 
 DATA_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -1488,3 +1489,15 @@ def test_other_user_cannot_delete_track(factories, logged_in_api_client):
 
     assert response.status_code == 404
     track.refresh_from_db()
+
+
+def test_listen_to_track_with_scoped_token(factories, api_client):
+    user = factories["users.User"]()
+    token = users_authentication.generate_scoped_token(
+        user_id=user.pk, user_secret=user.secret_key, scopes=["read:libraries"]
+    )
+    upload = factories["music.Upload"](playable=True)
+    url = reverse("api:v1:listen-detail", kwargs={"uuid": upload.track.uuid})
+    response = api_client.get(url, {"token": token})
+
+    assert response.status_code == 200

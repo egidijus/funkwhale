@@ -609,6 +609,8 @@ OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL = "users.AccessToken"
 OAUTH2_PROVIDER_GRANT_MODEL = "users.Grant"
 OAUTH2_PROVIDER_REFRESH_TOKEN_MODEL = "users.RefreshToken"
 
+SCOPED_TOKENS_MAX_AGE = 60 * 60 * 24 * 3
+
 # LDAP AUTHENTICATION CONFIGURATION
 # ------------------------------------------------------------------------------
 AUTH_LDAP_ENABLED = env.bool("LDAP_ENABLED", default=False)

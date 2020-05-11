@@ -29,6 +29,7 @@ class TokenAuthMiddleware:
         self.inner = inner
 
     def __call__(self, scope):
+        # XXX: 1.0 remove this, replace with websocket/scopedtoken
         auth = TokenHeaderAuth()
         try:
             user, token = auth.authenticate(scope)

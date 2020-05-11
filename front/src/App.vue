@@ -114,6 +114,10 @@ export default {
     }
     await this.fetchNodeInfo()
     this.$store.dispatch('auth/check')
+    setInterval(() => {
+      // used to refresh profile every now and then (important for refreshing scoped tokens)
+      self.$store.dispatch('auth/check')
+    }, 1000 * 60 * 60 * 8)
     this.$store.dispatch('instance/fetchSettings')
     this.$store.commit('ui/addWebsocketEventHandler', {
       eventName: 'inbox.item_added',

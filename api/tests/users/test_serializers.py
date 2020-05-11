@@ -42,3 +42,18 @@ def test_registration_serializer_validates_password_properly(data, expected_erro
 
     with pytest.raises(serializers.serializers.ValidationError, match=expected_error):
         serializer.is_valid(raise_exception=True)
+
+
+def test_me_serializer_includes_tokens(factories, mocker):
+    user = factories["users.User"]()
+    generate_scoped_token = mocker.patch(
+        "funkwhale_api.users.authentication.generate_scoped_token"
+    )
+    expected = {"listen": generate_scoped_token.return_value}
+    serializer = serializers.MeSerializer(user)
+
+    assert serializer.data["tokens"] == expected
+
+    generate_scoped_token.assert_called_once_with(
+        user_id=user.pk, user_secret=user.secret_key, scopes=["read:libraries"]
+    )
