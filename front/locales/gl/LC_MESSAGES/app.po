@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: front 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2020-05-10 07:55+0000\n"
+"PO-Revision-Date: 2020-05-12 00:21+0000\n"
 "Last-Translator: ghose <xosem@disroot.org>\n"
 "Language-Team: none\n"
 "Language: gl\n"
@@ -663,7 +663,7 @@ msgstr "Álbumes"
 #: front/src/components/library/ArtistDetail.vue:21
 msgctxt "Content/Artist/Title"
 msgid "Albums by this artist"
-msgstr "Álbumes de este artista"
+msgstr "Álbumes deste artista"
 
 #: front/src/components/manage/ChannelsTable.vue:13
 #: front/src/components/manage/library/ArtistsTable.vue:13
@@ -706,7 +706,8 @@ msgstr "Dominios permitidos"
 #: front/src/components/library/ImportStatusModal.vue:17
 msgctxt "Popup/Import/Message"
 msgid "An error occurred during upload processing. You will find more information below."
-msgstr "Algo fallou no proceso de subida. Aquí abaixo atopará máis información."
+msgstr ""
+"Algo fallou no proceso de subida. Aquí embaixo atoparás máis información."
 
 #: front/src/components/playlists/Editor.vue:13
 msgctxt "Content/Playlist/Error message.Title"
@@ -741,13 +742,13 @@ msgstr "Acceso anónimo"
 #: front/src/components/moderation/ReportModal.vue:68
 msgctxt "Popup/Moderation/Error message"
 msgid "Anonymous reports are disabled, please sign-in to submit a report."
-msgstr "Desactiváronse os informes anónimos, conéctese para enviar un informe."
+msgstr "Desactiváronse os informes anónimos, conéctate para enviar un informe."
 
 #: front/src/components/auth/Settings.vue:165
 #: src/components/auth/Settings.vue:215
 msgctxt "*/*/*/Noun"
 msgid "Application"
-msgstr "Acción"
+msgstr "Aplicación"
 
 #: front/src/components/auth/ApplicationEdit.vue:12
 msgctxt "Content/Applications/Title"
