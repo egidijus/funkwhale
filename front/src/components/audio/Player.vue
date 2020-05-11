@@ -428,8 +428,17 @@ export default {
         // so authentication can be checked by the backend
         // because for audio files we cannot use the regular Authentication
         // header
+        let param = "jwt"
+        let value = this.$store.state.auth.token
+        if (this.$store.state.auth.scopedTokens && this.$store.state.auth.scopedTokens.listen) {
+          // used scoped tokens instead of JWT to reduce the attack surface if the token
+          // is leaked
+          param = "token"
+          value = this.$store.state.auth.scopedTokens.listen
+        }
+        console.log('HELLO', param, value, this.$store.state.auth.scopedTokens)
         sources.forEach(e => {
-          e.url = url.updateQueryString(e.url, 'jwt', this.$store.state.auth.token)
+          e.url = url.updateQueryString(e.url, param, value)
         })
       }
       return sources

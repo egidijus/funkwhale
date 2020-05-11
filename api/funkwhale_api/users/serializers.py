@@ -22,6 +22,7 @@ from funkwhale_api.moderation import utils as moderation_utils
 
 from . import adapters
 from . import models
+from . import authentication as users_authentication
 
 
 @deconstructible
@@ -220,6 +221,7 @@ class UserReadSerializer(serializers.ModelSerializer):
 class MeSerializer(UserReadSerializer):
     quota_status = serializers.SerializerMethodField()
     summary = serializers.SerializerMethodField()
+    tokens = serializers.SerializerMethodField()
 
     class Meta(UserReadSerializer.Meta):
         fields = UserReadSerializer.Meta.fields + [
@@ -227,6 +229,7 @@ class MeSerializer(UserReadSerializer):
             "instance_support_message_display_date",
             "funkwhale_support_message_display_date",
             "summary",
+            "tokens",
         ]
 
     def get_quota_status(self, o):
@@ -236,6 +239,13 @@ class MeSerializer(UserReadSerializer):
         if not o.actor or not o.actor.summary_obj:
             return
         return common_serializers.ContentSerializer(o.actor.summary_obj).data
+
+    def get_tokens(self, o):
+        return {
+            "listen": users_authentication.generate_scoped_token(
+                user_id=o.pk, user_secret=o.secret_key, scopes=["read:libraries"]
+            )
+        }
 
 
 class PasswordResetSerializer(PRS):

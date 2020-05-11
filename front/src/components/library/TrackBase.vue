@@ -229,10 +229,18 @@ export default {
         this.upload.listen_url
       )
       if (this.$store.state.auth.authenticated) {
+        let param = "jwt"
+        let value = this.$store.state.auth.token
+        if (this.$store.state.auth.scopedTokens && this.$store.state.auth.scopedTokens.listen) {
+          // used scoped tokens instead of JWT to reduce the attack surface if the token
+          // is leaked
+          param = "token"
+          value = this.$store.state.auth.scopedTokens.listen
+        }
         u = url.updateQueryString(
           u,
-          "jwt",
-          encodeURI(this.$store.state.auth.token)
+          param,
+          encodeURI(value)
         )
       }
       return u
