@@ -38,7 +38,6 @@ describe('store/auth', () => {
       const state = {
         username: 'dummy',
         token: 'dummy',
-        tokenData: 'dummy',
         profile: 'dummy',
         availablePermissions: 'dummy'
       }
@@ -46,7 +45,6 @@ describe('store/auth', () => {
       expect(state.authenticated).to.equal(false)
       expect(state.username).to.equal(null)
       expect(state.token).to.equal(null)
-      expect(state.tokenData).to.equal(null)
       expect(state.profile).to.equal(null)
       expect(state.availablePermissions).to.deep.equal({})
     })
@@ -54,24 +52,12 @@ describe('store/auth', () => {
       const state = {}
       store.mutations.token(state, null)
       expect(state.token).to.equal(null)
-      expect(state.tokenData).to.deep.equal({})
     })
     it('token real', () => {
-      // generated on http://kjur.github.io/jsjws/tool_jwt.html
       const state = {}
       let token = 'eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpc3MiOiJodHRwczovL2p3dC1pZHAuZXhhbXBsZS5jb20iLCJzdWIiOiJtYWlsdG86bWlrZUBleGFtcGxlLmNvbSIsIm5iZiI6MTUxNTUzMzQyOSwiZXhwIjoxNTE1NTM3MDI5LCJpYXQiOjE1MTU1MzM0MjksImp0aSI6ImlkMTIzNDU2IiwidHlwIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9yZWdpc3RlciJ9.'
-      let tokenData = {
-        iss: 'https://jwt-idp.example.com',
-        sub: 'mailto:mike@example.com',
-        nbf: 1515533429,
-        exp: 1515537029,
-        iat: 1515533429,
-        jti: 'id123456',
-        typ: 'https://example.com/register'
-      }
       store.mutations.token(state, token)
       expect(state.token).to.equal(token)
-      expect(state.tokenData).to.deep.equal(tokenData)
     })
     it('permissions', () => {
       const state = { availablePermissions: {} }

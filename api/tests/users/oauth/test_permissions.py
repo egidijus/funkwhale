@@ -62,7 +62,7 @@ def test_scope_permission_anonymous_policy(
     view = mocker.Mock(
         required_scope="libraries", anonymous_policy=policy, anonymous_scopes=set()
     )
-    request = mocker.Mock(method="GET", user=anonymous_user, actor=None)
+    request = mocker.Mock(method="GET", user=anonymous_user, actor=None, scopes=None)
 
     p = permissions.ScopePermission()
 
@@ -76,7 +76,7 @@ def test_scope_permission_dict_no_required(mocker, anonymous_user):
         action="read",
         anonymous_scopes=set(),
     )
-    request = mocker.Mock(method="GET", user=anonymous_user, actor=None)
+    request = mocker.Mock(method="GET", user=anonymous_user, actor=None, scopes=None)
 
     p = permissions.ScopePermission()
 
@@ -97,7 +97,7 @@ def test_scope_permission_user(
 ):
     user = factories["users.User"]()
     should_allow = mocker.patch.object(permissions, "should_allow")
-    request = mocker.Mock(method=method, user=user, actor=None)
+    request = mocker.Mock(method=method, user=user, actor=None, scopes=None)
     view = mocker.Mock(
         required_scope=required_scope, anonymous_policy=False, action=action
     )
@@ -131,10 +131,27 @@ def test_scope_permission_token(mocker, factories):
     )
 
 
+def test_scope_permission_request_scopes(mocker, factories):
+    should_allow = mocker.patch.object(permissions, "should_allow")
+    request = mocker.Mock(method="POST", scopes=["write:profile", "read:playlists"])
+    view = mocker.Mock(required_scope="profile", anonymous_policy=False)
+    p = permissions.ScopePermission()
+
+    assert p.has_permission(request, view) == should_allow.return_value
+
+    should_allow.assert_called_once_with(
+        required_scope="write:profile",
+        request_scopes={"write:profile", "read:playlists"},
+    )
+
+
 def test_scope_permission_actor(mocker, factories, anonymous_user):
     should_allow = mocker.patch.object(permissions, "should_allow")
     request = mocker.Mock(
-        method="POST", actor=factories["federation.Actor"](), user=anonymous_user
+        method="POST",
+        actor=factories["federation.Actor"](),
+        user=anonymous_user,
+        scopes=None,
     )
     view = mocker.Mock(required_scope="profile", anonymous_policy=False)
     p = permissions.ScopePermission()
@@ -151,7 +168,7 @@ def test_scope_permission_token_anonymous_user_auth_required(
 ):
     preferences["common__api_authentication_required"] = True
     should_allow = mocker.patch.object(permissions, "should_allow")
-    request = mocker.Mock(method="POST", user=anonymous_user, actor=None)
+    request = mocker.Mock(method="POST", user=anonymous_user, actor=None, scopes=None)
     view = mocker.Mock(required_scope="profile", anonymous_policy=False)
 
     p = permissions.ScopePermission()
@@ -166,7 +183,7 @@ def test_scope_permission_token_anonymous_user_auth_not_required(
 ):
     preferences["common__api_authentication_required"] = False
     should_allow = mocker.patch.object(permissions, "should_allow")
-    request = mocker.Mock(method="POST", user=anonymous_user, actor=None)
+    request = mocker.Mock(method="POST", user=anonymous_user, actor=None, scopes=None)
     view = mocker.Mock(
         required_scope="profile", anonymous_policy="setting", anonymous_scopes=set()
     )

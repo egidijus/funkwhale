@@ -30,6 +30,7 @@ from funkwhale_api.federation import tasks as federation_tasks
 from funkwhale_api.tags.models import Tag, TaggedItem
 from funkwhale_api.tags.serializers import TagSerializer
 from funkwhale_api.users.oauth import permissions as oauth_permissions
+from funkwhale_api.users.authentication import ScopedTokenAuthentication
 
 from . import filters, licenses, models, serializers, tasks, utils
 
@@ -571,7 +572,7 @@ class ListenViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = serializers.TrackSerializer
     authentication_classes = (
         rest_settings.api_settings.DEFAULT_AUTHENTICATION_CLASSES
-        + [SignatureAuthentication]
+        + [SignatureAuthentication, ScopedTokenAuthentication]
     )
     permission_classes = [oauth_permissions.ScopePermission]
     required_scope = "libraries"

@@ -77,6 +77,10 @@ class ScopePermission(permissions.BasePermission):
 
         if isinstance(token, models.AccessToken):
             return self.has_permission_token(token, required_scope)
+        elif getattr(request, "scopes", None):
+            return should_allow(
+                required_scope=required_scope, request_scopes=set(request.scopes)
+            )
         elif request.user.is_authenticated:
             user_scopes = scopes.get_from_permissions(**request.user.get_permissions())
             return should_allow(
