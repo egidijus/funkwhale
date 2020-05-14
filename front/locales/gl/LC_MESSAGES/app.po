@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: front 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2020-05-12 00:21+0000\n"
+"PO-Revision-Date: 2020-05-14 22:45+0000\n"
 "Last-Translator: ghose <xosem@disroot.org>\n"
 "Language-Team: none\n"
 "Language: gl\n"
@@ -1476,7 +1476,7 @@ msgstr "Crear lista de reprodución"
 #: front/src/components/library/Radios.vue:24
 msgctxt "Content/Radio/Button.Label/Verb"
 msgid "Create your own radio"
-msgstr "Cree a súa propia radio"
+msgstr "Crea a túa propia radio"
 
 #: front/src/components/auth/Settings.vue:124
 #: src/components/auth/Settings.vue:217
@@ -3193,7 +3193,7 @@ msgstr "Xestionar usuarias"
 #: front/src/views/playlists/List.vue:8
 msgctxt "Content/Playlist/Button.Label/Verb"
 msgid "Manage your playlists"
-msgstr "Xestionar as súas listas de reprodución"
+msgstr "Xestiona as listas de reprodución"
 
 #: front/src/views/Notifications.vue:79
 msgctxt "Content/Notifications/Button.Label/Verb"
@@ -5226,7 +5226,7 @@ msgstr "Persoal do equipo"
 #: src/components/radios/Button.vue:4
 msgctxt "*/Queue/Button.Label/Short, Verb"
 msgid "Start radio"
-msgstr "Deter radio"
+msgstr "Iniciar radio"
 
 #: front/src/components/About.vue:172 src/components/Home.vue:55
 #: front/src/views/admin/Settings.vue:89
@@ -6703,7 +6703,7 @@ msgstr "Non tes permiso para editar este obxeto, pero podes suxerir cambios. Unh
 #: front/src/components/Queue.vue:191
 msgctxt "Sidebar/Player/Title"
 msgid "You have a radio playing"
-msgstr "Ten a radio a funcionar"
+msgstr "Tes a radio acendida"
 
 #: front/src/components/channels/UploadForm.vue:40
 msgctxt "Popup/Channels/Paragraph"
