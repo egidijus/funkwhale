@@ -19,7 +19,7 @@
             <label for="allowed"><translate translate-context="Content/Moderation/Action/Verb">Add to allow-list</translate></label>
           </div>
           <div class="field">
-            <button :class="['ui', {'loading': isCreating}, 'green', 'button']" type="submit" :disabled="isCreating">
+            <button :class="['ui', {'loading': isCreating}, 'success', 'button']" type="submit" :disabled="isCreating">
               <label for="domain"><translate translate-context="Content/Moderation/Button/Verb">Add</translate></label>
             </button>
           </div>
@@ -74,7 +74,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

@@ -17,7 +17,7 @@
               </h1>
             </div>
             <div class="eight wide right aligned column button-group">
-              <play-button class="orange" :track="track">
+              <play-button class="vibrant" :track="track">
                 <translate translate-context="*/Queue/Button.Label/Short, Verb">Play</translate>
               </play-button>
               &nbsp;

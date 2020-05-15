@@ -54,11 +54,11 @@
     <button @click.prevent="$emit('cancel')" class="ui basic left floated button">
       <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
     </button>
-    <button :class="['ui', 'right', 'floated', 'green', {'disabled loading': isLoading}, 'button']" :disabled="isLoading">
+    <button :class="['ui', 'right', 'floated', 'success', {'disabled loading': isLoading}, 'button']" :disabled="isLoading">
       <translate translate-context="Content/Moderation/Card.Button.Label/Verb" v-if="object" key="1">Update</translate>
       <translate translate-context="Content/Moderation/Card.Button.Label/Verb" v-else key="2">Create</translate>
     </button>
-    <dangerous-button v-if="object" class="ui right floated basic red button" @confirm="remove">
+    <dangerous-button v-if="object" class="ui right floated basic danger button" @confirm="remove">
       <translate translate-context="*/*/*/Verb">Delete</translate>
       <p slot="modal-header">
         <translate translate-context="Popup/Moderation/Title">Delete this moderation rule?</translate>
@@ -200,15 +200,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.ui.placeholder.segment .field,
-.ui.placeholder.segment textarea,
-.ui.placeholder.segment > .ui.input,
-.ui.placeholder.segment .button {
-  max-width: 100%;
-}
-.segment .right.floated.button {
-  margin-left: 1em;
-}
-</style>

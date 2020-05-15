@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="component-track-widget">
     <h3 class="ui header">
       <slot name="title"></slot>
       <span v-if="showCount" class="ui tiny circular label">{{ count }}</span>
@@ -9,7 +9,7 @@
         <div class="ui tiny image">
           <img v-if="object.track.album && object.track.album.cover.original" v-lazy="$store.getters['instance/absoluteUrl'](object.track.album.cover.medium_square_crop)">
           <img v-else src="../../../assets/audio/default-cover.png">
-          <play-button class="play-overlay" :icon-only="true" :button-classes="['ui', 'circular', 'tiny', 'orange', 'icon', 'button']" :track="object.track"></play-button>
+          <play-button class="play-overlay" :icon-only="true" :button-classes="['ui', 'circular', 'tiny', 'vibrant', 'icon', 'button']" :track="object.track"></play-button>
         </div>
         <div class="middle aligned content">
           <div class="ui unstackable grid">
@@ -38,7 +38,7 @@
                 class="basic icon"
                 :account="object.actor"
                 :dropdown-only="true"
-                :dropdown-icon-classes="['ellipsis', 'vertical', 'large', 'grey']"
+                :dropdown-icon-classes="['ellipsis', 'vertical', 'large really discrete']"
                 :track="object.track"></play-button>
             </div>
           </div>
@@ -151,37 +151,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="scss">
-@import "../../../style/vendor/media";
-
-.play-overlay {
-  position: absolute;
-  top: 4em;
-  left: 4em;
-  @include media(">tablet") {
-    top: 2.5em;
-    left: 2.5em;
-  }
-}
-.refresh.icon {
-  float: right;
-}
-.ui.divided.items > .item:last-child {
-  padding-bottom: 1em !important;
-}
-
-@include media(">tablet") {
-  .divided.items > .track-item.inline {
-    width: 25em;
-    float: left;
-    border-top: none;
-    &,
-    &:first-child {
-      margin-top: 0.5em !important;
-      margin-right: 0.5em !important;
-      padding: 1em 0 !important;
-    }
-  }
-}
-</style>

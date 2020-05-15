@@ -18,7 +18,7 @@
         <div class="ui hidden divider"></div>
         <radio-button class="right floated button" :type="type" :custom-radio-id="customRadioId" :object-id="objectId"></radio-button>
         <router-link
-          class="ui basic yellow button right floated"
+          class="ui basic warning button right floated"
           v-if="$store.state.auth.authenticated && type === 'custom' && radio.user.id === $store.state.auth.profile.id"
           :to="{name: 'library.radios.edit', params: {id: customRadioId }}">
           <translate translate-context="Content/*/Button.Label/Verb">Edit</translate>
@@ -55,8 +55,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-
-</style>

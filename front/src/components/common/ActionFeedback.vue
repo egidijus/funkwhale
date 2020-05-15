@@ -1,7 +1,7 @@
 <template>
   <span class="feedback" v-if="isLoading || isDone">
     <span v-if="isLoading" :class="['ui', 'active', size, 'inline', 'loader']"></span>
-    <i v-if="isDone" :class="['green', size, 'check', 'icon']"></i>
+    <i v-if="isDone" :class="['success', size, 'check', 'icon']"></i>
   </span>
 </template>
 

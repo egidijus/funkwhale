@@ -1,5 +1,5 @@
 <template>
-  <div class="ui small placeholder segment">
+  <div class="ui small placeholder segment component-placeholder component-empty-state">
     <div class="ui header">
       <div class="content">
         <slot name="title">
@@ -28,13 +28,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.ui.small.placeholder.segment {
-  min-height: auto;
-}
-.ui.header .content {
-  text-align: center;
-  display: block;
-}
-</style>

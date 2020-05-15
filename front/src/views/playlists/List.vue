@@ -6,7 +6,7 @@
         <template v-if="$store.state.auth.authenticated">
           <button
             @click="$store.commit('playlists/chooseTrack', null)"
-            class="ui basic green button"><translate translate-context="Content/Playlist/Button.Label/Verb">Manage your playlists</translate></button>
+            class="ui basic success button"><translate translate-context="Content/Playlist/Button.Label/Verb">Manage your playlists</translate></button>
           <div class="ui hidden divider"></div>
         </template>
         <div class="fields">
@@ -51,7 +51,7 @@
         <button
         v-if="$store.state.auth.authenticated"
         @click="$store.commit('playlists/chooseTrack', null)"
-        class="ui green button labeled icon">
+        class="ui success button labeled icon">
         <i class="list icon"></i>
         <translate translate-context="Content/*/Verb">
           Create a playlist
@@ -182,7 +182,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

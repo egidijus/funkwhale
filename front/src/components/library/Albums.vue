@@ -48,7 +48,7 @@
         item-selector=".column"
         percent-position="true"
         stagger="0"
-        class="ui stackable three column doubling grid">
+        class="">
         <div
           v-if="result.results.length > 0"
           class="ui app-cards cards">
@@ -67,7 +67,7 @@
           <router-link
           v-if="$store.state.auth.authenticated"
           :to="{name: 'content.index'}"
-          class="ui green button labeled icon">
+          class="ui success button labeled icon">
           <i class="upload icon"></i>
             <translate translate-context="Content/*/Verb">
               Add some music
@@ -223,7 +223,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

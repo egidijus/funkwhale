@@ -19,7 +19,7 @@
       <button
         v-if="$store.state.auth.authenticated"
         @click="$store.commit('playlists/chooseTrack', null)"
-        class="ui green icon labeled button"
+        class="ui success icon labeled button"
         >
         <i class="list icon"></i>
         <translate translate-context="Content/Home/CreatePlaylist">
@@ -105,8 +105,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.refresh.icon {
-  float: right;
-}
-</style>

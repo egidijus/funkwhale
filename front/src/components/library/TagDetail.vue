@@ -2,7 +2,7 @@
   <main v-title="labels.title">
     <section class="ui vertical stripe segment">
       <h2 class="ui header">
-        <span class="ui circular huge hashtag label">
+        <span class="ui circular huge hashtag label component-label">
           {{ labels.title }}
         </span>
       </h2>
@@ -83,11 +83,3 @@ export default {
   },
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.ui.circular.label {
-  padding-left: 1em !important;
-  padding-right: 1em !important;
-}
-</style>

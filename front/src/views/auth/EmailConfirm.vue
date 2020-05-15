@@ -17,7 +17,7 @@
           <router-link :to="{path: '/login'}">
             <translate translate-context="Content/Signup/Link/Verb">Return to login</translate>
           </router-link>
-          <button :class="['ui', {'loading': isLoading}, 'right', 'floated', 'green', 'button']" type="submit">
+          <button :class="['ui', {'loading': isLoading}, 'right', 'floated', 'success', 'button']" type="submit">
             {{ labels.confirm }}</button>
         </form>
         <div v-else class="ui positive message">
@@ -74,7 +74,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

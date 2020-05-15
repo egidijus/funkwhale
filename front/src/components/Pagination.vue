@@ -1,5 +1,5 @@
 <template>
-  <div v-if='maxPage > 1' class="ui pagination menu" role="navigation" :aria-label="labels.pagination">
+  <div v-if='maxPage > 1' class="ui pagination menu component-pagination" role="navigation" :aria-label="labels.pagination">
     <a href
       :disabled="current - 1 < 1"
       @click.prevent.stop="selectPage(current - 1)"
@@ -95,10 +95,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.ui.pagination.menu .item {
-  cursor: pointer;
-}
-</style>

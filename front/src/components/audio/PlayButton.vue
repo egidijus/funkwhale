@@ -1,5 +1,5 @@
 <template>
-  <span :title="title" :class="['ui', {'tiny': discrete}, {'icon': !discrete}, {'buttons': !dropdownOnly && !iconOnly}, 'play-button']">
+  <span :title="title" :class="['ui', {'tiny': discrete}, {'icon': !discrete}, {'buttons': !dropdownOnly && !iconOnly}, 'play-button component-play-button']">
     <button
       v-if="!dropdownOnly"
       :title="labels.playNow"
@@ -12,6 +12,7 @@
     <div
       v-if="!discrete && !iconOnly"
       @click.prevent="clicked = true"
+      role="button"
       :class="['ui', {disabled: !playable && !filterableArtist}, 'floating', 'dropdown', {'icon': !dropdownOnly}, {'button': !dropdownOnly}]">
       <i :class="dropdownIconClasses.concat(['icon'])" :title="title" ></i>
       <div class="menu" v-if="clicked">
@@ -288,14 +289,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-i {
-  cursor: pointer;
-}
-button.item {
-  background-color: white;
-  width: 100%;
-}
-</style>

@@ -144,7 +144,7 @@
                 </button>
               </div>
               <div class="ui buttons">
-                <play-button :is-playable="isPlayable" class="orange" :artist="object.artist">
+                <play-button :is-playable="isPlayable" class="vibrant" :artist="object.artist">
                   <translate translate-context="Content/Channels/Button.Label/Verb">Play</translate>
                 </play-button>
               </div>

@@ -52,8 +52,8 @@
             <span>{{ scope.obj.email }}</span>
           </td>
           <td>
-            <span v-if="scope.obj.is_active" class="ui basic green label"><translate translate-context="Content/Admin/Table">Active</translate></span>
-            <span v-else class="ui basic grey label"><translate translate-context="Content/Admin/Table">Inactive</translate></span>
+            <span v-if="scope.obj.is_active" class="ui basic success label"><translate translate-context="Content/Admin/Table">Active</translate></span>
+            <span v-else class="ui basic label"><translate translate-context="Content/Admin/Table">Inactive</translate></span>
           </td>
           <td>
             <human-date :date="scope.obj.date_joined"></human-date>

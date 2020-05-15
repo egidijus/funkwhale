@@ -55,7 +55,7 @@ import PasswordInput from "@/components/forms/PasswordInput"
 export default {
   props: {
     next: { type: String, default: "/library" },
-    buttonClasses: { type: String, default: "green" },
+    buttonClasses: { type: String, default: "success" },
     showSignup: { type: Boolean, default: true},
   },
   components: {
@@ -117,7 +117,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

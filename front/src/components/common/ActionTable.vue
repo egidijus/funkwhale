@@ -1,5 +1,5 @@
 <template>
-  <div class="table-wrapper">
+  <div class="table-wrapper component-action-table">
     <table class="ui compact very basic unstackable table">
       <thead>
         <tr>
@@ -30,7 +30,7 @@
                 <div class="field">
                   <dangerous-button
                     v-if="selectAll || currentAction.isDangerous" :class="['ui', {disabled: checked.length === 0}, {'loading': actionLoading}, 'button']"
-                    :confirm-color="currentAction.confirmColor || 'green'"
+                    :confirm-color="currentAction.confirmColor || 'success'"
                     @confirm="launchAction">
                     <translate translate-context="Content/*/Button.Label/Short, Verb">Go</translate>
                     <p slot="modal-header">
@@ -300,11 +300,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.count.field {
-  font-weight: normal;
-}
-.ui.form .inline.fields {
-  margin: 0;
-}
-</style>

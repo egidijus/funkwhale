@@ -21,7 +21,7 @@
       <h3 class="ui header">
         <translate translate-context="Content/Radio/Title">User radios</translate>
       </h3>
-      <router-link class="ui green basic button" to="/library/radios/build" exact>
+      <router-link class="ui success basic button" to="/library/radios/build" exact>
         <translate translate-context="Content/Radio/Button.Label/Verb">Create your own radio</translate>
       </router-link>
       <div class="ui hidden divider"></div>
@@ -71,7 +71,7 @@
         <router-link
         v-if="$store.state.auth.authenticated"
         :to="{name: 'library.radios.build'}"
-        class="ui green button labeled icon">
+        class="ui success button labeled icon">
           <i class="rss icon"></i>
           <translate translate-context="Content/*/Verb">
             Create a radio
@@ -215,7 +215,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

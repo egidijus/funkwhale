@@ -1,5 +1,5 @@
 <template>
-  <main class="main pusher" v-title="labels.title">
+  <main class="main pusher page-notifications" v-title="labels.title">
     <section class="ui vertical aligned stripe segment">
       <div class="ui container">
         <div class="ui container" v-if="additionalNotifications">
@@ -205,12 +205,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-.event .ui.label.avatar {
-  font-size: 1.5em;
-  position: relative;
-  top: 0.35em;
-}
-</style>

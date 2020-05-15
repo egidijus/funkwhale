@@ -91,18 +91,3 @@ export default {
   }
 }
 </script>
-<style scoped lang="scss">
-
-
-.wrapper {
-  width: 100%;
-}
-.ui.cards {
-  justify-content: flex-start;
-}
-</style>
-<style>
-.ui.cards .ui.button {
-  margin-right: 0px;
-}
-</style>

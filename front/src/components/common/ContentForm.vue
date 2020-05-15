@@ -39,7 +39,7 @@
       </template>
     </div>
     <div class="ui bottom attached segment">
-      <span :class="['right', 'floated', {'ui red text': remainingChars < 0}]" v-if="charLimit">
+      <span :class="['right', 'floated', {'ui danger text': remainingChars < 0}]" v-if="charLimit">
         {{ remainingChars }}
       </span>
       <p>

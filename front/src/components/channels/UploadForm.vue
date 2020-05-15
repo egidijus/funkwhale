@@ -1,5 +1,5 @@
 <template>
-  <form @submit.stop.prevent :class="['ui', {loading: isLoadingStep1}, 'form']">
+  <form @submit.stop.prevent :class="['ui', {loading: isLoadingStep1}, 'form component-file-upload']">
     <div v-if="errors.length > 0" class="ui negative message">
       <div class="header"><translate translate-context="Content/*/Error message.Title">Error while publishing</translate></div>
       <ul class="list">
@@ -60,7 +60,7 @@
               <div
                 v-if="file.error"
                 @click.stop.prevent="selectedUploadId = file.response.uuid"
-                class="ui basic red icon label"
+                class="ui basic danger icon label"
                 :title="file.error">
                 <i class="warning sign icon"></i>
               </div>
@@ -402,9 +402,9 @@ export default {
           } else {
             d.icon = "user"
             if (c.artist.content_category === 'podcast') {
-              d.iconClass = "bordered grey icon"
+              d.iconClass = "bordered icon"
             } else {
-              d.iconClass = "circular grey icon"
+              d.iconClass = "circular icon"
 
             }
           }

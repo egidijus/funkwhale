@@ -1,0 +1,9 @@
+@use "sass:meta";
+@use "../../_vars" as vars;
+
+$fwVars: meta.module-variables("vars");
+.theme-light {
+  & {
+    @import "../../_css_vars.scss";
+  }
+}

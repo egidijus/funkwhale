@@ -1,8 +1,8 @@
 <template>
-  <section v-if="currentTrack" class="player-wrapper ui bottom-player">
+  <section v-if="currentTrack" class="player-wrapper ui bottom-player component-player">
     <div class="ui inverted segment fixed-controls" @click.prevent.stop="toggleMobilePlayer">
       <div
-        :class="['ui', 'top attached', 'small', 'orange', 'inverted', {'indicating': isLoadingAudio}, 'progress']">
+        :class="['ui', 'top attached', 'small', 'inverted', {'indicating': isLoadingAudio}, 'progress']">
         <div class="buffer bar" :data-percent="bufferProgress" :style="{ 'width': bufferProgress + '%' }"></div>
         <div class="position bar" :data-percent="progress" :style="{ 'width': progress + '%' }"></div>
       </div>
@@ -128,7 +128,7 @@
               :disabled="!currentTrack">
               <i
                 class="repeat icon">
-                <span class="ui circular tiny orange label">1</span>
+                <span class="ui circular tiny vibrant label">1</span>
               </i>
             </span>
             <span
@@ -141,7 +141,7 @@
               @click.prevent.stop="$store.commit('player/looping', 0)">
               <i
                 class="repeat icon">
-                <span class="ui circular tiny orange label">&infin;</span>
+                <span class="ui circular tiny vibrant label">&infin;</span>
               </i>
             </span>
             <span
@@ -436,7 +436,6 @@ export default {
           param = "token"
           value = this.$store.state.auth.scopedTokens.listen
         }
-        console.log('HELLO', param, value, this.$store.state.auth.scopedTokens)
         sources.forEach(e => {
           e.url = url.updateQueryString(e.url, param, value)
         })
@@ -777,77 +776,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-@import "../../style/vendor/media";
-.controls {
-  display: flex;
-  justify-content: space-between;
-}
-
-.controls .icon.big {
-  cursor: pointer;
-  font-size: 2em !important;
-}
-
-.controls .icon {
-  cursor: pointer;
-  vertical-align: middle;
-}
-.timer {
-  font-size: 1.2em;
-}
-.looping {
-  i {
-    position: relative;
-  }
-  .ui.circular.label {
-    font-family: sans-serif;
-    position: absolute;
-    font-size: 0.5em !important;
-    bottom: -0.7rem;
-    right: -0.7rem;
-    padding: 2px 0 !important;
-    width: 15px !important;
-    height: 15px !important;
-    min-width: 15px !important;
-    min-height: 15px !important;
-    @include media(">desktop") {
-      font-size: 0.6em !important;
-    }
-  }
-}
-.shuffling.loader.inline {
-  margin: 0;
-}
-.control.circular.button {
-  padding: 0;
-  border: none;
-  background-color: transparent;
-  color: inherit;
-  &:focus {
-    box-shadow: none;
-  }
-
-}
-.fake-dropdown {
-  border: 1px solid gray;
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-width: 10em;
-  > * {
-    padding: 0.5em;
-
-  }
-  .position.control {
-    padding-right: 1em;
-    flex-grow: 1;
-  }
-  .angle.icon {
-    margin-right: 0;
-  }
-}
-</style>

@@ -152,5 +152,12 @@ module.exports = {
     disableHostCheck: true,
     // use https://node1.funkwhale.test/front-server/ if you use docker with federation
     public: process.env.FRONT_DEVSERVER_URL || ('http://localhost:' + (process.env.VUE_PORT || '8080'))
+  },
+  css: {
+    loaderOptions: {
+      sass: {
+        implementation: require('sass')
+      }
+    }
   }
 }

@@ -1,9 +1,9 @@
 <template>
-  <section class="main with-background" :aria-label="labels.queue">
+  <section class="main with-background component-queue" :aria-label="labels.queue">
     <div :class="['ui vertical stripe queue segment', playerFocused ? 'player-focused' : '']">
       <div class="ui fluid container">
         <div class="ui stackable grid" id="queue-grid">
-                    <div class="ui six wide column current-track">
+          <div class="ui six wide column current-track">
             <div class="ui basic segment" id="player">
               <template v-if="currentTrack">
                 <img class="ui image" v-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.square_crop)">
@@ -55,7 +55,7 @@
                   <div class="progress-area" v-if="currentTrack && !errored">
                     <div
                       ref="progress"
-                      :class="['ui', 'small', 'orange', {'indicating': isLoadingAudio}, 'progress']"
+                      :class="['ui', 'small', 'vibrant', {'indicating': isLoadingAudio}, 'progress']"
                       @click="touchProgress">
                       <div class="buffer bar" :data-percent="bufferProgress" :style="{ 'width': bufferProgress + '%' }"></div>
                       <div class="position bar" :data-percent="progress" :style="{ 'width': progress + '%' }"></div>
@@ -64,7 +64,7 @@
                   <div class="progress-area" v-else>
                     <div
                       ref="progress"
-                      :class="['ui', 'small', 'orange', 'progress']">
+                      :class="['ui', 'small', 'vibrant', 'progress']">
                       <div class="buffer bar"></div>
                       <div class="position bar"></div>
                     </div>
@@ -124,7 +124,7 @@
               </template>
             </div>
           </div>
-          <div class="ui sixteen wide mobile ten wide computer column queue-column">
+          <div class="ui ten wide column queue-column">
             <div class="ui basic clearing fixed-header segment">
               <h2 class="ui header">
                 <div class="content">
@@ -155,7 +155,7 @@
                   :key="index"
                   :class="['queue-item', {'active': index === queue.currentIndex}]">
                   <td class="handle">
-                    <i class="grip lines grey icon"></i>
+                    <i class="grip lines icon"></i>
                   </td>
                   <td class="image-cell" @click="$store.dispatch('queue/currentIndex', index)">
                     <img class="ui mini image" v-if="track.album && track.album.cover && track.album.cover.original" :src="$store.getters['instance/absoluteUrl'](track.album.cover.square_crop)">
@@ -374,204 +374,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-@import "../style/vendor/media";
-
-.main {
-  position: absolute;
-  min-height: 100vh;
-  width: 100vw;
-  z-index: 1000;
-  padding-bottom: 3em;
-}
-.main > .button {
-  position: fixed;
-  top: 1em;
-  right: 1em;
-  z-index: 9999999;
-  @include media("<desktop") {
-    display: none;
-  }
-}
-.queue.segment:not(.player-focused) {
-  #player {
-    @include media("<desktop") {
-      height: 0;
-      display: none;
-    }
-  }
-}
-.queue.segment #player {
-  padding: 0em;
-  > * {
-    padding: 0.5em;
-  }
-}
-.player-focused .grid > .ui.queue-column {
-  @include media("<desktop") {
-    display: none;
-  }
-}
-.queue-column {
-  overflow-y: auto;
-}
-.queue-column .table {
-  margin-top: 4em !important;
-  margin-bottom: 4rem;
-}
-.ui.table > tbody > tr > td.controls {
-  text-align: right;
-}
-.ui.table > tbody > tr > td {
-  border: none;
-}
-td:first-child {
-  padding-left: 1em !important;
-}
-td:last-child {
-  padding-right: 1em !important;
-}
-.image-cell {
-  width: 4em;
-}
-.queue.segment {
-  @include media("<desktop") {
-    padding: 0;
-  }
-  > .container {
-    margin: 0 !important;
-  }
-}
-.handle {
-  @include media("<desktop") {
-    display: none;
-  }
-}
-.duration-cell {
-  @include media("<tablet") {
-    display: none;
-  }
-}
-.fixed-header {
-  position: fixed;
-  right: 0;
-  left: 0;
-  top: 0;
-  z-index: 9;
-  @include media("<desktop") {
-    padding: 1em;
-  }
-  @include media(">desktop") {
-    right: 1em;
-    left: 38%;
-  }
-  .header .content {
-    display: block;
-  }
-}
-.current-track #player {
-  font-size: 1.8em;
-  padding: 1em;
-  text-align: center;
-  display: flex;
-  position: fixed;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  bottom: 0;
-  top: 0;
-  width: 32%;
-  @include media("<desktop") {
-    padding: 0.5em;
-    font-size: 1.5em;
-    width: 100%;
-    width: 100vw;
-    left: 0;
-    right: 0;
-    > .image {
-      max-height: 50vh;
-    }
-  }
-  > *:not(.image) {
-    width: 100%;
-  }
-  h1 {
-    margin: 0;
-    min-height: auto;
-  }
-}
-.progress-area {
-  overflow: hidden;
-}
-.progress-wrapper, .warning.message {
-  max-width: 25em;
-  margin: 0 auto;
-}
-.ui.progress .buffer.bar {
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0.15);
-}
-.ui.progress:not([data-percent]):not(.indeterminate)
-  .bar.position:not(.buffer) {
-  background: #ff851b;
-}
-
-.indicating.progress .bar {
-  left: -46px;
-  width: 200% !important;
-  color: grey;
-  background: repeating-linear-gradient(
-    -55deg,
-    grey 1px,
-    grey 10px,
-    transparent 10px,
-    transparent 20px
-  ) !important;
-
-  animation-name: MOVE-BG;
-  animation-duration: 2s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-.ui.progress {
-  margin: 0.5rem 0;
-}
-.timer {
-  font-size: 0.7em;
-}
-.progress {
-  cursor: pointer;
-  .bar {
-    min-width: 0 !important;
-  }
-}
-
-.player-controls {
-  .control:not(:first-child) {
-    margin-left: 1em;
-  }
-  .icon {
-    font-size: 1.1em;
-  }
-}
-
-.handle {
-  cursor: grab;
-}
-.sortable-chosen {
-  cursor: grabbing;
-}
-.queue-item.sortable-ghost {
-  td {
-    border-top: 3px dashed rgba(0, 0, 0, 0.15) !important;
-    border-bottom: 3px dashed rgba(0, 0, 0, 0.15) !important;
-    &:first-child {
-      border-left: 3px dashed rgba(0, 0, 0, 0.15) !important;
-    }
-    &:last-child {
-      border-right: 3px dashed rgba(0, 0, 0, 0.15) !important;
-    }
-  }
-}
-</style>

@@ -85,7 +85,7 @@
         <div role="button" class="ui basic cancel button">
           <translate translate-context="*/*/Button.Label/Verb">Close</translate>
         </div>
-        <div role="button" @click="showModal = false; $emit('refresh')" class="ui confirm green button" v-if="fetch && fetch.status === 'finished'">
+        <div role="button" @click="showModal = false; $emit('refresh')" class="ui confirm success button" v-if="fetch && fetch.status === 'finished'">
           <translate translate-context="*/*/Button.Label/Verb">Close and reload page</translate>
         </div>
       </div>

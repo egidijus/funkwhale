@@ -16,15 +16,15 @@
         <form v-else-if="application && !code" :class="['ui', {loading: isLoading}, 'form']" @submit.prevent="submit">
           <h3><translate translate-context="Content/Auth/Title" :translate-params="{app: application.name}">%{ app } wants to access your Funkwhale account</translate></h3>
 
-          <h4 v-for="topic in topicScopes" class="ui header">
-            <span v-if="topic.write && !topic.read" :class="['ui', 'basic', 'right floated', 'tiny', 'label']">
+          <h4 v-for="topic in topicScopes" class="ui header vertical-align">
+            <span v-if="topic.write && !topic.read" :class="['ui', 'basic', 'right floated', 'tiny', 'vertically-spaced component-label label']">
               <i class="pencil icon"></i>
               <translate translate-context="Content/Auth/Label/Noun">Write-only</translate>
             </span>
-            <span v-else-if="!topic.write && topic.read" :class="['ui', 'basic', 'right floated', 'tiny', 'label']">
+            <span v-else-if="!topic.write && topic.read" :class="['ui', 'basic', 'right floated', 'tiny', 'vertically-spaced component-label label']">
               <translate translate-context="Content/Auth/Label/Noun">Read-only</translate>
             </span>
-            <span v-else-if="topic.write && topic.read" :class="['ui', 'basic', 'right floated', 'tiny', 'label']">
+            <span v-else-if="topic.write && topic.read" :class="['ui', 'basic', 'right floated', 'tiny', 'vertically-spaced component-label label']">
               <i class="pencil icon"></i>
               <translate translate-context="Content/Auth/Label/Noun">Full access</translate>
             </span>
@@ -43,7 +43,7 @@
             </ul>
 
           </div>
-          <button class="ui green labeled icon button" type="submit">
+          <button class="ui success labeled icon button" type="submit">
             <i class="lock open icon"></i>
             <translate translate-context="Content/Signup/Button.Label/Verb" :translate-params="{app: application.name}">Authorize %{ app }</translate>
           </button>
@@ -189,13 +189,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.ui.header .content {
-  text-align: left;
-}
-.ui.header > .ui.label {
-  margin-top: 0.3em;
-}
-</style>

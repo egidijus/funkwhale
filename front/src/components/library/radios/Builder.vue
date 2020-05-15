@@ -31,7 +31,7 @@
               <label for="public"><translate translate-context="Content/Radio/Checkbox.Label/Verb">Display publicly</translate></label>
             </div>
             <div class="ui hidden divider"></div>
-            <button :disabled="!canSave" @click="save" :class="['ui', 'green', {loading: isLoading}, 'button']">
+            <button :disabled="!canSave" @click="save" :class="['ui', 'success', {loading: isLoading}, 'button']">
               <translate translate-context="Content/*/Button.Label/Verb">Save</translate>
             </button>
             <radio-button v-if="id" type="custom" :custom-radio-id="id"></radio-button>

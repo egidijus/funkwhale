@@ -18,19 +18,19 @@
 
         <span class="right floated">
           <span v-if="obj.is_approved && obj.is_applied">
-            <i class="green check icon"></i>
+            <i class="success check icon"></i>
             <translate translate-context="Content/Library/Card/Short">Approved and applied</translate>
           </span>
           <span v-else-if="obj.is_approved">
-            <i class="green check icon"></i>
+            <i class="success check icon"></i>
             <translate translate-context="Content/*/*/Short">Approved</translate>
           </span>
           <span v-else-if="obj.is_approved === null">
-            <i class="yellow hourglass icon"></i>
+            <i class="warning hourglass icon"></i>
             <translate translate-context="Content/Admin/*/Noun">Pending review</translate>
           </span>
           <span v-else-if="obj.is_approved === false">
-            <i class="red x icon"></i>
+            <i class="dangerx icon"></i>
             <translate translate-context="Content/Library/*/Short">Rejected</translate>
           </span>
         </span>
@@ -95,18 +95,18 @@
       <button
         v-if="canApprove && obj.is_approved !== true"
         @click="approve(true)"
-        :class="['ui', {loading: isLoading}, 'green', 'basic', 'button']">
+        :class="['ui', {loading: isLoading}, 'success', 'basic', 'button']">
         <translate translate-context="Content/*/Button.Label/Verb">Approve</translate>
       </button>
       <button
         v-if="canApprove && obj.is_approved === null"
         @click="approve(false)"
-        :class="['ui', {loading: isLoading}, 'yellow', 'basic', 'button']">
+        :class="['ui', {loading: isLoading}, 'warning', 'basic', 'button']">
         <translate translate-context="Content/Library/Button.Label">Reject</translate>
       </button>
       <dangerous-button
         v-if="canDelete"
-        :class="['ui', {loading: isLoading}, 'basic red button']"
+        :class="['ui', {loading: isLoading}, 'basic danger button']"
         :action="remove">
         <translate translate-context="*/*/*/Verb">Delete</translate>
         <p slot="modal-header"><translate translate-context="Popup/Library/Title">Delete this suggestion?</translate></p>

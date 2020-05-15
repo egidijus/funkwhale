@@ -1,0 +1,38 @@
+
+.ellipsis-rows tr > {
+  td:nth-child(1) {
+    max-width: 4em;
+  }
+  td:nth-child(2) {
+    position: relative;
+    &:before {
+      content: '&nbsp;';
+      visibility: hidden;
+    }
+    > * {
+      position: absolute;
+      left: 0;
+      right: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-right: 0.5em;
+    }
+  }
+}
+
+
+.ui.table > caption {
+  font-weight: bold;
+  padding: 0.5em;
+  text-align: left;
+}
+
+.table-wrapper {
+  display: block;
+  overflow-x: auto;
+}
+
+td.align.right {
+  text-align: right;
+}

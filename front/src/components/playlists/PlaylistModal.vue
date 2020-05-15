@@ -28,7 +28,7 @@
             class="ui small basic cancel button"><translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
           </button>
           <button
-            class="ui small green button"
+            class="ui small success button"
             @click="addToPlaylist(lastSelectedPlaylist, true)">
               <translate translate-context="*/Playlist/Button.Label/Verb">Add anyways</translate></button>
         </div>
@@ -71,7 +71,7 @@
               <td>
                 <div
                   v-if="track"
-                  class="ui green icon basic small right floated button"
+                  class="ui success icon basic small right floated button"
                   :title="labels.addToPlaylist"
                   @click="addToPlaylist(playlist.id, false)">
                   <i class="plus icon"></i> <translate translate-context="Popup/Playlist/Table.Button.Label/Verb">Add track</translate>
@@ -81,7 +81,7 @@
           </tbody>
         </table>
         <template v-else>
-          <div class="ui small placeholder segment">
+          <div class="ui small placeholder segment component-placeholder">
             <div class="ui header">
                <translate translate-context="Popup/Playlist/EmptyState">No results matching your filter</translate>
             </div>
@@ -197,10 +197,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.ui.small.placeholder.segment {
-  min-height: auto;
-}
-</style>

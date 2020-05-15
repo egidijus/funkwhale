@@ -59,12 +59,12 @@
                   </td>
                   <td v-if="obj.is_handled">
                     <span v-if="obj.is_handled">
-                      <i class="green check icon"></i>
+                      <i class="success check icon"></i>
                       <translate translate-context="Content/*/*/Short">Resolved</translate>
                     </span>
                   </td>
                   <td v-else>
-                    <i class="red x icon"></i>
+                    <i class="dangerx icon"></i>
                     <translate translate-context="Content/*/*/Short">Unresolved</translate>
                   </td>
                 </tr>
@@ -215,14 +215,14 @@
               v-if="obj.is_handled === false"
               @click="resolve(true)"
               :class="['ui', {loading: isLoading}, 'button']">
-              <i class="green check icon"></i>&nbsp;
+              <i class="success check icon"></i>&nbsp;
               <translate translate-context="Content/*/Button.Label/Verb">Resolve</translate>
             </button>
             <button
               v-if="obj.is_handled === true"
               @click="resolve(false)"
               :class="['ui', {loading: isLoading}, 'button']">
-              <i class="yellow redo icon"></i>&nbsp;
+              <i class="warning redo icon"></i>&nbsp;
               <translate translate-context="Content/*/Button.Label">Unresolve</translate>
             </button>
             <template v-for="action in actions">
@@ -357,7 +357,7 @@ export default {
           modalContent: this.$pgettext('Content/Moderation/Popup,Paragraph', 'This will delete the object associated with this report and mark the report as resolved. The deletion is irreversible.'),
           modalConfirmLabel: this.$pgettext('*/*/*/Verb', 'Delete'),
           icon: 'x',
-          iconColor: 'red',
+          iconColor: 'danger',
           show: (obj) => { return !!obj.target },
           dangerous: true,
           handler: () => {

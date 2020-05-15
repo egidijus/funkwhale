@@ -37,7 +37,7 @@
                 </div>
                 <div class="ui buttons">
                   <dangerous-button
-                    :class="['ui', {loading: isLoading}, 'basic red button']"
+                    :class="['ui', {loading: isLoading}, 'basic danger button']"
                     :action="remove">
                     <translate translate-context="*/*/*/Verb">Delete</translate>
                     <p slot="modal-header"><translate translate-context="Popup/Library/Title">Delete this tag?</translate></p>

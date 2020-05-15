@@ -47,8 +47,8 @@
             <router-link :to="{name: 'manage.users.users.detail', params: {id: scope.obj.id }}">{{ scope.obj.owner.username }}</router-link>
           </td>
           <td>
-            <span v-if="scope.obj.users.length > 0" class="ui green basic label"><translate translate-context="Content/Admin/Table">Used</translate></span>
-            <span v-else-if="moment().isAfter(scope.obj.expiration_date)" class="ui red basic label"><translate translate-context="Content/Admin/Table">Expired</translate></span>
+            <span v-if="scope.obj.users.length > 0" class="ui success basic label"><translate translate-context="Content/Admin/Table">Used</translate></span>
+            <span v-else-if="moment().isAfter(scope.obj.expiration_date)" class="ui danger basic label"><translate translate-context="Content/Admin/Table">Expired</translate></span>
             <span v-else class="ui basic label"><translate translate-context="Content/Admin/Table">Not used</translate></span>
           </td>
           <td>
