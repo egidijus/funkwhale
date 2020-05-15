@@ -34,7 +34,7 @@ export default {
   props: {
     action: {type: Function, required: false},
     disabled: {type: Boolean, default: false},
-    confirmColor: {type: String, default: "red", required: false}
+    confirmColor: {type: String, default: "danger", required: false}
   },
   components: {
     Modal

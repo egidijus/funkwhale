@@ -1,0 +1,11 @@
+.component-copy-input {
+  .message {
+    position: absolute;
+    right: 0;
+    bottom: -3em;
+    padding: 0.3em;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+    background-color: white;
+    z-index: 999;
+  }
+}

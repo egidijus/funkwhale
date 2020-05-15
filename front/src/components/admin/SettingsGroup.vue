@@ -1,5 +1,5 @@
 <template>
-  <form :id="group.id" class="ui form" @submit.prevent="save">
+  <form :id="group.id" class="ui form component-settings-group" @submit.prevent="save">
     <div class="ui divider" />
     <h3 class="ui header">{{ group.label }}</h3>
     <div v-if="errors.length > 0" class="ui negative message">
@@ -78,7 +78,7 @@
     </div>
     <button
       type="submit"
-      :class="['ui', {'loading': isLoading}, 'right', 'floated', 'green', 'button']">
+      :class="['ui', {'loading': isLoading}, 'right', 'floated', 'success', 'button']">
         <translate translate-context="Content/*/Button.Label/Verb">Save</translate>
     </button>
   </form>
@@ -176,10 +176,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.ui.checkbox p {
-  margin-top: 1rem;
-}
-</style>

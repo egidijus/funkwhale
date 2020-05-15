@@ -1,0 +1,233 @@
+
+.queue.segment.player-focused #queue-grid #player {
+  @include media("<desktop") {
+    padding-bottom: $bottom-player-height + 2rem;
+  }
+}
+.queue-controls {
+
+  @include media("<desktop") {
+    height: $bottom-player-height;
+  }
+}
+.ui.fixed-header.segment {
+  background-color: var(--site-background);
+  box-shadow: var(--secondary-menu-box-shadow);
+}
+.queue-enter-active, .queue-leave-active {
+  transition: all 0.2s ease-in-out;
+  .current-track, .queue-column {
+    opacity: 0;
+  }
+}
+.queue-enter, .queue-leave-to {
+  transform: translateY(100vh);
+  opacity: 0;
+}
+
+.component-queue {
+
+  .queue-controls {
+    @include media("<desktop") {
+      background: var(--site-background);
+    }
+  }
+  &.main {
+    position: absolute;
+    min-height: 100vh;
+    width: 100vw;
+    z-index: 1000;
+    padding-bottom: 3em;
+  }
+  &.main > .button {
+    position: fixed;
+    top: 1em;
+    right: 1em;
+    z-index: 9999999;
+    @include media("<desktop") {
+      display: none;
+    }
+  }
+  .queue.segment:not(.player-focused) {
+    #player {
+      @include media("<desktop") {
+        height: 0;
+        display: none;
+      }
+    }
+  }
+  .queue.segment #player {
+    padding: 0em;
+    > * {
+      padding: 0.5em;
+    }
+  }
+  .player-focused .grid > .ui.queue-column {
+    @include media("<desktop") {
+      display: none;
+    }
+  }
+  .queue-column {
+    overflow-y: auto;
+  }
+  .queue-column .table {
+    margin-top: 4em !important;
+    margin-bottom: 4rem;
+  }
+  .ui.table > tbody > tr > td.controls {
+    text-align: right;
+  }
+  .ui.table > tbody > tr > td {
+    border: none;
+  }
+  td:first-child {
+    padding-left: 1em !important;
+  }
+  td:last-child {
+    padding-right: 1em !important;
+  }
+  .image-cell {
+    width: 4em;
+  }
+  .queue.segment {
+    @include media("<desktop") {
+      padding: 0;
+    }
+    > .container {
+      margin: 0 !important;
+    }
+  }
+  .handle {
+    @include media("<desktop") {
+      display: none;
+    }
+  }
+  .duration-cell {
+    @include media("<tablet") {
+      display: none;
+    }
+  }
+  .fixed-header {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    z-index: 9;
+    @include media("<desktop") {
+      padding: 1em;
+    }
+    @include media(">desktop") {
+      right: 1em;
+      left: 38%;
+    }
+    .header .content {
+      display: block;
+    }
+  }
+  .current-track #player {
+    font-size: 1.8em;
+    padding: 1em;
+    text-align: center;
+    display: flex;
+    position: fixed;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    bottom: 0;
+    top: 0;
+    width: 32%;
+    @include media("<desktop") {
+      padding: 0.5em;
+      font-size: 1.5em;
+      width: 100%;
+      width: 100vw;
+      left: 0;
+      right: 0;
+      > .image {
+        max-height: 50vh;
+      }
+    }
+    > *:not(.image) {
+      width: 100%;
+    }
+    h1 {
+      margin: 0;
+      min-height: auto;
+    }
+  }
+  .progress-area {
+    overflow: hidden;
+  }
+  .progress-wrapper, .warning.message {
+    max-width: 25em;
+    margin: 0 auto;
+  }
+  .ui.progress .buffer.bar {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  .ui.progress:not([data-percent]):not(.indeterminate)
+    .bar.position:not(.buffer) {
+    background: var(--vibrant-color);
+  }
+
+  .indicating.progress .bar {
+    left: -46px;
+    width: 200% !important;
+    color: grey;
+    background: repeating-linear-gradient(
+      -55deg,
+      grey 1px,
+      grey 10px,
+      transparent 10px,
+      transparent 20px
+    ) !important;
+
+    animation-name: MOVE-BG;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  .ui.progress {
+    margin: 0.5rem 0;
+  }
+  .timer {
+    font-size: 0.7em;
+  }
+  .progress {
+    cursor: pointer;
+    .bar {
+      min-width: 0 !important;
+    }
+  }
+
+  .player-controls {
+    .control:not(:first-child) {
+      margin-left: 1em;
+    }
+    .icon {
+      font-size: 1.1em;
+    }
+  }
+
+  .handle {
+    cursor: grab;
+  }
+  .sortable-chosen {
+    cursor: grabbing;
+  }
+  .queue-item.sortable-ghost {
+    td {
+      border-top: 3px dashed rgba(0, 0, 0, 0.15) !important;
+      border-bottom: 3px dashed rgba(0, 0, 0, 0.15) !important;
+      &:first-child {
+        border-left: 3px dashed rgba(0, 0, 0, 0.15) !important;
+      }
+      &:last-child {
+        border-right: 3px dashed rgba(0, 0, 0, 0.15) !important;
+      }
+    }
+  }
+
+}

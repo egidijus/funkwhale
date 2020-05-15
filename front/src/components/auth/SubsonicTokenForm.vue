@@ -33,7 +33,7 @@
       </div>
       <dangerous-button
         v-if="token"
-        :class="['ui', {'loading': isLoading}, 'grey', 'button']"
+        :class="['ui', {'loading': isLoading}, 'button']"
         :action="requestNewToken">
         <translate translate-context="*/Settings/Button.Label/Verb">Request a new password</translate>
         <p slot="modal-header"><translate translate-context="Popup/Settings/Title">Request a new Subsonic API password?</translate></p>
@@ -42,12 +42,12 @@
       </dangerous-button>
       <button
         v-else
-        color="grey"
+        color=""
         :class="['ui', {'loading': isLoading}, 'button']"
         @click="requestNewToken"><translate translate-context="Content/Settings/Button.Label/Verb">Request a password</translate></button>
         <dangerous-button
           v-if="token"
-          :class="['ui', {'loading': isLoading}, 'yellow', 'button']"
+          :class="['ui', {'loading': isLoading}, 'warning', 'button']"
           :action="disable">
           <translate translate-context="Content/Settings/Button.Label/Verb">Disable Subsonic access</translate>
           <p slot="modal-header"><translate translate-context="Popup/Settings/Title">Disable Subsonic API access?</translate></p>
@@ -135,7 +135,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

@@ -90,27 +90,3 @@ export default {
   }
 }
 </script>
-<style scoped lang="scss">
-@import "../../../style/vendor/media";
-
-.wrapper {
-  width: 100%;
-}
-.ui.cards {
-  justify-content: flex-start;
-}
-
-.ui.three.cards .card {
-  width: 100%;
-}
-@include media(">tablet") {
-  .ui.three.cards .card {
-    width: 25em;
-  }
-}
-</style>
-<style>
-.ui.cards .ui.button {
-  margin-right: 0px;
-}
-</style>

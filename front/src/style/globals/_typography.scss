@@ -1,0 +1,18 @@
+
+html,
+body {
+  @include media("<=desktop") {
+    font-size: 90%;
+  }
+}
+
+.link:not(.list) {
+  text-decoration: var(--link-text-decoration);
+  &:hover {
+    text-decoration: var(--link-hover-text-decoration);
+  }
+}
+
+.ui.inverted.menu .item .header {
+  color: var(--inverted-menu-item-header-color);
+}

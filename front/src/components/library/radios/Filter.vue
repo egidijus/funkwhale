@@ -36,7 +36,7 @@
       <span
         @click="showCandidadesModal = !showCandidadesModal"
         v-if="checkResult"
-        :class="['ui', {'green': checkResult.candidates.count > 10}, 'label']">
+        :class="['ui', {'success': checkResult.candidates.count > 10}, 'label']">
         {{ checkResult.candidates.count }} tracks matching filter
       </span>
       <modal v-if="checkResult" :show.sync="showCandidadesModal">
@@ -49,14 +49,14 @@
           </div>
         </div>
         <div class="actions">
-          <div class="ui basic black deny button">
+          <div class="ui basic deny button">
             <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
           </div>
         </div>
       </modal>
     </td>
     <td>
-      <button @click="$emit('delete', index)" class="ui basic red button"><translate translate-context="Content/Radio/Button.Label/Verb">Remove</translate></button>
+      <button @click="$emit('delete', index)" class="ui basic danger button"><translate translate-context="Content/Radio/Button.Label/Verb">Remove</translate></button>
     </td>
   </tr>
 </template>

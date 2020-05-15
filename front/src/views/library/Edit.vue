@@ -27,21 +27,21 @@
         <td><actor-link :actor="follow.actor" /></td>
         <td><human-date :date="follow.creation_date" /></td>
         <td>
-          <span :class="['ui', 'yellow', 'basic', 'label']" v-if="follow.approved === null">
+          <span :class="['ui', 'warning', 'basic', 'label']" v-if="follow.approved === null">
             <translate translate-context="Content/Library/Table/Short">Pending approval</translate>
           </span>
-          <span :class="['ui', 'green', 'basic', 'label']" v-else-if="follow.approved === true">
+          <span :class="['ui', 'success', 'basic', 'label']" v-else-if="follow.approved === true">
             <translate translate-context="Content/Library/Table/Short">Accepted</translate>
           </span>
-          <span :class="['ui', 'red', 'basic', 'label']" v-else-if="follow.approved === false">
+          <span :class="['ui', 'danger', 'basic', 'label']" v-else-if="follow.approved === false">
             <translate translate-context="Content/Library/*/Short">Rejected</translate>
           </span>
         </td>
         <td>
-          <div @click="updateApproved(follow, true)" :class="['ui', 'mini', 'icon', 'labeled', 'green', 'button']" v-if="follow.approved === null || follow.approved === false">
+          <div @click="updateApproved(follow, true)" :class="['ui', 'mini', 'icon', 'labeled', 'success', 'button']" v-if="follow.approved === null || follow.approved === false">
             <i class="ui check icon"></i> <translate translate-context="Content/Library/Button.Label">Accept</translate>
           </div>
-          <div @click="updateApproved(follow, false)" :class="['ui', 'mini', 'icon', 'labeled', 'red', 'button']" v-if="follow.approved === null || follow.approved === true">
+          <div @click="updateApproved(follow, false)" :class="['ui', 'mini', 'icon', 'labeled', 'danger', 'button']" v-if="follow.approved === null || follow.approved === true">
             <i class="ui x icon"></i> <translate translate-context="Content/Library/Button.Label">Reject</translate>
           </div>
         </td>

@@ -1,0 +1,167 @@
+
+.main.with-background, .opaque {
+  background: var(--site-background);
+}
+
+.main.pusher > .ui.secondary.menu {
+  box-shadow: var(--secondary-menu-box-shadow);
+  background: var(--secondary-menu-background);
+  .ui.item {
+    &.active {
+      box-shadow: var(--secondary-menu-active-item-box-shadow);
+    }
+  }
+}
+
+.when-queue-focused {
+  .group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+    > * {
+      margin-left: 0.5em;
+    }
+  }
+  @include media("<desktop") {
+    width: 100%;
+    justify-content: space-between !important;
+  }
+}
+#app:not(.queue-focused) {
+  .when-queue-focused {
+    @include media("<desktop") {
+      display: none;
+    }
+  }
+}
+
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  &.has-bottom-player {
+    padding-bottom: $bottom-player-height;
+    .toast-container {
+      bottom: $bottom-player-height + 1rem;
+    }
+  }
+}
+
+#footer {
+  border-bottom: none;
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
+}
+#app > main, #app > .main {
+  flex: 1;
+}
+
+
+#app {
+  > .main.pusher,
+  > .footer {
+    position: relative;
+    @include media(">desktop") {
+      margin-left: $desktop-sidebar-width !important;
+    }
+
+    @include media(">widedesktop") {
+      margin-left: $widedesktop-sidebar-width !important;;
+    }
+    transform: none !important;
+  }
+}
+
+.ui.small.text.container {
+  max-width: 500px !important;
+}
+
+.column .ui.text.container {
+  max-width: 100% !important;
+}
+
+.main.pusher.hidden {
+  display: none;
+}
+.main.pusher > .ui.secondary.menu {
+  margin-left: 0;
+  margin-right: 0;
+  border: none;
+  overflow-y: auto;
+  .ui.item {
+    border: none;
+    border-bottom-style: none;
+    margin-bottom: 0px;
+  }
+  @include media(">tablet") {
+    padding: 0 2.5rem;
+  }
+  .item {
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+  }
+}
+
+.ui.stripe.segment,
+#footer {
+  padding: 1em;
+  &.ui.container {
+    margin: 0;
+  }
+  @include media(">tablet") {
+    padding: 2em;
+  }
+  @include media(">widedesktop") {
+    padding: 3em;
+  }
+}
+
+.stripe.segment > .secondary.menu:last-child {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-bottom: none;
+}
+
+.ui.small.divider {
+  margin: 0.5rem 0;
+}
+.ui.very.small.divider {
+  margin: 0.25rem 0;
+}
+.ui.horizontal.divider {
+  display: inline-block;
+  margin: 0 0.5em;
+}
+
+.dimmed {
+  .ui.bottom-player {
+    @include media("<desktop") {
+      z-index: 0;
+    }
+  }
+}
+#app.queue-focused {
+  .queue-not-focused {
+    @include media("<desktop") {
+      display: none;
+    }
+  }
+}
+
+.main.pusher,
+.ui.vertical.segment {
+  color: var(--main-color);
+  background: var(--main-background);
+}
+.ui.segment:not(.basic):not(.vertical) {
+  color: var(--segment-color);
+  background: var(--segment-background);
+}
+
+.segment .ui.list .item {
+  background-color: transparent;
+}

@@ -1,0 +1,17 @@
+
+.header.with-actions {
+  @include media(">tablet") {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .actions {
+    font-weight: normal;
+    font-size: 0.6em;
+  }
+
+}
+
+.ui.header .content {
+  display: block;
+}

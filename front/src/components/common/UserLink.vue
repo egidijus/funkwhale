@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <span class="component-user-link">
     <template v-if="avatar">
       <img
         class="ui tiny circular avatar"
@@ -32,9 +32,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.tiny.circular.avatar {
-  width: 1.7em;
-  height: 1.7em;
-}
-</style>

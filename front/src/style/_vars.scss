@@ -1,0 +1,115 @@
+// All vars in this file are made available as CSS vars.
+// For instance, $vibrant-color: #f2711c !default;
+// will be exposed as --vibrant-color: #f2711c
+$font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif !default;
+$vibrant-color: #f2711c !default;
+$vibrant-hover-color: #f26202 !default;
+$vibrant-active-color: #cf590c !default;
+$vibrant-focus-color: var(--vibrant-hover-color) !default;
+
+$success-color: #21BA45 !default;
+$success-hover-color: #16ab39 !default;
+$success-active-color: #198f35 !default;
+$success-focus-color: var(--$success-hover-color) !default;
+
+
+$primary-color: #2185D0 !default;
+$primary-hover-color: #1678c2 !default;
+$primary-active-color: #1a69a4 !default;
+$primary-focus-color: var(--primary-hover-color) !default;
+
+$warning-color: #FBBD08 !default;
+$warning-hover-color: #eaae00 !default;
+$warning-active-color: #cd9903 !default;
+$warning-focus-color: var(--warning-hover-color) !default;
+
+$danger-color: #DB2828 !default;
+$danger-hover-color: #ff392b !default;
+$danger-active-color: #b21e1e !default;
+$danger-focus-color: var(--danger-hover-color) !default;
+
+$link-color: #4183C4 !default;
+$link-text-decoration: none !default;
+$link-hover-color: #1e70bf !default;
+$link-hover-text-decoration: underline !default;
+
+$sidebar-background: #2D2F33 !default;
+$sidebar-header-background: var(--sidebar-background) !default;
+$sidebar-header-color: var(--sidebar-color) !default;
+$sidebar-active-item-background: rgba(255, 255, 255, 0.15) !default;
+$sidebar-header-box-shadow: none !default;
+$sidebar-box-shadow: 0 0 20px rgba(34,36,38,.15) !default;
+$site-background: white !default;
+
+$text-color: rgba(0, 0, 0, 0.87) !default;
+$discrete-text-color: rgba(0, 0, 0, 0.72) !default;
+$really-discrete-text-color: rgba(0, 0, 0, 0.57) !default;
+$text-selection-background: #CCE2FF !default;
+$text-selection-color: rgba(0, 0, 0, 0.87) !default;
+
+$header-color: var(--text-color) !default;
+
+$main-color: var(--text-color) !default;
+$main-background: var(--site-background) !default;
+
+$menu-item-color: var(--text-color) !default;
+$secondary-menu-background: var(--site-background) !default;
+$secondary-menu-box-shadow: inset 0px -2px 0px 0px rgba(34, 36, 38, 0.15) !default;
+$secondary-menu-active-item-box-shadow: inset 0 -2px 0 0 #000 !default;
+$secondary-menu-active-item-color: rgba(0, 0, 0, 0.95) !default;
+$secondary-menu-hover-item-color: var(--secondary-menu-active-item-color) !default;
+$inverted-menu-item-color: hsla(0,0%,100%,.75) !default;
+$inverted-menu-item-header-color: hsla(0,0%,100%,.95) !default;
+$menu-inverted-active-item-color: white !default;
+
+$button-basic-background: transparent !default;
+$button-basic-color: rgba(0, 0, 0, 0.6) !default;
+$button-basic-box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.15) inset !default;
+$button-basic-hover-background: var(--site-background) !default;
+$button-basic-hover-color: var(--text-color) !default;
+$button-basic-hover-box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset !default;
+
+$button-orange-background: var(--vibrant-color) !default;
+
+$form-label-color: var(--text-color) !default;
+$input-selection-background: rgba(100, 100, 100, 0.4) !default;
+$input-selection-color: var(--text-selection-color) !default;
+$input-background: white !default;
+$input-color: var(--text-color) !default;
+$input-focus-color: var(--input-color) !default;
+$input-focus-background: var(--input-background) !default;
+$input-placeholder-color: var(--really-discrete-text-color) !default;
+$input-focus-placeholder-color: var(--discrete-text-color) !default;
+
+$divider-color: rgba(34, 36, 38, 0.15) !default;
+$divider: 1px solid var(--divider-color) !default;
+
+$modal-background: var(--site-background) !default;
+
+$dropdown-background: var(--input-background) !default;
+$dropdown-color: var(--input-color) !default;
+$dropdown-header-color: var(--dropdown-color) !default;
+$dropdown-item-color: var(--dropdown-color) !default;
+$dropdown-item-hover-color: var(--dropdown-item-color) !default;
+$dropdown-item-hover-background: rgba(0, 0, 0, 0.05) !default;
+$dropdown-item-selected-color: var(--dropdown-item-hover-color) !default;
+$dropdown-item-selected-background: var(--dropdown-item-hover-background) !default;
+
+$segment-color: var(--text-color) !default;
+$segment-background: var(--site-background) !default;
+
+$player-color: rgba(255, 255, 255, 0.9) !default;
+$player-background: #1B1C1D !default;
+
+$table-background: transparent !default;
+$table-border: var(--divider) !default;
+
+$tooltip-background: var(--site-background) !default;
+$tooltip-color: var(--text-color) !default;
+
+$card-background: var(--site-background) !default;
+$card-text-colar: var(-text-color) !default;
+$card-box-shadow: 0 1px 3px 0 #D4D4D5, 0 0 0 1px #D4D4D5 !default;
+
+$dimmer-background: rgba(255, 255, 255, 0.85) !default;
+$dimmer-color: var(--text-color) !default;

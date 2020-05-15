@@ -21,10 +21,10 @@
     </td>
     <td><human-date :date="item.activity.creation_date" /></td>
     <td class="read collapsing">
-      <span @click="markRead(false)" v-if="item.is_read" :title="labels.markUnread">
+      <span @click="markRead(false)" role="button" v-if="item.is_read" :title="labels.markUnread">
         <i class="redo icon" />
       </span>
-      <span @click="markRead(true)" v-else :title="labels.markRead">
+      <span @click="markRead(true)" role="button" v-else :title="labels.markRead">
         <i class="check icon" />
       </span>
     </td>
@@ -68,13 +68,13 @@ export default {
           if (a.related_object.approved === null) {
             message = this.labels.libraryPendingFollowMessage
             acceptFollow = {
-              buttonClass: 'green',
+              buttonClass: 'success',
               icon: 'check',
               label: this.$pgettext('Content/*/Button.Label/Verb', 'Approve'),
               handler: () => { self.approveLibraryFollow(a.related_object) }
             },
             rejectFollow = {
-              buttonClass: 'red',
+              buttonClass: 'danger',
               icon: 'x',
               label: this.$pgettext('Content/*/Button.Label/Verb', 'Reject'),
               handler: () => { self.rejectLibraryFollow(a.related_object) }
@@ -146,8 +146,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.read > span {
-  cursor: pointer;
-}
-</style>

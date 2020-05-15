@@ -6,7 +6,7 @@
           {{ library.name }}
         </router-link>
         <div class="ui right floated dropdown">
-          <i class="ellipsis vertical grey large icon nomargin"></i>
+          <i class="ellipsis vertical large icon nomargin"></i>
           <div class="menu">
             <div
               role="button"
@@ -22,13 +22,13 @@
           v-if="library.privacy_level === 'me'"
           class="right floated"
           :data-tooltip="labels.tooltips.me">
-          <i class="small lock grey icon"></i>
+          <i class="small lock icon"></i>
         </span>
         <span
           v-else-if="library.privacy_level === 'everyone'"
           class="right floated"
           :data-tooltip="labels.tooltips.everyone">
-          <i class="small globe grey icon"></i>
+          <i class="small globe icon"></i>
         </span>
       </div>
       <div class="meta">
@@ -55,15 +55,15 @@
           <translate translate-context="Content/Library/Card.List item" :translate-params="{progress: scanProgress}">Scanning… (%{ progress }%)</translate>
         </template>
         <template v-else-if="latestScan.status === 'errored'">
-          <i class="red download icon"></i>
+          <i class="dangerdownload icon"></i>
           <translate translate-context="Content/Library/Card.List item">Problem during scanning</translate>
         </template>
         <template v-else-if="latestScan.status === 'finished' && latestScan.errored_files === 0">
-          <i class="green download icon"></i>
+          <i class="success download icon"></i>
           <translate translate-context="Content/Library/Card.List item">Scanned</translate>
         </template>
         <template v-else-if="latestScan.status === 'finished' && latestScan.errored_files > 0">
-          <i class="yellow download icon"></i>
+          <i class="warning download icon"></i>
           <translate translate-context="Content/Library/Card.List item">Scanned with errors</translate>
         </template>
         <span class="link right floated" @click="showScan = !showScan">
@@ -101,7 +101,7 @@
         <button
           v-if="!library.follow"
           @click="follow()"
-          :class="['ui', 'green', {'loading': isLoadingFollow}, 'button']">
+          :class="['ui', 'success', {'loading': isLoadingFollow}, 'button']">
           <translate translate-context="Content/Library/Card.Button.Label/Verb">Follow</translate>
         </button>
         <template v-else-if="!library.follow.approved">

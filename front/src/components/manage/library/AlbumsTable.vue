@@ -194,7 +194,7 @@ export default {
           confirmationMessage: confirmationMessage,
           isDangerous: true,
           allowAll: false,
-          confirmColor: 'red',
+          confirmColor: 'danger',
         },
       ]
     }

@@ -1,5 +1,5 @@
 <template>
-  <main class="main pusher">
+  <main class="main pusher page-about">
     <section :class="['ui', 'head', {'with-background': banner}, 'vertical', 'center', 'aligned', 'stripe', 'segment']" :style="headerStyle">
       <div class="segment-content">
         <h1 class="ui center aligned large header">
@@ -173,22 +173,22 @@
                   <translate translate-context="Content/Home/Header">Statistics</translate>
                 </h3>
                 <p>
-                  <i class="user grey icon"></i><translate translate-context="Content/Home/Stat" :translate-params="{count: stats.users.toLocaleString($store.state.ui.momentLocale) }" :translate-n="stats.users" translate-plural="%{ count } active users">%{ count } active user</translate>
+                  <i class="user really discrete icon"></i><translate translate-context="Content/Home/Stat" :translate-params="{count: stats.users.toLocaleString($store.state.ui.momentLocale) }" :translate-n="stats.users" translate-plural="%{ count } active users">%{ count } active user</translate>
                 </p>
                 <p>
-                  <i class="music grey icon"></i><translate translate-context="Content/Home/Stat" :translate-params="{count: parseInt(stats.hours).toLocaleString($store.state.ui.momentLocale)}" :translate-n="parseInt(stats.hours)" translate-plural="%{ count } hours of music">%{ count } hour of music</translate>
+                  <i class="music really discrete icon"></i><translate translate-context="Content/Home/Stat" :translate-params="{count: parseInt(stats.hours).toLocaleString($store.state.ui.momentLocale)}" :translate-n="parseInt(stats.hours)" translate-plural="%{ count } hours of music">%{ count } hour of music</translate>
                 </p>
                 <p v-if="stats.artists">
-                  <i class="users grey icon"></i><translate translate-context="Content/Home/Stat" :translate-params="{count: stats.artists.toLocaleString($store.state.ui.momentLocale) }" :translate-n="stats.artists" translate-plural="%{ count } artists">%{ count } artists</translate>
+                  <i class="users really discrete icon"></i><translate translate-context="Content/Home/Stat" :translate-params="{count: stats.artists.toLocaleString($store.state.ui.momentLocale) }" :translate-n="stats.artists" translate-plural="%{ count } artists">%{ count } artists</translate>
                 </p>
                 <p v-if="stats.albums">
-                  <i class="headphones grey icon"></i><translate translate-context="Content/Home/Stat" :translate-params="{count: stats.albums.toLocaleString($store.state.ui.momentLocale) }" :translate-n="stats.albums" translate-plural="%{ count } albums">%{ count } albums</translate>
+                  <i class="headphones really discrete icon"></i><translate translate-context="Content/Home/Stat" :translate-params="{count: stats.albums.toLocaleString($store.state.ui.momentLocale) }" :translate-n="stats.albums" translate-plural="%{ count } albums">%{ count } albums</translate>
                 </p>
                 <p v-if="stats.tracks">
-                  <i class="file grey icon"></i><translate translate-context="Content/Home/Stat" :translate-params="{count: stats.tracks.toLocaleString($store.state.ui.momentLocale) }" :translate-n="stats.tracks" translate-plural="%{ count } tracks">%{ count } tracks</translate>
+                  <i class="file really discrete icon"></i><translate translate-context="Content/Home/Stat" :translate-params="{count: stats.tracks.toLocaleString($store.state.ui.momentLocale) }" :translate-n="stats.tracks" translate-plural="%{ count } tracks">%{ count } tracks</translate>
                 </p>
                 <p v-if="stats.listenings">
-                  <i class="play grey icon"></i><translate translate-context="Content/Home/Stat" :translate-params="{count: stats.listenings.toLocaleString($store.state.ui.momentLocale) }" :translate-n="stats.listenings" translate-plural="%{ count } listenings">%{ count } listenings</translate>
+                  <i class="play really discrete icon"></i><translate translate-context="Content/Home/Stat" :translate-params="{count: stats.listenings.toLocaleString($store.state.ui.momentLocale) }" :translate-n="stats.listenings" translate-plural="%{ count } listenings">%{ count } listenings</translate>
                 </p>
               </template>
             </div>
@@ -285,38 +285,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-
-.ui.list .list.icon {
-  padding: 0;
-}
-
-h1.header, h1 .sub.header {
-  text-shadow: 0 2px 0 rgba(0,0,0,.8);
-  color: #fff !important;
-}
-h1.ui.header {
-  font-size: 3em;
-}
-h1.ui.header .sub.header {
-  font-size: 0.8em;
-}
-.main.pusher {
-  margin-top: 0;
-  min-height: 10em;
-}
-section.segment.head {
-  padding: 8em 3em;
-  background: linear-gradient(90deg, rgba(40,88,125,1) 0%, rgba(64,130,180,1) 100%);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-#pod {
-  font-size: 110%;
-  display: block;
-}
-</style>

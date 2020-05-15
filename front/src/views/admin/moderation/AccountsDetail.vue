@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="page-admin-account-detail">
     <div v-if="isLoading" class="ui vertical segment">
       <div :class="['ui', 'centered', 'active', 'inline', 'loader']"></div>
     </div>
@@ -59,7 +59,7 @@
             </div>
           </div>
           <div class="ui column">
-            <div v-if="!object.user" class="ui compact clearing placeholder segment">
+            <div v-if="!object.user" class="ui compact clearing placeholder segment component-placeholder">
               <template v-if="isLoadingPolicy">
                 <div class="paragraph">
                   <div class="line"></div>
@@ -556,13 +556,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.placeholder.segment {
-  width: 100%;
-}
-.ui.input input[name="quota"] {
-  max-width: 7em;
-}
-</style>

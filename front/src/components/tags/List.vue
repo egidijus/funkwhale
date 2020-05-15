@@ -1,5 +1,5 @@
 <template>
-  <div class="tag-list">
+  <div class="component-tags-list">
     <router-link
       :to="{name: detailRoute, params: {id: tag}}"
       :class="['ui', 'circular', 'hashtag', 'label', labelClasses]"
@@ -38,12 +38,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.ui.circular.label {
-  padding-left: 1em !important;
-  padding-right: 1em !important;
-}
-.hashtag {
-  margin: 0.25em;
-}
-</style>

@@ -1,5 +1,5 @@
   <template>
-  <div>
+  <div class="component-file-upload">
     <div class="ui top attached tabular menu">
       <a :class="['item', {active: currentTab === 'summary'}]" @click="currentTab = 'summary'"><translate translate-context="Content/Library/Tab.Title/Short">Summary</translate></a>
       <a :class="['item', {active: currentTab === 'uploads'}]" @click="currentTab = 'uploads'">
@@ -7,10 +7,10 @@
         <div v-if="files.length === 0" class="ui label">
           0
         </div>
-        <div v-else-if="files.length > uploadedFilesCount + erroredFilesCount" class="ui yellow label">
+        <div v-else-if="files.length > uploadedFilesCount + erroredFilesCount" class="ui warning label">
           {{ uploadedFilesCount + erroredFilesCount }}/{{ files.length }}
         </div>
-        <div v-else :class="['ui', {'green': erroredFilesCount === 0}, {'red': erroredFilesCount > 0}, 'label']">
+        <div v-else :class="['ui', {'success': erroredFilesCount === 0}, {'danger': erroredFilesCount > 0}, 'label']">
           {{ uploadedFilesCount + erroredFilesCount }}/{{ files.length }}
         </div>
       </a>
@@ -19,10 +19,10 @@
         <div v-if="processableFiles === 0" class="ui label">
           0
         </div>
-        <div v-else-if="processableFiles > processedFilesCount" class="ui yellow label">
+        <div v-else-if="processableFiles > processedFilesCount" class="ui warning label">
           {{ processedFilesCount }}/{{ processableFiles }}
         </div>
-        <div v-else :class="['ui', {'green': uploads.errored === 0}, {'red': uploads.errored > 0}, 'label']">
+        <div v-else :class="['ui', {'success': uploads.errored === 0}, {'danger': uploads.errored > 0}, 'label']">
           {{ processedFilesCount }}/{{ processableFiles }}
         </div>
       </a>
@@ -54,12 +54,12 @@
           </div>
         </div>
 
-        <button type="submit" class="ui green button"><translate translate-context="Content/Library/Button.Label">Proceed</translate></button>
+        <button type="submit" class="ui success button"><translate translate-context="Content/Library/Button.Label">Proceed</translate></button>
       </form>
     </div>
     <div :class="['ui', 'bottom', 'attached', 'segment', {hidden: currentTab != 'uploads'}]">
       <div :class="['ui', {loading: isLoadingQuota}, 'container']">
-        <div :class="['ui', {red: remainingSpace === 0}, {yellow: remainingSpace > 0 && remainingSpace <= 50}, 'small', 'statistic']">
+        <div :class="['ui', {red: remainingSpace === 0}, {warning: remainingSpace > 0 && remainingSpace <= 50}, 'small', 'statistic']">
           <div class="label">
             <translate translate-context="Content/Library/Paragraph">Remaining storage space</translate>
           </div>
@@ -113,14 +113,14 @@
               <td>{{ file.size | humanSize }}</td>
               <td>
                 <span v-if="file.error" class="ui tooltip" :data-tooltip="labels.tooltips[file.error]">
-                  <span class="ui red icon label">
+                  <span class="ui danger icon label">
                     <i class="question circle outline icon" /> {{ file.error }}
                   </span>
                 </span>
-                <span v-else-if="file.success" class="ui green label">
+                <span v-else-if="file.success" class="ui success label">
                   <translate translate-context="Content/Library/Table" key="1">Uploaded</translate>
                 </span>
-                <span v-else-if="file.active" class="ui yellow label">
+                <span v-else-if="file.active" class="ui warning label">
                   <translate translate-context="Content/Library/Table" key="2">Uploading…</translate>
                   ({{ parseInt(file.progress) }}%)
                 </span>
@@ -137,7 +137,7 @@
                   </button>
                 </template>
                 <template v-else-if="!file.success">
-                  <button class="ui tiny basic red icon right floated button" @click.prevent="$refs.upload.remove(file)"><i class="delete icon"></i></button>
+                  <button class="ui tiny basic danger icon right floated button" @click.prevent="$refs.upload.remove(file)"><i class="delete icon"></i></button>
                 </template>
               </td>
             </tr>
@@ -396,16 +396,3 @@ export default {
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.file-uploads.ui.button {
-  display: block;
-  padding: 2em 1em;
-  width: 100%;
-  box-shadow: none;
-  border-style: dashed !important;
-  border: 3px solid rgba(50, 50, 50, 0.5);
-  font-size: 1.5em;
-}
-</style>

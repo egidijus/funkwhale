@@ -1,0 +1,31 @@
+
+.placeholder.image {
+  background-color: rgba(0,0,0,.08);
+  width: 3em;
+  height: 3em;
+  &.large {
+    width: 8em;
+    height: 8em;
+  }
+  max-width: 100%;
+  display: block;
+  &.circular {
+    border-radius: 50%;
+  }
+  &.static {
+    animation: none;
+  }
+}
+
+.component-placeholder {
+  width: 100%;
+  &.ui.small.placeholder.segment {
+    min-height: auto;
+  }
+
+  &.ui.segment {
+    .field, textarea, .ui.input, .button {
+      max-width: 100%;
+    }
+  }
+}

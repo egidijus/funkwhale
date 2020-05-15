@@ -20,10 +20,3 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-.ui.circular.avatar {
-  width: 28px;
-  height: 28px;
-  font-size: 1em !important;
-}
-</style>

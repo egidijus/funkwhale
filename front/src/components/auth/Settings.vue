@@ -81,7 +81,7 @@
             <password-input required v-model="new_password" />
           </div>
           <dangerous-button
-            :class="['ui', {'loading': isLoading}, 'yellow', 'button']"
+            :class="['ui', {'loading': isLoading}, 'warning', 'button']"
             :action="submitPassword">
             <translate translate-context="Content/Settings/Button.Label">Change password</translate>
             <p slot="modal-header"><translate translate-context="Popup/Settings/Title">Change your password?</translate></p>
@@ -178,7 +178,7 @@
               </td>
               <td>
                 <dangerous-button
-                  class="ui tiny basic red button"
+                  class="ui tiny basic danger button"
                   @confirm="revokeApp(app.client_id)">
                   <translate translate-context="*/*/*/Verb">Revoke</translate>
                   <p slot="modal-header" v-translate="{application: app.name}" translate-context="Popup/Settings/Title">Revoke access for application "%{ application }"?</p>
@@ -207,7 +207,7 @@
           </div>
         </h2>
         <p><translate translate-context="Content/Settings/Paragraph">This is the list of applications that you have created.</translate></p>
-        <router-link class="ui basic green button" :to="{name: 'settings.applications.new'}">
+        <router-link class="ui basic success button" :to="{name: 'settings.applications.new'}">
           <translate translate-context="Content/Settings/Button.Label">Create a new application</translate>
         </router-link>
         <table v-if="ownedApps.length > 0" class="ui compact very basic unstackable table">
@@ -233,11 +233,11 @@
                 <human-date :date="app.created" />
               </td>
               <td>
-                <router-link class="ui basic tiny green button" :to="{name: 'settings.applications.edit', params: {id: app.client_id}}">
+                <router-link class="ui basic tiny success button" :to="{name: 'settings.applications.edit', params: {id: app.client_id}}">
                   <translate translate-context="Content/*/Button.Label/Verb">Edit</translate>
                 </router-link>
                 <dangerous-button
-                  class="ui tiny basic red button"
+                  class="ui tiny basic danger button"
                   @confirm="deleteApp(app.client_id)">
                   <translate translate-context="*/*/*/Verb">Delete</translate>
                   <p slot="modal-header" v-translate="{application: app.name}" translate-context="Popup/Settings/Title">Delete application "%{ application }"?</p>
@@ -283,7 +283,7 @@
             <password-input required v-model="password" />
           </div>
           <dangerous-button
-            :class="['ui', {'loading': isDeletingAccount}, {disabled: !password}, 'red', 'button']"
+            :class="['ui', {'loading': isDeletingAccount}, {disabled: !password}, 'danger', 'button']"
             :action="deleteAccount">
             <translate translate-context="*/*/Button.Label">Delete my account…</translate>
             <p slot="modal-header"><translate translate-context="Popup/Settings/Title">Do you want to delete your account?</translate></p>
@@ -534,7 +534,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

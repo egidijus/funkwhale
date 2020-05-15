@@ -74,7 +74,7 @@
       <div class="ui basic cancel button"><translate translate-context="*/*/Button.Label/Verb">Cancel</translate></div>
       <button
         v-if="canSubmit"
-        :class="['ui', 'green', {loading: isLoading}, 'button']"
+        :class="['ui', 'success', {loading: isLoading}, 'button']"
         type="submit" form="report-form">
         <translate translate-context="Popup/*/Button.Label">Submit report</translate>
       </button>
@@ -204,7 +204,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

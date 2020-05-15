@@ -1,0 +1,117 @@
+
+//  channels stuff
+@mixin two-images {
+  margin-right: 1em;
+  position: relative;
+  width: 3.5em;
+  height: 3.5em;
+  &.large {
+    width: 15em;
+    height: 15em;
+    img {
+      width: 11em;
+    }
+  }
+  img {
+    width: 2.5em;
+    position: absolute;
+    &:last-child {
+      bottom: 0;
+      left: 0;
+    }
+    &:first-child {
+      top: 0;
+      right: 0;
+    }
+  }
+}
+.two-images {
+  @include two-images;
+}
+.channel-entry-card, .channel-serie-card {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  .controls {
+    margin-right: 1em;
+  }
+  .image {
+    width: 3em;
+    height: 3em;
+    margin-right: 1em;
+    line-height: 3em;
+    text-align: center;
+    font-weight: bold;
+  }
+  .two-images {
+    @include two-images;
+  }
+  .content {
+    flex-grow: 1;
+  }
+}
+.album-entries {
+  > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .content {
+    flex-grow: 1;
+  }
+}
+.ui.artist-label {
+  .icon {
+    width: 2em;
+  }
+  &.rounded {
+    border-radius: 5em;
+    padding: 0.2em 0.75em 0.2em 0.2em;
+    line-height: 2em;
+    img {
+      border-radius: 50%;
+      vertical-align: middle;
+    }
+  }
+}
+.album-entry, .channel-entry-card {
+  border-radius: 5px;
+  padding: 0.5em;
+  .meta {
+    text-align: right;
+    min-width: 7em;
+  }
+  > div {
+    padding: 0.25em;
+    &:not(:last-child) {
+      margin-right: 0.25em;
+    }
+  }
+  &.active {
+    background: rgba(155, 155, 155, 0.2);
+  }
+  &:hover {
+    background: rgba(155, 155, 155, 0.1);
+  }
+  .favorite-icon.tiny.button {
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 0.5em;
+  }
+}
+.channel-image {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: white;
+  border-radius: 0.3em;
+  &.large {
+    width: 8em !important;
+  }
+}
+.channel-type.field .radio {
+  display: block;
+  padding: 1.5em;
+  &.selected {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}

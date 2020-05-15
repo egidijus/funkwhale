@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="controls">
-      <play-button :icon-only="true" :is-playable="true" :button-classes="['ui', 'circular', 'orange', 'icon', 'button']" :album="serie"></play-button>
+      <play-button :icon-only="true" :is-playable="true" :button-classes="['ui', 'circular', 'vibrant', 'icon', 'button']" :album="serie"></play-button>
     </div>
   </div>
 </template>
@@ -36,16 +36,6 @@ export default {
     PlayButton,
   },
   computed: {
-    imageUrl () {
-      let url = '../../assets/audio/default-cover.png'
-      let cover = this.cover
-      if (cover && cover.original) {
-        url = this.$store.getters['instance/absoluteUrl'](cover.medium_square_crop)
-      } else {
-        return null
-      }
-      return url
-    },
     cover () {
       if (this.serie.cover) {
         return this.serie.cover
@@ -60,10 +50,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.default-cover {
-  background-image: url("../../assets/audio/default-cover.png") !important;
-}
-</style>

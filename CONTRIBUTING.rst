@@ -704,6 +704,21 @@ Views: you can find some readable views tests in file: ``api/tests/users/test_vi
 Contributing to the front-end
 -----------------------------
 
+Styles and themes
+^^^^^^^^^^^^^^^^^
+
+Our UI framework is Fomantic UI (https://fomantic-ui.com/), and Funkwhale's custom styles are written in SCSS. All the styles are configured in ``front/src/styles/_main.scss``,
+including imporing of Fomantic UI styles and components.
+
+We're applying several changes on top of the Fomantic CSS files, before they are imported:
+
+1. Many hardcoded color values are replaced by CSS vars: e.g ``color: orange`` is replaced by ``color: var(--vibrant-color)``. This makes theming way easier.
+2. Unused components variations and icons are stripped from the source files, in order to reduce the final size of our CSS files
+
+This changes are applied automatically when running ``yarn install``, through a ``postinstall`` hook. Internally, ``front/scripts/fix-fomantic-css.py`` is called
+and handle both kind of modifications. Please refer to this script if you need to use new icons to the project, or restore some components variations that
+were stripped in order to use them.
+
 Running tests
 ^^^^^^^^^^^^^
 

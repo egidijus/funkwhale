@@ -9,7 +9,7 @@
       </p>
     </div>
     <h2><translate translate-context="Content/Login/Title/Verb">Log in to your Funkwhale account</translate></h2>
-    <login-form button-classes="basic green" :show-signup="false"></login-form>
+    <login-form button-classes="basic success" :show-signup="false"></login-form>
   </div>
   <form
     v-else
@@ -93,7 +93,7 @@ export default {
   props: {
     defaultInvitation: { type: String, required: false, default: null },
     next: { type: String, default: "/" },
-    buttonClasses: { type: String, default: "green" },
+    buttonClasses: { type: String, default: "success" },
     customization: { type: Object, default: null},
     fetchDescriptionHtml: { type: Boolean, default: false},
     fetchDescriptionHtml: { type: Boolean, default: false},
@@ -176,7 +176,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

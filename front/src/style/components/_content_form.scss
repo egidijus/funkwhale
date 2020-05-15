@@ -1,0 +1,17 @@
+
+.content-form {
+  background: var(--input-background);
+  .segment {
+    background: none;
+  }
+  .segment:first-child {
+    min-height: 15em;
+  }
+  .ui.secondary.menu {
+    background: none;
+    margin-top: -0.5em;
+  }
+  .input {
+    width: 100%;
+  }
+}

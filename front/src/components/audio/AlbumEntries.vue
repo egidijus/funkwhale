@@ -2,7 +2,7 @@
   <div class="album-entries">
     <div :class="[{active: currentTrack && isPlaying && track.id === currentTrack.id}, 'album-entry']" v-for="track in tracks" :key="track.id">
       <div class="actions">
-        <play-button class="basic circular icon" :button-classes="['circular inverted orange icon button']" :discrete="true" :icon-only="true" :track="track"></play-button>
+        <play-button class="basic circular icon" :button-classes="['circular inverted vibrant icon button']" :discrete="true" :icon-only="true" :track="track"></play-button>
       </div>
       <div class="position">{{ prettyPosition(track.position) }}</div>
       <div class="content ellipsis">

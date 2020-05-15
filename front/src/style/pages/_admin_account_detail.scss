@@ -1,0 +1,9 @@
+.page-admin-account-detail {
+  .placeholder.segment {
+    width: 100%;
+  }
+
+  .ui.input input[name="quota"] {
+    max-width: 7em;
+  }
+}

@@ -54,7 +54,7 @@
           <td>
             <router-link :to="{name: 'manage.moderation.domains.detail', params: {id: scope.obj.name }}">
               {{ scope.obj.name }}
-              <i v-if="allowListEnabled && scope.obj.allowed" class="green check icon" :title="labels.allowListTitle"></i>
+              <i v-if="allowListEnabled && scope.obj.allowed" class="success check icon" :title="labels.allowListTitle"></i>
             </router-link>
           </td>
           <td>

@@ -18,7 +18,7 @@
             <router-link :to="{path: '/login'}">
               <translate translate-context="Content/Signup/Link">Back to login</translate>
             </router-link>
-            <button :class="['ui', {'loading': isLoading}, 'right', 'floated', 'green', 'button']" type="submit">
+            <button :class="['ui', {'loading': isLoading}, 'right', 'floated', 'success', 'button']" type="submit">
               <translate translate-context="Content/Signup/Button.Label">Update your password</translate></button>
           </template>
           <template v-else>
@@ -88,7 +88,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

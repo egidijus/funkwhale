@@ -1,5 +1,5 @@
 <template>
-  <div class="main pusher"  v-title="labels.title">
+  <div class="main pusher page-admin-library" v-title="labels.title">
     <nav class="ui secondary pointing menu" role="navigation" :aria-label="labels.secondaryMenu">
       <router-link
         class="ui item"
@@ -44,10 +44,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.ui.menu .item > .label {
-  position: absolute;
-  right: -2em;
-}
-</style>

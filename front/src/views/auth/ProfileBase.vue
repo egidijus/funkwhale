@@ -1,5 +1,5 @@
 <template>
-  <main class="main pusher" v-title="labels.usernameProfile">
+  <main class="main pusher page-profile" v-title="labels.usernameProfile">
     <div v-if="isLoading" class="ui vertical segment">
       <div class="ui centered active inline loader"></div>
     </div>
@@ -26,7 +26,7 @@
             </div>
           </div>
           <h1 class="ui center aligned icon header">
-            <i v-if="!object.icon" class="circular inverted user green icon"></i>
+            <i v-if="!object.icon" class="circular inverted user success icon"></i>
             <img class="ui big circular image" v-else v-lazy="$store.getters['instance/absoluteUrl'](object.icon.square_crop)" />
             <div class="ellispsis content">
               <div class="ui very small hidden divider"></div>
@@ -38,7 +38,7 @@
             </div>
             <template  v-if="object.full_username === $store.state.auth.fullUsername">
               <div class="ui very small hidden divider"></div>
-              <div class="ui basic green label">
+              <div class="ui basic success label">
                 <translate translate-context="Content/Profile/Button.Paragraph">This is you!</translate>
               </div>
             </template>
@@ -148,10 +148,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.ui.header > img.image {
-  width: 8em;
-}
-</style>

@@ -29,7 +29,7 @@
 
             </div>
             <div class="ui buttons">
-              <play-button :is-playable="isPlayable" class="orange" :artist="object">
+              <play-button :is-playable="isPlayable" class="vibrant" :artist="object">
                 <translate translate-context="Content/Artist/Button.Label/Verb">Play all albums</translate>
               </play-button>
             </div>

@@ -123,7 +123,7 @@
       >
         <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
       </router-link>
-      <button :class="['ui', {'loading': isLoading}, 'right', 'floated', 'green', 'button']" type="submit" :disabled="isLoading || !mutationPayload">
+      <button :class="['ui', {'loading': isLoading}, 'right', 'floated', 'success', 'button']" type="submit" :disabled="isLoading || !mutationPayload">
         <translate v-if="canEdit" key="1" translate-context="Content/Library/Button.Label/Verb">Submit and apply edit</translate>
         <translate v-else key="2" translate-context="Content/Library/Button.Label/Verb">Submit suggestion</translate>
       </button>
@@ -256,8 +256,3 @@ export default {
   }
 }
 </script>
-<style>
-.reset.button {
-  margin-top: 0.5em;
-}
-</style>

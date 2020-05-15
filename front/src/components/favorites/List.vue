@@ -64,7 +64,7 @@
           translate-context="Content/Home/Placeholder"
         >No tracks have been added to your favorites yet</translate>
       </div>
-      <router-link :to="'/library'" class="ui green labeled icon button">
+      <router-link :to="'/library'" class="ui success labeled icon button">
       <i class="headphones icon"></i>
         <translate translate-context="Content/*/Verb">Browse the library</translate>
       </router-link>
@@ -178,7 +178,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

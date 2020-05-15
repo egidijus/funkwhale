@@ -1,0 +1,30 @@
+
+.ui.checkbox label {
+  cursor: pointer;
+}
+
+input + .help {
+  margin-top: 0.5em;
+}
+
+.component-form {
+  .parent.checkbox {
+    margin: 1em 0;
+  }
+  .child.checkbox {
+    margin-left: 1em;
+  }
+}
+
+.ui.labeled.input {
+  input,
+  .label {
+    background-color: var(--input-background);
+    &::placeholder {
+      color: var(--input-placeholder-color);
+    }
+  }
+}
+.ui.icon.input > .icon {
+  color: var(--input-color);
+}

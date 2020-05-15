@@ -1,7 +1,7 @@
 <template>
   <div :class="[{active: currentTrack && isPlaying && entry.id === currentTrack.id}, 'channel-entry-card']">
     <div class="controls">
-      <play-button class="basic circular icon" :discrete="true" :icon-only="true" :is-playable="true" :button-classes="['ui', 'circular', 'inverted orange', 'icon', 'button']" :track="entry"></play-button>
+      <play-button class="basic circular icon" :discrete="true" :icon-only="true" :is-playable="true" :button-classes="['ui', 'circular', 'inverted vibrant', 'icon', 'button']" :track="entry"></play-button>
     </div>
     <img
       @click="$router.push({name: 'library.tracks.detail', params: {id: entry.id}})"
@@ -62,16 +62,6 @@ export default {
     isPlaying () {
       return this.$store.state.player.playing
     },
-    imageUrl () {
-      let url = '../../assets/audio/default-cover.png'
-      let cover = this.cover
-      if (cover && cover.original) {
-        url = this.$store.getters['instance/absoluteUrl'](cover.medium_square_crop)
-      } else {
-        return null
-      }
-      return url
-    },
     cover () {
       if (this.entry.cover) {
         return this.entry.cover
@@ -88,7 +78,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

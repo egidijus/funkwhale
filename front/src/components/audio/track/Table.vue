@@ -1,5 +1,5 @@
 <template>
-  <div class="table-wrapper">
+  <div class="table-wrapper component-track-table">
     <inline-search-bar v-model="query" v-if="search" @search="additionalTracks = []; loadMore()"></inline-search-bar>
     <slot v-if="!isLoading && allTracks.length === 0" name="empty-state">
       <empty-state @refresh="fetchData" :refresh="true"></empty-state>
@@ -90,16 +90,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-tr:not(:hover) .favorite-icon:not(.favorited) {
-  display: none;
-}
-pre {
-  overflow-x: scroll;
-}
-.table-wrapper {
-  overflow: visible;
-}
-</style>

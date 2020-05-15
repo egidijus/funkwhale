@@ -1,6 +1,6 @@
 <template>
 
-  <form class="ui form" @submit.prevent="submit()">
+  <form class="ui form component-form" @submit.prevent="submit()">
     <div v-if="errors.length > 0" class="ui negative message">
       <div class="header"><translate translate-context="Content/*/Error message.Title">We cannot save your changes</translate></div>
       <ul class="list">
@@ -62,7 +62,7 @@
       </div>
 
       </div>
-    <button :class="['ui', {'loading': isLoading}, 'green', 'button']" type="submit">
+    <button :class="['ui', {'loading': isLoading}, 'success', 'button']" type="submit">
       <translate v-if="updating" key="2" translate-context="Content/Applications/Button.Label/Verb">Update application</translate>
       <translate v-else key="2" translate-context="Content/Applications/Button.Label/Verb">Create application</translate>
     </button>
@@ -173,13 +173,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.parent.checkbox {
-  margin: 1em 0;
-}
-.child.checkbox {
-  margin-left: 1em;
-}
-</style>
