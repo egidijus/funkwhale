@@ -1342,7 +1342,7 @@ def test_search_get_fts_advanced(settings, logged_in_api_client, factories):
 def test_search_get_fts_stop_words(settings, logged_in_api_client, factories):
     settings.USE_FULL_TEXT_SEARCH = True
     artist = factories["music.Artist"](name="she")
-    factories["music.Artist"]()
+    factories["music.Artist"](name="something else")
 
     url = reverse("api:v1:search")
     expected = {
