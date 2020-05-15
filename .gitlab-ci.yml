@@ -108,7 +108,7 @@ flake8:
   variables:
     GIT_STRATEGY: fetch
   before_script:
-    - pip install flake8
+    - pip install 'flake8<3.7'
   script:
     - flake8 -v api
   cache:
