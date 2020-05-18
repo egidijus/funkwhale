@@ -29,6 +29,9 @@ class TokenAuthMiddleware:
         self.inner = inner
 
     def __call__(self, scope):
+        if "user" in scope:
+            # auth already handled
+            return self.inner(scope)
         # XXX: 1.0 remove this, replace with websocket/scopedtoken
         auth = TokenHeaderAuth()
         try:

@@ -1,6 +1,8 @@
 import pytest
 from django.urls import reverse
 
+from django.test import Client
+
 from funkwhale_api.common import serializers as common_serializers
 from funkwhale_api.common import utils as common_utils
 from funkwhale_api.moderation import tasks as moderation_tasks
@@ -518,3 +520,39 @@ def test_user_login_jwt_honor_email_verification(
     url = reverse("api:v1:token")
     response = api_client.post(url, data)
     assert response.status_code == expected_status_code
+
+
+def test_login_via_api(api_client, factories):
+    user = factories["users.User"]()
+    url = reverse("api:v1:users:login")
+    payload = {"username": user.username, "password": "test"}
+
+    response = api_client.post(url, payload)
+    assert response.status_code == 200
+    assert api_client.session["_auth_user_id"] == str(user.pk)
+
+
+def test_login_via_api_inactive(api_client, factories):
+    user = factories["users.User"](is_active=False)
+    url = reverse("api:v1:users:login")
+    payload = {"username": user.username, "password": "test"}
+
+    response = api_client.post(url, payload)
+    assert response.status_code == 400
+
+
+def test_login_via_api_no_csrf(factories):
+    user = factories["users.User"]()
+    url = reverse("api:v1:users:login")
+    payload = {"username": user.username, "password": "test"}
+    api_client = Client(enforce_csrf_checks=True)
+    response = api_client.post(url, payload)
+    assert response.status_code == 403
+
+
+def test_logout(api_client, factories, mocker):
+    auth_logout = mocker.patch("django.contrib.auth.logout")
+    url = reverse("api:v1:users:logout")
+    response = api_client.post(url)
+    assert response.status_code == 200
+    assert auth_logout.call_count == 1

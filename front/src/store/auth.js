@@ -89,9 +89,13 @@ export default {
   actions: {
     // Send a request to the login URL and save the returned JWT
     login ({commit, dispatch}, {next, credentials, onError}) {
-      return axios.post('token/', credentials).then(response => {
+      var form = new FormData();
+      Object.keys(credentials).forEach((k) => {
+        form.set(k, credentials[k])
+      })
+      return axios.post('users/login', form).then(response => {
         logger.default.info('Successfully logged in as', credentials.username)
-        commit('token', response.data.token)
+        // commit('token', response.data.token)
         dispatch('fetchProfile').then(() => {
           // Redirect to a specified route
           router.push(next)
@@ -101,7 +105,8 @@ export default {
         onError(response)
       })
     },
-    logout ({commit}) {
+    async logout ({commit}) {
+      await axios.post('users/logout')
       let modules = [
         'auth',
         'favorites',
@@ -116,16 +121,14 @@ export default {
       logger.default.info('Log out, goodbye!')
       router.push({name: 'index'})
     },
-    check ({commit, dispatch, state}) {
+    async check ({commit, dispatch, state}) {
       logger.default.info('Checking authentication…')
-      var jwt = state.token
-      if (jwt) {
-        commit('token', jwt)
-        dispatch('fetchProfile')
-        dispatch('refreshToken')
+      commit('authenticated', false)
+      let profile = await dispatch('fetchProfile')
+      if (profile) {
+        commit('authenticated', true)
       } else {
         logger.default.info('Anonymous user')
-        commit('authenticated', false)
       }
     },
     fetchProfile ({commit, dispatch, state}) {
@@ -174,13 +177,5 @@ export default {
         resolve()
       })
     },
-    refreshToken ({commit, dispatch, state}) {
-      return axios.post('token/refresh/', {token: state.token}).then(response => {
-        logger.default.info('Refreshed auth token')
-        commit('token', response.data.token)
-      }, response => {
-        logger.default.error('Error while refreshing token', response.data)
-      })
-    }
   }
 }

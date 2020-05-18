@@ -14,7 +14,7 @@ from funkwhale_api.common import utils
 def test_spa_fallback_middleware_no_404(mocker):
     get_response = mocker.Mock()
     get_response.return_value = mocker.Mock(status_code=200)
-    request = mocker.Mock(path="/")
+    request = mocker.Mock(path="/", META={})
     m = middleware.SPAFallbackMiddleware(get_response)
 
     assert m(request) == get_response.return_value
@@ -26,7 +26,7 @@ def test_spa_middleware_calls_should_fallback_false(mocker):
     should_falback = mocker.patch.object(
         middleware, "should_fallback_to_spa", return_value=False
     )
-    request = mocker.Mock(path="/")
+    request = mocker.Mock(path="/", META={})
 
     m = middleware.SPAFallbackMiddleware(get_response)
 
@@ -37,7 +37,7 @@ def test_spa_middleware_calls_should_fallback_false(mocker):
 def test_spa_middleware_should_fallback_true(mocker):
     get_response = mocker.Mock()
     get_response.return_value = mocker.Mock(status_code=404)
-    request = mocker.Mock(path="/")
+    request = mocker.Mock(path="/", META={})
     mocker.patch.object(middleware, "should_fallback_to_spa", return_value=True)
     serve_spa = mocker.patch.object(middleware, "serve_spa")
     m = middleware.SPAFallbackMiddleware(get_response)
@@ -56,7 +56,7 @@ def test_should_fallback(path, expected, mocker):
 
 def test_serve_spa_from_cache(mocker, settings, preferences, no_api_auth):
     preferences["instance__name"] = 'Best Funkwhale "pod"'
-    request = mocker.Mock(path="/")
+    request = mocker.Mock(path="/", META={})
     get_spa_html = mocker.patch.object(
         middleware,
         "get_spa_html",
@@ -155,7 +155,7 @@ def test_get_route_head_tags(mocker, settings):
 
 
 def test_serve_spa_includes_custom_css(mocker, no_api_auth):
-    request = mocker.Mock(path="/")
+    request = mocker.Mock(path="/", META={})
     mocker.patch.object(
         middleware,
         "get_spa_html",
@@ -176,6 +176,23 @@ def test_serve_spa_includes_custom_css(mocker, no_api_auth):
     ]
     get_custom_css.assert_called_once_with()
     assert response.content == "\n".join(expected).encode()
+
+
+def test_serve_spa_sets_csrf_token(mocker, no_api_auth):
+    request = mocker.Mock(path="/", META={})
+    get_token = mocker.patch.object(middleware.csrf, "get_token", return_value="test")
+    mocker.patch.object(
+        middleware,
+        "get_spa_html",
+        return_value="<html><head></head><body></body></html>",
+    )
+    mocker.patch.object(middleware, "get_default_head_tags", return_value=[])
+    mocker.patch.object(middleware, "get_request_head_tags", return_value=[])
+    response = middleware.serve_spa(request)
+
+    assert response.status_code == 200
+    get_token.assert_called_once_with(request)
+    assert response.cookies["csrftoken"].value == get_token.return_value
 
 
 @pytest.mark.parametrize(
@@ -281,7 +298,7 @@ def test_rewrite_manifest_json_url(link, new_url, expected, mocker, settings):
     spa_html = "<html><head><link rel=before>{}<link rel=after></head></html>".format(
         link
     )
-    request = mocker.Mock(path="/")
+    request = mocker.Mock(path="/", META={})
     mocker.patch.object(middleware, "get_spa_html", return_value=spa_html)
     mocker.patch.object(
         middleware, "get_default_head_tags", return_value=[],
@@ -299,7 +316,7 @@ def test_rewrite_manifest_json_url_rewrite_disabled(mocker, settings):
     settings.FUNKWHALE_SPA_REWRITE_MANIFEST = False
     settings.FUNKWHALE_SPA_REWRITE_MANIFEST_URL = "custom_url"
     spa_html = "<html><head><link href=/manifest.json rel=manifest></head></html>"
-    request = mocker.Mock(path="/")
+    request = mocker.Mock(path="/", META={})
     mocker.patch.object(middleware, "get_spa_html", return_value=spa_html)
     mocker.patch.object(
         middleware, "get_default_head_tags", return_value=[],
@@ -318,7 +335,7 @@ def test_rewrite_manifest_json_url_rewrite_default_url(mocker, settings):
     settings.FUNKWHALE_SPA_REWRITE_MANIFEST_URL = None
     spa_html = "<html><head><link href=/manifest.json rel=manifest></head></html>"
     expected_url = federation_utils.full_url(reverse("api:v1:instance:spa-manifest"))
-    request = mocker.Mock(path="/")
+    request = mocker.Mock(path="/", META={})
     mocker.patch.object(middleware, "get_spa_html", return_value=spa_html)
     mocker.patch.object(
         middleware, "get_default_head_tags", return_value=[],
@@ -342,7 +359,7 @@ def test_spa_middleware_handles_api_redirect(mocker):
     match = mocker.Mock(args=["hello"], kwargs={"foo": "bar"}, func=api_view)
     mocker.patch.object(middleware.urls, "resolve", return_value=match)
 
-    request = mocker.Mock(path="/")
+    request = mocker.Mock(path="/", META={})
 
     m = middleware.SPAFallbackMiddleware(get_response)
 

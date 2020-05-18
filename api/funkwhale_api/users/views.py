@@ -1,12 +1,20 @@
+import json
+
+from django import http
+from django.contrib import auth
+from django.middleware import csrf
+
 from allauth.account.adapter import get_adapter
 from rest_auth import views as rest_auth_views
 from rest_auth.registration import views as registration_views
-from rest_framework import mixins, viewsets
+from rest_framework import mixins
+from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from funkwhale_api.common import authentication
 from funkwhale_api.common import preferences
+from funkwhale_api.common import throttling
 
 from . import models, serializers, tasks
 
@@ -105,3 +113,26 @@ class UserViewSet(mixins.UpdateModelMixin, viewsets.GenericViewSet):
         if not self.request.user.username == kwargs.get("username"):
             return Response(status=403)
         return super().partial_update(request, *args, **kwargs)
+
+
+def login(request):
+    throttling.check_request(request, "login")
+    if request.method != "POST":
+        return http.HttpResponse(status=405)
+    serializer = serializers.LoginSerializer(
+        data=request.POST, context={"request": request}
+    )
+    if not serializer.is_valid():
+        return http.HttpResponse(
+            json.dumps(serializer.errors), status=400, content_type="application/json"
+        )
+    serializer.save(request)
+    csrf.rotate_token(request)
+    return http.HttpResponse(status=200)
+
+
+def logout(request):
+    if request.method != "POST":
+        return http.HttpResponse(status=405)
+    auth.logout(request)
+    return http.HttpResponse(status=200)

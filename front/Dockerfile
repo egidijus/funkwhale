@@ -5,7 +5,8 @@ RUN curl -L -o /usr/local/bin/jq https://github.com/stedolan/jq/releases/downloa
 
 EXPOSE 8080
 WORKDIR /app/
-ADD package.json yarn.lock ./
+COPY scripts/ ./scripts/
+ADD package.json yarn.lock  ./
 RUN yarn install
 
 COPY . .
