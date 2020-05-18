@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "axios-auth-refresh": "^2.2.6",
     "core-js": "^3.6.4",
     "diff": "^4.0.1",
     "django-channels": "^1.1.6",

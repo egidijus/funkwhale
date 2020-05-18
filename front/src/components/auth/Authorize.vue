@@ -93,6 +93,8 @@ export default {
         {id: "filters", icon: 'eye slash'},
         {id: "notifications", icon: 'bell'},
         {id: "edits", icon: 'pencil alternate'},
+        {id: "security", icon: 'lock'},
+        {id: "reports", icon: 'warning sign'},
       ]
     }
   },

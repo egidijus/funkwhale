@@ -67,8 +67,8 @@ describe('store/auth', () => {
   })
   describe('getters', () => {
     it('header', () => {
-      const state = { token: 'helloworld' }
-      expect(store.getters['header'](state)).to.equal('JWT helloworld')
+      const state = { oauth: {accessToken: 'helloworld' }}
+      expect(store.getters['header'](state)).to.equal('Bearer helloworld')
     })
   })
   describe('actions', () => {

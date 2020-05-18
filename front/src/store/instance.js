@@ -124,6 +124,9 @@ export default {
       let parser = document.createElement("a")
       parser.href = url
       return parser.hostname
+    },
+    appDomain: (state) => {
+      return document.domain
     }
   },
   actions: {

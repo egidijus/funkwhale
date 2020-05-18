@@ -66,6 +66,16 @@ export default new Router({
       })
     },
     {
+      path: "/auth/callback",
+      name: "auth.callback",
+      component: () =>
+        import(/* webpackChunkName: "auth-callback" */ "@/views/auth/Callback"),
+      props: route => ({
+        code: route.query.code,
+        state: route.query.state,
+      })
+    },
+    {
       path: "/auth/email/confirm",
       name: "auth.email-confirm",
       component: () =>
