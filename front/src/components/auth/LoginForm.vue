@@ -1,5 +1,5 @@
 <template>
-  <form class="ui form" @submit.prevent="submit()">
+  <form class="ui form" @submit.prevent="submit">
     <div v-if="error" class="ui negative message">
       <div class="header"><translate translate-context="Content/Login/Error message.Title">We cannot log you in</translate></div>
       <ul class="list">
@@ -12,39 +12,46 @@
         <li v-else>{{ error }}</li>
       </ul>
     </div>
-    <div class="field">
-      <label>
-        <translate translate-context="Content/Login/Input.Label/Noun">Username or email</translate>
-        <template v-if="showSignup">
-          |
-          <router-link :to="{path: '/signup'}">
-            <translate translate-context="*/Signup/Link/Verb">Create an account</translate>
+    <template v-if="$store.getters['instance/appDomain'] === $store.getters['instance/domain']" >
+      <div class="field">
+        <label>
+          <translate translate-context="Content/Login/Input.Label/Noun">Username or email</translate>
+          <template v-if="showSignup">
+            |
+            <router-link :to="{path: '/signup'}">
+              <translate translate-context="*/Signup/Link/Verb">Create an account</translate>
+            </router-link>
+          </template>
+        </label>
+        <input
+        ref="username"
+        tabindex="1"
+        required
+        name="username"
+        type="text"
+        autofocus
+        :placeholder="labels.usernamePlaceholder"
+        v-model="credentials.username"
+        >
+      </div>
+      <div class="field">
+        <label>
+          <translate translate-context="*/*/*">Password</translate> |
+          <router-link :to="{name: 'auth.password-reset', query: {email: credentials.username}}">
+            <translate translate-context="*/Login/*/Verb">Reset your password</translate>
           </router-link>
-        </template>
-      </label>
-      <input
-      ref="username"
-      tabindex="1"
-      required
-      name="username"
-      type="text"
-      autofocus
-      :placeholder="labels.usernamePlaceholder"
-      v-model="credentials.username"
-      >
-    </div>
-    <div class="field">
-      <label>
-        <translate translate-context="*/*/*">Password</translate> |
-        <router-link :to="{name: 'auth.password-reset', query: {email: credentials.username}}">
-          <translate translate-context="*/Login/*/Verb">Reset your password</translate>
-        </router-link>
-      </label>
-      <password-input :index="2" required v-model="credentials.password" />
+        </label>
+        <password-input :index="2" required v-model="credentials.password" />
 
-    </div>
+      </div>
+    </template>
+    <template v-else>
+      <p>
+        <translate translate-context="Contant/Auth/Paragraph" :translate-params="{domain: $store.getters['instance/domain']}">You will be redirected to %{ domain } to authenticate.</translate>
+      </p>
+    </template>
     <button tabindex="3" :class="['ui', {'loading': isLoading}, 'right', 'floated', buttonClasses, 'button']" type="submit">
-        <translate translate-context="*/Login/*/Verb">Login</translate>
+      <translate translate-context="*/Login/*/Verb">Login</translate>
     </button>
   </form>
 </template>
@@ -79,7 +86,9 @@ export default {
     }
   },
   mounted() {
-    this.$refs.username.focus()
+    if (this.$refs.username) {
+      this.$refs.username.focus()
+    }
   },
   computed: {
     labels() {
@@ -90,7 +99,15 @@ export default {
     }
   },
   methods: {
-    submit() {
+    async submit() {
+      if (this.$store.getters['instance/appDomain'] === this.$store.getters['instance/domain']) {
+        return await this.submitSession()
+      } else {
+        this.isLoading = true
+        await this.$store.dispatch('auth/oauthLogin', this.next)
+      }
+    },
+    async submitSession() {
       var self = this
       self.isLoading = true
       this.error = ""
