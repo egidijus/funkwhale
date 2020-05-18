@@ -10,6 +10,7 @@ import xml.sax.saxutils
 from django import http
 from django.conf import settings
 from django.core.cache import caches
+from django.middleware import csrf
 from django import urls
 from rest_framework import views
 
@@ -81,7 +82,12 @@ def serve_spa(request):
         body, tail = tail.split("</body>", 1)
         css = "<style>{}</style>".format(css)
         tail = body + "\n" + css + "\n</body>" + tail
-    return http.HttpResponse(head + tail)
+
+    # set a csrf token so that visitor can login / query API if needed
+    token = csrf.get_token(request)
+    response = http.HttpResponse(head + tail)
+    response.set_cookie("csrftoken", token, max_age=None)
+    return response
 
 
 MANIFEST_LINK_REGEX = re.compile(r"<link [^>]*rel=(?:'|\")?manifest(?:'|\")?[^>]*>")

@@ -276,10 +276,12 @@ MIDDLEWARE = tuple(ADDITIONAL_MIDDLEWARES_BEFORE) + (
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
-    "funkwhale_api.common.middleware.SPAFallbackMiddleware",
+    # needs to be before SPA middleware
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    # /end
+    "funkwhale_api.common.middleware.SPAFallbackMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "funkwhale_api.users.middleware.RecordActivityMiddleware",
@@ -997,6 +999,10 @@ THROTTLING_RATES = {
     "oauth-revoke-token": {
         "rate": THROTTLING_USER_RATES.get("oauth-revoke-token", "100/hour"),
         "description": "OAuth token deletion",
+    },
+    "login": {
+        "rate": THROTTLING_USER_RATES.get("login", "30/hour"),
+        "description": "Login",
     },
     "jwt-login": {
         "rate": THROTTLING_USER_RATES.get("jwt-login", "30/hour"),

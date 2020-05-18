@@ -4,6 +4,8 @@ from django.core import validators
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
 
+from django.contrib import auth
+
 from rest_auth.serializers import PasswordResetSerializer as PRS
 from rest_auth.registration.serializers import RegisterSerializer as RS, get_adapter
 from rest_framework import serializers
@@ -265,3 +267,23 @@ class UserDeleteSerializer(serializers.Serializer):
         if not value:
             raise serializers.ValidationError("Please confirm deletion")
         return value
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self, data):
+        user = auth.authenticate(request=self.context.get("request"), **data)
+        if not user:
+            raise serializers.ValidationError(
+                "Unable to log in with provided credentials"
+            )
+
+        if not user.is_active:
+            raise serializers.ValidationError("This account was disabled")
+
+        return user
+
+    def save(self, request):
+        return auth.login(request, self.validated_data)

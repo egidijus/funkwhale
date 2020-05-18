@@ -68,7 +68,10 @@ Vue.directive('dropdown', function (el, binding) {
     ...(binding.value || {})
   })
 })
+axios.defaults.xsrfCookieName = 'csrftoken'
+axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 axios.interceptors.request.use(function (config) {
+
   // Do something before request is sent
   if (store.state.auth.token) {
     config.headers['Authorization'] = store.getters['auth/header']
@@ -84,7 +87,7 @@ axios.interceptors.response.use(function (response) {
   return response
 }, function (error) {
   error.backendErrors = []
-  if (error.response.status === 401) {
+  if (store.state.auth.authenticated && error.response.status === 401) {
     store.commit('auth/authenticated', false)
     logger.default.warn('Received 401 response from API, redirecting to login form', router.currentRoute.fullPath)
     router.push({name: 'login', query: {next: router.currentRoute.fullPath}})
