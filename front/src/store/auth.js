@@ -168,7 +168,10 @@ export default {
         commit(`${m}/reset`, null, {root: true})
       })
       logger.default.info('Log out, goodbye!')
-      router.push({name: 'index'})
+      await router.push({name: 'index'}, () => {
+        // refresh to get a new CSRF token
+        window.location.reload(true)
+      })
     },
     async check ({commit, dispatch, state}) {
       logger.default.info('Checking authentication…')
