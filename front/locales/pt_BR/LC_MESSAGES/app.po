@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: front 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2020-04-14 07:58+0000\n"
+"PO-Revision-Date: 2020-05-27 00:26+0000\n"
 "Last-Translator: Daniele Lira Mereb <danielelmereb@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -25,7 +25,7 @@ msgstr "\"%{ title }\", por %{ artist }"
 
 #: front/src/components/audio/ChannelCard.vue:28
 msgid "{{ object.artist.modification_date | fromNow }}"
-msgstr ""
+msgstr "{{ object.artist.modification_date | fromNow }}"
 
 #: front/src/components/RemoteSearchForm.vue:71
 msgctxt "Head/Fetch/Field.Placeholder"
@@ -70,12 +70,11 @@ msgstr[1] "%{ count } artistas"
 #: front/src/components/library/AlbumBase.vue:25
 #: front/src/components/library/AlbumBase.vue:67
 #: src/views/channels/DetailBase.vue:19
-#, fuzzy
 msgctxt "Content/Channel/Paragraph"
 msgid "%{ count } episode"
 msgid_plural "%{ count } episodes"
-msgstr[0] "%{ count } artista"
-msgstr[1] "%{ count } artistas"
+msgstr[0] "%{ count } episódio"
+msgstr[1] "%{ count } episódios"
 
 #: front/src/components/favorites/List.vue:10
 msgctxt "Content/Favorites/Title"
@@ -106,12 +105,11 @@ msgstr[0] "%{ count } de %{ total } selecionado"
 msgstr[1] "%{ count } de %{ total } selecionados"
 
 #: front/src/views/channels/DetailBase.vue:27
-#, fuzzy
 msgctxt "Content/Channel/Paragraph"
 msgid "%{ count } subscriber"
 msgid_plural "%{ count } subscribers"
-msgstr[0] "%{ count } favorito"
-msgstr[1] "%{ count } favoritos"
+msgstr[0] "%{ count } inscrito"
+msgstr[1] "%{ count } inscritos"
 
 #: front/src/components/audio/ChannelCard.vue:22
 #: front/src/components/audio/album/Card.vue:22
@@ -229,10 +227,9 @@ msgid "A short summary describing your changes."
 msgstr "Ocorreu um erro ao salvar suas alterações."
 
 #: front/src/components/About.vue:5
-#, fuzzy
 msgctxt "Content/Home/Header"
 msgid "About %{ podName }!"
-msgstr "Sobre %{ podName }"
+msgstr "Sobre %{ podName }!"
 
 #: front/src/components/Footer.vue:6
 msgctxt "Footer/About/Title"
@@ -2278,10 +2275,9 @@ msgid "Error while fetching node info"
 msgstr "Erro ao obter node info"
 
 #: front/src/components/RemoteSearchForm.vue:4
-#, fuzzy
 msgctxt "Content/*/Error message.Title"
 msgid "Error while fetching object"
-msgstr "Erro ao obter node info"
+msgstr "Erro ao obter objeto"
 
 #: front/src/components/channels/UploadForm.vue:3
 #, fuzzy
@@ -2460,10 +2456,9 @@ msgid "Filename"
 msgstr "Nome do arquivo"
 
 #: front/src/components/channels/UploadModal.vue:4
-#, fuzzy
 msgctxt "Popup/Channels/Title"
 msgid "Files to upload"
-msgstr "Excluir este envio?"
+msgstr "Arquivos para enviar"
 
 #: front/src/components/playlists/PlaylistModal.vue:44
 #, fuzzy
@@ -3533,10 +3528,9 @@ msgid "No artist matched your query"
 msgstr "Artista não encontrado"
 
 #: front/src/components/common/RenderedDescription.vue:16
-#, fuzzy
 msgctxt "*/*/Placeholder"
 msgid "No description available"
-msgstr "Sem descrição."
+msgstr "Sem descrição"
 
 #: front/src/components/About.vue:27 src/components/Home.vue:27
 msgctxt "Content/Home/Paragraph"
@@ -3661,10 +3655,9 @@ msgid "Nothing found"
 msgstr ""
 
 #: front/src/components/common/ContentForm.vue:22
-#, fuzzy
 msgctxt "*/Form/Paragraph"
 msgid "Nothing to preview."
-msgstr "Revisão pendente"
+msgstr "Nada para mostrar."
 
 #: front/src/components/Sidebar.vue:208
 #: src/components/mixins/Translations.vue:127
@@ -4072,10 +4065,11 @@ msgid "Please double-check your password is correct"
 msgstr "Por favor verifique novamente se a senha está certa"
 
 #: front/src/components/auth/LoginForm.vue:9
-#, fuzzy
 msgctxt "Content/Login/Error message.List item/Call to action"
 msgid "Please double-check your username/password couple is correct and ensure you verified your email."
-msgstr "Por favor verifique novamente se usuário/senha estão certos"
+msgstr ""
+"Verifique novamente se usuário/senha estão corretos e confirme se verificou "
+"seu e-mail."
 
 #: front/src/components/common/AttachmentInput.vue:26
 msgctxt "Content/*/Paragraph"
@@ -4176,10 +4170,9 @@ msgstr "Continuar para entrar"
 
 #: front/src/views/channels/DetailOverview.vue:9
 #: front/src/views/channels/DetailOverview.vue:39
-#, fuzzy
 msgctxt "Content/Channel/Paragraph"
 msgid "Processed uploads:"
-msgstr "Bibliotecas e envios"
+msgstr "Envios processados:"
 
 #: front/src/components/library/FileUpload.vue:17
 msgctxt "Content/Library/Tab.Title/Short"
@@ -4518,10 +4511,9 @@ msgid "Remaining storage space"
 msgstr "Espaço de armazenamento restante"
 
 #: front/src/components/channels/UploadModal.vue:25
-#, fuzzy
 msgctxt "Content/Library/Paragraph"
 msgid "Remaining storage space:"
-msgstr "Espaço de armazenamento restante"
+msgstr "Armazenamento disponível:"
 
 #: front/src/views/Notifications.vue:18 src/views/Notifications.vue:52
 msgctxt "Content/Notifications/Label"
@@ -5842,10 +5834,9 @@ msgid "This may affect a lot of elements or have irreversible consequences, plea
 msgstr "Isso pode afetar muitos elementos ou ter consequências irreversíveis, por favor, verifique se é o que você realmente deseja."
 
 #: front/src/components/RemoteSearchForm.vue:139
-#, fuzzy
 msgctxt "Content/*/Error message.Title"
 msgid "This object cannot be retrieved"
-msgstr "Não foi possível criar conta."
+msgstr "Não foi possível recuperar este objeto"
 
 #: front/src/components/library/AlbumEdit.vue:8
 #: front/src/components/library/ArtistEdit.vue:8
@@ -5900,10 +5891,9 @@ msgid "This track is present in the following libraries:"
 msgstr "Esta faixa está presente nas seguintes bibliotecas:"
 
 #: front/src/views/auth/ProfileOverview.vue:33
-#, fuzzy
 msgctxt "Content/Profile/Paragraph"
 msgid "This user shared the following libraries."
-msgstr "Este álbum está presente nas seguintes bibliotecas:"
+msgstr "Este usuário compartilhou as seguintes bibliotecas."
 
 #: front/src/components/manage/moderation/UserRequestCard.vue:98
 msgctxt "Content/Moderation/Paragraph"
@@ -6297,16 +6287,18 @@ msgid "Uploaded"
 msgstr "Enviado"
 
 #: front/src/components/library/TrackBase.vue:271
-#, fuzzy
 msgctxt "Content/Track/Paragraph"
 msgid "Uploaded by <a class=\"internal\" href=\"%{ uploaderUrl }\">%{ uploader }</a> on <time title=\"%{ date }\" datetime=\"%{ date }\">%{ prettyDate }</time>"
-msgstr "Do álbum <a class=\"internal\" href=\"%{ albumUrl }\">%{ album }</a> por <a class=\"internal\" href=\"%{ artistUrl }\">%{ artist }</a>"
+msgstr ""
+"Enviado por <a class=\"internal\" href=\"%{ uploaderUrl }\">%{ uploader }</a>"
+" em <time title=\"%{ date }\" datetime=\"%{ date }\">%{ prettyDate }</time>"
 
 #: front/src/components/library/TrackBase.vue:279
-#, fuzzy
 msgctxt "Content/Track/Paragraph"
 msgid "Uploaded on <time title=\"%{ date }\" datetime=\"%{ date }\">%{ prettyDate }</time>"
-msgstr "Do álbum <a class=\"internal\" href=\"%{ albumUrl }\">%{ album }</a> por <a class=\"internal\" href=\"%{ artistUrl }\">%{ artist }</a>"
+msgstr ""
+"Enviado em <time title=\"%{ date }\" datetime=\"%{ date }\">%{ prettyDate "
+"}</time>"
 
 #: front/src/components/channels/UploadForm.vue:83
 #, fuzzy
