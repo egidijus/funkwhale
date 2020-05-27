@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: front 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2020-05-27 00:26+0000\n"
+"PO-Revision-Date: 2020-05-28 02:56+0000\n"
 "Last-Translator: Daniele Lira Mereb <danielelmereb@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -160,10 +160,9 @@ msgstr "%{ hours } h %{ minutes } min"
 
 #: front/src/components/audio/Player.vue:160
 #: src/components/audio/Player.vue:166
-#, fuzzy
 msgctxt "Sidebar/Queue/Text"
 msgid "%{ index } of %{ length }"
-msgstr "(%{ index } de %{ length })"
+msgstr "%{ index } de %{ length }"
 
 #: front/src/components/common/Duration.vue:5
 msgctxt "Content/*/Paragraph"
@@ -237,10 +236,9 @@ msgid "About %{instanceName}"
 msgstr "Sobre %{instanceName}"
 
 #: front/src/components/Footer.vue:9
-#, fuzzy
 msgctxt "Footer/About/Title"
 msgid "About %{instanceUrl}"
-msgstr "Sobre %{instanceName}"
+msgstr "Sobre %{instanceUrl}"
 
 #: front/src/components/Footer.vue:56 src/components/Home.vue:87
 msgctxt "Footer/*/Title/Short"
@@ -258,10 +256,9 @@ msgid "About this Funkwhale pod"
 msgstr "Sobre este pod Funkwhale"
 
 #: front/src/components/channels/LicenseSelect.vue:14
-#, fuzzy
 msgctxt "Content/*/*"
 msgid "About this license"
-msgstr "Sobre este pod"
+msgstr "Sobre esta licença"
 
 #: front/src/components/About.vue:23 src/components/About.vue:53
 msgctxt "Content/About/Header"
@@ -269,7 +266,6 @@ msgid "About this pod"
 msgstr "Sobre este pod"
 
 #: front/src/components/Sidebar.vue:145
-#, fuzzy
 msgctxt "Sidebar/*/List item.Link"
 msgid "About this pod"
 msgstr "Sobre este pod"
@@ -415,7 +411,6 @@ msgstr[0] "Ação %{ action } aplicada com sucesso em %{ count } elemento"
 msgstr[1] "Ação %{ action } aplicada com sucesso em %{ count } elementos"
 
 #: front/src/components/library/FileUpload.vue:96
-#, fuzzy
 msgctxt "*/*/*"
 msgid "Actions"
 msgstr "Ações"
@@ -447,7 +442,6 @@ msgid "Activity"
 msgstr "Atividade"
 
 #: front/src/views/auth/ProfileBase.vue:63
-#, fuzzy
 msgctxt "Content/Profile/*"
 msgid "Activity"
 msgstr "Atividade"
