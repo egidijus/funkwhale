@@ -1,0 +1,1 @@
+Fixed recursive CLI importing crashing under Python 3.5 (#1148, #1147)

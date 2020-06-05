@@ -352,3 +352,17 @@ def test_handle_modified_update_existing_path_if_found_and_attributed_to(
         event=event, stdout=stdout, library=library, in_place=True,
     )
     update_track_metadata.assert_not_called()
+
+
+def test_import_files(factories, capsys):
+    # smoke test to ensure the command run properly
+    library = factories["music.Library"](actor__local=True)
+    call_command(
+        "import_files", str(library.uuid), DATA_DIR, interactive=False, recursive=True
+    )
+    captured = capsys.readouterr()
+
+    imported = library.uploads.filter(import_status="finished").count()
+    assert imported > 0
+    assert "Successfully imported {} new tracks".format(imported) in captured.out
+    assert "For details, please refer to import reference" in captured.out
