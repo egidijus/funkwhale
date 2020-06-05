@@ -202,6 +202,9 @@ class ActorScopeFilter(filters.CharFilter):
                 return queryset.none()
 
             return queryset.filter(**{self.actor_field: actor})
+        elif value.lower().startswith("domain:"):
+            domain = value.split("domain:", 1)[1]
+            return queryset.filter(**{"{}__domain_id".format(self.actor_field): domain})
         else:
             return queryset.none()
 
