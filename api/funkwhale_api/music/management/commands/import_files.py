@@ -23,21 +23,30 @@ from funkwhale_api.common import utils as common_utils
 from funkwhale_api.music import models, tasks, utils
 
 
+def dir_scanner(scanner, extensions, recursive, ignored):
+    for entry in scanner:
+        if entry.is_file():
+            for e in extensions:
+                if entry.name.lower().endswith(".{}".format(e.lower())):
+                    if entry.path not in ignored:
+                        yield entry.path
+        elif recursive and entry.is_dir():
+            yield from dir_scanner(
+                entry, extensions, recursive=recursive, ignored=ignored
+            )
+
+
 def crawl_dir(dir, extensions, recursive=True, ignored=[]):
     if os.path.isfile(dir):
         yield dir
         return
-    with os.scandir(dir) as scanner:
-        for entry in scanner:
-            if entry.is_file():
-                for e in extensions:
-                    if entry.name.lower().endswith(".{}".format(e.lower())):
-                        if entry.path not in ignored:
-                            yield entry.path
-            elif recursive and entry.is_dir():
-                yield from crawl_dir(
-                    entry, extensions, recursive=recursive, ignored=ignored
-                )
+    else:
+        try:
+            scanner = os.scandir(dir)
+            yield from dir_scanner(scanner, extensions, recursive, ignored)
+        finally:
+            if hasattr(scanner, "close"):
+                scanner.close()
 
 
 def batch(iterable, n=1):
