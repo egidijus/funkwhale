@@ -53,7 +53,7 @@ export default {
     fetch() {
       this.isLoading = true
       let self = this
-      axios.get("libraries/").then(response => {
+      axios.get("libraries/", {params: {scope: 'me'}}).then(response => {
         self.isLoading = false
         self.libraries = response.data.results
         if (self.libraries.length === 0) {
