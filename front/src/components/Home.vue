@@ -173,6 +173,12 @@
           <div class="ui hidden divider"></div>
         </router-link>
       </album-widget>
+      <div class="ui hidden section divider"></div>
+      <h3 class="ui header" >
+        <translate translate-context="*/*/*">New channels</translate>
+      </h3>
+      <channels-widget :show-modification-date="true" :limit="10" :filters="{ordering: '-creation_date', external: 'false'}"></channels-widget>
+
     </section>
   </main>
 </template>
@@ -183,6 +189,7 @@ import _ from '@/lodash'
 import {mapState} from 'vuex'
 import showdown from 'showdown'
 import AlbumWidget from "@/components/audio/album/Widget"
+import ChannelsWidget from "@/components/audio/ChannelsWidget"
 import LoginForm from "@/components/auth/LoginForm"
 import SignupForm from "@/components/auth/SignupForm"
 import {humanSize } from '@/filters'
@@ -190,6 +197,7 @@ import {humanSize } from '@/filters'
 export default {
   components: {
     AlbumWidget,
+    ChannelsWidget,
     LoginForm,
     SignupForm,
   },
