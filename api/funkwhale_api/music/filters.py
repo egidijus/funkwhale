@@ -218,3 +218,12 @@ class AlbumFilter(
     def filter_playable(self, queryset, name, value):
         actor = utils.get_actor_from_request(self.request)
         return queryset.playable_by(actor, value)
+
+
+class LibraryFilter(filters.FilterSet):
+    q = fields.SearchFilter(search_fields=["name"],)
+    scope = common_filters.ActorScopeFilter(actor_field="actor", distinct=True)
+
+    class Meta:
+        model = models.Library
+        fields = ["privacy_level", "q", "scope"]

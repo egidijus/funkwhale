@@ -18,11 +18,14 @@
                 <template v-if="totalTracks > 0">
                   <div class="ui hidden very small divider"></div>
                   <translate translate-context="Content/Channel/Paragraph"
+                    key="1"
+                    v-if="object.artist.content_category === 'podcast'"
                     translate-plural="%{ count } episodes"
                     :translate-n="totalTracks"
                     :translate-params="{count: totalTracks}">
                     %{ count } episode
                   </translate>
+                  <translate key="2" v-else translate-context="*/*/*" :translate-params="{count: totalTracks}" :translate-n="totalTracks" translate-plural="%{ count } tracks">%{ count } track</translate>
                 </template>
                 <template v-if="object.attributed_to.full_username === $store.state.auth.fullUsername || $store.getters['channels/isSubscribed'](object.uuid)">
                   · <translate translate-context="Content/Channel/Paragraph" translate-plural="%{ count } subscribers" :translate-n="object.subscriptions_count" :translate-params="{count: object.subscriptions_count}">%{ count } subscriber</translate>

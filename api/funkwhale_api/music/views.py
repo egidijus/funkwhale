@@ -273,6 +273,7 @@ class LibraryViewSet(
         oauth_permissions.ScopePermission,
         common_permissions.OwnerPermission,
     ]
+    filterset_class = filters.LibraryFilter
     required_scope = "libraries"
     anonymous_policy = "setting"
     owner_field = "actor.user"
@@ -282,8 +283,12 @@ class LibraryViewSet(
         qs = super().get_queryset()
         # allow retrieving a single library by uuid if request.user isn't
         # the owner. Any other get should be from the owner only
-        if self.action != "retrieve":
+        if self.action not in ["retrieve", "list"]:
             qs = qs.filter(actor=self.request.user.actor)
+        if self.action == "list":
+            actor = utils.get_actor_from_request(self.request)
+            qs = qs.viewable_by(actor)
+
         return qs
 
     def perform_create(self, serializer):

@@ -631,10 +631,10 @@ def test_user_can_create_library(factories, logged_in_api_client):
 def test_user_can_list_their_library(factories, logged_in_api_client):
     actor = logged_in_api_client.user.create_actor()
     library = factories["music.Library"](actor=actor)
-    factories["music.Library"]()
+    factories["music.Library"](privacy_level="everyone")
 
     url = reverse("api:v1:libraries-list")
-    response = logged_in_api_client.get(url)
+    response = logged_in_api_client.get(url, {"scope": "me"})
 
     assert response.status_code == 200
     assert response.data["count"] == 1
@@ -649,6 +649,19 @@ def test_user_can_retrieve_another_user_library(factories, logged_in_api_client)
 
     assert response.status_code == 200
     assert response.data["uuid"] == str(library.uuid)
+
+
+def test_user_can_list_public_libraries(factories, api_client, preferences):
+    preferences["common__api_authentication_required"] = False
+    library = factories["music.Library"](privacy_level="everyone")
+    factories["music.Library"](privacy_level="me")
+
+    url = reverse("api:v1:libraries-list")
+    response = api_client.get(url)
+
+    assert response.status_code == 200
+    assert response.data["count"] == 1
+    assert response.data["results"][0]["uuid"] == str(library.uuid)
 
 
 def test_library_list_excludes_channel_library(factories, logged_in_api_client):

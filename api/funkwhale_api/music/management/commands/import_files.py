@@ -27,7 +27,8 @@ def crawl_dir(dir, extensions, recursive=True, ignored=[]):
     if os.path.isfile(dir):
         yield dir
         return
-    with os.scandir(dir) as scanner:
+    try:
+        scanner = os.scandir(dir)
         for entry in scanner:
             if entry.is_file():
                 for e in extensions:
@@ -38,6 +39,9 @@ def crawl_dir(dir, extensions, recursive=True, ignored=[]):
                 yield from crawl_dir(
                     entry, extensions, recursive=recursive, ignored=ignored
                 )
+    finally:
+        if hasattr(scanner, "close"):
+            scanner.close()
 
 
 def batch(iterable, n=1):

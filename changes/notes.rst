@@ -18,3 +18,16 @@ Because of this change, existing thumbnails will not load, and you will need to:
 2. run ``python manage.py fw media generate-thumbnails`` to regenerate thumbnails with the enhanced quality
 
 If you don't want to regenerate thumbnails, you can keep the old ones by adding ``THUMBNAIL_JPEG_RESIZE_QUALITY=70`` to your .env file.
+
+Small API breaking change in ``/api/v1/libraries``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To allow easier crawling of public libraries on a pod,we had to make a slight breaking change
+to the behaviour of ``GET /api/v1/libraries``.
+
+Before, it returned only libraries owned by the current user.
+
+Now, it returns all the accessible libraries (including ones from other users and pods).
+
+If you are consuming the API via a third-party client and need to retrieve your libraries,
+use the ``scope`` parameter, like this: ``GET /api/v1/libraries?scope=me``
