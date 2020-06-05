@@ -52,6 +52,7 @@ def test_mutation_filter_is_approved(value, expected, factories):
         ("noop", 2, []),
         ("actor:actor1@domain.test", 0, [0]),
         ("actor:actor2@domain.test", 0, [1]),
+        ("domain:domain.test", 0, [0, 1]),
     ],
 )
 def test_actor_scope_filter(
