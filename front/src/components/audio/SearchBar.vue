@@ -1,7 +1,7 @@
 <template>
   <div class="ui fluid category search">
     <slot></slot><div class="ui icon input">
-      <input ref="search" class="prompt" name="search" :placeholder="labels.placeholder" type="text" @keydown.esc="$event.target.blur()">
+      <input ref="search" type="search" class="prompt" name="search" :placeholder="labels.placeholder" @keydown.esc="$event.target.blur()">
       <i class="search icon"></i>
     </div>
     <div class="results"></div>
