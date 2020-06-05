@@ -1,1 +1,0 @@
-Fixed an issue where in-place importing didn't work for directories on machines running Python 3.5 (#1148, #1147)
