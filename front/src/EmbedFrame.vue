@@ -26,7 +26,7 @@
       <div class="content" aria-label="Track information">
         <header v-if="currentTrack">
           <h3><a :href="fullUrl('/library/tracks/' + currentTrack.id)" target="_blank" rel="noopener noreferrer">{{ currentTrack.title }}</a></h3>
-          By <a :href="fullUrl('/library/artists/' + currentTrack.artist.id)" target="_blank" rel="noopener noreferrer">{{ currentTrack.artist.name }}</a>
+          <a :href="fullUrl('/library/artists/' + currentTrack.artist.id)" target="_blank" rel="noopener noreferrer">{{ currentTrack.artist.name }}</a>
         </header>
         <section v-if="!isLoading" class="controls" aria-label="Audio player">
           <template v-if="currentTrack && currentTrack.sources.length > 0">
@@ -103,8 +103,8 @@
             </td>
             <td class="title" :title="track.title" ><div colspan="2" class="ellipsis">{{ track.title }}</div></td>
             <td class="artist" :title="track.artist.name" ><div class="ellipsis">{{ track.artist.name }}</div></td>
-            <td class="album" v-if="track.album">
-              <div class="ellipsis " v-if="track.album" :title="track.album.title">{{ track.album.title }}</div>
+            <td class="album">
+              <div class="ellipsis" v-if="track.album" :title="track.album.title">{{ track.album.title }}</div>
             </td>
             <td width="50">{{ time.durationFormatted(track.sources[0].duration) }}</td>
           </tr>
