@@ -26,7 +26,7 @@
       <div class="content" aria-label="Track information">
         <header v-if="currentTrack">
           <h3><a :href="fullUrl('/library/tracks/' + currentTrack.id)" target="_blank" rel="noopener noreferrer">{{ currentTrack.title }}</a></h3>
-          By <a :href="fullUrl('/library/artists/' + currentTrack.artist.id)" target="_blank" rel="noopener noreferrer">{{ currentTrack.artist.name }}</a>
+          <a :href="fullUrl('/library/artists/' + currentTrack.artist.id)" target="_blank" rel="noopener noreferrer">{{ currentTrack.artist.name }}</a>
         </header>
         <section v-if="!isLoading" class="controls" aria-label="Audio player">
           <template v-if="currentTrack && currentTrack.sources.length > 0">
