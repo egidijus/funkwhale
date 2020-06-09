@@ -70,7 +70,10 @@ export default {
           if (!self.$store.state.auth.authenticated) {
             return xhrObject
           }
-          xhrObject.setRequestHeader('Authorization', self.$store.getters['auth/header'])
+
+          if (self.$store.state.auth.oauth.accessToken) {
+            xhrObject.setRequestHeader('Authorization', self.$store.getters['auth/header'])
+          }
           return xhrObject
         },
         onResponse: function (initialResponse) {

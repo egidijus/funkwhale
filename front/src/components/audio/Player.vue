@@ -436,7 +436,6 @@ export default {
           param = "token"
           value = this.$store.state.auth.scopedTokens.listen
         }
-        console.log('HELLO', param, value, this.$store.state.auth.scopedTokens)
         sources.forEach(e => {
           e.url = url.updateQueryString(e.url, param, value)
         })
