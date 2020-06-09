@@ -33,3 +33,15 @@ export function parseAPIErrors(responseData, parentField) {
   }
   return errors
 }
+
+export function getCookie(name) {
+  return document.cookie
+  .split('; ')
+  .find(row => row.startsWith(name))
+  .split('=')[1];
+}
+export function setCsrf(xhr) {
+  if (getCookie('csrftoken')) {
+    xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'))
+  }
+}

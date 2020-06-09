@@ -39,7 +39,10 @@ export default {
         apiSettings: {
           url: this.$store.getters['instance/absoluteUrl']('/api/v1/tags/?name__startswith={query}&ordering=length&page_size=5'),
           beforeXHR: function (xhrObject) {
-            xhrObject.setRequestHeader('Authorization', self.$store.getters['auth/header'])
+
+            if (self.$store.state.auth.oauth.accessToken) {
+              xhrObject.setRequestHeader('Authorization', self.$store.getters['auth/header'])
+            }
             return xhrObject
           },
           onResponse(response) {

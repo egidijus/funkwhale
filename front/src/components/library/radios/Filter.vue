@@ -114,7 +114,9 @@ export default {
         settings.apiSettings = {
           url: self.$store.getters['instance/absoluteUrl'](f.autocomplete + '?' + f.autocomplete_qs),
           beforeXHR: function (xhrObject) {
-            xhrObject.setRequestHeader('Authorization', self.$store.getters['auth/header'])
+            if (self.$store.state.auth.oauth.accessToken) {
+              xhrObject.setRequestHeader('Authorization', self.$store.getters['auth/header'])
+            }
             return xhrObject
           },
           onResponse: function (initialResponse) {
