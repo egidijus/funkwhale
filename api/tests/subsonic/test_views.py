@@ -435,6 +435,21 @@ def test_get_album_list2(
     playable_by.assert_called_once()
 
 
+def test_get_album_list2_recent(db, logged_in_api_client, factories):
+    url = reverse("api:subsonic-get_album_list2")
+    assert url.endswith("getAlbumList2") is True
+    factories["music.Album"](playable=True, release_date=None)
+    album2 = factories["music.Album"](playable=True)
+    album3 = factories["music.Album"](playable=True)
+    response = logged_in_api_client.get(url, {"f": "json", "type": "recent"})
+
+    assert response.status_code == 200
+    expected_albums = reversed(sorted([album3, album2], key=lambda a: a.release_date))
+    assert response.data == {
+        "albumList2": {"album": serializers.get_album_list2_data(expected_albums)}
+    }
+
+
 @pytest.mark.parametrize("f", ["json"])
 def test_get_album_list2_pagination(f, db, logged_in_api_client, factories):
     url = reverse("api:subsonic-get_album_list2")

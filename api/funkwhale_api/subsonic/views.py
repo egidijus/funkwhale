@@ -458,9 +458,7 @@ class SubsonicViewSet(viewsets.GenericViewSet):
         elif type == "alphabeticalByName" or not type:
             queryset = queryset.order_by("artist__title")
         elif type == "recent" or not type:
-            queryset = queryset.exclude(release_date__in=["", None]).order_by(
-                "-release_date"
-            )
+            queryset = queryset.exclude(release_date=None).order_by("-release_date")
         elif type == "newest" or not type:
             queryset = queryset.order_by("-creation_date")
         elif type == "byGenre" and data.get("genre"):
