@@ -746,7 +746,7 @@ To make a new 3.4 release::
     nano CHANGELOG
 
     # Set the `__version__` variable to $NEXT_RELEASE
-    nano nano api/funkwhale_api/__init__.py
+    nano api/funkwhale_api/__init__.py
 
     # commit
     git add .

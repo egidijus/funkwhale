@@ -1,1 +1,0 @@
-Fix HTML <title> not including instance name in some situations (#1107)
