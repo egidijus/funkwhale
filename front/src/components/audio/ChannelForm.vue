@@ -120,6 +120,31 @@
             </select>
           </div>
         </div>
+        <div class="ui two fields" v-if="newValues.content_category === 'podcast'">
+          <div class="ui field">
+            <label for="channel-itunes-email">
+              <translate translate-context="*/*/*">Owner email</translate>
+            </label>
+            <input
+              name="channel-itunes-email"
+              id="channel-itunes-email"
+              type="email"
+              v-model="newValues.metadata.owner_email">
+          </div>
+          <div class="ui field">
+            <label for="channel-itunes-name">
+              <translate translate-context="*/*/*">Owner name</translate>
+            </label>
+            <input
+              name="channel-itunes-name"
+              id="channel-itunes-name"
+              maxlength="255"
+              v-model="newValues.metadata.owner_name">
+          </div>
+        </div>
+        <p>
+          <translate translate-context="*/*/*">Used for the itunes:email and itunes:name field required by certain platforms such as Spotify or iTunes.</translate>
+        </p>
       </template>
     </template>
     <div v-else class="ui active inverted dimmer">
