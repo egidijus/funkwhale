@@ -37,7 +37,7 @@ def crawl_dir(dir, extensions, recursive=True, ignored=[]):
                             yield entry.path
             elif recursive and entry.is_dir():
                 yield from crawl_dir(
-                    entry, extensions, recursive=recursive, ignored=ignored
+                    entry.path, extensions, recursive=recursive, ignored=ignored
                 )
     finally:
         if hasattr(scanner, "close"):
