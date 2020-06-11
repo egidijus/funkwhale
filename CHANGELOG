@@ -10,6 +10,57 @@ This changelog is viewable on the web at https://docs.funkwhale.audio/changelog.
 
 .. towncrier
 
+0.21.1 (2020-06-11)
+-------------------
+
+Upgrade instructions are available at
+https://docs.funkwhale.audio/index.html
+
+
+Features:
+
+- Support a --watch mode with ``import_files`` to automatically add, update and remove files when filesystem is updated (#721)
+
+Enhancements:
+
+- Added new channels widget on pod landing page (#1113)
+- Fix HTML <title> not including instance name in some situations (#1107)
+- Make URL-building logic more resilient against reverse proxy misconfiguration (#1085)
+- Removed unused masonry dependency (#1112)
+- Support for specifying itunes:email and itunes:name in channels for compatibiliy with third-party platforms (#1154)
+- Updated the /api/v1/libraries endpoint to support listing public libraries from other users/pods (#1151)
+
+
+Bugfixes:
+
+- Added safeguard to ensure local uploads are never purged from cache (#1086)
+- Ensure firefox password manager dont autofill username in search bar (#1090)
+- Ensure player doesn't disappear when last queue track is removed manually (#1092)
+- Ensure tracks linked to skipped upload can be pruned (#1011)
+- Fix playlist modal only listing 50 first playlists (#1087)
+- Fixed a wording issue on artist channel page (#1117)
+- Fixed crash on python 3.5 with cli importer (#1155)
+- Fixed issue when displaying starred tracks on subsonic (#1082)
+- Fixed mimetype detection issue that broke transcoding on some tracks (#1093). Run ``python manage.py fix_uploads --mimetype`` to set proper mimetypes on existing uploads.
+- Fixed page not refreshing when switching between My Library and Explore sections (#1091)
+- Fixed recursive CLI importing crashing under Python 3.5 (#1148, #1147)
+- Fixed wrong album and track count in admin artist API (#1096)
+- Include tracks by album artist when filtering by artist on /api/v1/tracks (#1078)
+
+Small API breaking change in ``/api/v1/libraries``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To allow easier crawling of public libraries on a pod,we had to make a slight breaking change
+to the behaviour of ``GET /api/v1/libraries``.
+
+Before, it returned only libraries owned by the current user.
+
+Now, it returns all the accessible libraries (including ones from other users and pods).
+
+If you are consuming the API via a third-party client and need to retrieve your libraries,
+use the ``scope`` parameter, like this: ``GET /api/v1/libraries?scope=me``
+
+
 0.21 "Agate" (2020-04-24)
 -------------------------
 
