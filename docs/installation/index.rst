@@ -324,7 +324,15 @@ Caddy
 ^^^^^
 
 If you're using Caddy as a reverse proxy in front of your docker containers (either mono or multi-container setup),
-you can use the following configuration::
+you can use the following Caddyfile configuration:
+
+Caddy v2::
+
+    yourdomain.funkwhale
+
+    reverse_proxy 127.0.0.1:5000
+
+Caddy v1::
 
     yourdomain.funkwhale {
         proxy / 127.0.0.1:5000 {
@@ -333,7 +341,6 @@ you can use the following configuration::
             header_upstream X-Forwarded-Host {host}:{server_port}
         }
     }
-
 
 
 About internal locations
