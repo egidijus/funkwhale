@@ -721,7 +721,7 @@ export default {
         // If the session is playing as a PWA, populate the notification
         // with details from the track
         if ('mediaSession' in navigator) {
-          let metatata = {
+          let metadata = {
             title: this.currentTrack.title,
             artist: this.currentTrack.artist.name,
           }
