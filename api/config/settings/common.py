@@ -286,6 +286,7 @@ MIDDLEWARE = tuple(ADDITIONAL_MIDDLEWARES_BEFORE) + (
     "django.contrib.messages.middleware.MessageMiddleware",
     "funkwhale_api.users.middleware.RecordActivityMiddleware",
     "funkwhale_api.common.middleware.ThrottleStatusMiddleware",
+    "funkwhale_api.common.plugins.PluginViewMiddleware",
 )
 
 # DEBUG
@@ -555,6 +556,7 @@ Delay in seconds before uploaded but unattached attachements are pruned from the
 # ------------------------------------------------------------------------------
 ROOT_URLCONF = "config.urls"
 SPA_URLCONF = "config.spa_urls"
+PLUGINS_URLCONF = "funkwhale_api.common.plugins"
 ASGI_APPLICATION = "config.routing.application"
 
 # This ensures that Django will be able to detect a secure connection
