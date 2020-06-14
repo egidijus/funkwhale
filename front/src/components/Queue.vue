@@ -6,7 +6,8 @@
                     <div class="ui six wide column current-track">
             <div class="ui basic segment" id="player">
               <template v-if="currentTrack">
-                <img class="ui image" v-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.square_crop)">
+                <img ref="cover" v-if="currentTrack.cover && currentTrack.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.cover.medium_square_crop)">
+                <img ref="cover" v-else-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.medium_square_crop)">
                 <img class="ui image" v-else src="../assets/audio/default-cover.png">
                 <h1 class="ui header">
                   <div class="content">
@@ -158,7 +159,8 @@
                     <i class="grip lines grey icon"></i>
                   </td>
                   <td class="image-cell" @click="$store.dispatch('queue/currentIndex', index)">
-                    <img class="ui mini image" v-if="track.album && track.album.cover && track.album.cover.original" :src="$store.getters['instance/absoluteUrl'](track.album.cover.square_crop)">
+                    <img class="ui mini image" v-if="track.cover && track.cover.original" :src="$store.getters['instance/absoluteUrl'](track.cover.medium_square_crop)">
+                    <img class="ui mini image" v-else-if="track.album && track.album.cover && track.album.cover.original" :src="$store.getters['instance/absoluteUrl'](track.album.cover.medium_square_crop)">
                     <img class="ui mini image" v-else src="../assets/audio/default-cover.png">
                   </td>
                   <td colspan="3" @click="$store.dispatch('queue/currentIndex', index)">
