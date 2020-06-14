@@ -2,7 +2,6 @@ import base64
 import datetime
 import logging
 import urllib.parse
-
 from django.conf import settings
 from django.db import transaction
 from django.db.models import Count, Prefetch, Sum, F, Q
@@ -14,6 +13,8 @@ from rest_framework import settings as rest_settings
 from rest_framework import views, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
+import requests.exceptions
 
 from funkwhale_api.common import decorators as common_decorators
 from funkwhale_api.common import permissions as common_permissions
@@ -532,7 +533,10 @@ def handle_serve(
                 actor = user.actor
             else:
                 actor = actors.get_service_actor()
-            f.download_audio_from_remote(actor=actor)
+            try:
+                f.download_audio_from_remote(actor=actor)
+            except requests.exceptions.RequestException:
+                return Response({"detail": "Remove track is unavailable"}, status=503)
         data = f.get_audio_data()
         if data:
             f.duration = data["duration"]

@@ -23,6 +23,7 @@ from funkwhale_api.taskapp import celery
 
 from . import activity
 from . import actors
+from . import exceptions
 from . import jsonld
 from . import keys
 from . import models, signing
@@ -212,7 +213,11 @@ def update_domain_nodeinfo(domain):
             if service_actor_id
             else None
         )
-    except (serializers.serializers.ValidationError, RequestException) as e:
+    except (
+        serializers.serializers.ValidationError,
+        RequestException,
+        exceptions.BlockedActorOrDomain,
+    ) as e:
         logger.warning(
             "Cannot fetch system actor for domain %s: %s", domain.name, str(e)
         )
