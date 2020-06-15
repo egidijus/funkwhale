@@ -115,6 +115,8 @@ info:
 servers:
   - url: https://demo.funkwhale.audio
     description: Demo server
+  - url: https://open.audio
+    description: Real server with real content
   - url: https://{domain}
     description: Custom server
     variables:
