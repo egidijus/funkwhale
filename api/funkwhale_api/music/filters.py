@@ -85,8 +85,6 @@ class ArtistFilter(
         model = models.Artist
         fields = {
             "name": ["exact", "iexact", "startswith", "icontains"],
-            "playable": ["exact"],
-            "scope": ["exact"],
             "mbid": ["exact"],
         }
         hidden_content_fields_mapping = moderation_filters.USER_FILTER_CONFIG["ARTIST"]
@@ -122,11 +120,9 @@ class TrackFilter(
         model = models.Track
         fields = {
             "title": ["exact", "iexact", "startswith", "icontains"],
-            "playable": ["exact"],
             "id": ["exact"],
             "album": ["exact"],
             "license": ["exact"],
-            "scope": ["exact"],
             "mbid": ["exact"],
         }
         hidden_content_fields_mapping = moderation_filters.USER_FILTER_CONFIG["TRACK"]
@@ -173,7 +169,6 @@ class UploadFilter(audio_filters.IncludeChannelsFilterSet):
     class Meta:
         model = models.Upload
         fields = [
-            "playable",
             "import_status",
             "mimetype",
             "track",
@@ -181,7 +176,6 @@ class UploadFilter(audio_filters.IncludeChannelsFilterSet):
             "album_artist",
             "library",
             "import_reference",
-            "scope",
             "channel",
         ]
         include_channels_field = "track__artist__channel"
@@ -209,7 +203,7 @@ class AlbumFilter(
 
     class Meta:
         model = models.Album
-        fields = ["playable", "q", "artist", "scope", "mbid"]
+        fields = ["artist", "mbid"]
         hidden_content_fields_mapping = moderation_filters.USER_FILTER_CONFIG["ALBUM"]
         include_channels_field = "artist__channel"
         channel_filter_field = "track__album"
@@ -226,4 +220,4 @@ class LibraryFilter(filters.FilterSet):
 
     class Meta:
         model = models.Library
-        fields = ["privacy_level", "q", "scope"]
+        fields = ["privacy_level"]
