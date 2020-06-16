@@ -17,14 +17,6 @@ DEBUG = env.bool("DJANGO_DEBUG", default=True)
 FORCE_HTTPS_URLS = env.bool("FORCE_HTTPS_URLS", default=False)
 TEMPLATES[0]["OPTIONS"]["debug"] = DEBUG
 
-# SECRET CONFIGURATION
-# ------------------------------------------------------------------------------
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-# Note: This key only used for development and testing.
-SECRET_KEY = env(
-    "DJANGO_SECRET_KEY", default="mc$&b=5j#6^bv7tld1gyjp2&+^-qrdy=0sw@r5sua*1zp4fmxc"
-)
-
 # Mail settings
 # ------------------------------------------------------------------------------
 EMAIL_HOST = "localhost"

@@ -7,17 +7,19 @@ import os
 import sys
 
 from urllib.parse import urlsplit
-
-import environ
 from celery.schedules import crontab
-
 from funkwhale_api import __version__
+import environ
 
-logger = logging.getLogger("funkwhale_api.config")
 ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
 APPS_DIR = ROOT_DIR.path("funkwhale_api")
-
+sys.path.append(os.path.join(APPS_DIR, "plugins"))
+logger = logging.getLogger("funkwhale_api.config")
 env = environ.Env()
+
+from .. import plugins  # noqa
+
+total = plugins.plugins_manager.load_setuptools_entrypoints("funkwhale")
 
 LOGLEVEL = env("LOGLEVEL", default="info").upper()
 """
@@ -252,42 +254,63 @@ PLUGINS = [p for p in env.list("FUNKWHALE_PLUGINS", default=[]) if p]
 """
 List of Funkwhale plugins to load.
 """
-if PLUGINS:
-    logger.info("Running with the following plugins enabled: %s", ", ".join(PLUGINS))
-else:
-    logger.info("Running with no plugins")
 
 ADDITIONAL_APPS = env.list("ADDITIONAL_APPS", default=[])
 """
 List of Django apps to load in addition to Funkwhale plugins and apps.
 """
+
+PLUGINS_APPS = tuple()
+for p in plugins.plugins_manager.hook.register_apps():
+    PLUGINS_APPS += (p,)
+
 INSTALLED_APPS = (
     DJANGO_APPS
     + THIRD_PARTY_APPS
     + LOCAL_APPS
-    + tuple(["{}.apps.Plugin".format(p) for p in PLUGINS])
     + tuple(ADDITIONAL_APPS)
+    + tuple(PLUGINS)
+    + tuple(PLUGINS_APPS)
 )
+
+if PLUGINS:
+    logger.info("Running with the following plugins enabled: %s", ", ".join(PLUGINS))
+else:
+    logger.info("Running with no plugins")
 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
-ADDITIONAL_MIDDLEWARES_BEFORE = env.list("ADDITIONAL_MIDDLEWARES_BEFORE", default=[])
-MIDDLEWARE = tuple(ADDITIONAL_MIDDLEWARES_BEFORE) + (
-    "django.middleware.security.SecurityMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
-    # needs to be before SPA middleware
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    # /end
-    "funkwhale_api.common.middleware.SPAFallbackMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "funkwhale_api.users.middleware.RecordActivityMiddleware",
-    "funkwhale_api.common.middleware.ThrottleStatusMiddleware",
-    "funkwhale_api.common.plugins.PluginViewMiddleware",
+ADDITIONAL_MIDDLEWARES_START = env.list("ADDITIONAL_MIDDLEWARES_START", default=[])
+for group in plugins.plugins_manager.hook.middlewares_before():
+    for m in group:
+        ADDITIONAL_MIDDLEWARES_START.append(m)
+
+ADDITIONAL_MIDDLEWARES_END = env.list("ADDITIONAL_MIDDLEWARES_END", default=[])
+for group in plugins.plugins_manager.hook.middlewares_after():
+    for m in group:
+        ADDITIONAL_MIDDLEWARES_END.append(m)
+
+MIDDLEWARE = (
+    tuple(ADDITIONAL_MIDDLEWARES_START)
+    + (
+        "django.middleware.security.SecurityMiddleware",
+        "django.middleware.clickjacking.XFrameOptionsMiddleware",
+        "corsheaders.middleware.CorsMiddleware",
+        # needs to be before SPA middleware
+        "django.contrib.sessions.middleware.SessionMiddleware",
+        "django.middleware.common.CommonMiddleware",
+        "django.middleware.csrf.CsrfViewMiddleware",
+        # /end
+        "funkwhale_api.common.middleware.SPAFallbackMiddleware",
+        "django.contrib.auth.middleware.AuthenticationMiddleware",
+        "django.contrib.messages.middleware.MessageMiddleware",
+        "funkwhale_api.users.middleware.RecordActivityMiddleware",
+        "funkwhale_api.common.middleware.ThrottleStatusMiddleware",
+        "funkwhale_api.common.plugins.PluginViewMiddleware",
+    )
+    + tuple(ADDITIONAL_MIDDLEWARES_END)
 )
+
 
 # DEBUG
 # ------------------------------------------------------------------------------
@@ -480,6 +503,7 @@ AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID", default=None)
 """
 Access-key ID for your S3 storage.
 """
+SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 if AWS_ACCESS_KEY_ID:
     AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
