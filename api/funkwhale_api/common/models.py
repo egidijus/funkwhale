@@ -18,6 +18,7 @@ from django.urls import reverse
 from versatileimagefield.fields import VersatileImageField
 from versatileimagefield.image_warmer import VersatileImageFieldWarmer
 
+from config import plugins
 from funkwhale_api.federation import utils as federation_utils
 
 from . import utils
@@ -363,3 +364,17 @@ def remove_attached_content(sender, instance, **kwargs):
                 getattr(instance, field).delete()
             except Content.DoesNotExist:
                 pass
+
+
+class PodPlugin(models.Model):
+    conf = JSONField(default=None, null=True, blank=True)
+    code = models.CharField(max_length=100, unique=True)
+    creation_date = models.DateTimeField(default=timezone.now)
+
+    @property
+    def plugin(self):
+        """Links to the Plugin instance in entryposint.py"""
+        candidates = plugins.plugins_manager.get_plugins()
+        for p in candidates:
+            if p.name == self.code:
+                return p

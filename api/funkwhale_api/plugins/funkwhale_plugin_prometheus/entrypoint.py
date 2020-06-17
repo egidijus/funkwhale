@@ -5,7 +5,8 @@ from config import plugins
 
 @plugins.register
 class Plugin(plugins.Plugin):
-    name = "prometheus_exporter"
+    name = "funkwhale_plugin_prometheus"
+    verbose_name = "Prometheus metrics exporter"
 
     @plugins.plugin_hook
     def database_engine(self):
@@ -13,7 +14,7 @@ class Plugin(plugins.Plugin):
 
     @plugins.plugin_hook
     def register_apps(self):
-        return "django_prometheus"
+        return ["django_prometheus"]
 
     @plugins.plugin_hook
     def middlewares_before(self):

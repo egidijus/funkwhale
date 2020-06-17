@@ -339,3 +339,21 @@ class NullToEmptDict(object):
         if not v:
             return v
         return super().to_representation(v)
+
+
+class PodPluginSerializer(serializers.Serializer):
+    code = serializers.CharField(read_only=True)
+    enabled = serializers.BooleanField()
+    conf = serializers.JSONField()
+    label = serializers.SerializerMethodField()
+
+    class Meta:
+        fields = [
+            "code",
+            "label",
+            "enabled",
+            "conf",
+        ]
+
+    def get_label(self, o):
+        return o.plugin.verbose_name

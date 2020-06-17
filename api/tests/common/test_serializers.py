@@ -6,6 +6,7 @@ from django.urls import reverse
 
 import django_filters
 
+from config import plugins
 from funkwhale_api.common import serializers
 from funkwhale_api.common import utils
 from funkwhale_api.users import models
@@ -267,3 +268,21 @@ def test_content_serializer(factories):
     serializer = serializers.ContentSerializer(content)
 
     assert serializer.data == expected
+
+
+def test_plugin_serializer():
+    class TestPlugin(plugins.Plugin):
+        name = "test_plugin"
+        verbose_name = "A test plugin"
+
+    plugins.register(TestPlugin)
+    instance = plugins.save(TestPlugin)
+    assert isinstance(instance.plugin, TestPlugin)
+    expected = {
+        "code": "test_plugin",
+        "label": "A test plugin",
+        "enabled": True,
+        "conf": None,
+    }
+
+    assert serializers.PodPluginSerializer(instance).data == expected

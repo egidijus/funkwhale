@@ -24,7 +24,11 @@ class Plugins(persisting_theory.Registry):
     look_into = "entrypoint"
 
 
-PLUGINS = [p for p in env.list("FUNKWHALE_PLUGINS", default=[]) if p]
+PLUGINS = [
+    "funkwhale_plugin_{}".format(p)
+    for p in env.list("FUNKWHALE_PLUGINS", default=[])
+    if p
+]
 """
 List of Funkwhale plugins to load.
 """
@@ -32,8 +36,6 @@ from config import plugins  # noqa
 
 plugins_registry = Plugins()
 plugins_registry.autodiscover(PLUGINS)
-
-# plugins.plugins_manager.register(Plugin("noop", "noop"))
 
 LOGLEVEL = env("LOGLEVEL", default="info").upper()
 """
@@ -272,7 +274,7 @@ List of Django apps to load in addition to Funkwhale plugins and apps.
 PLUGINS_APPS = tuple()
 
 for p in plugins.trigger_hook("register_apps"):
-    PLUGINS_APPS += (p,)
+    PLUGINS_APPS += tuple(p)
 
 INSTALLED_APPS = (
     DJANGO_APPS

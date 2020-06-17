@@ -24,6 +24,7 @@ from aioresponses import aioresponses
 from dynamic_preferences.registries import global_preferences_registry
 from rest_framework.test import APIClient, APIRequestFactory
 
+from config import plugins
 from funkwhale_api.activity import record
 from funkwhale_api.federation import actors
 from funkwhale_api.moderation import mrf
@@ -429,3 +430,13 @@ def clear_license_cache(db):
 @pytest.fixture
 def faker():
     return factory.Faker._get_faker()
+
+
+@pytest.fixture
+def plugins_manager():
+    return plugins.PluginManager("tests")
+
+
+@pytest.fixture
+def hook(plugins_manager):
+    return plugins.HookimplMarker("tests")
