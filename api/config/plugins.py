@@ -1,52 +1,27 @@
-from django import urls
+from django.apps import AppConfig
+
 from pluggy import PluginManager, HookimplMarker, HookspecMarker
 
 plugins_manager = PluginManager("funkwhale")
-hook = HookimplMarker("funkwhale")
-hookspec = HookspecMarker("funkwhale")
-
-
-class PluginViewMiddleware:
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
-        from django.conf import settings
-
-        response = self.get_response(request)
-        if response.status_code == 404 and request.path.startswith("/plugins/"):
-            match = urls.resolve(request.path, urlconf=settings.PLUGINS_URLCONF)
-            response = match.func(request, *match.args, **match.kwargs)
-        return response
+plugin_hook = HookimplMarker("funkwhale")
+plugin_spec = HookspecMarker("funkwhale")
 
 
 class ConfigError(ValueError):
     pass
 
 
-class Plugin:
+class Plugin(AppConfig):
     conf = {}
+    path = "noop"
 
     def get_conf(self):
         return {"enabled": self.plugin_settings.enabled}
-
-    def register_api_view(self, path, name=None):
-        def register(view):
-            return urls.path(
-                "plugins/{}/{}".format(self.name.replace("_", "-"), path),
-                view,
-                name="plugins-{}-{}".format(self.name, name),
-            )
-
-        return register
 
     def plugin_settings(self):
         """
         Return plugin specific settings from django.conf.settings
         """
-        import ipdb
-
-        ipdb.set_trace()
         from django.conf import settings
 
         d = {}
@@ -80,47 +55,34 @@ def clean(d, conf, plugin_name):
     return cleaned
 
 
-def reverse(name, **kwargs):
-    from django.conf import settings
-
-    return urls.reverse(name, settings.PLUGINS_URLCONF, **kwargs)
-
-
-def resolve(name, **kwargs):
-    from django.conf import settings
-
-    return urls.resolve(name, settings.PLUGINS_URLCONF, **kwargs)
-
-
-# def install_plugin(name_or_path):
-
-#     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-#     sub
-
-
 class HookSpec:
-    @hookspec
+    @plugin_spec
+    def database_engine(self):
+        """
+        Customize the database engine with a new class
+        """
+
+    @plugin_spec
     def register_apps(self):
         """
         Register additional apps in INSTALLED_APPS.
 
         :rvalue: list"""
 
-    @hookspec
+    @plugin_spec
     def middlewares_before(self):
         """
         Register additional middlewares at the outer level.
 
         :rvalue: list"""
 
-    @hookspec
+    @plugin_spec
     def middlewares_after(self):
         """
         Register additional middlewares at the inner level.
 
         :rvalue: list"""
 
-    @hookspec
     def urls(self):
         """
         Register additional urls.
@@ -129,3 +91,19 @@ class HookSpec:
 
 
 plugins_manager.add_hookspecs(HookSpec())
+
+
+def register(plugin_class):
+    return plugins_manager.register(plugin_class("noop", "noop"))
+
+
+def trigger_hook(name, *args, **kwargs):
+    handler = getattr(plugins_manager.hook, name)
+    return handler(*args, **kwargs)
+
+
+@register
+class DefaultPlugin(Plugin):
+    @plugin_hook
+    def database_engine(self):
+        return "django.db.backends.postgresql"

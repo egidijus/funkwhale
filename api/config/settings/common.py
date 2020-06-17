@@ -6,6 +6,8 @@ import logging.config
 import os
 import sys
 
+import persisting_theory
+
 from urllib.parse import urlsplit
 from celery.schedules import crontab
 from funkwhale_api import __version__
@@ -17,9 +19,21 @@ sys.path.append(os.path.join(APPS_DIR, "plugins"))
 logger = logging.getLogger("funkwhale_api.config")
 env = environ.Env()
 
-from .. import plugins  # noqa
 
-total = plugins.plugins_manager.load_setuptools_entrypoints("funkwhale")
+class Plugins(persisting_theory.Registry):
+    look_into = "entrypoint"
+
+
+PLUGINS = [p for p in env.list("FUNKWHALE_PLUGINS", default=[]) if p]
+"""
+List of Funkwhale plugins to load.
+"""
+from config import plugins  # noqa
+
+plugins_registry = Plugins()
+plugins_registry.autodiscover(PLUGINS)
+
+# plugins.plugins_manager.register(Plugin("noop", "noop"))
 
 LOGLEVEL = env("LOGLEVEL", default="info").upper()
 """
@@ -250,18 +264,14 @@ LOCAL_APPS = (
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 
 
-PLUGINS = [p for p in env.list("FUNKWHALE_PLUGINS", default=[]) if p]
-"""
-List of Funkwhale plugins to load.
-"""
-
 ADDITIONAL_APPS = env.list("ADDITIONAL_APPS", default=[])
 """
 List of Django apps to load in addition to Funkwhale plugins and apps.
 """
 
 PLUGINS_APPS = tuple()
-for p in plugins.plugins_manager.hook.register_apps():
+
+for p in plugins.trigger_hook("register_apps"):
     PLUGINS_APPS += (p,)
 
 INSTALLED_APPS = (
@@ -281,12 +291,12 @@ else:
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
 ADDITIONAL_MIDDLEWARES_START = env.list("ADDITIONAL_MIDDLEWARES_START", default=[])
-for group in plugins.plugins_manager.hook.middlewares_before():
+for group in plugins.trigger_hook("middlewares_before"):
     for m in group:
         ADDITIONAL_MIDDLEWARES_START.append(m)
 
 ADDITIONAL_MIDDLEWARES_END = env.list("ADDITIONAL_MIDDLEWARES_END", default=[])
-for group in plugins.plugins_manager.hook.middlewares_after():
+for group in plugins.trigger_hook("middlewares_after"):
     for m in group:
         ADDITIONAL_MIDDLEWARES_END.append(m)
 
@@ -306,7 +316,6 @@ MIDDLEWARE = (
         "django.contrib.messages.middleware.MessageMiddleware",
         "funkwhale_api.users.middleware.RecordActivityMiddleware",
         "funkwhale_api.common.middleware.ThrottleStatusMiddleware",
-        "funkwhale_api.common.plugins.PluginViewMiddleware",
     )
     + tuple(ADDITIONAL_MIDDLEWARES_END)
 )
@@ -394,6 +403,9 @@ DATABASES["default"]["ATOMIC_REQUESTS"] = True
 DB_CONN_MAX_AGE = DATABASES["default"]["CONN_MAX_AGE"] = env(
     "DB_CONN_MAX_AGE", default=60 * 5
 )
+
+engine = plugins.trigger_hook("database_engine")[-1]
+DATABASES["default"]["ENGINE"] = engine
 """
 Max time, in seconds, before database connections are closed.
 """

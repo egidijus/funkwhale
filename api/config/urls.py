@@ -8,8 +8,6 @@ from django.conf.urls.static import static
 from funkwhale_api.common import admin
 from django.views import defaults as default_views
 
-from config import plugins
-
 
 urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
@@ -25,9 +23,6 @@ urlpatterns = [
     url(r"^accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
 ]
-
-for group in plugins.plugins_manager.hook.urls():
-    urlpatterns += group
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit

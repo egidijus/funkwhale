@@ -13,6 +13,8 @@ from funkwhale_api.subsonic.views import SubsonicViewSet
 from funkwhale_api.tags import views as tags_views
 from funkwhale_api.users import jwt_views
 
+from config import plugins
+
 router = common_routers.OptionalSlashRouter()
 router.register(r"settings", GlobalPreferencesViewSet, basename="settings")
 router.register(r"activity", activity_views.ActivityViewSet, "activity")
@@ -98,3 +100,11 @@ v1_patterns += [
 urlpatterns = [
     url(r"^v1/", include((v1_patterns, "v1"), namespace="v1"))
 ] + format_suffix_patterns(subsonic_router.urls, allowed=["view"])
+
+plugin_urls = []
+for group in plugins.trigger_hook("urls"):
+    for u in group:
+        plugin_urls.append(u)
+urlpatterns += [
+    url("^plugins/", include((plugin_urls, "plugins"), namespace="plugins")),
+]

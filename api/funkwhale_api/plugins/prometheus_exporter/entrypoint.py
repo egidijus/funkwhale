@@ -1,37 +1,32 @@
-import json
-from django import http
-from django import urls
+from django.conf.urls import url, include
 
 from config import plugins
 
 
+@plugins.register
 class Plugin(plugins.Plugin):
     name = "prometheus_exporter"
 
-    @plugins.hook
+    @plugins.plugin_hook
+    def database_engine(self):
+        return "django_prometheus.db.backends.postgresql"
+
+    @plugins.plugin_hook
     def register_apps(self):
         return "django_prometheus"
 
-    @plugins.hook
+    @plugins.plugin_hook
     def middlewares_before(self):
         return [
             "django_prometheus.middleware.PrometheusBeforeMiddleware",
         ]
 
-    @plugins.hook
+    @plugins.plugin_hook
     def middlewares_after(self):
         return [
             "django_prometheus.middleware.PrometheusAfterMiddleware",
         ]
 
-    @plugins.hook
+    @plugins.plugin_hook
     def urls(self):
-        return [urls.url(r"^plugins/prometheus/exporter/?$", prometheus)]
-
-
-plugins.plugins_manager.register(Plugin())
-
-
-def prometheus(request):
-    stats = {"foo": "bar"}
-    return http.HttpResponse(json.dumps(stats))
+        return [url(r"^prometheus/", include("django_prometheus.urls"))]
