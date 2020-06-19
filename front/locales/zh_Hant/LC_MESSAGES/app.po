@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: front 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2020-04-22 05:37+0000\n"
-"Last-Translator: 呗 <xyq565843@gmail.com>\n"
+"PO-Revision-Date: 2020-06-19 23:24+0000\n"
+"Last-Translator: vicdorke <vicdorke@gmail.com>\n"
 "Language-Team: none\n"
 "Language: zh_Hant\n"
 "MIME-Version: 1.0\n"
@@ -19,10 +19,9 @@ msgstr ""
 "X-Generator: Weblate 3.11.3\n"
 
 #: front/src/components/playlists/PlaylistModal.vue:6
-#, fuzzy
 msgctxt "Popup/Playlist/Paragraph"
 msgid "\"%{ title }\", by %{ artist }"
-msgstr "\"%{ title }\", by %{ artist }"
+msgstr "\"%{ title }\", 来自 %{ artist }"
 
 #: front/src/components/audio/ChannelCard.vue:28
 msgid "{{ object.artist.modification_date | fromNow }}"
@@ -211,10 +210,9 @@ msgid "A network error occurred while uploading this file"
 msgstr "上傳這個文件時發生了網絡錯誤"
 
 #: front/src/App.vue:414
-#, fuzzy
 msgctxt "App/Message/Paragraph"
 msgid "A new version of the app is available."
-msgstr "有一個該app的新版本"
+msgstr "该应用程序有新版本可用。"
 
 #: front/src/components/library/EditForm.vue:180
 msgctxt "*/*/Placeholder"
@@ -790,7 +788,7 @@ msgstr ""
 #: front/src/components/auth/Logout.vue:5
 msgctxt "Content/Login/Title"
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "您确定要登出吗？"
 
 #: front/src/components/audio/SearchBar.vue:33
 #: front/src/components/audio/track/Table.vue:12
@@ -949,7 +947,7 @@ msgstr ""
 #: front/src/views/auth/PasswordResetConfirm.vue:18
 msgctxt "Content/Signup/Link"
 msgid "Back to login"
-msgstr ""
+msgstr "返回登录"
 
 #: front/src/components/auth/ApplicationEdit.vue:9
 #: front/src/components/auth/ApplicationNew.vue:5
@@ -1795,7 +1793,7 @@ msgstr ""
 #: front/src/components/Home.vue:159
 msgctxt "Content/Home/Link"
 msgid "Discover everything you need to know about Funkwhale and its features"
-msgstr ""
+msgstr "發現您需要了解的有關Funkwhale及其功能的所有信息"
 
 #: front/src/components/auth/SubsonicTokenForm.vue:13
 msgctxt "Content/Settings/Link"
@@ -5103,7 +5101,7 @@ msgstr ""
 #: front/src/components/Home.vue:109
 msgctxt "Content/Home/Paragraph"
 msgid "Sign up now to keep a track of your favorites, create playlists, discover new content and much more!"
-msgstr ""
+msgstr "立即注册，以跟踪您的收藏夹，创建播放列表，发现新内容等等！"
 
 #: front/src/components/manage/users/UsersTable.vue:40
 msgctxt "Content/Admin/Table.Label/Short, Noun (Value is a date)"
@@ -5738,7 +5736,7 @@ msgstr ""
 #: front/src/components/Home.vue:89
 msgctxt "Content/Home/Paragraph"
 msgid "This pod runs Funkwhale, a community-driven project that lets you listen and share music and audio within a decentralized, open network."
-msgstr ""
+msgstr "此 pod 运行 Funkwhale，这是一个社区驱动的项目，允许您在分散的开放式网络中收听和共享音乐和音频。"
 
 #: front/src/components/library/FileUpload.vue:51
 msgctxt "Content/Library/Paragraph"
