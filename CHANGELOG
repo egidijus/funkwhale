@@ -61,6 +61,16 @@ If you are consuming the API via a third-party client and need to retrieve your 
 use the ``scope`` parameter, like this: ``GET /api/v1/libraries?scope=me``
 
 
+Contributors to this release (development, documentation, reviews, testing):
+
+- Agate
+- Ciarán Ainsworth
+- Creak
+- gisforgabriel
+- Siren
+- Tony Wasserka
+
+
 0.21 "Agate" (2020-04-24)
 -------------------------
 

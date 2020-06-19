@@ -26,12 +26,9 @@ info:
     Authentication
     --------------
 
-    To authenticate, use the `/token/` endpoint with a username and password, and copy/paste
-    the resulting JWT token in the `Authorize` modal. All subsequent requests made via the interactive
-    documentation will be authenticated.
+    To authenticate, use OAuth. You can register your own app using the `/apps` endpoint and proceed to the OAuth flow afterwards.
 
-    If you keep the default server (https://demo.funkwhale.audio), the default username and password
-    couple is "demo" and "demo".
+    You can use our demo server at `https://demo.funkwhale.audio` for testing purposes.
 
     Rate limiting
     -------------
@@ -118,6 +115,8 @@ info:
 servers:
   - url: https://demo.funkwhale.audio
     description: Demo server
+  - url: https://open.audio
+    description: Real server with real content
   - url: https://{domain}
     description: Custom server
     variables:
@@ -183,6 +182,10 @@ tags:
     description: Manipulation and uploading of audio files
     externalDocs:
       url: https://docs.funkwhale.audio/users/managing.html
+  - name: Channels and subscriptions
+    description: Channel management and subscription
+    externalDocs:
+      url: https://docs.funkwhale.audio/users/upload.html#using-a-channel
   - name: Content curation
     description: Favorites, playlists, radios
   - name: Other
@@ -344,13 +347,8 @@ paths:
         - oauth2:
           - "read:libraries"
       parameters:
-        - name: "q"
-          in: "query"
-          default: null
-          description: "Search query used to filter artists"
-          schema:
-            required: false
-            type: "string"
+
+        - $ref: "#/parameters/Search"
         - allOf:
             - $ref: "#/parameters/Ordering"
             - default: "-creation_date"
@@ -365,6 +363,7 @@ paths:
         - $ref: "#/parameters/Playable"
         - $ref: "#/parameters/PageNumber"
         - $ref: "#/parameters/PageSize"
+        - $ref: "#/parameters/Scope"
 
       responses:
         200:
@@ -436,13 +435,8 @@ paths:
         - oauth2:
           - "read:libraries"
       parameters:
-        - name: "q"
-          in: "query"
-          default: null
-          description: "Search query used to filter albums"
-          schema:
-            required: false
-            type: "string"
+
+        - $ref: "#/parameters/Search"
         - name: "artist"
           in: "query"
           default: null
@@ -465,6 +459,7 @@ paths:
         - $ref: "#/parameters/Playable"
         - $ref: "#/parameters/PageNumber"
         - $ref: "#/parameters/PageSize"
+        - $ref: "#/parameters/Scope"
 
       responses:
         200:
@@ -538,13 +533,8 @@ paths:
         - oauth2:
           - "read:libraries"
       parameters:
-        - name: "q"
-          in: "query"
-          default: null
-          description: "Search query used to filter tracks"
-          schema:
-            required: false
-            type: "string"
+
+        - $ref: "#/parameters/Search"
         - name: "artist"
           in: "query"
           default: null
@@ -590,6 +580,7 @@ paths:
         - $ref: "#/parameters/Playable"
         - $ref: "#/parameters/PageNumber"
         - $ref: "#/parameters/PageSize"
+        - $ref: "#/parameters/Scope"
 
       responses:
         200:
@@ -774,6 +765,8 @@ paths:
       parameters:
         - $ref: "#/parameters/PageNumber"
         - $ref: "#/parameters/PageSize"
+        - $ref: "#/parameters/Search"
+        - $ref: "#/parameters/Scope"
       responses:
         200:
           content:
@@ -853,11 +846,17 @@ paths:
     get:
       summary: List channels
       tags:
-        - "Uploads and audio content"
+        - "Channels and subscriptions"
       parameters:
         - $ref: "#/parameters/PageNumber"
         - $ref: "#/parameters/PageSize"
         - $ref: "#/parameters/Scope"
+        - $ref: "#/parameters/Search"
+        - $ref: "#/parameters/Tags"
+        - $ref: "#/parameters/Subscribed"
+        - $ref: "#/parameters/External"
+        - $ref: "#/parameters/ChannelOrdering"
+
       responses:
         200:
           content:
@@ -874,7 +873,7 @@ paths:
     post:
       summary: Create a new channel
       tags:
-        - "Uploads and audio content"
+        - "Channels and subscriptions"
       responses:
         201:
           $ref: "#/responses/201"
@@ -887,6 +886,53 @@ paths:
             schema:
               $ref: "#/definitions/ChannelCreate"
 
+  /api/v1/channels/metadata-choices:
+    summary: List metadata (locales, itunes categories) for creating and editing channels.
+    tags:
+      - "Channels and subscriptions"
+    get:
+      summary: List channels metadata options
+      tags:
+        - "Channels and subscriptions"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  language:
+                    type: "array"
+                    items:
+                      type: object
+                      properties:
+                        value:
+                          type: string
+                          description: ID of the locale in ISO 639 format
+                          example: "en"
+                        language:
+                          type: string
+                          example: "English"
+                  itunes_category:
+                    type: "array"
+                    items:
+                      type: object
+                      properties:
+                        value:
+                          type: string
+                          description: ID of the category
+                          example: "Business"
+                        label:
+                          type: string
+                          description: Readable label of the category
+                          example: "Business"
+                        children:
+                          type: array
+                          description: Some categories have subcategories
+                          items:
+                            type: string
+                            example: "Entrepreneurship"
+
   /api/v1/channels/{uuid}/:
     parameters:
       - name: uuid
@@ -898,7 +944,7 @@ paths:
     get:
       summary: Retrieve a channel
       tags:
-        - "Uploads and audio content"
+        - "Channels and subscriptions"
       responses:
         200:
           content:
@@ -908,7 +954,7 @@ paths:
     post:
       summary: Update a channel
       tags:
-        - "Uploads and audio content"
+        - "Channels and subscriptions"
       requestBody:
         required: true
         content:
@@ -927,10 +973,85 @@ paths:
         This will delete the channel, all associated uploads, follows, and broadcast
         the event on the federation.
       tags:
-        - "Uploads and audio content"
+        - "Channels and subscriptions"
       responses:
         204:
           $ref: "#/responses/204"
+
+  /api/v1/channels/rss-suscribe/:
+    post:
+      summary: Subscribe to a third-party podcast via its RSS feed
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                url:
+                  type: "string"
+                  description: URL of the RSS feed
+
+      tags:
+        - "Channels and subscriptions"
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/Subscription"
+
+  /api/v1/channels/{uuid}/rss/:
+    parameters:
+      - name: uuid
+        in: path
+        required: true
+        schema:
+          type: "string"
+          format: "uuid"
+    get:
+      summary: Get the RSS feed of a podcast channel. Only available for channel hosted on the pod where the API is queried.
+      tags:
+        - "Channels and subscriptions"
+      responses:
+        200:
+          content:
+            application/rss+xml:
+
+  /api/v1/channels/{uuid}/subscribe/:
+    parameters:
+      - name: uuid
+        in: path
+        required: true
+        schema:
+          type: "string"
+          format: "uuid"
+    post:
+      summary: Subscribe to the given channel
+      tags:
+        - "Channels and subscriptions"
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/Subscription"
+
+  /api/v1/channels/{uuid}/unsubscribe/:
+    parameters:
+      - name: uuid
+        in: path
+        required: true
+        schema:
+          type: "string"
+          format: "uuid"
+    post:
+      summary: Unsubscribe from the given channel
+      tags:
+        - "Channels and subscriptions"
+      responses:
+        204:
 
   /api/v1/uploads/:
     get:
@@ -938,16 +1059,11 @@ paths:
       tags:
         - "Uploads and audio content"
       parameters:
-        - name: "q"
-          in: "query"
-          default: null
-          description: "Search query used to filter uploads"
-          schema:
-            required: false
-            type: "string"
-            example: "Dire straits"
+
+        - $ref: "#/parameters/Search"
         - $ref: "#/parameters/PageNumber"
         - $ref: "#/parameters/PageSize"
+        - $ref: "#/parameters/Scope"
       responses:
         200:
           content:
@@ -1003,6 +1119,61 @@ paths:
                   required: false
                   $ref: "#/definitions/ImportMetadata"
 
+
+  /api/v1/subscriptions/{uuid}/:
+    parameters:
+      - name: uuid
+        in: path
+        required: true
+        schema:
+          type: "string"
+          format: "uuid"
+    get:
+      summary: Retrieve a subscription
+      tags:
+        - "Channels and subscriptions"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/Subscription"
+
+  /api/v1/subscriptions/:
+    get:
+      summary: List subscriptions
+      tags:
+        - "Channels and subscriptions"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/definitions/ResultPage"
+                  - type: "object"
+                    properties:
+                      results:
+                        type: "array"
+                        items:
+                          $ref: "#/definitions/Subscription"
+
+  /api/v1/subscriptions/all/:
+    get:
+      summary: Retrieve all subscriptions in a lightweight format, without pagination
+      tags:
+        - "Channels and subscriptions"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  results:
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/SubscriptionsAll"
 
   /api/v1/uploads/{uuid}/:
     parameters:
@@ -1076,21 +1247,11 @@ paths:
       tags:
         - "Content curation"
       parameters:
-        - name: "q"
-          in: "query"
-          default: null
-          description: "Search query used to filter favorites"
-          schema:
-            required: false
-            type: "string"
-        - name: "user"
-          in: "query"
-          default: null
-          description: "Limit results to favorites belonging to the given user"
-          schema:
-            $ref: "#/parameters/ObjectId"
+        - $ref: "#/parameters/Search"
         - $ref: "#/parameters/PageNumber"
         - $ref: "#/parameters/PageSize"
+        - $ref: "#/parameters/Scope"
+
       responses:
         200:
           content:
@@ -1205,6 +1366,28 @@ paths:
           $ref: "#/responses/204"
 
 parameters:
+
+  ChannelOrdering:
+    - $ref: "#/parameters/Ordering"
+    - default: "-creation_date"
+      schema:
+        required: false
+        type: "string"
+        example: "-creation_date"
+        enum:
+          - creation_date
+          - artist__modification_date
+
+  External:
+    name: "external"
+    in: "query"
+    default: null
+    description: "Filter/exclude channels created from a third-party, non-Funkwhale RSS feed"
+    schema:
+      required: false
+      type: "boolean"
+
+
   ObjectId:
     name: id
     in: path
@@ -1258,13 +1441,51 @@ parameters:
     name: "scope"
     in: "query"
     default: "all"
-    description: "Limit the results relative to the user making the request. `me` restrict to owned objects, `all` applies no restriction."
+    description: |
+      Limit the results to a given user or pod:
+        - Use `all` (or do not specify the property to disable scope filtering)
+        - Use `me` to retrieve content relative to the current user
+        - Use `actor:alice@example.com` to retrieve content relative to the account `alice@example.com
+        - Use `domain:example.com` to retrieve content relative to the domain `example.com
     schema:
       required: false
       type: "string"
       enum:
       - "me"
       - "all"
+      - "actor:alice@example.com"
+      - "domain:example.com"
+
+  Search:
+    name: "q"
+    in: "query"
+    default: "all"
+    description: "Limit the results to the corresponding search query"
+    schema:
+      required: false
+      type: "string"
+      example: "Bonobo"
+
+  Subscribed:
+    name: "subscribed"
+    in: "query"
+    description: "Limit or exclude results with a matching subsription from the current user"
+    schema:
+      required: false
+      type: boolean
+
+  Tags:
+    name: "tag"
+    in: "query"
+    description: "Limit the results to the corresponding tags. May be used multiple times, to retrieve objects matching al provided tags"
+    schema:
+      required: false
+      type: array
+      collectionFormat: csv
+      example:
+        - rock
+        - metal
+
 responses:
   200:
     description: Success
@@ -1276,6 +1497,26 @@ responses:
     description: Bad request
 
 properties:
+  description:
+    type: object
+    description: Text content associated with another resource, like and artist or channel.
+    properties:
+      text:
+        type: string
+        example: "This is **me**"
+        description: "The raw user input"
+      content_type:
+        type: string
+        enum:
+          - text/markdown
+          - text/plain
+          - text/html
+        description: "The raw user input"
+      html:
+        type: string
+        description: "HTML output based on user input"
+        readOnly: true
+
   mbid:
     type: "string"
     format: "uuid"
@@ -1341,6 +1582,16 @@ properties:
     items:
       type: string
       example: "Rock"
+
+  content_category:
+    type: "string"
+    description: Used to what kind of content is published in a chanel
+    enum:
+     - music
+     - podcast
+     - other
+
+
 
 definitions:
   OAuthApplication:
@@ -1557,6 +1808,30 @@ definitions:
             format: "int64"
             example: 16
 
+  ChannelMetadata:
+    type: "object"
+    properties:
+      itunes_category:
+        type: string
+        example: Comedy
+        description: Itunes category (see `/api/v1/channels/metadata-choices`) for allowed values
+      itunes_subcategory:
+        type: string
+        example: Improv
+        description: Itunes subcategory (see `/api/v1/channels/metadata-choices`) for allowed values
+      language:
+        type: string
+        example: en
+        description: Language of the content, in ISO 639 format (see `/api/v1/channels/metadata-choices`) for allowed values
+      owner_name:
+        type: string
+        example: "Alice"
+        description: Used to make the channel compatible with other platforms (iTunes, Spotify, etc.)
+      owner_email:
+        type: string
+        example: "alice@example.com"
+        description: Used to make the channel compatible with other platforms (iTunes, Spotify, etc.)
+
   ChannelCreate:
     type: "object"
     properties:
@@ -1568,14 +1843,17 @@ definitions:
         type: "string"
         example: "aliceandbob"
         description: "The username to associate with the channel, for use over federation. This cannot be changed afterwards."
-      summary:
-        required: false
-        type: "string"
-        example: "A short, public description for the channel"
-        maxLength: 500
+      description:
+        $ref: "#/properties/description"
       tags:
         $ref: "#/properties/tags"
-
+      content_category:
+        $ref: "#/properties/content_category"
+      cover:
+        type: string
+        format: uuid
+      metadata:
+        $ref: "#/definitions/ChannelMetadata"
   ChannelUpdate:
     type: "object"
     properties:
@@ -1583,13 +1861,15 @@ definitions:
         type: "string"
         example: "A short, public name for the channel"
         maxLength: 255
-      summary:
-        required: false
-        type: "string"
-        example: "A short, public description for the channel"
-        maxLength: 500
+      description:
+        $ref: "#/properties/description"
       tags:
         $ref: "#/properties/tags"
+      cover:
+        type: string
+        format: uuid
+      metadata:
+        $ref: "#/definitions/ChannelMetadata"
 
   Channel:
     type: "object"
@@ -1607,6 +1887,32 @@ definitions:
       actor:
         $ref: "#/definitions/Actor"
         description: Actor representing the channel over federation
+
+  Subscription:
+    type: "object"
+    properties:
+      approved:
+        type: "string"
+      fid:
+        $ref: "#/properties/fid"
+      uuid:
+        type: "string"
+        format: "uuid"
+      creation_date:
+        $ref: "#/properties/creation_date"
+      channel:
+        $ref: "#/definitions/Channel"
+
+  SubscriptionsAll:
+    type: "object"
+    properties:
+      uuid:
+        type: "string"
+        format: "uuid"
+      channel:
+        type: "string"
+        format: "uuid"
+
   Library:
     type: "object"
     properties:

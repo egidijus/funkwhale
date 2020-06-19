@@ -1,6 +1,6 @@
 <template>
   <div class="main pusher page-library">
-    <router-view :key="$router.currentRoute.name"></router-view>
+    <router-view :key="$router.currentRoute.fullPath"></router-view>
   </div>
 </template>
 
