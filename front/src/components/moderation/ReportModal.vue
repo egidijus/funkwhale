@@ -8,7 +8,7 @@
     </h2>
     <div class="scrolling content">
       <div class="description">
-        <div v-if="errors.length > 0" class="ui negative message">
+        <div v-if="errors.length > 0" role="alert" class="ui negative message">
           <div class="header"><translate translate-context="Popup/Moderation/Error message">Error while submitting report</translate></div>
           <ul class="list">
             <li v-for="error in errors">{{ error }}</li>
@@ -64,7 +64,7 @@
       <div v-else-if="isLoadingReportTypes" class="ui inline active loader">
 
       </div>
-      <div v-else class="ui warning message">
+      <div v-else role="alert" class="ui warning message">
         <div class="header">
           <translate translate-context="Popup/Moderation/Error message">Anonymous reports are disabled, please sign-in to submit a report.</translate>
         </div>

@@ -11,7 +11,7 @@
         </template>
       </div>
     </div>
-    <div v-if="errors.length > 0" class="ui negative message">
+    <div v-if="errors.length > 0" role="alert" class="ui negative message">
       <div class="header"><translate translate-context="Content/Playlist/Error message.Title">The playlist could not be created</translate></div>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>

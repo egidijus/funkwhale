@@ -4,7 +4,7 @@
       <translate translate-context="Content/Moderation/Card.Title/Verb" v-if="object" key="1">Edit moderation rule</translate>
       <translate translate-context="Content/Moderation/Card.Button.Label/Verb" v-else key="2">Add a new moderation rule</translate>
     </h3>
-    <div v-if="errors && errors.length > 0" class="ui negative message">
+    <div v-if="errors && errors.length > 0" role="alert" class="ui negative message">
       <div class="header"><translate translate-context="Content/Moderation/Error message.Title">Error while creating rule</translate></div>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>

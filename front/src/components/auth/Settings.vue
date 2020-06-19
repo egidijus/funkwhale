@@ -11,7 +11,7 @@
               <translate translate-context="Content/Settings/Message">Settings updated</translate>
             </div>
           </div>
-          <div v-if="settings.errors.length > 0" class="ui negative message">
+          <div v-if="settings.errors.length > 0" role="alert" class="ui negative message">
             <div class="header"><translate translate-context="Content/Settings/Error message.Title">Your settings can't be updated</translate></div>
             <ul class="list">
               <li v-for="error in settings.errors">{{ error }}</li>
@@ -36,7 +36,7 @@
           <translate translate-context="Content/Settings/Title">Avatar</translate>
         </h2>
         <div class="ui form">
-          <div v-if="avatarErrors.length > 0" class="ui negative message">
+          <div v-if="avatarErrors.length > 0" role="alert" class="ui negative message">
             <div class="header"><translate translate-context="Content/Settings/Error message.Title">Your avatar cannot be saved</translate></div>
             <ul class="list">
               <li v-for="error in avatarErrors">{{ error }}</li>
@@ -63,7 +63,7 @@
           <translate translate-context="Content/Settings/Paragraph'">Changing your password will also change your Subsonic API password if you have requested one.</translate>&nbsp;<translate translate-context="Content/Settings/Paragraph">You will have to update your password on your clients that use this password.</translate>
         </div>
         <form class="ui form" @submit.prevent="submitPassword()">
-          <div v-if="passwordError" class="ui negative message">
+          <div v-if="passwordError" role="alert" class="ui negative message">
             <div class="header">
               <translate translate-context="Content/Settings/Error message.Title">Your password cannot be changed</translate>
             </div>
@@ -268,11 +268,11 @@
         <p>
           <translate translate-context="Content/Settings/Paragraph'">You can permanently and irreversibly delete your account and all the associated data using the form below. You will be asked for confirmation.</translate>
         </p>
-        <div class="ui warning message">
+        <div role="alert" class="ui warning message">
           <translate translate-context="Content/Settings/Paragraph'">Your account will be deleted from our servers within a few minutes. We will also notify other servers who may have a copy of some of your data so they can proceed to deletion. Please note that some of these servers may be offline or unwilling to comply though.</translate>
         </div>
         <div class="ui form">
-          <div v-if="accountDeleteErrors.length > 0" class="ui negative message">
+          <div v-if="accountDeleteErrors.length > 0" role="alert" class="ui negative message">
             <div class="header"><translate translate-context="Content/Settings/Error message.Title">We cannot delete your account</translate></div>
             <ul class="list">
               <li v-for="error in accountDeleteErrors">{{ error }}</li>

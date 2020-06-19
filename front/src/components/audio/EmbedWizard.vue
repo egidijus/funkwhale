@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="ui warning message" v-if="!anonymousCanListen">
+    <div role="alert" class="ui warning message" v-if="!anonymousCanListen">
       <p>
         <strong>
           <translate translate-context="Content/Embed/Message">Sharing will not work because this pod doesn't allow anonymous users to access content.</translate>

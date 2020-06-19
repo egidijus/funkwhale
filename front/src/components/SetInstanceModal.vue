@@ -2,7 +2,7 @@
   <modal @update:show="$emit('update:show', $event); isError = false" :show="show">
     <div class="header"><translate translate-context="Popup/Instance/Title">Choose your instance</translate></div>
     <div class="scrolling content">
-      <div v-if="isError" class="ui negative message">
+      <div v-if="isError" role="alert" class="ui negative message">
         <div class="header"><translate translate-context="Popup/Instance/Error message.Title">It is not possible to connect to the given URL</translate></div>
         <ul class="list">
           <li><translate translate-context="Popup/Instance/Error message.List item">The server might be down</translate></li>

@@ -1,6 +1,6 @@
 <template>
 
-  <form class="ui form component-form" @submit.prevent="submit()">
+  <form class="ui form component-form" role="alert" @submit.prevent="submit()">
     <div v-if="errors.length > 0" class="ui negative message">
       <div class="header"><translate translate-context="Content/*/Error message.Title">We cannot save your changes</translate></div>
       <ul class="list">

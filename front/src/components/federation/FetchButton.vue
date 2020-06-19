@@ -70,13 +70,13 @@
             <translate translate-context="Popup/*/Loading.Title">Waiting for result…</translate>
           </div>
         </div>
-        <div v-if="errors.length > 0" class="ui negative message">
+        <div v-if="errors.length > 0" role="alert" class="ui negative message">
           <div class="header"><translate translate-context="Content/*/Error message.Title">Error while saving settings</translate></div>
           <ul class="list">
             <li v-for="error in errors">{{ error }}</li>
           </ul>
         </div>
-        <div v-else-if="fetch && fetch.status === 'pending' && pollsCount >= maxPolls" class="ui warning message">
+        <div v-else-if="fetch && fetch.status === 'pending' && pollsCount >= maxPolls" role="alert" class="ui warning message">
           <div class="header"><translate translate-context="Popup/*/Message.Title">Refresh pending</translate></div>
           <p><translate translate-context="Popup/*/Message.Content">Refresh request wasn't proceed in time by our server. It will be processed later.</translate></p>
         </div>

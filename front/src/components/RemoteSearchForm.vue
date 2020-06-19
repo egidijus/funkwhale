@@ -1,7 +1,7 @@
 <template>
   <div>
     <form id="remote-search" :class="['ui', {loading: isLoading}, 'form']" @submit.stop.prevent="submit">
-      <div v-if="errors.length > 0" class="ui negative message">
+      <div v-if="errors.length > 0" role="alert" class="ui negative message">
         <div class="header"><translate translate-context="Content/*/Error message.Title">Error while fetching object</translate></div>
         <ul class="list">
           <li v-for="error in errors">{{ error }}</li>
@@ -23,7 +23,7 @@
         <translate translate-context="Content/Search/Input.Label/Noun">Search</translate>
       </button>
     </form>
-    <div v-if="!isLoading && fetch && fetch.status === 'finished' && !redirectRoute" class="ui warning message">
+    <div v-if="!isLoading && fetch && fetch.status === 'finished' && !redirectRoute" role="alert" class="ui warning message">
       <p><translate translate-context="Content/*/Error message.Title">This kind of object isn't supported yet</translate></p>
     </div>
   </div>
