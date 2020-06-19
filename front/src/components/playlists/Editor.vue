@@ -12,13 +12,13 @@
       <template v-else-if="status === 'errored'">
         <i class="red close icon"></i>
         <translate translate-context="Content/Playlist/Error message.Title">An error occurred while saving your changes</translate>
-        <div v-if="errors.length > 0" class="ui negative message">
+        <div v-if="errors.length > 0" role="alert" class="ui negative message">
           <ul class="list">
             <li v-for="error in errors">{{ error }}</li>
           </ul>
         </div>
       </template>
-      <div v-else-if="status === 'confirmDuplicateAdd'" class="ui warning message">
+      <div v-else-if="status === 'confirmDuplicateAdd'" role="alert" class="ui warning message">
         <p translate-context="Content/Playlist/Paragraph"
             v-translate="{playlist: playlist.name}">Some tracks in your queue are already in this playlist:</p>
         <ul id="duplicateTrackList" class="ui relaxed divided list">

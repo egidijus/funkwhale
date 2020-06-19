@@ -1,7 +1,7 @@
 <template>
   <form class="ui form" @submit.prevent="submit">
     <p v-if="!library"><translate translate-context="Content/Library/Paragraph">Libraries help you organize and share your music collections. You can upload your own music collection to Funkwhale and share it with your friends and family.</translate></p>
-    <div v-if="errors.length > 0" class="ui negative message">
+    <div v-if="errors.length > 0" role="alert" class="ui negative message">
       <div class="header"><translate translate-context="Content/*/Error message.Title">Error</translate></div>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>

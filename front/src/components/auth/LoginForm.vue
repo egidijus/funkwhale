@@ -1,6 +1,6 @@
 <template>
   <form class="ui form" @submit.prevent="submit()">
-    <div v-if="error" class="ui negative message">
+    <div v-if="error" role="alert" class="ui negative message">
       <div class="header"><translate translate-context="Content/Login/Error message.Title">We cannot log you in</translate></div>
       <ul class="list">
         <li v-if="error == 'invalid_credentials' && $store.state.instance.settings.moderation.signup_approval_enabled.value">

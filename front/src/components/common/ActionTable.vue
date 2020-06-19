@@ -90,7 +90,7 @@
                   </template>
                 </div>
               </div>
-              <div v-if="actionErrors.length > 0" class="ui negative message">
+              <div v-if="actionErrors.length > 0" role="alert" class="ui negative message">
                 <div class="header"><translate translate-context="Content/*/Error message/Header">Error while applying action</translate></div>
                 <ul class="list">
                   <li v-for="error in actionErrors">{{ error }}</li>

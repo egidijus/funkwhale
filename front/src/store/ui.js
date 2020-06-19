@@ -10,7 +10,7 @@ export default {
     momentLocale: 'en',
     lastDate: new Date(),
     maxMessages: 100,
-    messageDisplayDuration: 5 * 1000,
+    messageDisplayDuration: 5 * 10000,
     supportedExtensions: ["flac", "ogg", "mp3", "opus", "aac", "m4a"],
     messages: [],
     theme: 'light',

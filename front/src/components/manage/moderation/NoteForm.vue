@@ -1,6 +1,6 @@
 <template>
   <form class="ui form" @submit.prevent="submit()">
-    <div v-if="errors.length > 0" class="ui negative message">
+    <div v-if="errors.length > 0" role="alert" class="ui negative message">
       <div class="header"><translate translate-context="Content/Moderation/Error message.Title">Error while submitting note</translate></div>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>

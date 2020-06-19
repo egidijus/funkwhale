@@ -117,7 +117,7 @@
           <h3>
             <translate translate-context="Content/*/*/Short">Reported object</translate>
           </h3>
-          <div v-if="!obj.target" class="ui warning message">
+          <div v-if="!obj.target" role="alert" class="ui warning message">
             <translate translate-context="Content/Moderation/Message">The object associated with this report was deleted.</translate>
           </div>
           <router-link class="ui basic button" v-if="target && configs[target.type].urls.getDetail" :to="configs[target.type].urls.getDetail(obj.target_state)">
