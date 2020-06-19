@@ -2,7 +2,7 @@
   <form :id="group.id" class="ui form" @submit.prevent="save">
     <div class="ui divider" />
     <h3 class="ui header">{{ group.label }}</h3>
-    <div v-if="errors.length > 0" class="ui negative message">
+    <div v-if="errors.length > 0" role="alert" class="ui negative message">
       <div class="header"><translate translate-context="Content/*/Error message.Title">Error while saving settings</translate></div>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>

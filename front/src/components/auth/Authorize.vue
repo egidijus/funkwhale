@@ -3,7 +3,7 @@
     <section class="ui vertical stripe segment">
       <div class="ui small text container">
         <h2><i class="lock open icon"></i><translate translate-context="Content/Auth/Title/Verb">Authorize third-party app</translate></h2>
-        <div v-if="errors.length > 0" class="ui negative message">
+        <div v-if="errors.length > 0" role="alert" class="ui negative message">
           <div v-if="application" class="header"><translate translate-context="Popup/Moderation/Error message">Error while authorizing application</translate></div>
           <div v-else class="header"><translate translate-context="Popup/Moderation/Error message">Error while fetching application data</translate></div>
           <ul class="list">

@@ -19,7 +19,7 @@
       <playlist-form :key="formKey"></playlist-form>
       <div class="ui divider"></div>
       <div v-if="playlists.length > 0">
-        <div v-if="showDuplicateTrackAddConfirmation" class="ui warning message">
+        <div v-if="showDuplicateTrackAddConfirmation" role="alert" class="ui warning message">
           <p translate-context="Popup/Playlist/Paragraph"
             v-translate="{track: track.title, playlist: duplicateTrackAddInfo.playlist_name}"
             :translate-params="{track: track.title, playlist: duplicateTrackAddInfo.playlist_name}"><strong>%{ track }</strong> is already in <strong>%{ playlist }</strong>.</p>
@@ -32,7 +32,7 @@
             @click="addToPlaylist(lastSelectedPlaylist, true)">
               <translate translate-context="*/Playlist/Button.Label/Verb">Add anyways</translate></button>
         </div>
-        <div v-if="errors.length > 0" class="ui negative message">
+        <div v-if="errors.length > 0" role="alert" class="ui negative message">
           <div class="header"><translate translate-context="Popup/Playlist/Error message.Title">The track can't be added to a playlist</translate></div>
           <ul class="list">
             <li v-for="error in errors">{{ error }}</li>

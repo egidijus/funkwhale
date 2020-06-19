@@ -16,7 +16,7 @@
     <div v-if="success" class="ui positive message">
       <div class="header">{{ successMessage }}</div>
     </div>
-    <div v-if="subsonicEnabled && errors.length > 0" class="ui negative message">
+    <div v-if="subsonicEnabled && errors.length > 0" role="alert" class="ui negative message">
       <div class="header"><translate translate-context="Content/*/Error message.Title">Error</translate></div>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>

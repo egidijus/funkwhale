@@ -20,6 +20,8 @@ export default {
       ...this.message,
     }
     $("body").toast(params)
+
+    $(".ui.toast.visible").last().attr('role', 'alert')
   }
 }
 </script>

@@ -12,7 +12,7 @@
         <div class="ui success message" v-if="upload.import_status === 'finished'">
           <translate translate-context="Popup/Import/Message">Upload was successfully processed by the server.</translate>
         </div>
-        <div class="ui warning message" v-if="upload.import_status === 'skipped'">
+        <div role="alert" class="ui warning message" v-if="upload.import_status === 'skipped'">
           <translate translate-context="Popup/Import/Message">Upload was skipped because a similar one is already available in one of your libraries.</translate>
         </div>
         <div class="ui error message" v-if="upload.import_status === 'errored'">
