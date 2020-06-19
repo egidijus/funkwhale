@@ -8,61 +8,58 @@ msgstr ""
 "Project-Id-Version: front 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2020-04-22 11:22+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2020-06-19 10:15+0000\n"
+"Last-Translator: vicdorke <vicdorke@gmail.com>\n"
 "Language-Team: none\n"
 "Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 3.11.3\n"
 
 #: front/src/components/playlists/PlaylistModal.vue:6
 msgctxt "Popup/Playlist/Paragraph"
 msgid "\"%{ title }\", by %{ artist }"
-msgstr ""
+msgstr "\"%{ title }\", 来自 %{ artist }"
 
 #: front/src/components/audio/ChannelCard.vue:28
 msgid "{{ object.artist.modification_date | fromNow }}"
-msgstr ""
+msgstr "{{ object.artist.modification_date | fromNow }}"
 
 #: front/src/components/RemoteSearchForm.vue:71
 msgctxt "Head/Fetch/Field.Placeholder"
 msgid "@channel@pod.example or https://website.example/rss.xml"
-msgstr ""
+msgstr "@channel@pod.example 或 https://website.example/rss.xml"
 
 #: front/src/components/auth/Authorize.vue:16
 msgctxt "Content/Auth/Title"
 msgid "%{ app } wants to access your Funkwhale account"
-msgstr ""
+msgstr "%{ app } 想要访问你的Funkwhale帐户"
 
 #: front/src/components/About.vue:175 src/components/Home.vue:58
 msgctxt "Content/Home/Stat"
 msgid "%{ count } active user"
 msgid_plural "%{ count } active users"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%{ count } 活跃用户"
 
 #: front/src/components/About.vue:184
 msgctxt "Content/Home/Stat"
 msgid "%{ count } albums"
 msgid_plural "%{ count } albums"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%{ count } 专辑"
 
 #: front/src/components/About.vue:154
 msgctxt "*/*/*"
 msgid "%{ count } allowed domains"
 msgid_plural "%{ count } allowed domains"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%{ count } 允许的网域"
 
 #: front/src/components/About.vue:181
 msgctxt "Content/Home/Stat"
 msgid "%{ count } artists"
 msgid_plural "%{ count } artists"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%{ count } 艺术家"
 
 #: front/src/components/audio/ChannelCard.vue:14
 #: front/src/components/audio/ChannelSerieCard.vue:15
@@ -72,29 +69,25 @@ msgstr[1] ""
 msgctxt "Content/Channel/Paragraph"
 msgid "%{ count } episode"
 msgid_plural "%{ count } episodes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%{ count }插曲"
 
 #: front/src/components/favorites/List.vue:10
 msgctxt "Content/Favorites/Title"
 msgid "%{ count } favorite"
 msgid_plural "%{ count } favorites"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%{ count } 收藏"
 
 #: front/src/components/About.vue:178 src/components/Home.vue:61
 msgctxt "Content/Home/Stat"
 msgid "%{ count } hour of music"
 msgid_plural "%{ count } hours of music"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%{ count } 小时音乐"
 
 #: front/src/components/About.vue:190
 msgctxt "Content/Home/Stat"
 msgid "%{ count } listenings"
 msgid_plural "%{ count } listenings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%{ count } 正在听"
 
 #: front/src/components/common/ActionTable.vue:67
 msgctxt "Content/*/Paragraph"
@@ -252,7 +245,7 @@ msgstr ""
 #: front/src/components/Home.vue:21
 msgctxt "Content/Home/Header"
 msgid "About this Funkwhale pod"
-msgstr ""
+msgstr "关于这个Funkwhale"
 
 #: front/src/components/channels/LicenseSelect.vue:14
 msgctxt "Content/*/*"
@@ -388,7 +381,7 @@ msgstr ""
 #: front/src/views/auth/PasswordReset.vue:14
 msgctxt "Content/Signup/Input.Label"
 msgid "Account's email"
-msgstr ""
+msgstr "账户邮箱"
 
 #: front/src/views/admin/moderation/AccountsList.vue:3
 #: front/src/views/admin/moderation/AccountsList.vue:24
@@ -589,7 +582,7 @@ msgstr ""
 #: front/src/components/admin/SignupFormBuilder.vue:37
 msgctxt "*/*/Help"
 msgid "Additional form fields to be displayed in the form. Only shown if manual sign-up validation is enabled."
-msgstr ""
+msgstr "要在表单中显示的其他表单域。仅在启用手动注册验证时显示。"
 
 #: front/src/components/manage/users/UsersTable.vue:70
 msgctxt "Content/Admin/Table.User role"
@@ -703,7 +696,7 @@ msgstr ""
 #: front/src/components/library/ImportStatusModal.vue:17
 msgctxt "Popup/Import/Message"
 msgid "An error occurred during upload processing. You will find more information below."
-msgstr ""
+msgstr "上载处理过程中出错。您将在下面找到更多信息。"
 
 #: front/src/components/playlists/Editor.vue:13
 msgctxt "Content/Playlist/Error message.Title"
@@ -723,7 +716,7 @@ msgstr ""
 #: front/src/components/admin/SignupFormBuilder.vue:24
 msgctxt "*/*/Help"
 msgid "An optional text to be displayed at the start of the sign-up form."
-msgstr ""
+msgstr "要在注册表单开始处显示的可选文本。"
 
 #: front/src/components/library/ImportStatusModal.vue:145
 msgctxt "Popup/Import/Error.Label"
@@ -789,7 +782,7 @@ msgstr ""
 #: front/src/components/auth/Logout.vue:5
 msgctxt "Content/Login/Title"
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "是否确实要退出?"
 
 #: front/src/components/audio/SearchBar.vue:33
 #: front/src/components/audio/track/Table.vue:12
@@ -948,7 +941,7 @@ msgstr ""
 #: front/src/views/auth/PasswordResetConfirm.vue:18
 msgctxt "Content/Signup/Link"
 msgid "Back to login"
-msgstr ""
+msgstr "返回登录"
 
 #: front/src/components/auth/ApplicationEdit.vue:9
 #: front/src/components/auth/ApplicationNew.vue:5
@@ -1105,7 +1098,7 @@ msgstr ""
 #: front/src/components/Footer.vue:24
 msgctxt "Footer/Settings/Dropdown.Label/Short, Verb"
 msgid "Change language"
-msgstr ""
+msgstr "更改语言"
 
 #: front/src/components/auth/Settings.vue:59
 msgctxt "Content/Settings/Title/Verb"
@@ -1120,7 +1113,7 @@ msgstr ""
 #: front/src/components/Footer.vue:40
 msgctxt "Footer/Settings/Dropdown.Label/Short, Verb"
 msgid "Change theme"
-msgstr ""
+msgstr "更改主题"
 
 #: front/src/views/auth/PasswordResetConfirm.vue:62
 msgctxt "*/Signup/Title"
@@ -1194,7 +1187,7 @@ msgstr ""
 #: front/src/components/SetInstanceModal.vue:2
 msgctxt "Popup/Instance/Title"
 msgid "Choose your instance"
-msgstr ""
+msgstr "选择实例"
 
 #: front/src/components/Queue.vue:133
 msgctxt "*/Queue/*/Verb"
@@ -1229,7 +1222,7 @@ msgstr ""
 #: front/src/components/mixins/Translations.vue:22
 msgctxt "Content/Library/Link.Title"
 msgid "Click to display more information about the import process for this upload"
-msgstr ""
+msgstr "单击以显示有关此上载的导入过程的详细信息"
 
 #: front/src/components/library/FileUpload.vue:82
 msgctxt "Content/Library/Paragraph/Call to action"
@@ -2141,7 +2134,7 @@ msgstr ""
 #: front/src/components/auth/LoginForm.vue:86
 msgctxt "Content/Login/Input.Placeholder"
 msgid "Enter your username or email"
-msgstr ""
+msgstr "输入您的用户名或邮箱"
 
 #: front/src/components/library/TrackDetail.vue:9
 msgctxt "Content/*/*"
@@ -2479,7 +2472,7 @@ msgstr ""
 #: front/src/views/content/Home.vue:35
 msgctxt "Content/Library/Paragraph"
 msgid "Follow libraries from other users to get access to new music. Public libraries can be followed immediately, while following a private library requires approval from its owner."
-msgstr ""
+msgstr "关注其他用户的库以访问新音乐。公共库可以立即跟进，而私人库则需要得到所有者的批准。"
 
 #: front/src/views/content/Home.vue:33
 msgctxt "Content/Library/Title/Verb"
@@ -2556,7 +2549,7 @@ msgstr ""
 #: src/components/library/ImportStatusModal.vue:45
 msgctxt "Footer/*/Link"
 msgid "Getting help"
-msgstr ""
+msgstr "获得帮助"
 
 #: front/src/components/common/ActionTable.vue:34
 #: front/src/components/common/ActionTable.vue:55
@@ -2642,7 +2635,7 @@ msgstr ""
 #: front/src/components/auth/LoginForm.vue:6
 msgctxt "Content/Login/Error message.List item/Call to action"
 msgid "If you signed-up recently, you may need to wait before our moderation team review your account, or verify your email."
-msgstr ""
+msgstr "如果您最近注册，您可能需要等待我们的审核团队审核您的帐户，或验证您的电子邮件。"
 
 #: front/src/views/channels/DetailBase.vue:60
 msgctxt "Content/Channels/Label"
@@ -2693,7 +2686,7 @@ msgstr ""
 #: front/src/components/moderation/FilterModal.vue:26
 msgctxt "Popup/Moderation/List item"
 msgid "In \"Recently added\" widget"
-msgstr ""
+msgstr "在“最近添加的”小部件中"
 
 #: front/src/components/moderation/FilterModal.vue:27
 msgctxt "Popup/Moderation/List item"
@@ -2896,7 +2889,7 @@ msgstr ""
 #: front/src/components/Home.vue:37
 msgctxt "Content/Home/Link"
 msgid "Learn more"
-msgstr ""
+msgstr "查看更多"
 
 #: front/src/components/manage/users/InvitationForm.vue:58
 msgctxt "Content/Admin/Input.Placeholder"
@@ -3026,7 +3019,7 @@ msgstr ""
 #: front/src/components/library/ArtistDetail.vue:28
 msgctxt "Content/*/Button.Label"
 msgid "Load more…"
-msgstr ""
+msgstr "加载更多…"
 
 #: front/src/components/audio/ChannelForm.vue:126
 msgctxt "*/*/*"
@@ -3036,27 +3029,27 @@ msgstr ""
 #: front/src/views/library/Edit.vue:14
 msgctxt "Content/Library/Paragraph"
 msgid "Loading followers…"
-msgstr ""
+msgstr "正在加载关注者…"
 
 #: front/src/views/content/libraries/Home.vue:3
 msgctxt "Content/Library/Paragraph"
 msgid "Loading Libraries…"
-msgstr ""
+msgstr "加载库…"
 
 #: front/src/views/Notifications.vue:84
 msgctxt "Content/Notifications/Paragraph"
 msgid "Loading notifications…"
-msgstr ""
+msgstr "正在加载通知…"
 
 #: front/src/views/content/remote/Home.vue:3
 msgctxt "Content/Library/Paragraph"
 msgid "Loading remote libraries…"
-msgstr ""
+msgstr "正在加载远程库…"
 
 #: front/src/views/content/libraries/Quota.vue:4
 msgctxt "Content/Library/Paragraph"
 msgid "Loading usage data…"
-msgstr ""
+msgstr "正在加载使用情况数据…"
 
 #: front/src/components/favorites/List.vue:5
 msgctxt "Content/Favorites/Message"
@@ -3089,32 +3082,32 @@ msgstr ""
 #: front/src/components/Home.vue:98 src/views/auth/Login.vue:29
 msgctxt "Head/Login/Title"
 msgid "Log In"
-msgstr ""
+msgstr "登录"
 
 #: front/src/components/auth/SignupForm.vue:10 src/views/auth/Login.vue:4
 msgctxt "Content/Login/Title/Verb"
 msgid "Log in to your Funkwhale account"
-msgstr ""
+msgstr "登录您的Funkwhale帐户"
 
 #: front/src/components/auth/Logout.vue:20
 msgctxt "Head/Login/Title"
 msgid "Log Out"
-msgstr ""
+msgstr "登出"
 
 #: front/src/components/Sidebar.vue:99 src/components/auth/LoginForm.vue:46
 msgctxt "*/Login/*/Verb"
 msgid "Login"
-msgstr ""
+msgstr "登录"
 
 #: front/src/views/admin/moderation/AccountsDetail.vue:148
 msgctxt "Content/*/*/Noun"
 msgid "Login status"
-msgstr ""
+msgstr "登录状态"
 
 #: front/src/components/Sidebar.vue:81
 msgctxt "Sidebar/Login/List item.Link/Verb"
 msgid "Logout"
-msgstr ""
+msgstr "登出"
 
 #: front/src/components/admin/SignupFormBuilder.vue:65
 msgctxt "*/*/Form-builder"
@@ -3258,9 +3251,10 @@ msgid "Modification date"
 msgstr ""
 
 #: front/src/components/Sidebar.vue:141
+#, fuzzy
 msgctxt "Footer/About/List item.Link"
 msgid "More"
-msgstr ""
+msgstr "更多"
 
 #: front/src/components/audio/PlayButton.vue:94
 #: front/src/components/library/AlbumDropdown.vue:113
@@ -3268,7 +3262,7 @@ msgstr ""
 #: front/src/components/library/TrackBase.vue:207
 msgctxt "*/*/Button.Label/Noun"
 msgid "More…"
-msgstr ""
+msgstr "更多……"
 
 #: front/src/components/admin/SignupFormBuilder.vue:146
 msgctxt "*/*/*"
@@ -3468,12 +3462,12 @@ msgstr ""
 #: front/src/components/common/RenderedDescription.vue:16
 msgctxt "*/*/Placeholder"
 msgid "No description available"
-msgstr ""
+msgstr "没有可用的描述"
 
 #: front/src/components/About.vue:27 src/components/Home.vue:27
 msgctxt "Content/Home/Paragraph"
 msgid "No description available."
-msgstr ""
+msgstr "没有可用的描述."
 
 #: front/src/components/manage/moderation/DomainsTable.vue:95
 msgctxt "Content/Home/Placeholder"
@@ -3991,7 +3985,7 @@ msgstr ""
 #: front/src/components/auth/LoginForm.vue:9
 msgctxt "Content/Login/Error message.List item/Call to action"
 msgid "Please double-check your username/password couple is correct and ensure you verified your email."
-msgstr ""
+msgstr "请仔细检查您的用户名/密码是正确的，并确保您验证了您的电子邮件。"
 
 #: front/src/components/common/AttachmentInput.vue:26
 msgctxt "Content/*/Paragraph"
@@ -4084,7 +4078,7 @@ msgstr ""
 #: front/src/views/auth/PasswordResetConfirm.vue:31
 msgctxt "Content/Signup/Link/Verb"
 msgid "Proceed to login"
-msgstr ""
+msgstr "继续登录"
 
 #: front/src/views/channels/DetailOverview.vue:9
 #: front/src/views/channels/DetailOverview.vue:39
@@ -4265,23 +4259,23 @@ msgstr ""
 #: front/src/components/library/Home.vue:24
 msgctxt "Content/Home/Title"
 msgid "Recently added"
-msgstr ""
+msgstr "最近添加"
 
 #: front/src/components/Home.vue:169
 msgctxt "Content/Home/Title"
 msgid "Recently added albums"
-msgstr ""
+msgstr "最近添加的专辑"
 
 #: front/src/components/library/Home.vue:11
 #: src/views/auth/ProfileActivity.vue:16
 msgctxt "Content/Home/Title"
 msgid "Recently favorited"
-msgstr ""
+msgstr "最近喜欢"
 
 #: front/src/components/library/Home.vue:6 src/views/auth/ProfileActivity.vue:5
 msgctxt "Content/Home/Title"
 msgid "Recently listened"
-msgstr ""
+msgstr "最近听"
 
 #: front/src/components/auth/ApplicationForm.vue:13
 msgctxt "Content/Applications/Input.Label/Noun"
@@ -4438,7 +4432,7 @@ msgstr ""
 #: front/src/views/content/remote/Home.vue:7
 msgctxt "Content/Library/Paragraph"
 msgid "Remote libraries are owned by other users on the network. You can access them as long as they are public or you are granted access."
-msgstr ""
+msgstr "远程库归网络上的其他用户所有。只要它们是公共的或您被授予访问权限，您就可以访问它们。"
 
 #: front/src/components/channels/UploadForm.vue:90
 #: front/src/components/common/AttachmentInput.vue:28
@@ -4596,7 +4590,7 @@ msgstr ""
 #: src/views/auth/PasswordReset.vue:4 front/src/views/auth/PasswordReset.vue:53
 msgctxt "*/Login/*/Verb"
 msgid "Reset your password"
-msgstr ""
+msgstr "重置您的密码"
 
 #: front/src/components/manage/moderation/ReportCard.vue:83
 #: front/src/components/manage/moderation/UserRequestCard.vue:69
@@ -4662,7 +4656,7 @@ msgstr ""
 #: front/src/views/auth/EmailConfirm.vue:17
 msgctxt "Content/Signup/Link/Verb"
 msgid "Return to login"
-msgstr ""
+msgstr "回到登录页面"
 
 #: front/src/components/library/ArtistDetail.vue:9
 msgctxt "Content/Moderation/Link"
@@ -4856,17 +4850,17 @@ msgstr ""
 #: front/src/components/audio/SearchBar.vue:28
 msgctxt "Sidebar/Search/Input.Placeholder"
 msgid "Search for artists, albums, tracks…"
-msgstr ""
+msgstr "搜索艺术家、专辑、曲目…"
 
 #: front/src/components/audio/Search.vue:2
 msgctxt "Content/Search/Title"
 msgid "Search for some music"
-msgstr ""
+msgstr "搜索一些音乐"
 
 #: front/src/components/library/TagsSelector.vue:6
 msgctxt "*/Dropdown/Placeholder/Verb"
 msgid "Search for tags…"
-msgstr ""
+msgstr "搜索标签…"
 
 #: front/src/components/library/AlbumDropdown.vue:36
 #: front/src/components/library/ArtistBase.vue:77
@@ -5019,8 +5013,7 @@ msgstr ""
 msgctxt "Content/*/Button/Label/Verb"
 msgid "Show 1 more tag"
 msgid_plural "Show %{ count } more tags"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "显示 %{ count }  个标记"
 
 #: front/src/components/library/EditForm.vue:21
 msgctxt "Content/Library/Button.Label"
@@ -5050,7 +5043,7 @@ msgstr ""
 #: front/src/components/playlists/Widget.vue:32
 msgctxt "*/*/Button,Label"
 msgid "Show more"
-msgstr ""
+msgstr "显示更多"
 
 #: front/src/views/Notifications.vue:72
 msgctxt "Content/Notifications/Form.Label/Verb"
@@ -5102,19 +5095,19 @@ msgstr ""
 #: front/src/components/Home.vue:109
 msgctxt "Content/Home/Paragraph"
 msgid "Sign up now to keep a track of your favorites, create playlists, discover new content and much more!"
-msgstr ""
+msgstr "立即注册，跟踪您的收藏夹、创建播放列表、发现新内容等！"
 
 #: front/src/components/manage/users/UsersTable.vue:40
 msgctxt "Content/Admin/Table.Label/Short, Noun (Value is a date)"
 msgid "Sign-up"
-msgstr ""
+msgstr "注册账号"
 
 #: front/src/components/mixins/Translations.vue:84
 #: front/src/views/admin/moderation/AccountsDetail.vue:198
 #: front/src/components/mixins/Translations.vue:85
 msgctxt "Content/Admin/Table.Label/Noun"
 msgid "Sign-up date"
-msgstr ""
+msgstr "注册日期"
 
 #: front/src/views/admin/Settings.vue:81
 msgctxt "*/*/*/Noun"
@@ -5130,7 +5123,7 @@ msgstr ""
 #: front/src/components/mixins/Translations.vue:82
 msgctxt "Content/*/*/Noun"
 msgid "Size"
-msgstr ""
+msgstr "尺寸"
 
 #: front/src/components/manage/library/UploadsTable.vue:24
 #: front/src/components/mixins/Translations.vue:24
@@ -5138,27 +5131,27 @@ msgstr ""
 #: front/src/components/mixins/Translations.vue:25
 msgctxt "Content/Library/*"
 msgid "Skipped"
-msgstr ""
+msgstr "跳过"
 
 #: front/src/views/content/libraries/Quota.vue:48
 msgctxt "Content/Library/Label"
 msgid "Skipped files"
-msgstr ""
+msgstr "已跳过的文件"
 
 #: front/src/components/audio/ChannelForm.vue:35
 msgctxt "Content/Channel/*"
 msgid "Social Network Name"
-msgstr ""
+msgstr "社交网络名称"
 
 #: front/src/views/admin/moderation/DomainsDetail.vue:126
 msgctxt "Content/Moderation/Table.Label"
 msgid "Software"
-msgstr ""
+msgstr "软件"
 
 #: front/src/components/playlists/Editor.vue:21
 msgctxt "Content/Playlist/Paragraph"
 msgid "Some tracks in your queue are already in this playlist:"
-msgstr ""
+msgstr "队列中的某些曲目已在此播放列表中："
 
 #: front/src/views/channels/DetailOverview.vue:14
 msgctxt "Content/Channel/Header"
@@ -5173,7 +5166,7 @@ msgstr ""
 #: front/src/components/audio/SearchBar.vue:56
 msgctxt "Sidebar/Search/Error.Label"
 msgid "Sorry, there are no results for this search"
-msgstr ""
+msgstr "抱歉，此搜索没有结果"
 
 #: front/src/components/Footer.vue:60
 msgctxt "Footer/*/List item.Link"
@@ -5195,12 +5188,12 @@ msgstr ""
 #: front/src/views/admin/Settings.vue:89
 msgctxt "Content/Home/Header"
 msgid "Statistics"
-msgstr ""
+msgstr "统计"
 
 #: front/src/views/admin/moderation/AccountsDetail.vue:529
 msgctxt "Content/Moderation/Help text"
 msgid "Statistics are computed from known activity and content on your instance, and do not reflect general activity for this account"
-msgstr ""
+msgstr "统计信息从实例上的已知活动和内容计算，并不反映此帐户的一般活动"
 
 #: front/src/views/admin/moderation/DomainsDetail.vue:428
 msgctxt "Content/Moderation/Help text"
@@ -5475,7 +5468,7 @@ msgstr ""
 #: front/src/components/Footer.vue:64
 msgctxt "Footer/*/List item.Link"
 msgid "The funkwhale logo was kindly designed and provided by Francis Gading."
-msgstr ""
+msgstr "Funkwhale的标志是由弗朗西斯·盖丁亲切地设计和提供的。"
 
 #: front/src/components/SetInstanceModal.vue:8
 msgctxt "Popup/Instance/Error message.List item"
@@ -5666,7 +5659,7 @@ msgstr ""
 #: front/src/components/auth/Settings.vue:290
 msgctxt "Popup/Settings/Paragraph"
 msgid "This is irreversible and will permanently remove your data from our servers. You will we immediatly logged out."
-msgstr ""
+msgstr "这是不可逆的，将从我们的服务器中永久删除您的数据。您将被我们立即注销。"
 
 #: front/src/components/auth/Settings.vue:155
 msgctxt "Content/Settings/Paragraph"
@@ -5737,7 +5730,7 @@ msgstr ""
 #: front/src/components/Home.vue:89
 msgctxt "Content/Home/Paragraph"
 msgid "This pod runs Funkwhale, a community-driven project that lets you listen and share music and audio within a decentralized, open network."
-msgstr ""
+msgstr "此Pod运行Funkwhale，这是一个社区驱动的项目，允许您在分散的、开放的网络中收听和共享音乐和音频."
 
 #: front/src/components/library/FileUpload.vue:51
 msgctxt "Content/Library/Paragraph"
@@ -5781,7 +5774,7 @@ msgstr ""
 #: front/src/views/auth/ProfileOverview.vue:33
 msgctxt "Content/Profile/Paragraph"
 msgid "This user shared the following libraries."
-msgstr ""
+msgstr "此用户共享下列库。"
 
 #: front/src/components/manage/moderation/UserRequestCard.vue:98
 msgctxt "Content/Moderation/Paragraph"
@@ -5811,7 +5804,7 @@ msgstr ""
 #: front/src/components/auth/SubsonicTokenForm.vue:39
 msgctxt "Popup/Settings/Paragraph"
 msgid "This will log you out from existing devices that use the current password."
-msgstr ""
+msgstr "这将从使用当前密码的现有设备注销。"
 
 #: front/src/components/auth/Settings.vue:243
 msgctxt "Popup/Settings/Paragraph"
@@ -5844,17 +5837,17 @@ msgstr ""
 #: front/src/components/SetInstanceModal.vue:16
 msgctxt "Popup/Instance/Paragraph"
 msgid "To continue, please select the Funkwhale instance you want to connect to. Enter the address directly, or select one of the suggested choices."
-msgstr ""
+msgstr "若要继续，请选择您要连接的Funkwhale实例。直接输入地址，或选择建议的选项之一。"
 
 #: front/src/components/ShortcutsModal.vue:151
 msgctxt "Popup/Keyboard shortcuts/Table.Label/Verb"
 msgid "Toggle favorite"
-msgstr ""
+msgstr "切换收藏夹"
 
 #: front/src/components/ShortcutsModal.vue:131
 msgctxt "Popup/Keyboard shortcuts/Table.Label/Verb"
 msgid "Toggle mute"
-msgstr ""
+msgstr "切换静音"
 
 #: front/src/components/ShortcutsModal.vue:139
 msgctxt "Popup/Keyboard shortcuts/Table.Label/Verb"
@@ -6217,22 +6210,22 @@ msgstr ""
 #: front/src/views/channels/DetailOverview.vue:6
 msgctxt "Content/Channel/Header"
 msgid "Uploads published successfully"
-msgstr ""
+msgstr "上传已成功发布"
 
 #: front/src/views/admin/ChannelDetail.vue:135
 msgctxt "'Content/*/*/Noun"
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: front/src/components/library/TrackDetail.vue:124
 msgctxt "Content/*/*/Noun"
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: front/src/components/RemoteSearchForm.vue:65
 msgctxt "Head/Fetch/Field.Label"
 msgid "URL or @username"
-msgstr ""
+msgstr "URL 或@用户名"
 
 #: front/src/components/auth/ApplicationForm.vue:16
 msgctxt "Content/Applications/Help Text"
@@ -6308,12 +6301,12 @@ msgstr ""
 #: front/src/components/library/ArtistDetail.vue:39
 msgctxt "Content/*/Title/Noun"
 msgid "User libraries"
-msgstr ""
+msgstr "用户库"
 
 #: front/src/views/auth/ProfileOverview.vue:23
 msgctxt "Content/Profile/Header"
 msgid "User Libraries"
-msgstr ""
+msgstr "用户库"
 
 #: front/src/components/library/Radios.vue:21
 msgctxt "Content/Radio/Title"
@@ -6339,7 +6332,7 @@ msgstr ""
 #: front/src/components/auth/LoginForm.vue:16
 msgctxt "Content/Login/Input.Label/Noun"
 msgid "Username or email"
-msgstr ""
+msgstr "用户名或电子邮件"
 
 #: front/src/components/Sidebar.vue:51
 #: front/src/components/manage/moderation/DomainsTable.vue:47
@@ -6354,12 +6347,12 @@ msgstr ""
 #: front/src/components/Home.vue:112
 msgctxt "Content/Home/Paragraph"
 msgid "Users on this pod also get %{ quota } of free storage to upload their own content!"
-msgstr ""
+msgstr "此Pod上的用户还可以获得 %{ quota }的免费存储空间来上传他们自己的内容！"
 
 #: front/src/components/Footer.vue:32
 msgctxt "Footer/*/Title"
 msgid "Using Funkwhale"
-msgstr ""
+msgstr "使用Funkwhale"
 
 #: front/src/components/Footer.vue:16
 msgctxt "Footer/*/List item"
@@ -6400,7 +6393,7 @@ msgstr ""
 #: front/src/components/Home.vue:171
 msgctxt "Content/Home/Link"
 msgid "View more…"
-msgstr ""
+msgstr "查看更多…"
 
 #: front/src/components/library/AlbumDropdown.vue:32
 #: front/src/components/library/ArtistBase.vue:73
@@ -6453,7 +6446,7 @@ msgstr ""
 #: front/src/components/auth/LoginForm.vue:3
 msgctxt "Content/Login/Error message.Title"
 msgid "We cannot log you in"
-msgstr ""
+msgstr "我们无法为您登录"
 
 #: front/src/components/auth/ApplicationForm.vue:3
 msgctxt "Content/*/Error message.Title"
@@ -6542,7 +6535,7 @@ msgstr ""
 #: front/src/components/auth/Logout.vue:8
 msgctxt "Content/Login/Button.Label"
 msgid "Yes, log me out!"
-msgstr ""
+msgstr "是的，把我注销！"
 
 #: front/src/views/content/libraries/Form.vue:19
 msgctxt "Content/Library/Paragraph"
@@ -6558,6 +6551,8 @@ msgstr ""
 msgctxt "Popup/Login/Paragraph"
 msgid "You are currently connected to <a href=\"%{ url }\" target=\"_blank\">%{ hostname }&nbsp;<i class=\"external icon\"/></a>. If you continue, you will be disconnected from your current instance and all your local data will be deleted."
 msgstr ""
+"您当前连接到 <a href=\"%{ url }\" target=\"_blank\">%{ hostname }&nbsp;<i class=\""
+"external icon\"/></a>. 如果继续，您将与当前实例断开连接，并且您的所有本地数据都将被删除。"
 
 #: front/src/components/library/ArtistDetail.vue:6
 msgctxt "Content/Artist/Paragraph"
@@ -6577,7 +6572,7 @@ msgstr ""
 #: front/src/components/SetInstanceModal.vue:98
 msgctxt "*/Instance/Message"
 msgid "You are now using the Funkwhale instance at %{ url }"
-msgstr ""
+msgstr "您现在正在使用 Funkwhale 实例位于%{ url }"
 
 #: front/src/components/moderation/FilterModal.vue:31
 msgctxt "Popup/Moderation/Paragraph"
@@ -6694,7 +6689,7 @@ msgstr ""
 #: front/src/components/moderation/FilterModal.vue:20
 msgctxt "Popup/Moderation/Paragraph"
 msgid "You will not see tracks, albums and user activity linked to this artist any more:"
-msgstr ""
+msgstr "您将不会再看到链接到此艺术家的曲目、专辑和用户活动："
 
 #: front/src/components/auth/SignupForm.vue:28
 msgctxt "Content/Signup/Form/Paragraph"
