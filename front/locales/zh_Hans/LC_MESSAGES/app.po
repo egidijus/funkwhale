@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: front 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2020-06-19 10:15+0000\n"
+"PO-Revision-Date: 2020-06-19 23:24+0000\n"
 "Last-Translator: vicdorke <vicdorke@gmail.com>\n"
 "Language-Team: none\n"
 "Language: zh_Hans\n"
@@ -235,7 +235,7 @@ msgstr ""
 #: front/src/components/Footer.vue:56 src/components/Home.vue:87
 msgctxt "Footer/*/Title/Short"
 msgid "About Funkwhale"
-msgstr ""
+msgstr "关于Funkwhale"
 
 #: front/src/components/Footer.vue:13
 msgctxt "Footer/About/List item.Link"
@@ -1787,7 +1787,7 @@ msgstr ""
 #: front/src/components/Home.vue:159
 msgctxt "Content/Home/Link"
 msgid "Discover everything you need to know about Funkwhale and its features"
-msgstr ""
+msgstr "发现您需要了解的有关Funkwhale及其功能的所有信息"
 
 #: front/src/components/auth/SubsonicTokenForm.vue:13
 msgctxt "Content/Settings/Link"
