@@ -1,6 +1,5 @@
 import datetime
 import logging
-import mimetypes
 import os
 import tempfile
 import urllib.parse
