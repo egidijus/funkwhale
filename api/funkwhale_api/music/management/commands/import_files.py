@@ -3,6 +3,7 @@ import datetime
 import itertools
 import os
 import queue
+import sys
 import threading
 import time
 import urllib.parse
@@ -29,16 +30,27 @@ def crawl_dir(dir, extensions, recursive=True, ignored=[]):
         return
     try:
         scanner = os.scandir(dir)
+    except Exception as e:
+        m = "Error while reading {}: {} {}\n".format(dir, e.__class__.__name__, e)
+        sys.stderr.write(m)
+        return
+    try:
         for entry in scanner:
-            if entry.is_file():
-                for e in extensions:
-                    if entry.name.lower().endswith(".{}".format(e.lower())):
-                        if entry.path not in ignored:
-                            yield entry.path
-            elif recursive and entry.is_dir():
-                yield from crawl_dir(
-                    entry.path, extensions, recursive=recursive, ignored=ignored
+            try:
+                if entry.is_file():
+                    for e in extensions:
+                        if entry.name.lower().endswith(".{}".format(e.lower())):
+                            if entry.path not in ignored:
+                                yield entry.path
+                elif recursive and entry.is_dir():
+                    yield from crawl_dir(
+                        entry.path, extensions, recursive=recursive, ignored=ignored
+                    )
+            except Exception as e:
+                m = "Error while reading {}: {} {}\n".format(
+                    entry.name, e.__class__.__name__, e
                 )
+                sys.stderr.write(m)
     finally:
         if hasattr(scanner, "close"):
             scanner.close()
