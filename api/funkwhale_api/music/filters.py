@@ -1,5 +1,6 @@
 from django.db.models import Q
 
+import django_filters
 from django_filters import rest_framework as filters
 
 from funkwhale_api.audio import filters as audio_filters
@@ -80,6 +81,15 @@ class ArtistFilter(
     scope = common_filters.ActorScopeFilter(
         actor_field="tracks__uploads__library__actor", distinct=True
     )
+    ordering = django_filters.OrderingFilter(
+        fields=(
+            ("id", "id"),
+            ("name", "name"),
+            ("creation_date", "creation_date"),
+            ("modification_date", "modification_date"),
+            ("?", "random"),
+        )
+    )
 
     class Meta:
         model = models.Artist
@@ -116,6 +126,21 @@ class TrackFilter(
     )
     artist = filters.ModelChoiceFilter(
         field_name="_", method="filter_artist", queryset=models.Artist.objects.all()
+    )
+
+    ordering = django_filters.OrderingFilter(
+        fields=(
+            ("creation_date", "creation_date"),
+            ("title", "title"),
+            ("album__title", "album__title"),
+            ("album__release_date", "album__release_date"),
+            ("size", "size"),
+            ("position", "position"),
+            ("disc_number", "disc_number"),
+            ("artist__name", "artist__name"),
+            ("artist__modification_date", "artist__modification_date"),
+            ("?", "random"),
+        )
     )
 
     class Meta:
@@ -205,6 +230,16 @@ class AlbumFilter(
     tag = TAG_FILTER
     scope = common_filters.ActorScopeFilter(
         actor_field="tracks__uploads__library__actor", distinct=True
+    )
+
+    ordering = django_filters.OrderingFilter(
+        fields=(
+            ("creation_date", "creation_date"),
+            ("release_date", "release_date"),
+            ("title", "title"),
+            ("artist__modification_date", "artist__modification_date"),
+            ("?", "random"),
+        )
     )
 
     class Meta:

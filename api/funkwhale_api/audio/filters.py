@@ -35,6 +35,7 @@ class ChannelFilter(moderation_filters.HiddenContentFilterSet):
         fields=(
             ("creation_date", "creation_date"),
             ("artist__modification_date", "modification_date"),
+            ("?", "random"),
         )
     )
 
