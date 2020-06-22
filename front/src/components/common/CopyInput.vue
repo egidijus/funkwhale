@@ -14,7 +14,7 @@
 export default {
   props: {
     value: {type: String},
-    buttonClasses: {type: String, default: 'teal'},
+    buttonClasses: {type: String, default: 'accent'},
     id: {type: String, default: 'copy-input'},
   },
   data () {

@@ -27,7 +27,7 @@
           </template>
         </div>
         <div class="field">
-          <button @click="copy" class="ui right teal labeled icon floated button"><i class="copy icon"></i><translate translate-context="*/*/Button.Label/Short, Verb">Copy</translate></button>
+          <button @click="copy" class="ui right accent labeled icon floated button"><i class="copy icon"></i><translate translate-context="*/*/Button.Label/Short, Verb">Copy</translate></button>
           <label for="embed-width"><translate translate-context="Popup/Embed/Input.Label/Noun">Embed code</translate></label>
           <p><translate translate-context="Popup/Embed/Paragraph">Copy/paste this code in your website HTML</translate></p>
           <textarea ref="textarea" :value="embedCode" rows="5" readonly>

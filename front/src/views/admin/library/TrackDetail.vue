@@ -15,7 +15,7 @@
                   {{ object.title | truncate(100) }}
                   <div class="sub header">
                     <template v-if="object.is_local">
-                      <span class="ui tiny teal label">
+                      <span class="ui tiny accent label">
                         <i class="home icon"></i>
                         <translate translate-context="Content/Moderation/*/Short, Noun">Local</translate>
                       </span>

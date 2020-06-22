@@ -14,7 +14,7 @@
                   {{ object.full_username }}
                   <div class="sub header">
                     <template v-if="object.user">
-                      <span class="ui tiny teal label">
+                      <span class="ui tiny accent label">
                         <i class="home icon"></i>
                         <translate translate-context="Content/Moderation/*/Short, Noun">Local account</translate>
                       </span>

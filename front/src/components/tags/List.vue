@@ -8,7 +8,7 @@
       :key="tag">
       #{{ tag|truncate(truncateSize) }}
     </router-link>
-    <div role="button" @click.prevent="honorLimit = false" class="ui circular inverted teal label" v-if="showMore && toDisplay.length < tags.length">
+    <div role="button" @click.prevent="honorLimit = false" class="ui circular inverted accent label" v-if="showMore && toDisplay.length < tags.length">
       <translate translate-context="Content/*/Button/Label/Verb" :translate-params="{count: tags.length - toDisplay.length}" :translate-n="tags.length - toDisplay.length" translate-plural="Show %{ count } more tags">Show 1 more tag</translate>
     </div>
   </div>

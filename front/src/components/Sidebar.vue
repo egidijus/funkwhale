@@ -18,7 +18,7 @@
               <i class="wrench icon"></i>
               <div
                 v-if="moderationNotifications > 0"
-                :class="['ui', 'teal', 'mini', 'bottom floating', 'circular', 'label']">{{ moderationNotifications }}</div>
+                :class="['ui', 'accent', 'mini', 'bottom floating', 'circular', 'label']">{{ moderationNotifications }}</div>
               <div class="menu">
                 <div class="header">
                   <translate translate-context="Sidebar/Admin/Title/Noun">Administration</translate>
@@ -31,7 +31,7 @@
                   <div
                     v-if="$store.state.ui.notifications.pendingReviewEdits > 0"
                     :title="labels.pendingReviewEdits"
-                    :class="['ui', 'circular', 'mini', 'right floated', 'teal', 'label']">
+                    :class="['ui', 'circular', 'mini', 'right floated', 'accent', 'label']">
                     {{ $store.state.ui.notifications.pendingReviewEdits }}</div>
                   <translate translate-context="*/*/*/Noun">Library</translate>
                 </router-link>
@@ -42,7 +42,7 @@
                   <div
                     v-if="$store.state.ui.notifications.pendingReviewReports + $store.state.ui.notifications.pendingReviewRequests> 0"
                     :title="labels.pendingReviewReports"
-                    :class="['ui', 'circular', 'mini', 'right floated', 'teal', 'label']">{{ $store.state.ui.notifications.pendingReviewReports + $store.state.ui.notifications.pendingReviewRequests }}</div>
+                    :class="['ui', 'circular', 'mini', 'right floated', 'accent', 'label']">{{ $store.state.ui.notifications.pendingReviewReports + $store.state.ui.notifications.pendingReviewRequests }}</div>
                   <translate translate-context="*/Moderation/*">Moderation</translate>
                 </router-link>
                 <router-link
@@ -70,7 +70,7 @@
         <router-link class="item" v-if="$store.state.auth.authenticated" :title="labels.notifications" :to="{name: 'notifications'}">
           <i class="bell icon"></i><div
             v-if="$store.state.ui.notifications.inbox + additionalNotifications > 0"
-            :class="['ui', 'teal', 'mini', 'bottom floating', 'circular', 'label']">{{ $store.state.ui.notifications.inbox + additionalNotifications }}</div>
+            :class="['ui', 'accent', 'mini', 'bottom floating', 'circular', 'label']">{{ $store.state.ui.notifications.inbox + additionalNotifications }}</div>
         </router-link>
         <div class="item">
           <div class="ui user-dropdown dropdown" >

@@ -12,7 +12,6 @@ $success-hover-color: #16ab39 !default;
 $success-active-color: #198f35 !default;
 $success-focus-color: var(--$success-hover-color) !default;
 
-
 $primary-color: #2185D0 !default;
 $primary-hover-color: #1678c2 !default;
 $primary-active-color: #1a69a4 !default;
@@ -27,6 +26,11 @@ $danger-color: #DB2828 !default;
 $danger-hover-color: #ff392b !default;
 $danger-active-color: #b21e1e !default;
 $danger-focus-color: var(--danger-hover-color) !default;
+
+$accent-color: #00B5AD !default;
+$accent-hover-color: #009c95 !default;
+$accent-active-color: #00827c !default;
+$accent-focus-color: var(--accent-hover-color) !default;
 
 $link-color: #4183C4 !default;
 $link-text-decoration: none !default;

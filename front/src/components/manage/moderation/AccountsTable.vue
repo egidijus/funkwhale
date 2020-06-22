@@ -55,7 +55,7 @@
               </router-link>
               <span role="button" class="discrete link" @click="addSearchToken('domain', scope.obj.domain)" :title="scope.obj.domain">{{ scope.obj.domain }}</span>
             </template>
-            <span role="button" v-else class="ui tiny teal icon link label" @click="addSearchToken('domain', scope.obj.domain)">
+            <span role="button" v-else class="ui tiny accent icon link label" @click="addSearchToken('domain', scope.obj.domain)">
               <i class="home icon"></i>
               <translate translate-context="Content/Moderation/*/Short, Noun">Local account</translate>
             </span>
