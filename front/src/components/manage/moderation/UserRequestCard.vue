@@ -45,7 +45,7 @@
                       <translate translate-context="Content/Library/*/Short">Pending</translate>
                     </template>
                     <template v-else-if="obj.status === 'refused'">
-                      <i class="dangerx icon"></i>
+                      <i class="danger x icon"></i>
                       <translate translate-context="Content/*/*/Short">Refused</translate>
                     </template>
                     <template v-else-if="obj.status === 'approved'">
@@ -125,7 +125,7 @@
                 v-if="obj.status === 'pending'"
                 @click="approve(false)"
                 :class="['ui', {loading: isLoading}, 'button']">
-                <i class="dangerx icon"></i>&nbsp;
+                <i class="danger x icon"></i>&nbsp;
                 <translate translate-context="Content/*/Button.Label">Refuse</translate>
               </button>
             </div>

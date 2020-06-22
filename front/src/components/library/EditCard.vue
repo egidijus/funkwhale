@@ -30,7 +30,7 @@
             <translate translate-context="Content/Admin/*/Noun">Pending review</translate>
           </span>
           <span v-else-if="obj.is_approved === false">
-            <i class="dangerx icon"></i>
+            <i class="danger x icon"></i>
             <translate translate-context="Content/Library/*/Short">Rejected</translate>
           </span>
         </span>

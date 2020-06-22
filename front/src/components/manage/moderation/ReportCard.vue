@@ -64,7 +64,7 @@
                     </span>
                   </td>
                   <td v-else>
-                    <i class="dangerx icon"></i>
+                    <i class="danger x icon"></i>
                     <translate translate-context="Content/*/*/Short">Unresolved</translate>
                   </td>
                 </tr>
