@@ -203,3 +203,41 @@ def test_track_filter_artist_includes_album_artist(
     )
 
     assert filterset.qs == [track2, track1]
+
+
+@pytest.mark.parametrize(
+    "factory_name, filterset_class",
+    [
+        ("music.Track", filters.TrackFilter),
+        ("music.Artist", filters.ArtistFilter),
+        ("music.Album", filters.AlbumFilter),
+    ],
+)
+def test_filter_tag_related(
+    factory_name,
+    filterset_class,
+    factories,
+    anonymous_user,
+    queryset_equal_list,
+    mocker,
+):
+    factories["tags.Tag"](name="foo")
+    factories["tags.Tag"](name="bar")
+    factories["tags.Tag"](name="baz")
+    factories["tags.Tag"]()
+    factories["tags.Tag"]()
+
+    matches = [
+        factories[factory_name](set_tags=["foo", "bar", "baz", "noop"]),
+        factories[factory_name](set_tags=["foo", "baz", "noop"]),
+        factories[factory_name](set_tags=["baz", "noop"]),
+    ]
+    factories[factory_name](set_tags=["noop"]),
+    obj = factories[factory_name](set_tags=["foo", "bar", "baz"])
+
+    filterset = filterset_class(
+        {"related": obj.pk, "ordering": "-related"},
+        request=mocker.Mock(user=anonymous_user, actor=None),
+        queryset=obj.__class__.objects.all(),
+    )
+    assert filterset.qs == matches

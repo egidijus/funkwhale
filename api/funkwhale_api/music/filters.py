@@ -1,5 +1,6 @@
 from django.db.models import Q
 
+import django_filters
 from django_filters import rest_framework as filters
 
 from funkwhale_api.audio import filters as audio_filters
@@ -8,6 +9,7 @@ from funkwhale_api.common import fields
 from funkwhale_api.common import filters as common_filters
 from funkwhale_api.common import search
 from funkwhale_api.moderation import filters as moderation_filters
+from funkwhale_api.tags import filters as tags_filters
 
 from . import models
 from . import utils
@@ -21,6 +23,28 @@ def filter_tags(queryset, name, value):
 
 
 TAG_FILTER = common_filters.MultipleQueryFilter(method=filter_tags)
+
+
+class RelatedFilterSet(filters.FilterSet):
+    related_type = int
+    related_field = "pk"
+    related = filters.CharFilter(field_name="_", method="filter_related")
+
+    def filter_related(self, queryset, name, value):
+        if not value:
+            return queryset.none()
+        try:
+            pk = self.related_type(value)
+        except (TypeError, ValueError):
+            return queryset.none()
+
+        try:
+            obj = queryset.model.objects.get(**{self.related_field: pk})
+        except queryset.model.DoesNotExist:
+            return queryset.none()
+
+        queryset = queryset.exclude(pk=obj.pk)
+        return tags_filters.get_by_similar_tags(queryset, obj.get_tags())
 
 
 class ChannelFilterSet(filters.FilterSet):
@@ -69,6 +93,7 @@ class LibraryFilterSet(filters.FilterSet):
 
 
 class ArtistFilter(
+    RelatedFilterSet,
     LibraryFilterSet,
     audio_filters.IncludeChannelsFilterSet,
     moderation_filters.HiddenContentFilterSet,
@@ -79,6 +104,16 @@ class ArtistFilter(
     tag = TAG_FILTER
     scope = common_filters.ActorScopeFilter(
         actor_field="tracks__uploads__library__actor", distinct=True
+    )
+    ordering = django_filters.OrderingFilter(
+        fields=(
+            ("id", "id"),
+            ("name", "name"),
+            ("creation_date", "creation_date"),
+            ("modification_date", "modification_date"),
+            ("?", "random"),
+            ("tag_matches", "related"),
+        )
     )
 
     class Meta:
@@ -99,6 +134,7 @@ class ArtistFilter(
 
 
 class TrackFilter(
+    RelatedFilterSet,
     ChannelFilterSet,
     LibraryFilterSet,
     audio_filters.IncludeChannelsFilterSet,
@@ -116,6 +152,22 @@ class TrackFilter(
     )
     artist = filters.ModelChoiceFilter(
         field_name="_", method="filter_artist", queryset=models.Artist.objects.all()
+    )
+
+    ordering = django_filters.OrderingFilter(
+        fields=(
+            ("creation_date", "creation_date"),
+            ("title", "title"),
+            ("album__title", "album__title"),
+            ("album__release_date", "album__release_date"),
+            ("size", "size"),
+            ("position", "position"),
+            ("disc_number", "disc_number"),
+            ("artist__name", "artist__name"),
+            ("artist__modification_date", "artist__modification_date"),
+            ("?", "random"),
+            ("tag_matches", "related"),
+        )
     )
 
     class Meta:
@@ -192,6 +244,7 @@ class UploadFilter(audio_filters.IncludeChannelsFilterSet):
 
 
 class AlbumFilter(
+    RelatedFilterSet,
     ChannelFilterSet,
     LibraryFilterSet,
     audio_filters.IncludeChannelsFilterSet,
@@ -205,6 +258,17 @@ class AlbumFilter(
     tag = TAG_FILTER
     scope = common_filters.ActorScopeFilter(
         actor_field="tracks__uploads__library__actor", distinct=True
+    )
+
+    ordering = django_filters.OrderingFilter(
+        fields=(
+            ("creation_date", "creation_date"),
+            ("release_date", "release_date"),
+            ("title", "title"),
+            ("artist__modification_date", "artist__modification_date"),
+            ("?", "random"),
+            ("tag_matches", "related"),
+        )
     )
 
     class Meta:

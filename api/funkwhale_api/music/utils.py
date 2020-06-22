@@ -18,12 +18,18 @@ def guess_mimetype(f):
     b = min(1000000, f.size)
     t = magic.from_buffer(f.read(b), mime=True)
     if not t.startswith("audio/"):
-        # failure, we try guessing by extension
-        mt, _ = mimetypes.guess_type(f.name)
-        if mt:
-            t = mt
-        else:
-            t = EXTENSION_TO_MIMETYPE.get(f.name.split(".")[-1])
+        t = guess_mimetype_from_name(f.name)
+
+    return t
+
+
+def guess_mimetype_from_name(name):
+    # failure, we try guessing by extension
+    mt, _ = mimetypes.guess_type(name)
+    if mt:
+        t = mt
+    else:
+        t = EXTENSION_TO_MIMETYPE.get(name.split(".")[-1])
     return t
 
 

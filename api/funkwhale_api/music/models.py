@@ -1,6 +1,5 @@
 import datetime
 import logging
-import mimetypes
 import os
 import tempfile
 import urllib.parse
@@ -874,7 +873,7 @@ class Upload(models.Model):
             if self.audio_file:
                 self.mimetype = utils.guess_mimetype(self.audio_file)
             elif self.source and self.source.startswith("file://"):
-                self.mimetype = mimetypes.guess_type(self.source)[0]
+                self.mimetype = utils.guess_mimetype_from_name(self.source)
         if not self.size and self.audio_file:
             self.size = self.audio_file.size
         if not self.checksum:
