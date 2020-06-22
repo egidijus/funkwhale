@@ -360,9 +360,12 @@ paths:
                   - creation_date
                   - id
                   - name
+                  - random
         - $ref: "#/parameters/Playable"
+        - $ref: "#/parameters/Library"
         - $ref: "#/parameters/PageNumber"
         - $ref: "#/parameters/PageSize"
+        - $ref: "#/parameters/Related"
         - $ref: "#/parameters/Scope"
 
       responses:
@@ -456,9 +459,12 @@ paths:
                   - creation_date
                   - release_date
                   - title
+                  - random
+        - $ref: "#/parameters/Library"
         - $ref: "#/parameters/Playable"
         - $ref: "#/parameters/PageNumber"
         - $ref: "#/parameters/PageSize"
+        - $ref: "#/parameters/Related"
         - $ref: "#/parameters/Scope"
 
       responses:
@@ -577,9 +583,12 @@ paths:
                   - creation_date
                   - release_date
                   - title
+                  - random
+        - $ref: "#/parameters/Library"
         - $ref: "#/parameters/Playable"
         - $ref: "#/parameters/PageNumber"
         - $ref: "#/parameters/PageSize"
+        - $ref: "#/parameters/Related"
         - $ref: "#/parameters/Scope"
 
       responses:
@@ -848,6 +857,17 @@ paths:
       tags:
         - "Channels and subscriptions"
       parameters:
+        - allOf:
+            - $ref: "#/parameters/Ordering"
+            - default: "-creation_date"
+              schema:
+                required: false
+                type: "string"
+                example: "creation_date"
+                enum:
+                  - creation_date
+                  - modification_date
+                  - random
         - $ref: "#/parameters/PageNumber"
         - $ref: "#/parameters/PageSize"
         - $ref: "#/parameters/Scope"
@@ -1396,6 +1416,15 @@ parameters:
     schema:
       type: integer
       format: int64
+
+  Library:
+    name: library
+    in: query
+    description: Restrict to results contained in the given library
+    schema:
+      type: string
+      format: uuid
+
   Ordering:
     name: "ordering"
     in: "query"
@@ -1436,6 +1465,14 @@ parameters:
     schema:
       required: false
       type: "boolean"
+
+  Related:
+    name: related
+    in: query
+    description: Restrict to results similar to the given object (based on tags)
+    schema:
+      type: integer
+      format: int64
 
   Scope:
     name: "scope"
