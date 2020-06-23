@@ -517,43 +517,15 @@ def _get_track(data, attributed_to=None, **forced_values):
             pass
 
     # get / create artist and album artist
+    artists = getter(data, "artists", default=[])
     if "artist" in forced_values:
         artist = forced_values["artist"]
     else:
-        artists = getter(data, "artists", default=[])
         artist_data = artists[0]
-        artist_mbid = artist_data.get("mbid", None)
-        artist_fid = artist_data.get("fid", None)
-        artist_name = truncate(artist_data["name"], models.MAX_LENGTHS["ARTIST_NAME"])
-
-        if artist_mbid:
-            query = Q(mbid=artist_mbid)
-        else:
-            query = Q(name__iexact=artist_name)
-        if artist_fid:
-            query |= Q(fid=artist_fid)
-        defaults = {
-            "name": artist_name,
-            "mbid": artist_mbid,
-            "fid": artist_fid,
-            "from_activity_id": from_activity_id,
-            "attributed_to": artist_data.get("attributed_to", attributed_to),
-        }
-        if artist_data.get("fdate"):
-            defaults["creation_date"] = artist_data.get("fdate")
-
-        artist, created = get_best_candidate_or_create(
-            models.Artist, query, defaults=defaults, sort_fields=["mbid", "fid"]
+        artist = get_artist(
+            artist_data, attributed_to=attributed_to, from_activity_id=from_activity_id
         )
-        if created:
-            tags_models.add_tags(artist, *artist_data.get("tags", []))
-            common_utils.attach_content(
-                artist, "description", artist_data.get("description")
-            )
-            common_utils.attach_file(
-                artist, "attachment_cover", artist_data.get("cover_data")
-            )
-
+        artist_name = artist.name
     if "album" in forced_values:
         album = forced_values["album"]
     else:
@@ -695,6 +667,12 @@ def _get_track(data, attributed_to=None, **forced_values):
     if track_fid:
         query |= Q(fid=track_fid)
 
+    if album and len(artists) > 1:
+        # we use the second artist to preserve featuring information
+        artist = artist = get_artist(
+            artists[1], attributed_to=attributed_to, from_activity_id=from_activity_id
+        )
+
     defaults = {
         "title": track_title,
         "album": album,
@@ -724,6 +702,41 @@ def _get_track(data, attributed_to=None, **forced_values):
         common_utils.attach_file(track, "attachment_cover", cover_data)
 
     return track
+
+
+def get_artist(artist_data, attributed_to, from_activity_id):
+    artist_mbid = artist_data.get("mbid", None)
+    artist_fid = artist_data.get("fid", None)
+    artist_name = truncate(artist_data["name"], models.MAX_LENGTHS["ARTIST_NAME"])
+
+    if artist_mbid:
+        query = Q(mbid=artist_mbid)
+    else:
+        query = Q(name__iexact=artist_name)
+    if artist_fid:
+        query |= Q(fid=artist_fid)
+    defaults = {
+        "name": artist_name,
+        "mbid": artist_mbid,
+        "fid": artist_fid,
+        "from_activity_id": from_activity_id,
+        "attributed_to": artist_data.get("attributed_to", attributed_to),
+    }
+    if artist_data.get("fdate"):
+        defaults["creation_date"] = artist_data.get("fdate")
+
+    artist, created = get_best_candidate_or_create(
+        models.Artist, query, defaults=defaults, sort_fields=["mbid", "fid"]
+    )
+    if created:
+        tags_models.add_tags(artist, *artist_data.get("tags", []))
+        common_utils.attach_content(
+            artist, "description", artist_data.get("description")
+        )
+        common_utils.attach_file(
+            artist, "attachment_cover", artist_data.get("cover_data")
+        )
+    return artist
 
 
 @receiver(signals.upload_import_status_updated)

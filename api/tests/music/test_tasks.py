@@ -143,6 +143,20 @@ def test_can_create_track_from_file_metadata_description(factories):
     assert track.description.content_type == "text/plain"
 
 
+def test_can_create_track_from_file_metadata_use_featuring(factories):
+    metadata = {
+        "title": "Whole Lotta Love",
+        "position": 1,
+        "disc_number": 1,
+        "description": {"text": "hello there", "content_type": "text/plain"},
+        "album": {"title": "Test album"},
+        "artists": [{"name": "Santana"}, {"name": "Anatnas"}],
+    }
+    track = tasks.get_track_from_import_metadata(metadata)
+
+    assert track.artist.name == "Anatnas"
+
+
 def test_can_create_track_from_file_metadata_mbid(factories, mocker):
     metadata = {
         "title": "Test track",

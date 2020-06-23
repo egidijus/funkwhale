@@ -17,6 +17,7 @@ DATA_DIR = os.path.dirname(os.path.abspath(__file__))
         ("title", "Peer Gynt Suite no. 1, op. 46: I. Morning"),
         ("artist", "Edvard Grieg"),
         ("album_artist", "Edvard Grieg; Musopen Symphony Orchestra"),
+        ("artists", "Edvard Grieg; Musopen Symphony Orchestra"),
         ("album", "Peer Gynt Suite no. 1, op. 46"),
         ("date", "2012-08-15"),
         ("position", "1"),
@@ -48,6 +49,7 @@ def test_can_get_metadata_all():
         "title": "Peer Gynt Suite no. 1, op. 46: I. Morning",
         "artist": "Edvard Grieg",
         "album_artist": "Edvard Grieg; Musopen Symphony Orchestra",
+        "artists": "Edvard Grieg; Musopen Symphony Orchestra",
         "album": "Peer Gynt Suite no. 1, op. 46",
         "date": "2012-08-15",
         "position": "1",
@@ -70,6 +72,7 @@ def test_can_get_metadata_all():
         ("title", "Peer Gynt Suite no. 1, op. 46: I. Morning"),
         ("artist", "Edvard Grieg"),
         ("album_artist", "Edvard Grieg; Musopen Symphony Orchestra"),
+        ("artists", "Edvard Grieg; Musopen Symphony Orchestra"),
         ("album", "Peer Gynt Suite no. 1, op. 46"),
         ("date", "2012-08-15"),
         ("position", "1"),
@@ -126,6 +129,7 @@ def test_can_get_metadata_from_ogg_theora_file(field, value):
         ("title", "Bend"),
         ("artist", "Binärpilot"),
         ("album_artist", "Binärpilot"),
+        ("artists", "Binärpilot; Another artist"),
         ("album", "You Can't Stop Da Funk"),
         ("date", "2006-02-07"),
         ("position", "2/4"),
@@ -202,6 +206,7 @@ def test_can_get_metadata_from_flac_file(field, value):
         ("title", "Peer Gynt Suite no. 1, op. 46: I. Morning"),
         ("artist", "Edvard Grieg"),
         ("album_artist", "Edvard Grieg; Musopen Symphony Orchestra"),
+        ("artists", "Edvard Grieg; Musopen Symphony Orchestra"),
         ("album", "Peer Gynt Suite no. 1, op. 46"),
         ("date", "2012-08-15"),
         ("position", 1),
@@ -283,7 +288,8 @@ def test_metadata_fallback_ogg_theora(mocker):
                     {
                         "name": "Binärpilot",
                         "mbid": uuid.UUID("9c6bddde-6228-4d9f-ad0d-03f6fcb19e13"),
-                    }
+                    },
+                    {"name": "Another artist", "mbid": None},
                 ],
                 "album": {
                     "title": "You Can't Stop Da Funk",
@@ -293,7 +299,8 @@ def test_metadata_fallback_ogg_theora(mocker):
                         {
                             "name": "Binärpilot",
                             "mbid": uuid.UUID("9c6bddde-6228-4d9f-ad0d-03f6fcb19e13"),
-                        }
+                        },
+                        {"name": "Another artist", "mbid": None},
                     ],
                 },
                 "position": 2,
@@ -313,7 +320,8 @@ def test_metadata_fallback_ogg_theora(mocker):
                     {
                         "name": "Edvard Grieg",
                         "mbid": uuid.UUID("013c8e5b-d72a-4cd3-8dee-6c64d6125823"),
-                    }
+                    },
+                    {"name": "Musopen Symphony Orchestra", "mbid": None},
                 ],
                 "album": {
                     "title": "Peer Gynt Suite no. 1, op. 46",
@@ -347,7 +355,8 @@ def test_metadata_fallback_ogg_theora(mocker):
                     {
                         "name": "Edvard Grieg",
                         "mbid": uuid.UUID("013c8e5b-d72a-4cd3-8dee-6c64d6125823"),
-                    }
+                    },
+                    {"name": "Musopen Symphony Orchestra", "mbid": None},
                 ],
                 "album": {
                     "title": "Peer Gynt Suite no. 1, op. 46",

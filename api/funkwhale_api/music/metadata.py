@@ -189,6 +189,7 @@ CONF = {
             "disc_number": {"field": "DISCNUMBER"},
             "title": {},
             "artist": {},
+            "artists": {},
             "album_artist": {"field": "albumartist"},
             "album": {},
             "date": {"field": "date"},
@@ -213,6 +214,7 @@ CONF = {
             "disc_number": {"field": "DISCNUMBER"},
             "title": {},
             "artist": {},
+            "artists": {},
             "album_artist": {"field": "albumartist"},
             "album": {},
             "date": {"field": "date"},
@@ -237,6 +239,7 @@ CONF = {
             "disc_number": {"field": "DISCNUMBER"},
             "title": {},
             "artist": {},
+            "artists": {},
             "album_artist": {"field": "albumartist"},
             "album": {},
             "date": {"field": "date"},
@@ -258,6 +261,7 @@ CONF = {
             "disc_number": {"field": "TPOS"},
             "title": {"field": "TIT2"},
             "artist": {"field": "TPE1"},
+            "artists": {"field": "ARTISTS"},
             "album_artist": {"field": "TPE2"},
             "album": {"field": "TALB"},
             "date": {"field": "TDRC"},
@@ -280,6 +284,7 @@ CONF = {
             "disc_number": {"field": "disk", "to_application": get_mp4_position},
             "title": {"field": "©nam"},
             "artist": {"field": "©ART"},
+            "artists": {"field": "----:com.apple.iTunes:ARTISTS"},
             "album_artist": {"field": "aART"},
             "album": {"field": "©alb"},
             "date": {"field": "©day"},
@@ -308,6 +313,7 @@ CONF = {
             "disc_number": {"field": "discnumber"},
             "title": {},
             "artist": {},
+            "artists": {},
             "album_artist": {"field": "albumartist"},
             "album": {},
             "date": {"field": "date"},
@@ -468,9 +474,17 @@ class ArtistField(serializers.Field):
 
     def get_value(self, data):
         if self.for_album:
-            keys = [("names", "album_artist"), ("mbids", "musicbrainz_albumartistid")]
+            keys = [
+                ("artists", "artists"),
+                ("names", "album_artist"),
+                ("mbids", "musicbrainz_albumartistid"),
+            ]
         else:
-            keys = [("names", "artist"), ("mbids", "musicbrainz_artistid")]
+            keys = [
+                ("artists", "artists"),
+                ("names", "artist"),
+                ("mbids", "musicbrainz_artistid"),
+            ]
 
         final = {}
         for field, key in keys:
@@ -499,7 +513,16 @@ class ArtistField(serializers.Field):
 
         # now, we split on artist names, using the same separator as the one used
         # by mbids, if any
-        if used_separator and mbids:
+        names = []
+
+        if data.get("artists", None):
+            for separator in separators:
+                if separator in data["artists"]:
+                    names = [n.strip() for n in data["artists"].split(separator)]
+                    break
+            if not names:
+                names = [data["artists"]]
+        elif used_separator and mbids:
             names = [n.strip() for n in data["names"].split(used_separator)]
         else:
             names = [data["names"]]
