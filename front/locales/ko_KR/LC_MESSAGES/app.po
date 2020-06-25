@@ -8,19 +8,20 @@ msgstr ""
 "Project-Id-Version: front 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2019-10-01 15:15+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2020-06-25 07:54+0000\n"
+"Last-Translator: Puri <tkdqja9812@gmail.com>\n"
 "Language-Team: none\n"
 "Language: ko_KR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 3.11.3\n"
 
 #: front/src/components/playlists/PlaylistModal.vue:6
 msgctxt "Popup/Playlist/Paragraph"
 msgid "\"%{ title }\", by %{ artist }"
-msgstr ""
+msgstr "\"%{ 제목 }\", by %{ 아티스트 }"
 
 #: front/src/components/audio/ChannelCard.vue:28
 msgid "{{ object.artist.modification_date | fromNow }}"
@@ -29,36 +30,37 @@ msgstr ""
 #: front/src/components/RemoteSearchForm.vue:71
 msgctxt "Head/Fetch/Field.Placeholder"
 msgid "@channel@pod.example or https://website.example/rss.xml"
-msgstr ""
+msgstr "@channel@pod.example 또는 https://website.example/rss.xml"
 
 #: front/src/components/auth/Authorize.vue:16
+#, fuzzy
 msgctxt "Content/Auth/Title"
 msgid "%{ app } wants to access your Funkwhale account"
-msgstr ""
+msgstr "%{ app } 이 Funkwhale 계정에 접근하려고 합니다"
 
 #: front/src/components/About.vue:175 src/components/Home.vue:58
 msgctxt "Content/Home/Stat"
 msgid "%{ count } active user"
 msgid_plural "%{ count } active users"
-msgstr[0] ""
+msgstr[0] "%{ count } 활성 사용자"
 
 #: front/src/components/About.vue:184
 msgctxt "Content/Home/Stat"
 msgid "%{ count } albums"
 msgid_plural "%{ count } albums"
-msgstr[0] ""
+msgstr[0] "%{ count } 앨범"
 
 #: front/src/components/About.vue:154
 msgctxt "*/*/*"
 msgid "%{ count } allowed domains"
 msgid_plural "%{ count } allowed domains"
-msgstr[0] ""
+msgstr[0] "%{ count } 허용된 도메인"
 
 #: front/src/components/About.vue:181
 msgctxt "Content/Home/Stat"
 msgid "%{ count } artists"
 msgid_plural "%{ count } artists"
-msgstr[0] ""
+msgstr[0] "%{ count } 아티스트"
 
 #: front/src/components/audio/ChannelCard.vue:14
 #: front/src/components/audio/ChannelSerieCard.vue:15
@@ -68,13 +70,13 @@ msgstr[0] ""
 msgctxt "Content/Channel/Paragraph"
 msgid "%{ count } episode"
 msgid_plural "%{ count } episodes"
-msgstr[0] ""
+msgstr[0] "%{ count } 에피소드"
 
 #: front/src/components/favorites/List.vue:10
 msgctxt "Content/Favorites/Title"
 msgid "%{ count } favorite"
 msgid_plural "%{ count } favorites"
-msgstr[0] ""
+msgstr[0] "%{ count } 즐겨찾기"
 
 #: front/src/components/About.vue:178 src/components/Home.vue:61
 msgctxt "Content/Home/Stat"
@@ -86,7 +88,7 @@ msgstr[0] ""
 msgctxt "Content/Home/Stat"
 msgid "%{ count } listenings"
 msgid_plural "%{ count } listenings"
-msgstr[0] ""
+msgstr[0] "%{ count } 듣는중"
 
 #: front/src/components/common/ActionTable.vue:67
 msgctxt "Content/*/Paragraph"
@@ -98,7 +100,7 @@ msgstr[0] ""
 msgctxt "Content/Channel/Paragraph"
 msgid "%{ count } subscriber"
 msgid_plural "%{ count } subscribers"
-msgstr[0] ""
+msgstr[0] "%{ count } 구독자"
 
 #: front/src/components/audio/ChannelCard.vue:22
 #: front/src/components/audio/album/Card.vue:22
@@ -113,7 +115,7 @@ msgstr[0] ""
 msgctxt "*/*/*"
 msgid "%{ count } track"
 msgid_plural "%{ count } tracks"
-msgstr[0] ""
+msgstr[0] "%{ count } 트랙"
 
 #: front/src/components/library/ArtistBase.vue:13
 msgctxt "Content/Artist/Paragraph"
