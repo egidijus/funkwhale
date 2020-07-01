@@ -760,7 +760,7 @@ def check_updates(stdout, library, extensions, paths, batch_size):
 def check_upload(stdout, upload):
     try:
         audio_file = upload.get_audio_file()
-    except FileNotFoundError:
+    except (FileNotFoundError, PermissionError):
         stdout.write(
             "  Removing file #{} missing from disk at {}".format(
                 upload.pk, upload.source
