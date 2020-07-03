@@ -3,11 +3,11 @@
     <slot></slot>
 
     <modal class="small" :show.sync="showModal">
-      <div class="header">
+      <h4 class="header">
         <slot name="modal-header">
           <translate translate-context="Modal/*/Title">Do you want to confirm this action?</translate>
         </slot>
-      </div>
+      </h4>
       <div class="scrolling content">
         <div class="description">
           <slot name="modal-content"></slot>

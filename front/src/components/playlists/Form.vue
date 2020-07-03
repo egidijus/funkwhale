@@ -2,17 +2,17 @@
   <form class="ui form" @submit.prevent="submit()">
     <h4 v-if="title" class="ui header"><translate translate-context="Popup/Playlist/Title/Verb">Create a new playlist</translate></h4>
     <div v-if="success" class="ui positive message">
-      <div class="header">
+      <h4 class="header">
         <template v-if="playlist">
           <translate translate-context="Content/Playlist/Message">Playlist updated</translate>
         </template>
         <template v-else>
           <translate translate-context="Content/Playlist/Message">Playlist created</translate>
         </template>
-      </div>
+      </h4>
     </div>
     <div v-if="errors.length > 0" role="alert" class="ui negative message">
-      <div class="header"><translate translate-context="Content/Playlist/Error message.Title">The playlist could not be created</translate></div>
+      <h4 class="header"><translate translate-context="Content/Playlist/Error message.Title">The playlist could not be created</translate></h4>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>
       </ul>

@@ -4,11 +4,11 @@
     <div v-if="plugin.description" v-html="markdown.makeHtml(plugin.description)"></div>
     <div class="ui clearing hidden divider"></div> 
     <div v-if="errors.length > 0" role="alert" class="ui negative message">
-        <div class="header"><translate translate-context="Content/*/Error message.Title">Error while saving plugin</translate></div>
-        <ul class="list">
-          <li v-for="error in errors">{{ error }}</li>
-        </ul>
-      </div>
+      <h4 class="header"><translate translate-context="Content/*/Error message.Title">Error while saving plugin</translate></h4>
+      <ul class="list">
+        <li v-for="error in errors">{{ error }}</li>
+      </ul>
+    </div>
     <div class="field">
       <div class="ui toggle checkbox">
         <input :id="`${plugin.name}-enabled`" type="checkbox" v-model="enabled" />

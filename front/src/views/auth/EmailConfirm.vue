@@ -5,7 +5,7 @@
         <h2>{{ labels.confirm }}</h2>
         <form v-if="!success" class="ui form" @submit.prevent="submit()">
           <div v-if="errors.length > 0" role="alert" class="ui negative message">
-            <div class="header"><translate translate-context="Content/Signup/Paragraph">Could not confirm your e-mail address</translate></div>
+            <h4 class="header"><translate translate-context="Content/Signup/Paragraph">Could not confirm your e-mail address</translate></h4>
             <ul class="list">
               <li v-for="error in errors">{{ error }}</li>
             </ul>
@@ -21,7 +21,7 @@
             {{ labels.confirm }}</button>
         </form>
         <div v-else class="ui positive message">
-          <div class="header"><translate translate-context="Content/Signup/Message">E-mail address confirmed</translate></div>
+          <h4 class="header"><translate translate-context="Content/Signup/Message">E-mail address confirmed</translate></h4>
           <p><translate translate-context="Content/Signup/Paragraph">You can now use the service without limitations.</translate></p>
           <router-link :to="{name: 'login'}">
             <translate translate-context="Content/Signup/Link/Verb">Proceed to login</translate>

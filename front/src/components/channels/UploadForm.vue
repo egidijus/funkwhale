@@ -1,7 +1,7 @@
 <template>
   <form @submit.stop.prevent :class="['ui', {loading: isLoadingStep1}, 'form component-file-upload']">
     <div v-if="errors.length > 0" role="alert" class="ui negative message">
-      <div class="header"><translate translate-context="Content/*/Error message.Title">Error while publishing</translate></div>
+      <h4 class="header"><translate translate-context="Content/*/Error message.Title">Error while publishing</translate></h4>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>
       </ul>

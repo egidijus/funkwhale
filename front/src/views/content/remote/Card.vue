@@ -1,7 +1,7 @@
 <template>
   <div class="ui card">
     <div class="content">
-      <div class="header">
+      <h4 class="header">
         <router-link :to="{name: 'library.detail', params: {id: library.uuid}}">
           {{ library.name }}
         </router-link>
@@ -30,7 +30,7 @@
           :data-tooltip="labels.tooltips.everyone">
           <i class="small globe icon"></i>
         </span>
-      </div>
+      </h4>
       <div class="meta">
         <span>
           <i class="small outline clock icon" />

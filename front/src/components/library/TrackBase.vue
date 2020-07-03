@@ -27,9 +27,9 @@
                 <i class="download icon"></i>
               </a>
               <modal v-if="publicLibraries.length > 0" :show.sync="showEmbedModal">
-                <div class="header">
+                <h4 class="header">
                   <translate translate-context="Popup/Track/Title">Embed this track on your website</translate>
-                </div>
+                </h4>
                 <div class="content">
                   <div class="description">
                     <embed-wizard type="track" :id="track.id" />

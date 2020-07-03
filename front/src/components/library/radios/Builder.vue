@@ -8,14 +8,14 @@
         <p><translate translate-context="Content/Radio/Paragraph">You can use this interface to build your own custom radio, which will play tracks according to your criteria.</translate></p>
         <div class="ui form">
           <div v-if="success" class="ui positive message">
-            <div class="header">
+            <h4 class="header">
               <template v-if="radioName">
                 <translate translate-context="Content/Radio/Message">Radio updated</translate>
               </template>
               <template v-else>
                 <translate translate-context="Content/Radio/Message">Radio created</translate>
               </template>
-            </div>
+            </h4>
           </div>
           <div class="">
             <div class="field">

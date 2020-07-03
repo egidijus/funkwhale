@@ -20,9 +20,9 @@
                 v-if="moderationNotifications > 0"
                 :class="['ui', 'accent', 'mini', 'bottom floating', 'circular', 'label']">{{ moderationNotifications }}</div>
               <div class="menu">
-                <div class="header">
+                <h3 class="header">
                   <translate translate-context="Sidebar/Admin/Title/Noun">Administration</translate>
-                </div>
+                </h3>
                 <div class="divider"></div>
                 <router-link
                   v-if="$store.state.auth.availablePermissions['library']"
@@ -108,10 +108,10 @@
     <section :class="['ui', 'bottom', 'attached', {active: selectedTab === 'library'}, 'tab']" :aria-label="labels.mainMenu">
       <nav class="ui vertical large fluid inverted menu" role="navigation" :aria-label="labels.mainMenu">
         <div :class="[{collapsed: !exploreExpanded}, 'collaspable item']">
-          <header class="header" @click="exploreExpanded = true" tabindex="0" @focus="exploreExpanded = true">
+          <h3 class="header" @click="exploreExpanded = true" tabindex="0" @focus="exploreExpanded = true">
             <translate translate-context="*/*/*/Verb">Explore</translate>
             <i class="angle right icon" v-if="!exploreExpanded"></i>
-          </header>
+          </h3>
           <div class="menu">
             <router-link class="item" :exact="true" :to="{name: 'library.index'}"><i class="music icon"></i><translate translate-context="Sidebar/Navigation/List item.Link/Verb">Browse</translate></router-link>
             <router-link class="item" :to="{name: 'library.albums.browse'}"><i class="compact disc icon"></i><translate translate-context="*/*/*">Albums</translate></router-link>
@@ -121,10 +121,10 @@
           </div>
         </div>
         <div :class="[{collapsed: !myLibraryExpanded}, 'collaspable item']" v-if="$store.state.auth.authenticated">
-          <header class="header" @click="myLibraryExpanded = true" tabindex="0" @focus="myLibraryExpanded = true">
+          <h3 class="header" @click="myLibraryExpanded = true" tabindex="0" @focus="myLibraryExpanded = true">
             <translate translate-context="*/*/*/Noun">My Library</translate>
             <i class="angle right icon" v-if="!myLibraryExpanded"></i>
-          </header>
+          </h3>
           <div class="menu">
             <router-link class="item" :exact="true" :to="{name: 'library.me'}"><i class="music icon"></i><translate translate-context="Sidebar/Navigation/List item.Link/Verb">Browse</translate></router-link>
             <router-link class="item" :to="{name: 'library.albums.me'}"><i class="compact disc icon"></i><translate translate-context="*/*/*">Albums</translate></router-link>
@@ -138,9 +138,9 @@
           <translate translate-context="*/*/*">Channels</translate>
         </router-link>
         <div class="item">
-          <header class="header">
+          <h3 class="header">
             <translate translate-context="Footer/About/List item.Link">More</translate>
-          </header>
+          </h3>
           <div class="menu">
             <router-link class="item" to="/about">
               <i class="info icon"></i><translate translate-context="Sidebar/*/List item.Link">About this pod</translate>

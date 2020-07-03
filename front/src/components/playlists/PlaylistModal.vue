@@ -1,6 +1,6 @@
 <template>
   <modal @update:show="update" :show="$store.state.playlists.showModal">
-    <div class="header">
+    <h4 class="header">
       <template v-if="track">
         <h2 class="ui header">
           <translate translate-context="Popup/Playlist/Title/Verb">Add to playlist</translate>
@@ -14,7 +14,7 @@
         </h2>
       </template>
       <translate v-else translate-context="Popup/Playlist/Title/Verb">Manage playlists</translate>
-    </div>
+    </h4>
     <div class="scrolling content">
       <playlist-form :key="formKey"></playlist-form>
       <div class="ui divider"></div>
@@ -33,7 +33,7 @@
               <translate translate-context="*/Playlist/Button.Label/Verb">Add anyways</translate></button>
         </div>
         <div v-if="errors.length > 0" role="alert" class="ui negative message">
-          <div class="header"><translate translate-context="Popup/Playlist/Error message.Title">The track can't be added to a playlist</translate></div>
+          <h4 class="header"><translate translate-context="Popup/Playlist/Error message.Title">The track can't be added to a playlist</translate></h4>
           <ul class="list">
             <li v-for="error in errors">{{ error }}</li>
           </ul>
@@ -82,9 +82,9 @@
         </table>
         <template v-else>
           <div class="ui small placeholder segment component-placeholder">
-            <div class="ui header">
+            <h4 class="ui header">
                <translate translate-context="Popup/Playlist/EmptyState">No results matching your filter</translate>
-            </div>
+            </h4>
           </div>
         </template>
         <template v-else>

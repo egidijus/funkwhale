@@ -35,9 +35,9 @@
                   <i class="feed icon"></i>
                 </a>
                 <modal class="tiny" :show.sync="showSubscribeModal">
-                  <div class="header">
+                  <h4 class="header">
                     <translate translate-context="Popup/Channel/Title/Verb">Subscribe to this channel</translate>
-                  </div>
+                  </h4>
                   <div class="scrollable content">
                     <div class="description">
 
@@ -156,9 +156,9 @@
               </div>
 
               <modal :show.sync="showEmbedModal" v-if="totalTracks > 0">
-                <div class="header">
+                <h4 class="header">
                   <translate translate-context="Popup/Artist/Title/Verb">Embed this artist work on your website</translate>
-                </div>
+                </h4>
                 <div class="content">
                   <div class="description">
                     <embed-wizard type="artist" :id="object.artist.id" />
@@ -171,11 +171,11 @@
                 </div>
               </modal>
               <modal :show.sync="showEditModal" v-if="isOwner">
-                <div class="header">
+                <h4 class="header">
                   <translate v-if="object.artist.content_category === 'podcast'" key="1" translate-context="Content/Channel/*">Podcast channel</translate>
                   <translate v-else key="2" translate-context="Content/Channel/*">Artist channel</translate>
 
-                </div>
+                </h4>
                 <div class="scrolling content">
                   <channel-form
                     ref="editForm"

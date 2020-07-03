@@ -4,7 +4,7 @@
       <h2 class="ui left floated header"><translate translate-context="*/Moderation/*/Noun">Domains</translate></h2>
       <form class="ui right floated form" @submit.prevent="createDomain">
         <div v-if="errors && errors.length > 0" role="alert" class="ui negative message">
-          <div class="header"><translate translate-context="Content/Moderation/Message.Title">Error while creating domain</translate></div>
+          <h4 class="header"><translate translate-context="Content/Moderation/Message.Title">Error while creating domain</translate></h4>
           <ul class="list">
             <li v-for="error in errors">{{ error }}</li>
           </ul>

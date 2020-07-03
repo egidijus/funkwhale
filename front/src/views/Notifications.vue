@@ -7,9 +7,9 @@
           <div class="ui two column stackable grid">
             <div class="column" v-if="showInstanceSupportMessage">
               <div class="ui attached info message">
-                <div class="header">
+                <h4 class="header">
                   <translate translate-context="Content/Notifications/Header">Support this Funkwhale pod</translate>
-                </div>
+                </h4>
                 <div v-html="markdown.makeHtml($store.state.instance.settings.instance.support_message.value)"></div>
               </div>
               <div class="ui bottom attached segment">
@@ -33,9 +33,9 @@
             </div>
             <div class="column" v-if="showFunkwhaleSupportMessage">
               <div class="ui info attached message">
-                <div class="header">
+                <h4 class="header">
                   <translate translate-context="Content/Notifications/Header">Do you like Funkwhale?</translate>
-                </div>
+                </h4>
                 <p>
                   <translate translate-context="Content/Notifications/Paragraph">We noticed you've been here for a while. If Funkwhale is useful to you, we could use your help to make it even better!</translate>
                 </p>

@@ -1,7 +1,7 @@
 <template>
   <div v-if="submittedMutation">
     <div class="ui positive message">
-      <div class="header"><translate translate-context="Content/Library/Paragraph">Your edit was successfully submitted.</translate></div>
+      <h4 class="header"><translate translate-context="Content/Library/Paragraph">Your edit was successfully submitted.</translate></h4>
     </div>
     <edit-card :obj="submittedMutation" :current-state="currentState" />
     <button class="ui button" @click.prevent="submittedMutation = null">
@@ -44,7 +44,7 @@
     <form class="ui form" @submit.prevent="submit()">
       <div class="ui hidden divider"></div>
       <div v-if="errors.length > 0" role="alert" class="ui negative message">
-        <div class="header"><translate translate-context="Content/Library/Error message.Title">Error while submitting edit</translate></div>
+        <h4 class="header"><translate translate-context="Content/Library/Error message.Title">Error while submitting edit</translate></h4>
         <ul class="list">
           <li v-for="error in errors">{{ error }}</li>
         </ul>

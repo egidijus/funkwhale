@@ -1,11 +1,11 @@
 <template>
   <div class="ui fluid card">
     <div class="content">
-      <div class="header">
+      <h4 class="header">
         <router-link :to="detailUrl">
           <translate translate-context="Content/Library/Card/Short" :translate-params="{id: obj.uuid.substring(0, 8)}">Modification %{ id }</translate>
         </router-link>
-      </div>
+      </h4>
       <div class="meta">
         <router-link
           v-if="obj.target && obj.target.type === 'track'"

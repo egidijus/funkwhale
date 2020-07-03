@@ -7,12 +7,12 @@
         </h2>
         <form class="ui form" @submit.prevent="submitSettings()">
           <div v-if="settings.success" class="ui positive message">
-            <div class="header">
+            <h4 class="header">
               <translate translate-context="Content/Settings/Message">Settings updated</translate>
-            </div>
+            </h4>
           </div>
           <div v-if="settings.errors.length > 0" role="alert" class="ui negative message">
-            <div class="header"><translate translate-context="Content/Settings/Error message.Title">Your settings can't be updated</translate></div>
+            <h4 class="header"><translate translate-context="Content/Settings/Error message.Title">Your settings can't be updated</translate></h4>
             <ul class="list">
               <li v-for="error in settings.errors">{{ error }}</li>
             </ul>
@@ -37,7 +37,7 @@
         </h2>
         <div class="ui form">
           <div v-if="avatarErrors.length > 0" role="alert" class="ui negative message">
-            <div class="header"><translate translate-context="Content/Settings/Error message.Title">Your avatar cannot be saved</translate></div>
+            <h4 class="header"><translate translate-context="Content/Settings/Error message.Title">Your avatar cannot be saved</translate></h4>
             <ul class="list">
               <li v-for="error in avatarErrors">{{ error }}</li>
             </ul>
@@ -64,9 +64,9 @@
         </div>
         <form class="ui form" @submit.prevent="submitPassword()">
           <div v-if="passwordError" role="alert" class="ui negative message">
-            <div class="header">
+            <h4 class="header">
               <translate translate-context="Content/Settings/Error message.Title">Your password cannot be changed</translate>
-            </div>
+            </h4>
             <ul class="list">
               <li v-if="passwordError == 'invalid_credentials'"><translate translate-context="Content/Settings/Error message.List item/Call to action">Please double-check your password is correct</translate></li>
             </ul>
@@ -287,7 +287,7 @@
         </div>
         <div class="ui form">
           <div v-if="accountDeleteErrors.length > 0" role="alert" class="ui negative message">
-            <div class="header"><translate translate-context="Content/Settings/Error message.Title">We cannot delete your account</translate></div>
+            <h4 class="header"><translate translate-context="Content/Settings/Error message.Title">We cannot delete your account</translate></h4>
             <ul class="list">
               <li v-for="error in accountDeleteErrors">{{ error }}</li>
             </ul>

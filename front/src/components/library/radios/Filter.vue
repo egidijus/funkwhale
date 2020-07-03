@@ -40,9 +40,9 @@
         {{ checkResult.candidates.count }} tracks matching filter
       </span>
       <modal v-if="checkResult" :show.sync="showCandidadesModal">
-        <div class="header">
+        <h4 class="header">
           <translate translate-context="Popup/Radio/Title/Noun">Tracks matching filter</translate>
-        </div>
+        </h4>
         <div class="content">
           <div class="description">
             <track-table v-if="checkResult.candidates.count > 0" :tracks="checkResult.candidates.sample"></track-table>

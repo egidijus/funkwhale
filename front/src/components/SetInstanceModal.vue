@@ -1,9 +1,9 @@
 <template>
   <modal @update:show="$emit('update:show', $event); isError = false" :show="show">
-    <div class="header"><translate translate-context="Popup/Instance/Title">Choose your instance</translate></div>
+    <h3 class="header"><translate translate-context="Popup/Instance/Title">Choose your instance</translate></h3>
     <div class="scrolling content">
       <div v-if="isError" role="alert" class="ui negative message">
-        <div class="header"><translate translate-context="Popup/Instance/Error message.Title">It is not possible to connect to the given URL</translate></div>
+        <h4 class="header"><translate translate-context="Popup/Instance/Error message.Title">It is not possible to connect to the given URL</translate></h4>
         <ul class="list">
           <li><translate translate-context="Popup/Instance/Error message.List item">The server might be down</translate></li>
           <li><translate translate-context="Popup/Instance/Error message.List item">The given address is not a Funkwhale server</translate></li>

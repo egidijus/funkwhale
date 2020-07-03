@@ -35,9 +35,9 @@
             </div>
 
             <modal :show.sync="showEmbedModal" v-if="publicLibraries.length > 0">
-              <div class="header">
+              <h4 class="header">
                 <translate translate-context="Popup/Artist/Title/Verb">Embed this artist work on your website</translate>
-              </div>
+              </h4>
               <div class="content">
                 <div class="description">
                   <embed-wizard type="artist" :id="object.id" />

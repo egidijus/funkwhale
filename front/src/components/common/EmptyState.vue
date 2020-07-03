@@ -1,6 +1,6 @@
 <template>
   <div class="ui small placeholder segment component-placeholder component-empty-state">
-    <div class="ui header">
+    <h4 class="ui header">
       <div class="content">
         <slot name="title">
 
@@ -10,7 +10,7 @@
           </translate>
         </slot>
       </div>
-    </div>
+    </h4>
     <div class="inline center aligned text">
       <slot></slot>
       <button v-if="refresh" class="ui button" @click="$emit('refresh')">

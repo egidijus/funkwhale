@@ -5,7 +5,7 @@
         <h2>{{ labels.changePassword }}</h2>
         <form v-if="!success" class="ui form" @submit.prevent="submit()">
           <div v-if="errors.length > 0" role="alert" class="ui negative message">
-            <div class="header"><translate translate-context="Content/Signup/Card.Title">Error while changing your password</translate></div>
+            <h4 class="header"><translate translate-context="Content/Signup/Card.Title">Error while changing your password</translate></h4>
             <ul class="list">
               <li v-for="error in errors">{{ error }}</li>
             </ul>
@@ -26,7 +26,7 @@
           </template>
         </form>
         <div v-else class="ui positive message">
-          <div class="header"><translate translate-context="Content/Signup/Card.Title">Password updated successfully</translate></div>
+          <h4 class="header"><translate translate-context="Content/Signup/Card.Title">Password updated successfully</translate></h4>
           <p><translate translate-context="Content/Signup/Card.Paragraph">Your password has been updated successfully.</translate></p>
           <router-link :to="{name: 'login'}">
             <translate translate-context="Content/Signup/Link/Verb">Proceed to login</translate>

@@ -49,9 +49,9 @@
         </dangerous-button>
       </div>
       <modal v-if="playlist.privacy_level === 'everyone' && playlist.is_playable" :show.sync="showEmbedModal">
-        <div class="header">
+        <h4 class="header">
           <translate translate-context="Popup/Album/Title/Verb">Embed this playlist on your website</translate>
-        </div>
+        </h4>
         <div class="content">
           <div class="description">
             <embed-wizard type="playlist" :id="playlist.id" />
