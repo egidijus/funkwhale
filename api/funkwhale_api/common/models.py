@@ -363,3 +363,24 @@ def remove_attached_content(sender, instance, **kwargs):
                 getattr(instance, field).delete()
             except Content.DoesNotExist:
                 pass
+
+
+class PluginConfiguration(models.Model):
+    """
+    Store plugin configuration in DB
+    """
+
+    code = models.CharField(max_length=100)
+    user = models.ForeignKey(
+        "users.User",
+        related_name="plugins",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    conf = JSONField(null=True, blank=True)
+    enabled = models.BooleanField(default=False)
+    creation_date = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        unique_together = ("user", "code")

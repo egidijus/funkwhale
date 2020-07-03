@@ -12,6 +12,8 @@ from rest_framework import response
 from rest_framework import views
 from rest_framework import viewsets
 
+from config import plugins
+
 from funkwhale_api.users.oauth import permissions as oauth_permissions
 
 from . import filters
@@ -210,3 +212,102 @@ class TextPreviewView(views.APIView):
             )
         }
         return response.Response(data, status=200)
+
+
+class PluginViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    required_scope = "plugins"
+    serializer_class = serializers.serializers.Serializer
+    queryset = models.PluginConfiguration.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        user = request.user
+        user_plugins = [p for p in plugins._plugins.values() if p["user"] is True]
+
+        return response.Response(
+            [
+                plugins.serialize_plugin(p, confs=plugins.get_confs(user=user))
+                for p in user_plugins
+            ]
+        )
+
+    def retrieve(self, request, *args, **kwargs):
+        user = request.user
+        user_plugin = [
+            p
+            for p in plugins._plugins.values()
+            if p["user"] is True and p["name"] == kwargs["pk"]
+        ]
+        if not user_plugin:
+            return response.Response(status=404)
+
+        return response.Response(
+            plugins.serialize_plugin(user_plugin[0], confs=plugins.get_confs(user=user))
+        )
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        user = request.user
+        confs = plugins.get_confs(user=user)
+
+        user_plugin = [
+            p
+            for p in plugins._plugins.values()
+            if p["user"] is True and p["name"] == kwargs["pk"]
+        ]
+        if kwargs["pk"] not in confs:
+            return response.Response(status=404)
+        plugins.set_conf(kwargs["pk"], request.data, user)
+        return response.Response(
+            plugins.serialize_plugin(user_plugin[0], confs=plugins.get_confs(user=user))
+        )
+
+    def delete(self, request, *args, **kwargs):
+        user = request.user
+        confs = plugins.get_confs(user=user)
+        if kwargs["pk"] not in confs:
+            return response.Response(status=404)
+
+        user.plugins.filter(code=kwargs["pk"]).delete()
+        return response.Response(status=204)
+
+    @action(detail=True, methods=["post"])
+    def enable(self, request, *args, **kwargs):
+        user = request.user
+        if kwargs["pk"] not in plugins._plugins:
+            return response.Response(status=404)
+        plugins.enable_conf(kwargs["pk"], True, user)
+        return response.Response({}, status=200)
+
+    @action(detail=True, methods=["post"])
+    def disable(self, request, *args, **kwargs):
+        user = request.user
+        if kwargs["pk"] not in plugins._plugins:
+            return response.Response(status=404)
+        plugins.enable_conf(kwargs["pk"], False, user)
+        return response.Response({}, status=200)
+
+    @action(detail=True, methods=["post"])
+    def scan(self, request, *args, **kwargs):
+        user = request.user
+        if kwargs["pk"] not in plugins._plugins:
+            return response.Response(status=404)
+        conf = plugins.get_conf(kwargs["pk"], user=user)
+
+        if not conf["enabled"]:
+            return response.Response(status=405)
+
+        library = request.user.actor.libraries.get(uuid=conf["conf"]["library"])
+        hook = [
+            hook
+            for p, hook in plugins._hooks.get(plugins.SCAN, [])
+            if p == kwargs["pk"]
+        ]
+
+        if not hook:
+            return response.Response(status=405)
+
+        hook[0](library=library, conf=conf["conf"])
+
+        return response.Response({}, status=200)

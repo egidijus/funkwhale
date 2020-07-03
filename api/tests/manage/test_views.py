@@ -67,11 +67,11 @@ def test_domain_create(superuser_api_client, mocker):
         "funkwhale_api.federation.tasks.update_domain_nodeinfo"
     )
     url = reverse("api:v1:manage:federation:domains-list")
-    response = superuser_api_client.post(url, {"name": "test.federation"})
+    response = superuser_api_client.post(url, {"name": "test.domain"})
 
     assert response.status_code == 201
-    assert federation_models.Domain.objects.filter(pk="test.federation").exists()
-    update_domain_nodeinfo.assert_called_once_with(domain_name="test.federation")
+    assert federation_models.Domain.objects.filter(pk="test.domain").exists()
+    update_domain_nodeinfo.assert_called_once_with(domain_name="test.domain")
 
 
 def test_domain_update_allowed(superuser_api_client, factories):
@@ -85,6 +85,8 @@ def test_domain_update_allowed(superuser_api_client, factories):
 
 
 def test_domain_update_cannot_change_name(superuser_api_client, factories):
+    superuser_api_client.user.create_actor()
+
     domain = factories["federation.Domain"]()
     old_name = domain.name
     url = reverse("api:v1:manage:federation:domains-detail", kwargs={"pk": old_name})
@@ -96,7 +98,9 @@ def test_domain_update_cannot_change_name(superuser_api_client, factories):
     assert domain.name == old_name
     # changing the pk of a model and saving results in a new DB entry in django,
     # so we check that no other entry was created
-    assert domain.__class__.objects.count() == 1
+    assert (
+        domain.__class__.objects.count() == 2
+    )  # one for pod domain, and the other one
 
 
 def test_domain_nodeinfo(factories, superuser_api_client, mocker):
@@ -131,8 +135,8 @@ def test_actor_list(factories, superuser_api_client, settings):
 
     assert response.status_code == 200
 
-    assert response.data["count"] == 1
-    assert response.data["results"][0]["id"] == actor.id
+    assert response.data["count"] == 2
+    assert response.data["results"][1]["id"] == actor.id
 
 
 def test_actor_detail(factories, superuser_api_client):

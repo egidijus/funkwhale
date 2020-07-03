@@ -155,6 +155,14 @@ export default new Router({
         )
     },
     {
+      path: "/settings/plugins",
+      name: "settings.plugins",
+      component: () =>
+        import(
+          /* webpackChunkName: "settings" */ "@/views/auth/Plugins"
+        )
+    },
+    {
       path: "/settings/applications/:id/edit",
       name: "settings.applications.edit",
       component: () =>

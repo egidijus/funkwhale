@@ -79,6 +79,7 @@ GLOBAL_REPLACES = [
     ("#ff4335", "var(--danger-focus-color)"),
 ]
 
+
 def discard_unused_icons(rule):
     """
     Add an icon to this list if you want to use it in the app.
@@ -890,7 +891,9 @@ def replace_vars(source, dest):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Replace hardcoded values by CSS vars and strip unused rules")
+    parser = argparse.ArgumentParser(
+        description="Replace hardcoded values by CSS vars and strip unused rules"
+    )
     parser.add_argument(
         "source", help="Source path of the fomantic-ui-less distribution to fix"
     )

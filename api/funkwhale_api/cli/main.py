@@ -4,6 +4,7 @@ import sys
 from . import base
 from . import library  # noqa
 from . import media  # noqa
+from . import plugins  # noqa
 from . import users  # noqa
 
 from rest_framework.exceptions import ValidationError

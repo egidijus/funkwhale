@@ -46,6 +46,12 @@ logging.config.dictConfig(
                 # required to avoid double logging with root logger
                 "propagate": False,
             },
+            "plugins": {
+                "level": LOGLEVEL,
+                "handlers": ["console"],
+                # required to avoid double logging with root logger
+                "propagate": False,
+            },
             "": {"level": "WARNING", "handlers": ["console"]},
         },
     }
@@ -87,6 +93,20 @@ Path to a directory containing Funkwhale plugins. These will be imported at runt
 """
 sys.path.append(FUNKWHALE_PLUGINS_PATH)
 
+PLUGINS = [p for p in env.list("FUNKWHALE_PLUGINS", default=[]) if p]
+"""
+List of Funkwhale plugins to load.
+"""
+if PLUGINS:
+    logger.info("Running with the following plugins enabled: %s", ", ".join(PLUGINS))
+else:
+    logger.info("Running with no plugins")
+
+from .. import plugins  # noqa
+
+plugins.startup.autodiscover([p + ".funkwhale_startup" for p in PLUGINS])
+DEPENDENCIES = plugins.trigger_filter(plugins.PLUGINS_DEPENDENCIES, [], enabled=True)
+plugins.install_dependencies(DEPENDENCIES)
 FUNKWHALE_HOSTNAME = None
 FUNKWHALE_HOSTNAME_SUFFIX = env("FUNKWHALE_HOSTNAME_SUFFIX", default=None)
 FUNKWHALE_HOSTNAME_PREFIX = env("FUNKWHALE_HOSTNAME_PREFIX", default=None)
@@ -247,16 +267,6 @@ LOCAL_APPS = (
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 
-
-PLUGINS = [p for p in env.list("FUNKWHALE_PLUGINS", default=[]) if p]
-"""
-List of Funkwhale plugins to load.
-"""
-if PLUGINS:
-    logger.info("Running with the following plugins enabled: %s", ", ".join(PLUGINS))
-else:
-    logger.info("Running with no plugins")
-
 ADDITIONAL_APPS = env.list("ADDITIONAL_APPS", default=[])
 """
 List of Django apps to load in addition to Funkwhale plugins and apps.
@@ -265,27 +275,32 @@ INSTALLED_APPS = (
     DJANGO_APPS
     + THIRD_PARTY_APPS
     + LOCAL_APPS
-    + tuple(["{}.apps.Plugin".format(p) for p in PLUGINS])
     + tuple(ADDITIONAL_APPS)
+    + tuple(plugins.trigger_filter(plugins.PLUGINS_APPS, [], enabled=True))
 )
 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
 ADDITIONAL_MIDDLEWARES_BEFORE = env.list("ADDITIONAL_MIDDLEWARES_BEFORE", default=[])
-MIDDLEWARE = tuple(ADDITIONAL_MIDDLEWARES_BEFORE) + (
-    "django.middleware.security.SecurityMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
-    # needs to be before SPA middleware
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    # /end
-    "funkwhale_api.common.middleware.SPAFallbackMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "funkwhale_api.users.middleware.RecordActivityMiddleware",
-    "funkwhale_api.common.middleware.ThrottleStatusMiddleware",
+MIDDLEWARE = (
+    tuple(plugins.trigger_filter(plugins.MIDDLEWARES_BEFORE, [], enabled=True))
+    + tuple(ADDITIONAL_MIDDLEWARES_BEFORE)
+    + (
+        "django.middleware.security.SecurityMiddleware",
+        "django.middleware.clickjacking.XFrameOptionsMiddleware",
+        "corsheaders.middleware.CorsMiddleware",
+        # needs to be before SPA middleware
+        "django.contrib.sessions.middleware.SessionMiddleware",
+        "django.middleware.common.CommonMiddleware",
+        "django.middleware.csrf.CsrfViewMiddleware",
+        # /end
+        "funkwhale_api.common.middleware.SPAFallbackMiddleware",
+        "django.contrib.auth.middleware.AuthenticationMiddleware",
+        "django.contrib.messages.middleware.MessageMiddleware",
+        "funkwhale_api.users.middleware.RecordActivityMiddleware",
+        "funkwhale_api.common.middleware.ThrottleStatusMiddleware",
+    )
+    + tuple(plugins.trigger_filter(plugins.MIDDLEWARES_AFTER, [], enabled=True))
 )
 
 # DEBUG

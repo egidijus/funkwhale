@@ -257,6 +257,20 @@
           </translate>
         </empty-state>
       </section>
+
+      <section class="ui text container" id="plugins">
+        <div class="ui hidden divider"></div>
+        <h2 class="ui header">
+          <i class="code icon"></i>
+          <div class="content">
+            <translate translate-context="Content/Settings/Title/Noun">Plugins</translate>
+          </div>
+        </h2>
+        <p><translate translate-context="Content/Settings/Paragraph">Use plugins to extend Funkwhale and get additional features.</translate></p>
+        <router-link class="ui basic success button" :to="{name: 'settings.plugins'}">
+          <translate translate-context="Content/Settings/Button.Label">Manage plugins</translate>
+        </router-link>
+      </section>
       <section class="ui text container">
         <div class="ui hidden divider"></div>
         <h2 class="ui header">

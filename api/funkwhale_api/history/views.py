@@ -2,6 +2,8 @@ from rest_framework import mixins, viewsets
 
 from django.db.models import Prefetch
 
+from config import plugins
+
 from funkwhale_api.activity import record
 from funkwhale_api.common import fields, permissions
 from funkwhale_api.music.models import Track
@@ -39,6 +41,11 @@ class ListeningViewSet(
 
     def perform_create(self, serializer):
         r = super().perform_create(serializer)
+        plugins.trigger_hook(
+            plugins.LISTENING_CREATED,
+            listening=serializer.instance,
+            confs=plugins.get_confs(self.request.user),
+        )
         record.send(serializer.instance)
         return r
 

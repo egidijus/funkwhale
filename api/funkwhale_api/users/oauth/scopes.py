@@ -23,6 +23,7 @@ BASE_SCOPES = [
     Scope("notifications", "Access personal notifications"),
     Scope("security", "Access security settings"),
     Scope("reports", "Access reports"),
+    Scope("plugins", "Access plugins"),
     # Privileged scopes that require specific user permissions
     Scope("instance:settings", "Access instance settings"),
     Scope("instance:users", "Access local user accounts"),
@@ -81,7 +82,12 @@ COMMON_SCOPES = ANONYMOUS_SCOPES | {
     "write:listenings",
 }
 
-LOGGED_IN_SCOPES = COMMON_SCOPES | {"read:security", "write:security"}
+LOGGED_IN_SCOPES = COMMON_SCOPES | {
+    "read:security",
+    "write:security",
+    "read:plugins",
+    "write:plugins",
+}
 
 # We don't allow admin access for oauth apps yet
 OAUTH_APP_SCOPES = COMMON_SCOPES
