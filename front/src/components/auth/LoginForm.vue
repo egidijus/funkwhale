@@ -25,7 +25,6 @@
         </label>
         <input
         ref="username"
-        tabindex="1"
         required
         name="username"
         type="text"
@@ -50,7 +49,7 @@
         <translate translate-context="Contant/Auth/Paragraph" :translate-params="{domain: $store.getters['instance/domain']}">You will be redirected to %{ domain } to authenticate.</translate>
       </p>
     </template>
-    <button tabindex="3" :class="['ui', {'loading': isLoading}, 'right', 'floated', buttonClasses, 'button']" type="submit">
+    <button :class="['ui', {'loading': isLoading}, 'right', 'floated', buttonClasses, 'button']" type="submit">
       <translate translate-context="*/Login/*/Verb">Login</translate>
     </button>
   </form>

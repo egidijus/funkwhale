@@ -14,14 +14,14 @@
         </div>
       </div>
       <div class="actions">
-        <div class="ui basic cancel button">
+        <button class="ui basic cancel button">
           <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-        </div>
-        <div :class="['ui', 'confirm', confirmButtonColor, 'button']" @click="confirm">
+        </button>
+        <button :class="['ui', 'confirm', confirmButtonColor, 'button']" @click="confirm">
           <slot name="modal-confirm">
             <translate translate-context="Modal/*/Button.Label/Short, Verb">Confirm</translate>
           </slot>
-        </div>
+        </button>
       </div>
     </modal>
   </div>

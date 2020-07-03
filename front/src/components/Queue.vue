@@ -209,7 +209,7 @@ import $ from 'jquery'
 import moment from "moment"
 import lodash from '@/lodash'
 import time from "@/utils/time"
-
+import createFocusTrap from 'focus-trap'
 import store from "@/store"
 
 export default {
@@ -224,11 +224,14 @@ export default {
       showVolume: false,
       isShuffling: false,
       tracksChangeBuffer: null,
+      focusTrap: null,
       time
     }
   },
   mounted () {
     let self = this
+    this.focusTrap = createFocusTrap(this.$el, {allowOutsideClick: () => { return true }})
+    this.focusTrap.activate()
     this.$nextTick(() => {
       setTimeout(() => {
         this.scrollToCurrent()
