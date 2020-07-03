@@ -128,11 +128,17 @@ def login(request):
         )
     serializer.save(request)
     csrf.rotate_token(request)
-    return http.HttpResponse(status=200)
+    token = csrf.get_token(request)
+    response = http.HttpResponse(status=200)
+    response.set_cookie("csrftoken", token, max_age=None)
+    return response
 
 
 def logout(request):
     if request.method != "POST":
         return http.HttpResponse(status=405)
     auth.logout(request)
-    return http.HttpResponse(status=200)
+    token = csrf.get_token(request)
+    response = http.HttpResponse(status=200)
+    response.set_cookie("csrftoken", token, max_age=None)
+    return response
