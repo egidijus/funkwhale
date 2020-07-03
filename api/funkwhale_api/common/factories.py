@@ -35,3 +35,12 @@ class CommonFactory(NoUpdateOnCreate, factory.django.DjangoModelFactory):
 
     class Meta:
         model = "common.Content"
+
+
+@registry.register
+class PluginConfiguration(NoUpdateOnCreate, factory.django.DjangoModelFactory):
+    code = "test"
+    conf = {"foo": "bar"}
+
+    class Meta:
+        model = "common.PluginConfiguration"

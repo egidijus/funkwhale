@@ -11,6 +11,7 @@ from django import http
 from django.conf import settings
 from django.core.cache import caches
 from django.middleware import csrf
+from django.contrib import auth
 from django import urls
 from rest_framework import views
 
@@ -280,6 +281,25 @@ def monkey_patch_rest_initialize_request():
 
 
 monkey_patch_rest_initialize_request()
+
+
+def monkey_patch_auth_get_user():
+    """
+    We need an actor on our users for many endpoints, so we monkey patch
+    auth.get_user to create it if it's missing
+    """
+    original = auth.get_user
+
+    def replacement(request):
+        r = original(request)
+        if not r.is_anonymous and not r.actor:
+            r.create_actor()
+        return r
+
+    setattr(auth, "get_user", replacement)
+
+
+monkey_patch_auth_get_user()
 
 
 class ThrottleStatusMiddleware:

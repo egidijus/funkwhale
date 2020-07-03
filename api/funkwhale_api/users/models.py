@@ -103,7 +103,9 @@ class UserQuerySet(models.QuerySet):
             user=models.OuterRef("id"), primary=True
         ).values("verified")[:1]
         subquery = models.Subquery(verified_emails)
-        return qs.annotate(has_verified_primary_email=subquery)
+        return qs.annotate(has_verified_primary_email=subquery).prefetch_related(
+            "plugins"
+        )
 
 
 class UserManager(BaseUserManager):

@@ -655,9 +655,7 @@ def handle_modified(event, stdout, library, in_place, **kwargs):
                 and to_update.track.attributed_to != library.actor
             ):
                 stdout.write(
-                    "  Cannot update track metadata, track belongs to someone else".format(
-                        to_update.pk
-                    )
+                    "  Cannot update track metadata, track belongs to someone else"
                 )
                 return
             else:
@@ -777,9 +775,7 @@ def check_upload(stdout, upload):
         )
         if upload.library.actor_id != upload.track.attributed_to_id:
             stdout.write(
-                "  Cannot update track metadata, track belongs to someone else".format(
-                    upload.pk
-                )
+                "  Cannot update track metadata, track belongs to someone else"
             )
         else:
             track = models.Track.objects.select_related("artist", "album__artist").get(
