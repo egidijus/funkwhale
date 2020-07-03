@@ -14,10 +14,10 @@
       <translate translate-context="Content/Settings/Link">Discover how to use Funkwhale from other apps</translate>
     </a></p>
     <div v-if="success" class="ui positive message">
-      <div class="header">{{ successMessage }}</div>
+      <h4 class="header">{{ successMessage }}</h4>
     </div>
     <div v-if="subsonicEnabled && errors.length > 0" role="alert" class="ui negative message">
-      <div class="header"><translate translate-context="Content/*/Error message.Title">Error</translate></div>
+      <h4 class="header"><translate translate-context="Content/*/Error message.Title">Error</translate></h4>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>
       </ul>

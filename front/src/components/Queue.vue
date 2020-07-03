@@ -23,9 +23,9 @@
                   </div>
                 </h1>
                 <div class="ui small warning message" v-if="currentTrack && errored">
-                  <div class="header">
+                  <h3 class="header">
                     <translate translate-context="Sidebar/Player/Error message.Title">The track cannot be loaded</translate>
-                  </div>
+                  </h3>
                   <p v-if="hasNext && playing && $store.state.player.errorCount < $store.state.player.maxConsecutiveErrors">
                     <translate translate-context="Sidebar/Player/Error message.Paragraph">The next track will play automatically in a few seconds…</translate>
                     <i class="loading spinner icon"></i>
@@ -190,9 +190,9 @@
 
             <div v-if="$store.state.radios.running" class="ui info message">
               <div class="content">
-                <div class="header">
+                <h3 class="header">
                   <i class="feed icon"></i> <translate translate-context="Sidebar/Player/Title">You have a radio playing</translate>
-                </div>
+                </h3>
                 <p><translate translate-context="Sidebar/Player/Paragraph">New tracks will be appended here automatically.</translate></p>
                 <div @click="$store.dispatch('radios/stop')" class="ui basic primary button"><translate translate-context="*/Player/Button.Label/Short, Verb">Stop radio</translate></div>
               </div>

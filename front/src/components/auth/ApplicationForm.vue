@@ -2,7 +2,7 @@
 
   <form class="ui form component-form" role="alert" @submit.prevent="submit()">
     <div v-if="errors.length > 0" class="ui negative message">
-      <div class="header"><translate translate-context="Content/*/Error message.Title">We cannot save your changes</translate></div>
+      <h4 class="header"><translate translate-context="Content/*/Error message.Title">We cannot save your changes</translate></h4>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>
       </ul>

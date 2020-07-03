@@ -1,11 +1,11 @@
 <template>
   <modal class="small" @update:show="update" :show="$store.state.channels.showUploadModal">
-    <div class="header">
+    <h4 class="header">
       <translate key="1" v-if="step === 1" translate-context="Popup/Channels/Title/Verb">Publish audio</translate>
       <translate key="2" v-else-if="step === 2" translate-context="Popup/Channels/Title">Files to upload</translate>
       <translate key="3" v-else-if="step === 3" translate-context="Popup/Channels/Title">Upload details</translate>
       <translate key="4" v-else-if="step === 4" translate-context="Popup/Channels/Title">Processing uploads</translate>
-    </div>
+    </h4>
     <div class="scrolling content">
       <channel-upload-form
         ref="uploadForm"

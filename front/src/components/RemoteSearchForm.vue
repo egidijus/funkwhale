@@ -2,7 +2,7 @@
   <div>
     <form id="remote-search" :class="['ui', {loading: isLoading}, 'form']" @submit.stop.prevent="submit">
       <div v-if="errors.length > 0" role="alert" class="ui negative message">
-        <div class="header"><translate translate-context="Content/*/Error message.Title">Error while fetching object</translate></div>
+        <h3 class="header"><translate translate-context="Content/*/Error message.Title">Error while fetching object</translate></h3>
         <ul class="list">
           <li v-for="error in errors">{{ error }}</li>
         </ul>

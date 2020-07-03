@@ -1,7 +1,7 @@
 <template>
   <form class="ui form" @submit.prevent.stop="submit">
     <div v-if="errors.length > 0" role="alert" class="ui negative message">
-      <div class="header"><translate translate-context="Content/*/Error message.Title">Error while saving channel</translate></div>
+      <h4 class="header"><translate translate-context="Content/*/Error message.Title">Error while saving channel</translate></h4>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>
       </ul>

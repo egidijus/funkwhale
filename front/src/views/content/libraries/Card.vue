@@ -1,7 +1,7 @@
 <template>
   <div class="ui card">
     <div class="content">
-      <div class="header">
+      <h4 class="header">
         {{ library.name }}
         <span
           v-if="library.privacy_level === 'me'"
@@ -21,7 +21,7 @@
           :data-tooltip="privacy_tooltips('everyone')">
           <i class="small globe icon"></i>
         </span>
-      </div>
+      </h4>
       <div class="meta">
         <span>
           <i class="small outline clock icon" />

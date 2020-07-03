@@ -1,12 +1,12 @@
 <template>
   <div class="ui fluid user-request card">
     <div class="content">
-      <div class="header">
+      <h4 class="header">
         <router-link :to="{name: 'manage.moderation.requests.detail', params: {id: obj.uuid}}">
           <translate translate-context="Content/Moderation/Card/Short" :translate-params="{id: obj.uuid.substring(0, 8)}">Request %{ id }</translate>
         </router-link>
         <collapse-link class="right floated" v-model="isCollapsed"></collapse-link>
-      </div>
+      </h4>
       <div class="content">
         <div class="ui hidden divider"></div>
         <div class="ui stackable two column grid">

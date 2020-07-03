@@ -26,7 +26,7 @@
       <div class="ui hidden divider"></div>
     </template>
     <div v-if="errors.length > 0" role="alert" class="ui negative message">
-      <div class="header"><translate translate-context="Content/Signup/Form/Paragraph">Your account cannot be created.</translate></div>
+      <h4 class="header"><translate translate-context="Content/Signup/Form/Paragraph">Your account cannot be created.</translate></h4>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>
       </ul>
