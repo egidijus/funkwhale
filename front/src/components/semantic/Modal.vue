@@ -9,6 +9,7 @@
 
 <script>
 import $ from 'jquery'
+import createFocusTrap from 'focus-trap'
 
 export default {
   props: {
@@ -17,8 +18,12 @@ export default {
   },
   data () {
     return {
-      control: null
+      control: null,
+      focusTrap: null,
     }
+  },
+  mounted () {
+    this.focusTrap = createFocusTrap(this.$el)
   },
   beforeDestroy () {
     if (this.control) {
@@ -38,6 +43,11 @@ export default {
         }.bind(this),
         onHidden: function () {
           this.$emit('update:show', false)
+          this.focusTrap.pause()
+        }.bind(this),
+        onVisible: function () {
+          this.focusTrap.activate()
+          this.focusTrap.unpause()
         }.bind(this)
       })
     }

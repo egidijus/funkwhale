@@ -37,8 +37,8 @@
       </div>
     </div>
     <div class="actions">
-      <div class="ui basic cancel button"><translate translate-context="*/*/Button.Label/Verb">Cancel</translate></div>
-      <div :class="['ui', 'success', {loading: isLoading}, 'button']" @click="hide"><translate translate-context="Popup/*/Button.Label">Hide content</translate></div>
+      <button class="ui basic cancel button"><translate translate-context="*/*/Button.Label/Verb">Cancel</translate></button>
+      <button :class="['ui', 'success', {loading: isLoading}, 'button']" @click="hide"><translate translate-context="Popup/*/Button.Label">Hide content</translate></button>
     </div>
   </modal>
 </template>
