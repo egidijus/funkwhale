@@ -16,7 +16,7 @@
               <a v-if="version" class="link item" href="https://docs.funkwhale.audio/changelog.html" target="_blank">
                 <translate translate-context="Footer/*/List item" :translate-params="{version: version}" >Version %{version}</translate>
               </a>
-            <a role="button" class="link item" @click.prevent="$emit('show:set-instance-modal')" >
+            <a href="" class="link item" @click.prevent="$emit('show:set-instance-modal')" >
               <translate translate-context="Footer/*/List item.Link">Use another instance</translate>
             </a>
           </div>
