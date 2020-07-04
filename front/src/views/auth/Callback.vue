@@ -5,7 +5,7 @@
         <div class="ui hidden divider"></div>
         <div class="ui active inverted dimmer">
           <div class="ui text loader">
-            <h2><translate translate-context="*/Login/*">Logging in…</translate></h2> {{ next }} {{ code }} {{ state }}
+            <h2><translate translate-context="*/Login/*">Logging in…</translate></h2>
           </div>
         </div>
       </div>
