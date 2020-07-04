@@ -369,6 +369,8 @@ export default {
       immediate: true,
       handler(newValue) {
         let self = this
+        let htmlLocale = newValue.toLowerCase().replace('_', '-')
+        document.documentElement.setAttribute('lang', htmlLocale);
         if (newValue === 'en_US') {
           self.$language.current = 'noop'
           self.$language.current = newValue
