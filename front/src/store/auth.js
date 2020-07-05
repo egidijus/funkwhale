@@ -184,9 +184,11 @@ export default {
       return new Promise((resolve, reject) => {
         axios.get('users/users/me/').then((response) => {
           logger.default.info('Successfully fetched user profile')
+          dispatch('ui/initSettings', response.data.settings, { root: true })
           dispatch('updateProfile', response.data).then(() => {
             resolve(response.data)
           })
+
           dispatch('ui/fetchUnreadNotifications', null, { root: true })
           if (response.data.permissions.library) {
             dispatch('ui/fetchPendingReviewEdits', null, { root: true })

@@ -556,3 +556,15 @@ def test_logout(api_client, factories, mocker):
     response = api_client.post(url)
     assert response.status_code == 200
     assert auth_logout.call_count == 1
+
+
+def test_update_settings(logged_in_api_client, factories):
+    logged_in_api_client.user.set_settings(foo="bar")
+    url = reverse("api:v1:users:users-settings")
+    payload = {"theme": "dark"}
+
+    response = logged_in_api_client.post(url, payload, format="json")
+    assert response.status_code == 200
+    logged_in_api_client.user.refresh_from_db()
+
+    assert logged_in_api_client.user.settings == {"foo": "bar", "theme": "dark"}

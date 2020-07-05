@@ -1,0 +1,1 @@
+Persist theme and language settings accross sessions (#996)

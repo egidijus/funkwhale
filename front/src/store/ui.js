@@ -278,6 +278,30 @@ export default {
         commit('notifications', {type: 'pendingReviewRequests', count: response.data.count})
       })
     },
+
+    async currentLanguage ({state, commit, rootState}, value) {
+      commit("currentLanguage", value)
+      if (rootState.auth.authenticated) {
+        await axios.post("users/settings", {"language": value})
+      }
+    },
+
+    async theme ({state, commit, rootState}, value) {
+      commit("theme", value)
+      if (rootState.auth.authenticated) {
+        await axios.post("users/settings", {"theme": value})
+      }
+    },
+
+    async initSettings ({commit}, settings) {
+      settings = settings || {}
+      if (settings.language) {
+        commit("currentLanguage", settings.language)
+      }
+      if (settings.theme) {
+        commit("theme", settings.theme)
+      }
+    },
     websocketEvent ({state}, event) {
       let handlers = state.websocketEventsHandlers[event.type]
       console.log('Dispatching websocket event', event, handlers)
