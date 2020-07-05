@@ -161,6 +161,7 @@ services:
       - "8002:8080"
     volumes:
       - "./docs/swagger.yml:/usr/share/nginx/html/swagger.yml"
+      - "./docs/api:/usr/share/nginx/html/api"
 
   # minio:
   #   image: minio/minio
