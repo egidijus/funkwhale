@@ -80,6 +80,13 @@ class UserViewSet(mixins.UpdateModelMixin, viewsets.GenericViewSet):
         serializer = serializers.MeSerializer(request.user)
         return Response(serializer.data)
 
+    @action(methods=["post"], detail=False, url_name="settings", url_path="settings")
+    def set_settings(self, request, *args, **kwargs):
+        """Return information about the current user or delete it"""
+        new_settings = request.data
+        request.user.set_settings(**new_settings)
+        return Response(request.user.settings)
+
     @action(
         methods=["get", "post", "delete"],
         required_scope="security",

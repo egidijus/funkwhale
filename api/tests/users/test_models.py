@@ -259,3 +259,16 @@ def test_get_by_natural_key_annotates_primary_email_verified_false(factories):
     user = models.User.objects.get_by_natural_key(user.username)
 
     assert user.has_verified_primary_email is False
+
+
+def test_set_settings(factories):
+    user = factories["users.User"]()
+    assert user.settings is None
+
+    user.set_settings(foo="bar", hello="world")
+
+    user.refresh_from_db()
+    assert user.settings == {
+        "foo": "bar",
+        "hello": "world",
+    }

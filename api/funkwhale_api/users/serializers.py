@@ -232,6 +232,7 @@ class MeSerializer(UserReadSerializer):
             "funkwhale_support_message_display_date",
             "summary",
             "tokens",
+            "settings",
         ]
 
     def get_quota_status(self, o):

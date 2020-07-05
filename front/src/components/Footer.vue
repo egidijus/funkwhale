@@ -23,7 +23,7 @@
           <div class="ui form">
             <div class="ui field">
               <label><translate translate-context="Footer/Settings/Dropdown.Label/Short, Verb">Change language</translate></label>
-              <select class="ui dropdown" :value="$language.current" @change="$store.commit('ui/currentLanguage', $event.target.value)">
+              <select class="ui dropdown" :value="$language.current" @change="$store.dispatch('ui/currentLanguage', $event.target.value)">
                 <option v-for="(language, key) in $language.available" :key="key" :value="key">{{ language }}</option>
               </select>
             </div>
@@ -39,7 +39,7 @@
           <div class="ui form">
             <div class="ui field">
               <label><translate translate-context="Footer/Settings/Dropdown.Label/Short, Verb">Change theme</translate></label>
-              <select class="ui dropdown" :value="$store.state.ui.theme" @change="$store.commit('ui/theme', $event.target.value)">
+              <select class="ui dropdown" :value="$store.state.ui.theme" @change="$store.dispatch('ui/theme', $event.target.value)">
                 <option v-for="theme in themes" :key="theme.key" :value="theme.key">{{ theme.name }}</option>
               </select>
             </div>
