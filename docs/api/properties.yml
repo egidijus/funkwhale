@@ -1,0 +1,100 @@
+
+description:
+  type: object
+  description: Text content associated with another resource, like and artist or channel.
+  properties:
+    text:
+      type: string
+      example: "This is **me**"
+      description: "The raw user input"
+    content_type:
+      type: string
+      enum:
+        - text/markdown
+        - text/plain
+        - text/html
+      description: "The raw user input"
+    html:
+      type: string
+      description: "HTML output based on user input"
+      readOnly: true
+
+mbid:
+  type: "string"
+  format: "uuid"
+  description: "A musicbrainz ID"
+creation_date:
+  type: "string"
+  format: "date-time"
+  description: "Creation date of the resource"
+
+modification_date:
+  type: "string"
+  format: "date-time"
+  description: "Last modification date of th resource"
+privacy_level:
+  type: string
+  example: "me"
+  description: |
+    * `me`: private
+    * `instance`: accessible by local users
+    * `everyone`: public (including over federation)
+  enum:
+    - "me"
+    - "instance"
+    - "everyone"
+fid:
+  type: "string"
+  format: "uri"
+  description: "Federation ID"
+  example: "https://my.instance/federation/music/libraries/3fa85f64-5717-4562-b3fc-2c963f66afa6"
+audio_mimetype:
+  type: string
+  example: "audio/ogg"
+  enum:
+    - "audio/ogg"
+    - "audio/mpeg"
+    - "audio/x-flac"
+    - "audio/flac"
+image_mimetype:
+  type: string
+  example: "image/png"
+  enum:
+    - "image/png"
+    - "image/jpeg"
+import_status:
+  type: string
+  example: "finished"
+  enum:
+    - "draft"
+    - "pending"
+    - "finished"
+    - "errored"
+    - "skipped"
+  description: |
+    * `draft`: waiting for further modifications from the owner
+    * `pending`: waiting to be processed by the server
+    * `finished`: successfully processed by the server
+    * `errored`: couldn't be processed by the server (e.g because of a tagging issue)
+    * `skipped`: processed by the server but skipped, because considered as a duplicate of an existing upload
+
+transcode_options:
+  type: string
+  enum:
+    - "ogg"
+    - "mp3"
+
+tags:
+  type: array
+  description: A list of hashtags associated with a resource
+  items:
+    type: string
+    example: "Rock"
+
+content_category:
+  type: "string"
+  description: Used to what kind of content is published in a chanel
+  enum:
+    - music
+    - podcast
+    - other

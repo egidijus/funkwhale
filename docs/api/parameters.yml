@@ -1,0 +1,118 @@
+ChannelOrdering:
+  - $ref: "#/parameters/Ordering"
+  - default: "-creation_date"
+    schema:
+      required: false
+      type: "string"
+      example: "-creation_date"
+      enum:
+        - creation_date
+        - artist__modification_date
+
+External:
+  name: "external"
+  in: "query"
+  default: null
+  description: "Filter/exclude channels created from a third-party, non-Funkwhale RSS feed"
+  schema:
+    required: false
+    type: "boolean"
+
+
+ObjectId:
+  name: id
+  in: path
+  description: Object ID
+  required: true
+  schema:
+    type: integer
+    format: int64
+Ordering:
+  name: "ordering"
+  in: "query"
+  description: "Ordering for the results, prefix with - for DESC ordering"
+
+PageNumber:
+  in: query
+  name: page
+  schema:
+    type: "integer"
+    format: "int64"
+    example: 1
+    default: 1
+    minimum: 1
+PageSize:
+  in: query
+  name: page_size
+  schema:
+    type: "integer"
+    format: "int64"
+    example: 16
+    default: 25
+    minimum: 1
+    maximum: 25
+Playable:
+  name: "playable"
+  in: "query"
+  default: null
+  description: "Filter/exclude resources with playable tracks"
+  schema:
+    required: false
+    type: "boolean"
+Refresh:
+  name: "refresh"
+  in: "query"
+  default: false
+  description: "Trigger an ActivityPub fetch to refresh local data"
+  schema:
+    required: false
+    type: "boolean"
+
+Scope:
+  name: "scope"
+  in: "query"
+  default: "all"
+  description: |
+    Limit the results to a given user or pod:
+      - Use `all` (or do not specify the property to disable scope filtering)
+      - Use `me` to retrieve content relative to the current user
+      - Use `actor:alice@example.com` to retrieve content relative to the account `alice@example.com
+      - Use `domain:example.com` to retrieve content relative to the domain `example.com
+  schema:
+    required: false
+    type: "string"
+    enum:
+    - "me"
+    - "all"
+    - "actor:alice@example.com"
+    - "domain:example.com"
+
+Search:
+  name: "q"
+  in: "query"
+  default: "all"
+  description: "Limit the results to the corresponding search query"
+  schema:
+    required: false
+    type: "string"
+    example: "Bonobo"
+
+Subscribed:
+  name: "subscribed"
+  in: "query"
+  description: "Limit or exclude results with a matching subsription from the current user"
+  schema:
+    required: false
+    type: boolean
+
+Tags:
+  name: "tag"
+  in: "query"
+  description: "Limit the results to the corresponding tags. May be used multiple times, to retrieve objects matching al provided tags"
+  schema:
+    required: false
+    type: array
+    collectionFormat: csv
+    example:
+      - rock
+      - metal
