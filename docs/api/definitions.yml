@@ -1,0 +1,897 @@
+
+
+OAuthApplication:
+  type: "object"
+  properties:
+    client_id:
+      type: "string"
+      example: "VKIZWv7FwBq56UMfUtbCSIgSxzUTv1b6nMyOkJvP"
+    created:
+      type: "string"
+      format: "date-time"
+    updated:
+      type: "string"
+      format: "date-time"
+    scopes:
+      type: "string"
+      description: "Coma-separated list of scopes requested by the app"
+
+OAuthApplicationCreation:
+  type: "object"
+  properties:
+    client_secret:
+      type: "string"
+      example: "qnKDX8zjIfC0BG4tUreKlqk3tNtuCfJdGsaEt5MIWrTv0YLLhGI6SGqCjs9kn12gyXtIg4FWfZqWMEckJmolCi7a6qew4LawPWMfnLDii4mQlY1eQG4BJbwPANOrDiTZ"
+    redirect_uris:
+      type: "string"
+      format: "uri"
+      description: "Coma-separated list of redirect uris allowed for the app"
+
+
+ResultPage:
+  type: "object"
+  properties:
+    count:
+      type: "integer"
+      format: "int64"
+      example: 42
+      description: "The total number of results (all pages included)"
+    next:
+      type: "string"
+      format: "uri"
+      description: "Link to the next page of results"
+    previous:
+      type: "string"
+      format: "uri"
+      description: "Link to the previous page of results"
+
+Attachment:
+  type: "object"
+  properties:
+    uuid:
+      type: string
+      format: uuid
+    size:
+      type: "integer"
+      format: "int64"
+      example: 2787000
+      description: "Size of the file, in bytes"
+    mimetype:
+      $ref: "./properties.yml#image_mimetype"
+    creation_date:
+      type: "string"
+      format: "date-time"
+    urls:
+      type: "object"
+      properties:
+        original:
+          type: "string"
+          description: "URL to the original image"
+          example: "https://mydomain/media/attachments/ec2c53aeaac6.jpg"
+        medium_square_crop:
+          type: "string"
+          description: "URL to a medium, squared thumbnail of the image"
+          example: "https://mydomain/media/__sized__/attachments/ec2c53aeaac6-crop-c0-5__0-5-200x200-70.jpg"
+
+Actor:
+  type: object
+  description: "A federation/ ActivityPub actor"
+  properties:
+    fid:
+      type: string
+      format: uri
+      description: "The actor Federation ID (unique accross federation)"
+    uuid:
+      type: string
+      format: uuid
+      description: "Local ID of the library"
+    creation_date:
+      type: "string"
+      format: "date-time"
+    preferred_username:
+      type: "string"
+      example: "alice"
+    name:
+      type: string
+      example: "Alice Unicorn"
+    last_fetch_date:
+      type: "string"
+      format: "date-time"
+      description: "Last time the actor profile was fetched on its origin server"
+    domain:
+      type: "string"
+      format: "hostname"
+      example: "open.audio"
+    type:
+      type: "string"
+      example: "Person"
+      enum:
+        - Person
+        - Application
+        - Group
+        - Organization
+    manually_approves_followers:
+      type: "boolean"
+    full_username:
+      type: string
+      example: "alice@open.audio"
+
+BaseArtist:
+  type: "object"
+  properties:
+    mbid:
+      required: false
+      $ref: "./properties.yml#mbid"
+    id:
+      type: "integer"
+      format: "int64"
+      example: 42
+    fid:
+      type: string
+      format: uri
+      description: "The artist Federation ID (unique accross federation)"
+    name:
+      type: "string"
+      example: "System of a Down"
+    creation_date:
+      type: "string"
+      format: "date-time"
+    is_local:
+      type: "boolean"
+      description: "Indicates if the object was initally created locally or on another server"
+
+Artist:
+  type: "object"
+  allOf:
+    - $ref: "#/BaseArtist"
+    - type: "object"
+      properties:
+        tracks_count:
+          type: "integer"
+          format: "int64"
+          example: 42
+        albums:
+          type: "array"
+          items:
+            $ref: "#/ArtistAlbum"
+
+BaseAlbum:
+  type: "object"
+  properties:
+    mbid:
+      required: false
+      $ref: "./properties.yml#mbid"
+    id:
+      type: "integer"
+      format: "int64"
+      example: 16
+    fid:
+      type: string
+      format: uri
+      description: "The album Federation ID (unique accross federation)"
+    artist:
+      type: "integer"
+      format: "int64"
+      example: 42
+    title:
+      type: "string"
+      example: "Toxicity"
+    creation_date:
+      type: "string"
+      format: "date-time"
+    release_date:
+      type: "string"
+      required: false
+      format: "date"
+      example: "2001-01-01"
+    is_playable:
+      type: "boolean"
+    cover:
+      $ref: "#/Attachment"
+    is_local:
+      type: "boolean"
+      description: "Indicates if the object was initally created locally or on another server"
+
+Album:
+  type: "object"
+  allOf:
+    - $ref: "#/BaseAlbum"
+    - type: "object"
+      properties:
+        tracks:
+          type: "array"
+          items:
+            $ref: "#/AlbumTrack"
+
+ArtistAlbum:
+  type: "object"
+  allOf:
+    - $ref: "#/BaseAlbum"
+    - type: "object"
+      properties:
+        tracks_count:
+          type: "integer"
+          format: "int64"
+          example: 16
+
+ChannelMetadata:
+  type: "object"
+  properties:
+    itunes_category:
+      type: string
+      example: Comedy
+      description: Itunes category (see `/api/v1/channels/metadata-choices`) for allowed values
+    itunes_subcategory:
+      type: string
+      example: Improv
+      description: Itunes subcategory (see `/api/v1/channels/metadata-choices`) for allowed values
+    language:
+      type: string
+      example: en
+      description: Language of the content, in ISO 639 format (see `/api/v1/channels/metadata-choices`) for allowed values
+    owner_name:
+      type: string
+      example: "Alice"
+      description: Used to make the channel compatible with other platforms (iTunes, Spotify, etc.)
+    owner_email:
+      type: string
+      example: "alice@example.com"
+      description: Used to make the channel compatible with other platforms (iTunes, Spotify, etc.)
+
+ChannelCreate:
+  type: "object"
+  properties:
+    name:
+      type: "string"
+      example: "A short, public name for the channel"
+      maxLength: 255
+    username:
+      type: "string"
+      example: "aliceandbob"
+      description: "The username to associate with the channel, for use over federation. This cannot be changed afterwards."
+    description:
+      $ref: "./properties.yml#description"
+    tags:
+      $ref: "./properties.yml#tags"
+    content_category:
+      $ref: "./properties.yml#content_category"
+    cover:
+      type: string
+      format: uuid
+    metadata:
+      $ref: "#ChannelMetadata"
+ChannelUpdate:
+  type: "object"
+  properties:
+    name:
+      type: "string"
+      example: "A short, public name for the channel"
+      maxLength: 255
+    description:
+      $ref: "./properties.yml#description"
+    tags:
+      $ref: "./properties.yml#tags"
+    cover:
+      type: string
+      format: uuid
+    metadata:
+      $ref: "#/ChannelMetadata"
+
+Channel:
+  type: "object"
+  properties:
+    uuid:
+      type: "string"
+      format: "uuid"
+    creation_date:
+      $ref: "./properties.yml#creation_date"
+    artist:
+      $ref: "#/BaseArtist"
+    attributed_to:
+      $ref: "#/Actor"
+      description: User account owning the channel
+    actor:
+      $ref: "#/Actor"
+      description: Actor representing the channel over federation
+
+Subscription:
+  type: "object"
+  properties:
+    approved:
+      type: "string"
+    fid:
+      $ref: "./properties.yml#fid"
+    uuid:
+      type: "string"
+      format: "uuid"
+    creation_date:
+      $ref: "./properties.yml#creation_date"
+    channel:
+      $ref: "#/Channel"
+
+SubscriptionsAll:
+  type: "object"
+  properties:
+    uuid:
+      type: "string"
+      format: "uuid"
+    channel:
+      type: "string"
+      format: "uuid"
+
+Library:
+  type: "object"
+  properties:
+    fid:
+      type: string
+      format: uri
+      description: "The library Federation ID (unique accross federation)"
+    uuid:
+      type: string
+      format: uuid
+      description: "Local ID of the library"
+    name:
+      type: string
+      example: "My awesome library"
+    description:
+      type: string
+      nullable: true
+      example: "This library contains all the stuff I love!"
+    uploads_count:
+      type: "integer"
+      format: "int64"
+      example: 687
+    privacy_level:
+      type: string
+      example: "me"
+      enum:
+        - "me"
+        - "instance"
+        - "everyone"
+    actor:
+      $ref: "#/Actor"
+LibraryPage:
+  allOf:
+    - $ref: "#/ResultPage"
+    - type: "object"
+      properties:
+        results:
+          type: "array"
+          items:
+            $ref: "#/Library"
+
+License:
+  type: "object"
+  properties:
+    id:
+      type: string
+      format: uri
+      example: http://creativecommons.org/publicdomain/zero/1.0/
+      description: "The license ID"
+    url:
+      type: string
+      format: uri
+      example: http://creativecommons.org/publicdomain/zero/1.0/
+      description: "The license url (can be different than the ID)"
+    code:
+      type: string
+      description: "A unique code to identify the license"
+      example: cc0-1.0
+    redistribute:
+      type: boolean
+      example: true
+      description: "Does the license allow free redistribution?"
+    derivative:
+      type: boolean
+      example: true
+      description: "Does the license allow the creation of derivative work?"
+    commercial:
+      type: boolean
+      example: true
+      description: "Does the license allow commercial use?"
+    attribution:
+      type: boolean
+      example: false
+      description: "Does the license requires crediting the author?"
+    copyleft:
+      type: boolean
+      example: false
+      description: "Does the license enforce a similar license of derivative work?"
+
+BaseTrack:
+  type: "object"
+  properties:
+    mbid:
+      required: false
+      $ref: "./properties.yml#mbid"
+    id:
+      type: "integer"
+      format: "int64"
+      example: 66
+    fid:
+      type: string
+      format: uri
+      description: "The track Federation ID (unique accross federation)"
+    artist:
+      type: "integer"
+      format: "int64"
+      example: 42
+    album:
+      type: "integer"
+      format: "int64"
+      example: 16
+    title:
+      type: "string"
+      example: "Chop Suey!"
+    position:
+      required: false
+      description: "Position of the track in the album"
+      type: "number"
+      minimum: 1
+      example: 1
+    disc_number:
+      required: false
+      type: "number"
+      minimum: 1
+      example: 1
+    listen_url:
+      type: "string"
+      format: "uri"
+      description: "URL to stream the track"
+    copyright:
+      type: "string"
+      example: "Creative Commons Attribution-NonCommercial-NoDerivatives 4.0: http://creativecommons.org/licenses/by-nc-nd/4.0/"
+      description: "Copyright information as extracted from upload tags"
+    license:
+      type: "string"
+      description: "Identifier of the license that is linked to the track"
+      example: "cc-by-nc-nd-4.0"
+    is_local:
+      type: "boolean"
+      description: "Indicates if the object was initally created locally or on another server"
+
+AlbumTrack:
+  type: "object"
+  allOf:
+    - $ref: "#/BaseTrack"
+    - type: "object"
+      properties:
+        artist:
+          $ref: "#/BaseArtist"
+        uploads:
+          type: "array"
+          description: "List of uploads associated with this track"
+          items:
+            $ref: "#/Upload"
+Track:
+  type: "object"
+  allOf:
+    - $ref: "#/BaseTrack"
+    - type: "object"
+      properties:
+        album:
+          $ref: "#/Album"
+        artist:
+          $ref: "#/BaseArtist"
+        uploads:
+          type: "array"
+          description: "List of uploads associated with this track"
+          items:
+            $ref: "#/Upload"
+Upload:
+  type: "object"
+  properties:
+    uuid:
+      type: string
+      format: uuid
+    size:size:
+      type: "integer"
+      format: "int64"
+      example: 278987000
+      description: "Size of the file, in bytes"
+    duration:
+      type: "integer"
+      format: "int64"
+      example: 184
+      description: "Duration of the audio, in seconds"
+    bitrate:
+      type: "integer"
+      format: "int64"
+      example: 128000
+      description: "Bitrate of the file, in bytes/s"
+    mimetype:
+      $ref: "./properties.yml#audio_mimetype"
+    extension:
+      type: string
+      example: "ogg"
+      description: "File extension of the upload"
+    filename:
+      type: "string"
+      example: "Myfile.mp3"
+    listen_url:
+      type: "string"
+      format: "uri"
+      description: "URL to stream the upload"
+
+OwnedLibraryCreate:
+  type: "object"
+  properties:
+    name:
+      type: "string"
+      example: "My new library"
+    description:
+      required: false
+      type: "string"
+      example: "Lots of interesting content"
+    privacy_level:
+      $ref: "./properties.yml#privacy_level"
+
+OwnedLibrary:
+  type: "object"
+  properties:
+    uuid:
+      type: string
+      format: uuid
+    fid:
+      $ref: "./properties.yml#fid"
+    name:
+      type: "string"
+      example: "My Creative Commons library"
+    description:
+      type: "string"
+      example: "All content is under CC-BY"
+    creation_date:
+      $ref: "./properties.yml#creation_date"
+    privacy_level:
+      $ref: "./properties.yml#privacy_level"
+    uploads_count:
+      type: "integer"
+      format: "int64"
+      example: 34
+    size:
+      type: "integer"
+      format: "int64"
+      example: 678917000
+      description: "Total size of uploads in the library, in bytes"
+
+OwnedUpload:
+  type: "object"
+  allOf:
+    - $ref: "#/Upload"
+    - type: "object"
+      properties:
+        import_status:
+          $ref: "./properties.yml#import_status"
+        track:
+          $ref: "#/Track"
+        library:
+          $ref: "#/OwnedLibrary"
+        source:
+          type: "string"
+          example: "upload://myfile.mp3"
+        import_reference:
+          type: "string"
+          example: "Import launched via web UI on 03/18"
+        import_metadata:
+          $ref: "#/ImportMetadata"
+
+Playlist:
+  type: "object"
+  properties:
+    id:
+      type: "integer"
+      format: "int64"
+      example: 42
+    name:
+      type: "string"
+      description: Name of the playlist
+      example: "Move your body"
+    duration:
+      type: "integer"
+      format: "int64"
+      description: Duration of the playlist, in seconds
+      example: 3600
+    tracks_count:
+      type: "integer"
+      format: "int64"
+      description: Number of tracks in the playlist
+      example: 76
+    privacy_level:
+      $ref: "./properties.yml#privacy_level"
+    actor:
+      $ref: "#/Actor"
+      description: Actor owning the playlist
+    creation_date:
+      $ref: "./properties.yml#creation_date"
+    modification_date:
+      $ref: "./properties.yml#modification_date"
+
+
+PlaylistCreate:
+  type: "object"
+  properties:
+    name:
+      type: "string"
+      description: Name of the playlist
+      example: "Move your body"
+    privacy_level:
+      $ref: "./properties.yml#privacy_level"
+
+PlaylistTrack:
+  type: "object"
+  properties:
+    id:
+      type: "integer"
+      format: "int64"
+      example: 42
+    index:
+      type: "integer"
+      format: "int64"
+      example: 16
+      description: Position of the track in the playlist
+    creation_date:
+      $ref: "./properties.yml#creation_date"
+    track:
+      $ref: "#/Track"
+
+ImportMetadata:
+  type: "object"
+  description: "Import metadata to override values from ID3/embedded audio tags"
+  properties:
+    title:
+      type: "string"
+      example: "My Track"
+      required: true
+    mbid:
+      $ref: "./properties.yml#mbid"
+      required: false
+    copyright:
+      type: "string"
+      example: "Alice, 2018"
+      description: "Copyright information"
+      required: false
+    license:
+      type: "string"
+      example: "cc-by-sa-4.0"
+      required: false
+      description: A license code, as returned by /api/v1/licenses
+    tags:
+      $ref: "./properties.yml#tags"
+      required: false
+    position:
+      description: "Position of the track in the album or channel"
+      type: "number"
+      minimum: 1
+      example: 1
+
+TrackFavorite:
+  type: "object"
+  properties:
+    id:
+      type: "integer"
+      format: "int64"
+      example: 876
+    track:
+      $ref: "#/Track"
+    user:
+      $ref: "#/User"
+    creation_date:
+      $ref: "./properties.yml#creation_date"
+User:
+  type: "object"
+  properties:
+    id:
+      type: "integer"
+      format: "int64"
+      example: 23
+    username:
+      type: "string"
+      example: "alice"
+    name:
+      type: "string"
+      example: "Alice Kingsley"
+    avatar:
+      $ref: "#/Avatar"
+
+Me:
+  type: "object"
+  allOf:
+    - $ref: "#/User"
+    - type: "object"
+      properties:
+        full_username:
+          type: "string"
+          description: Full username, for use on federation
+          example: "alice@yourdomain.com"
+        email:
+          type: "string"
+          format: "email"
+          description: Email address associated with the account
+          example: "alice@email.provider"
+        is_staff:
+          type: "boolean"
+          example: false
+        is_superuser:
+          type: "boolean"
+          example: false
+        date_joined:
+          type: "string"
+          format: "date-time"
+        privacy_level:
+          $ref: "./properties.yml#privacy_level"
+          description: Default privacy-level associated with the user account
+        quota_status:
+          $ref: "#/QuotaStatus"
+        permissions:
+          $ref: "#/Permissions"
+        tokens:
+          type: object
+          properties:
+            listen:
+              type: string
+              description: |
+                A token that can be passed in the querystring, when playing
+                a file from the /api/v1/listen endpoint. Example:
+                  /api/v1/listen/uuid/?token=foo
+
+                This is especially useful in situations where authentication
+                via request headers isn't possible.
+
+                The token expires after 3 days by default.
+Avatar:
+  type: "object"
+  properties:
+    original:
+      type: "string"
+      format: "uri"
+      description: "Original image URL"
+      example: "http://yourinstance/media/users/avatars/92/49/60/b3c-4736-43b3-bb5c-ed7a99ac6996.jpg"
+    square_crop:
+      type: "string"
+      format: "uri"
+      description: "400x400 thumbnail URL"
+      example: "http://yourinstance/media/__sized__/users/avatars/92/49/60/b3c-4736-43b3-bb5c-ed7a99ac6996-crop-c0-5__0-5-400x400-70.jpg"
+    small_square_crop:
+      type: "string"
+      format: "uri"
+      description: "50x50 thumbnail URL"
+      example: "http://yourinstance/media/__sized__/users/avatars/92/49/60/b3c-4736-43b3-bb5c-ed7a99ac6996-crop-c0-5__0-5-50x50-70.jpg"
+    medium_square_crop:
+      type: "string"
+      format: "uri"
+      description: "200x200 thumbnail URL"
+      example: "http://yourinstance/media/__sized__/users/avatars/92/49/60/b3c-4736-43b3-bb5c-ed7a99ac6996-crop-c0-5__0-5-200x200-70.jpg"
+QuotaStatus:
+  type: "object"
+  properties:
+    max:
+      type: "integer"
+      format: "int64"
+      description: Storage space allocated to this user, in MB
+      example: 5000
+    remaining:
+      type: "integer"
+      format: "int64"
+      description: Remaining storage space for this user, in MB
+      example: 4600
+    current:
+      type: "integer"
+      format: "int64"
+      description: Storage space used by this user, in MB
+      example: 400
+    skipped:
+      type: "integer"
+      format: "int64"
+      description: Storage space occupied by uploads with "skipped" import status, in MB
+      example: 30
+    finished:
+      type: "integer"
+      format: "int64"
+      description: Storage space occupied by uploads with "finished" import status, in MB
+      example: 350
+    pending:
+      type: "integer"
+      format: "int64"
+      description: Storage space occupied by uploads with "pending" import status, in MB
+      example: 15
+    draft:
+      type: "integer"
+      format: "int64"
+      description: Storage space occupied by uploads with "draft" import status, in MB
+      example: 8
+    errored:
+      type: "integer"
+      format: "int64"
+      description: Storage space occupied by uploads with "errored" import status, in MB
+      example: 5
+Permissions:
+  type: "object"
+  properties:
+    library:
+      type: "boolean"
+      example: false
+      description: A boolean indicating if the user can manage the instance library
+    moderation:
+      type: "boolean"
+      example: false
+      description: A boolean indicating if the user has moderation permission
+    settings:
+      type: "boolean"
+      example: false
+      description: A boolean indicating if the user can manage instance settings and users
+RateLimitStatus:
+  type: "object"
+  properties:
+    enabled:
+      type: "boolean"
+      example: true
+      description: A boolean indicating if rate-limiting is enabled on the server
+    ident:
+      type: "object"
+      description: Client-related data
+      properties:
+        type:
+          type: string
+          example: "anonymous"
+          enum:
+            - "authenticated"
+            - "anonymous"
+        id:
+          type: string
+          example: "92.143.42"
+          description: An address IP or user ID identifying the client
+    scopes:
+      type: "array"
+      items:
+        type: "object"
+        description: Rate-limit scope configuration and usage
+        properties:
+          id:
+            type: string
+            example: "password-reset"
+          description:
+            type: string
+            example: "Password reset request"
+          rate:
+            type: string
+            example: "30/day"
+          limit:
+            type: "integer"
+            format: "int64"
+            example: 30
+          duration:
+            type: "integer"
+            format: "int64"
+            example: 86400
+          remaining:
+            type: "integer"
+            format: "int64"
+            example: 28
+            description: How many requests can be sent with the same scope before the limit applies
+          reset:
+            type: "integer"
+            format: "int64"
+            example: 1568126189
+            description: A timestamp indicating when <code>remaining</code> will return to its higher possible value
+          reset_seconds:
+            type: "integer"
+            format: "int64"
+            example: 86267
+            description: How many seconds to wait before <code>remaining</code> returns to its higher possible value
+          available:
+            type: "integer"
+            format: "int64"
+            example: 1568126089
+            description: A timestamp indicating when the client can retry
+          available_seconds:
+            type: "integer"
+            format: "int64"
+            example: 54
+            description: How many seconds to wait before a retry
+
+ResourceNotFound:
+  type: "object"
+  properties:
+    detail:
+      type: "string"
+      example: "Not found."
