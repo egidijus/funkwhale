@@ -336,6 +336,7 @@ class ManageBaseArtistSerializer(serializers.ModelSerializer):
 class ManageBaseAlbumSerializer(serializers.ModelSerializer):
     cover = music_serializers.cover_field
     domain = serializers.CharField(source="domain_name")
+    tracks_count = serializers.SerializerMethodField()
 
     class Meta:
         model = music_models.Album
@@ -349,7 +350,11 @@ class ManageBaseAlbumSerializer(serializers.ModelSerializer):
             "cover",
             "domain",
             "is_local",
+            "tracks_count",
         ]
+
+    def get_tracks_count(self, o):
+        return getattr(o, "_tracks_count", None)
 
 
 class ManageNestedTrackSerializer(serializers.ModelSerializer):
@@ -428,7 +433,6 @@ class ManageNestedArtistSerializer(ManageBaseArtistSerializer):
 class ManageAlbumSerializer(
     music_serializers.OptionalDescriptionMixin, ManageBaseAlbumSerializer
 ):
-    tracks = ManageNestedTrackSerializer(many=True)
     attributed_to = ManageBaseActorSerializer()
     artist = ManageNestedArtistSerializer()
     tags = serializers.SerializerMethodField()
@@ -437,7 +441,6 @@ class ManageAlbumSerializer(
         model = music_models.Album
         fields = ManageBaseAlbumSerializer.Meta.fields + [
             "artist",
-            "tracks",
             "attributed_to",
             "tags",
         ]

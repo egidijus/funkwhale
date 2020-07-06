@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="extra content">
-      <translate translate-context="*/*/*" :translate-params="{count: album.tracks.length}" :translate-n="album.tracks.length" translate-plural="%{ count } tracks">%{ count } track</translate>
+      <translate translate-context="*/*/*" :translate-params="{count: album.tracks_count}" :translate-n="album.tracks_count" translate-plural="%{ count } tracks">%{ count } track</translate>
       <play-button class="right floated basic icon" :dropdown-only="true" :is-playable="album.is_playable" :dropdown-icon-classes="['ellipsis', 'horizontal', 'large really discrete']" :album="album"></play-button>
     </div>
   </div>

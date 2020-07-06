@@ -15,8 +15,8 @@
       <div class="description">
         <translate translate-context="Content/Channel/Paragraph"
           translate-plural="%{ count } episodes"
-          :translate-n="serie.tracks.length"
-          :translate-params="{count: serie.tracks.length}">
+          :translate-n="serie.tracks_count"
+          :translate-params="{count: serie.tracks_count}">
           %{ count } episode
         </translate>
       </div>

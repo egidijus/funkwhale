@@ -187,35 +187,12 @@ def serialize_artist_simple(artist):
     return data
 
 
-def serialize_album_track(track):
-    return {
-        "id": track.id,
-        "fid": track.fid,
-        "mbid": str(track.mbid),
-        "title": track.title,
-        "artist": serialize_artist_simple(track.artist),
-        "album": track.album_id,
-        "creation_date": DATETIME_FIELD.to_representation(track.creation_date),
-        "position": track.position,
-        "disc_number": track.disc_number,
-        "uploads": [
-            serialize_upload(u) for u in getattr(track, "playable_uploads", [])
-        ],
-        "listen_url": track.listen_url,
-        "duration": getattr(track, "duration", None),
-        "copyright": track.copyright,
-        "license": track.license_id,
-        "is_local": track.is_local,
-    }
-
-
 class AlbumSerializer(OptionalDescriptionMixin, serializers.Serializer):
-    # XXX: remove in 1.0, it's expensive and can work with a filter/api call
-    tracks = serializers.SerializerMethodField()
     artist = serializers.SerializerMethodField()
     cover = cover_field
     is_playable = serializers.SerializerMethodField()
     tags = serializers.SerializerMethodField()
+    tracks_count = serializers.SerializerMethodField()
     attributed_to = serializers.SerializerMethodField()
     id = serializers.IntegerField()
     fid = serializers.URLField()
@@ -232,9 +209,8 @@ class AlbumSerializer(OptionalDescriptionMixin, serializers.Serializer):
     def get_artist(self, o):
         return serialize_artist_simple(o.artist)
 
-    def get_tracks(self, o):
-        ordered_tracks = o.tracks.all()
-        return [serialize_album_track(track) for track in ordered_tracks]
+    def get_tracks_count(self, o):
+        return getattr(o, "_tracks_count", None)
 
     def get_is_playable(self, obj):
         try:

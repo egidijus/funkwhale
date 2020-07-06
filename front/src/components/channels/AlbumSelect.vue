@@ -9,7 +9,7 @@
         <translate translate-context="*/*/*">None</translate>
       </option>
       <option v-for="album in albums" :key="album.id" :value="album.id">
-        {{ album.title }} (<translate translate-context="*/*/*" :translate-params="{count: album.tracks.length}" :translate-n="album.tracks.length" translate-plural="%{ count } tracks">%{ count } track</translate>)
+        {{ album.title }} (<translate translate-context="*/*/*" :translate-params="{count: album.tracks_count}" :translate-n="album.tracks_count" translate-plural="%{ count } tracks">%{ count } track</translate>)
       </option>
     </select>
   </div>
