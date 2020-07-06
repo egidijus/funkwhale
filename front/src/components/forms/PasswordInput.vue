@@ -3,7 +3,6 @@
     <input
     required
     name="password"
-    :tabindex="index"
     :type="passwordInputType"
     @input="$emit('input', $event.target.value)"
     :value="value">
@@ -30,7 +29,7 @@ function copyStringToClipboard (str) {
 }
 
 export default {
-  props: ['value', 'index', 'defaultShow', 'copyButton'],
+  props: ['value', 'defaultShow', 'copyButton'],
   data () {
     return {
       showPassword: this.defaultShow || false,
