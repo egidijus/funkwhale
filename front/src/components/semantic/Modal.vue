@@ -43,7 +43,6 @@ export default {
         }.bind(this),
         onHidden: function () {
           this.$emit('update:show', false)
-          this.focusTrap.pause()
         }.bind(this),
         onVisible: function () {
           this.focusTrap.activate()
@@ -59,11 +58,15 @@ export default {
           this.initModal()
           this.$emit('show')
           this.control.modal('show')
+          this.focusTrap.activate()
+          this.focusTrap.unpause()
         } else {
           if (this.control) {
             this.$emit('hide')
             this.control.modal('hide')
             this.control.remove()
+            this.focusTrap.deactivate()
+            this.focusTrap.pause()
           }
         }
       }
