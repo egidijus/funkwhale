@@ -115,34 +115,6 @@ def test_artist_with_albums_serializer_channel(factories, to_api_date):
     assert serializer.data == expected
 
 
-def test_album_track_serializer(factories, to_api_date):
-    upload = factories["music.Upload"](
-        track__license="cc-by-4.0", track__copyright="test", track__disc_number=2
-    )
-    track = upload.track
-    setattr(track, "playable_uploads", [upload])
-
-    expected = {
-        "id": track.id,
-        "fid": track.fid,
-        "artist": serializers.serialize_artist_simple(track.artist),
-        "album": track.album.id,
-        "mbid": str(track.mbid),
-        "title": track.title,
-        "position": track.position,
-        "disc_number": track.disc_number,
-        "uploads": [serializers.serialize_upload(upload)],
-        "creation_date": to_api_date(track.creation_date),
-        "listen_url": track.listen_url,
-        "duration": None,
-        "license": track.license.code,
-        "copyright": track.copyright,
-        "is_local": track.is_local,
-    }
-    data = serializers.serialize_album_track(track)
-    assert data == expected
-
-
 def test_upload_serializer(factories, to_api_date):
     upload = factories["music.Upload"]()
 
@@ -200,7 +172,7 @@ def test_album_serializer(factories, to_api_date):
     track1 = factories["music.Track"](
         position=2, album__attributed_to=actor, album__with_cover=True
     )
-    track2 = factories["music.Track"](position=1, album=track1.album)
+    factories["music.Track"](position=1, album=track1.album)
     album = track1.album
     expected = {
         "id": album.id,
@@ -212,12 +184,14 @@ def test_album_serializer(factories, to_api_date):
         "is_playable": False,
         "cover": common_serializers.AttachmentSerializer(album.attachment_cover).data,
         "release_date": to_api_date(album.release_date),
-        "tracks": [serializers.serialize_album_track(t) for t in [track2, track1]],
+        "tracks_count": 2,
         "is_local": album.is_local,
         "tags": [],
         "attributed_to": federation_serializers.APIActorSerializer(actor).data,
     }
-    serializer = serializers.AlbumSerializer(album)
+    serializer = serializers.AlbumSerializer(
+        album.__class__.objects.with_tracks_count().get(pk=album.pk)
+    )
 
     assert serializer.data == expected
 

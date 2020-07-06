@@ -67,7 +67,7 @@
             </span>
           </td>
           <td>
-            {{ scope.obj.tracks.length }}
+            {{ scope.obj.tracks_count }}
           </td>
           <td>
             <human-date v-if="scope.obj.release_date" :date="scope.obj.release_date"></human-date>

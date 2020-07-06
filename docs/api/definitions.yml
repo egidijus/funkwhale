@@ -198,10 +198,9 @@ Album:
     - $ref: "#/BaseAlbum"
     - type: "object"
       properties:
-        tracks:
-          type: "array"
-          items:
-            $ref: "#/AlbumTrack"
+        tracks_count:
+          type: "integer"
+          format: "int64"
 
 ArtistAlbum:
   type: "object"

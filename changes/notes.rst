@@ -31,3 +31,11 @@ Now, it returns all the accessible libraries (including ones from other users an
 
 If you are consuming the API via a third-party client and need to retrieve your libraries,
 use the ``scope`` parameter, like this: ``GET /api/v1/libraries?scope=me``
+
+API breaking change in ``/api/v1/albums``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To increase performance, querying ``/api/v1/albums`` doesn't return album tracks anymore. This caused
+some performance issues, especially as some albums and series have dozens or even hundreds of tracks.
+
+If you want to retrieve tracks for an album, you can query ``/api/v1/tracks/?album=<albumid>``.

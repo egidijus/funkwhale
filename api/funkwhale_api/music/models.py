@@ -319,10 +319,6 @@ class AlbumQuerySet(common_models.LocalFromFidQuerySet, models.QuerySet):
         else:
             return self.exclude(pk__in=matches)
 
-    def with_prefetched_tracks_and_playable_uploads(self, actor):
-        tracks = Track.objects.with_playable_uploads(actor)
-        return self.prefetch_related(models.Prefetch("tracks", queryset=tracks))
-
 
 class Album(APIModelMixin):
     title = models.CharField(max_length=MAX_LENGTHS["ALBUM_TITLE"])

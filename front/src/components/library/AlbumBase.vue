@@ -195,7 +195,7 @@ export default {
   },
   computed: {
     totalTracks () {
-      return this.object.tracks.length
+      return this.object.tracks_count
     },
     isChannel () {
       return this.object.artist.channel
