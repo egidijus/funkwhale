@@ -40,7 +40,7 @@
             <translate translate-context="*/Login/*/Verb">Reset your password</translate>
           </router-link>
         </label>
-        <password-input :index="2" required v-model="credentials.password" />
+        <password-input required v-model="credentials.password" />
 
       </div>
     </template>

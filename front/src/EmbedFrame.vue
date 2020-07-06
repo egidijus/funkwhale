@@ -89,7 +89,6 @@
           <tr
             :id="'queue-item-' + index"
             role="button"
-            tabindex="0"
             v-if="track.sources.length > 0"
             :key="index"
             :class="[{active: index === currentIndex}]"

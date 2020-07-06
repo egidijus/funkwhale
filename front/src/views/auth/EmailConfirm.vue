@@ -52,6 +52,11 @@ export default {
       }
     }
   },
+  mounted () {
+    if (this.key) {
+      this.submit()
+    }
+  },
   methods: {
     submit() {
       let self = this
