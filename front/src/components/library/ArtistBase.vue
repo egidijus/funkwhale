@@ -195,9 +195,7 @@ export default {
         self.nextAlbumsUrl = response.data.next
         self.totalAlbums = response.data.count
         let parsed = JSON.parse(JSON.stringify(response.data.results))
-        self.albums = parsed.map(album => {
-          return backend.Album.clean(album)
-        })
+        self.albums = parsed
 
       })
       await trackPromise

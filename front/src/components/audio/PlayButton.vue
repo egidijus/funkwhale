@@ -107,10 +107,12 @@ export default {
         return this.track.uploads && this.track.uploads.length > 0
       } else if (this.artist && this.artist.tracks_count) {
         return this.artist.tracks_count > 0
-      }  else if (this.artist && this.artist.albums) {
+      } else if (this.artist && this.artist.albums) {
         return this.artist.albums.filter((a) => {
           return a.is_playable === true
         }).length > 0
+      } else if (this.album) {
+        return this.album.is_playable
       } else if (this.tracks) {
         return this.tracks.filter((t) => {
           return t.uploads && t.uploads.length > 0
@@ -229,6 +231,7 @@ export default {
       jQuery(self.$el).find('.ui.dropdown').dropdown('hide')
     },
     addNext (next) {
+      console.log('CLICKED')
       let self = this
       let wasEmpty = this.$store.state.queue.tracks.length === 0
       this.getPlayableTracks().then((tracks) => {
@@ -253,7 +256,6 @@ export default {
   },
   watch: {
     clicked () {
-
       let self = this
       this.$nextTick(() => {
         jQuery(this.$el).find('.ui.dropdown').dropdown({
