@@ -169,13 +169,16 @@ export default {
   methods: {
     async fetchData() {
       this.isLoading = true
+      let tracksResponse = axios.get(`tracks/`, {params: {ordering: 'disc_number,position', album: this.id, page_size: 100}})
       let albumResponse = await axios.get(`albums/${this.id}/`, {params: {refresh: 'true'}})
       let artistResponse = await axios.get(`artists/${albumResponse.data.artist.id}/`)
       this.artist = artistResponse.data
       if (this.artist.channel) {
         this.artist.channel.artist = this.artist
       }
-      this.object = backend.Album.clean(albumResponse.data)
+      tracksResponse = await tracksResponse
+      this.object = albumResponse.data
+      this.object.tracks = tracksResponse.data.results
       this.discs = this.object.tracks.reduce(groupByDisc, [])
       this.isLoading = false
 
