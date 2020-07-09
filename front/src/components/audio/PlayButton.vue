@@ -112,7 +112,7 @@ export default {
           return a.is_playable === true
         }).length > 0
       } else if (this.album) {
-        return this.album.is_playable
+        return true
       } else if (this.tracks) {
         return this.tracks.filter((t) => {
           return t.uploads && t.uploads.length > 0
