@@ -443,7 +443,11 @@ class ManageAlbumSerializer(
             "artist",
             "attributed_to",
             "tags",
+            "tracks_count",
         ]
+
+    def get_tracks_count(self, o):
+        return len(o.tracks.all())
 
     def get_tags(self, obj):
         tagged_items = getattr(obj, "_prefetched_tagged_items", [])

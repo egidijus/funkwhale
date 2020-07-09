@@ -276,7 +276,7 @@
                       </router-link>
                     </td>
                     <td>
-                      {{ object.tracks.length }}
+                      {{ object.tracks_count }}
                     </td>
                   </tr>
                 </tbody>

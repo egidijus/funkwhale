@@ -128,7 +128,7 @@ class ManageAlbumViewSet(
         music_models.Album.objects.all()
         .order_by("-id")
         .select_related("attributed_to", "artist", "attachment_cover")
-        .with_tracks_count()
+        .prefetch_related("tracks")
     )
     serializer_class = serializers.ManageAlbumSerializer
     filterset_class = filters.ManageAlbumFilterSet

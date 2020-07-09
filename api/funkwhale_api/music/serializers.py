@@ -101,7 +101,7 @@ class ArtistAlbumSerializer(serializers.Serializer):
         return o.artist_id
 
     def get_tracks_count(self, o):
-        return o._tracks_count
+        return len(o.tracks.all())
 
     def get_is_playable(self, obj):
         try:
@@ -210,7 +210,7 @@ class AlbumSerializer(OptionalDescriptionMixin, serializers.Serializer):
         return serialize_artist_simple(o.artist)
 
     def get_tracks_count(self, o):
-        return getattr(o, "_tracks_count", None)
+        return len(o.tracks.all())
 
     def get_is_playable(self, obj):
         try:
