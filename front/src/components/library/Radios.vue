@@ -25,11 +25,16 @@
         <translate translate-context="Content/Radio/Button.Label/Verb">Create your own radio</translate>
       </router-link>
       <div class="ui hidden divider"></div>
-      <div :class="['ui', {'loading': isLoading}, 'form']">
+      <form :class="['ui', {'loading': isLoading}, 'form']" @submit.prevent="updateQueryString();fetchData()">
         <div class="fields">
           <div class="field">
             <label><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
-            <input name="search" type="text" v-model="query" :placeholder="labels.searchPlaceholder"/>
+            <div class="ui action input">
+              <input type="text" name="search" v-model="query" :placeholder="labels.searchPlaceholder"/>
+              <button class="ui icon button" type="submit" :aria-label="$pgettext('Content/Search/Input.Label/Noun', 'Search')">
+                <i class="search icon"></i>
+              </button>
+            </div>
           </div>
           <div class="field">
             <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
@@ -59,7 +64,7 @@
             </select>
           </div>
         </div>
-      </div>
+      </form>
       <div class="ui hidden divider"></div>
       <div v-if="result && !result.results.length > 0" class="ui placeholder segment">
         <div class="ui icon header">
@@ -157,7 +162,7 @@ export default {
     },
   },
   methods: {
-    updateQueryString: _.debounce(function() {
+    updateQueryString: function() {
       history.pushState(
         {},
         null,
@@ -169,8 +174,8 @@ export default {
           ordering: this.getOrderingAsString()
         }).toString()
       )
-    }, 500),
-    fetchData: _.debounce(function() {
+    },
+    fetchData: function() {
       var self = this
       this.isLoading = true
       let url = FETCH_URL
@@ -186,7 +191,7 @@ export default {
         self.result = response.data
         self.isLoading = false
       })
-    }, 500),
+    },
     selectPage: function(page) {
       this.page = page
     }
@@ -196,22 +201,6 @@ export default {
       this.updateQueryString()
       this.fetchData()
     },
-    paginateBy() {
-      this.updateQueryString()
-      this.fetchData()
-    },
-    ordering() {
-      this.updateQueryString()
-      this.fetchData()
-    },
-    orderingDirection() {
-      this.updateQueryString()
-      this.fetchData()
-    },
-    query() {
-      this.updateQueryString()
-      this.fetchData()
-    }
   }
 }
 </script>
