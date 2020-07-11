@@ -899,10 +899,12 @@ class Upload(models.Model):
     def listen_url(self):
         return self.track.listen_url + "?upload={}".format(self.uuid)
 
-    def get_listen_url(self, to=None):
+    def get_listen_url(self, to=None, download=None):
         url = self.listen_url
         if to:
             url += "&to={}".format(to)
+        if download is not None:
+            url += "&download={}".format(str(download).lower())
         return url
 
     @property
