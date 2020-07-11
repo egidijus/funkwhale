@@ -9,7 +9,7 @@ it extensively using a proper tool, such as Beets or Musicbrainz Picard.
 Funkwhale supports two different import modes:
 
 - copy (the default): files are copied into Funkwhale's internal storage. This means importing a 1GB library will result in the same amount of space being used by Funkwhale.
-- :ref:`in-place <in-place-import>` (when the ``--in-place`` is provided): files are referenced in Funkwhale's DB but not copied or touched in anyway. This is useful if you have a huge library, or one that is updated by an external tool such as Beets..
+- :ref:`in-place <in-place-import>` (when the ``--in-place`` is provided): files are referenced in Funkwhale's DB but not copied or touched in anyway. This is useful if you have a huge library, or one that is updated by an external tool such as Beets.
 
 .. note::
 

@@ -204,8 +204,8 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: "./api/definitions.yml#OAuthApplication"
-                  - $ref: "./api/definitions.yml#OAuthApplicationCreation"
+                  - $ref: "./api/definitions.yml#/OAuthApplication"
+                  - $ref: "./api/definitions.yml#/OAuthApplicationCreation"
       requestBody:
         required: true
         content:
@@ -322,7 +322,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#Me"
+                $ref: "./api/definitions.yml#/Me"
 
   /api/v1/rate-limit/:
     get:
@@ -335,7 +335,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#RateLimitStatus"
+                $ref: "./api/definitions.yml#/RateLimitStatus"
 
   /api/v1/artists/:
     get:
@@ -347,9 +347,9 @@ paths:
           - "read:libraries"
       parameters:
 
-        - $ref: "./api/parameters.yml#Search"
+        - $ref: "./api/parameters.yml#/Search"
         - allOf:
-            - $ref: "./api/parameters.yml#Ordering"
+            - $ref: "./api/parameters.yml#/Ordering"
             - default: "-creation_date"
               schema:
                 required: false
@@ -360,31 +360,31 @@ paths:
                   - id
                   - name
                   - random
-        - $ref: "./api/parameters/Playable"
-        - $ref: "./api/parameters/Library"
-        - $ref: "./api/parameters/PageNumber"
-        - $ref: "./api/parameters/PageSize"
-        - $ref: "./api/parameters/Related"
-        - $ref: "./api/parameters/Scope"
+        - $ref: "./api/parameters.yml#/Playable"
+        - $ref: "./api/parameters.yml#/Library"
+        - $ref: "./api/parameters.yml#/PageNumber"
+        - $ref: "./api/parameters.yml#/PageSize"
+        - $ref: "./api/parameters.yml#/Related"
+        - $ref: "./api/parameters.yml#/Scope"
       responses:
         200:
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: "./api/definitions.yml#ResultPage"
+                  - $ref: "./api/definitions.yml#/ResultPage"
                   - type: "object"
                     properties:
                       results:
                         type: "array"
                         items:
-                          $ref: "./api/definitions.yml#Artist"
+                          $ref: "./api/definitions.yml#/Artist"
   /api/v1/artists/{id}/:
     get:
       summary: Retrieve a single artist
       parameters:
-        - $ref: "./api/parameters.yml#ObjectId"
-        - $ref: "./api/parameters.yml#Refresh"
+        - $ref: "./api/parameters.yml#/ObjectId"
+        - $ref: "./api/parameters.yml#/Refresh"
       security:
         - oauth2:
           - "read:libraries"
@@ -395,12 +395,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#Artist"
+                $ref: "./api/definitions.yml#/Artist"
         404:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#ResourceNotFound"
+                $ref: "./api/definitions.yml#/ResourceNotFound"
   /api/v1/artists/{id}/libraries/:
     get:
       summary: List available user libraries containing work from this artist
@@ -408,9 +408,9 @@ paths:
         - oauth2:
           - "read:libraries"
       parameters:
-        - $ref: "./api/parameters.yml#ObjectId"
-        - $ref: "./api/parameters.yml#PageNumber"
-        - $ref: "./api/parameters.yml#PageSize"
+        - $ref: "./api/parameters.yml#/ObjectId"
+        - $ref: "./api/parameters.yml#/PageNumber"
+        - $ref: "./api/parameters.yml#/PageSize"
 
       tags:
         - "Library and metadata"
@@ -419,12 +419,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#LibraryPage"
+                $ref: "./api/definitions.yml#/LibraryPage"
         404:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#ResourceNotFound"
+                $ref: "./api/definitions.yml#/ResourceNotFound"
 
   /api/v1/albums/:
     get:
@@ -437,7 +437,7 @@ paths:
           - "read:libraries"
       parameters:
 
-        - $ref: "./api/parameters.yml#Search"
+        - $ref: "./api/parameters.yml#/Search"
         - name: "artist"
           in: "query"
           default: null
@@ -447,7 +447,7 @@ paths:
             type: "integer"
             format: "int64"
         - allOf:
-            - $ref: "./api/parameters.yml#Ordering"
+            - $ref: "./api/parameters.yml#/Ordering"
             - default: "-creation_date"
               schema:
                 required: false
@@ -458,12 +458,12 @@ paths:
                   - release_date
                   - title
                   - random
-        - $ref: "./api/parameters/Library"
-        - $ref: "./api/parameters/Playable"
-        - $ref: "./api/parameters/PageNumber"
-        - $ref: "./api/parameters/PageSize"
-        - $ref: "./api/parameters/Related"
-        - $ref: "./api/parameters/Scope"
+        - $ref: "./api/parameters.yml#/Library"
+        - $ref: "./api/parameters.yml#/Playable"
+        - $ref: "./api/parameters.yml#/PageNumber"
+        - $ref: "./api/parameters.yml#/PageSize"
+        - $ref: "./api/parameters.yml#/Related"
+        - $ref: "./api/parameters.yml#/Scope"
 
       responses:
         200:
@@ -471,19 +471,19 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: "./api/definitions.yml#ResultPage"
+                  - $ref: "./api/definitions.yml#/ResultPage"
                   - type: "object"
                     properties:
                       results:
                         type: "array"
                         items:
-                          $ref: "./api/definitions.yml#Album"
+                          $ref: "./api/definitions.yml#/Album"
   /api/v1/albums/{id}/:
     get:
       summary: Retrieve a single album
       parameters:
-        - $ref: "./api/parameters.yml#ObjectId"
-        - $ref: "./api/parameters.yml#Refresh"
+        - $ref: "./api/parameters.yml#/ObjectId"
+        - $ref: "./api/parameters.yml#/Refresh"
 
       security:
         - oauth2:
@@ -495,20 +495,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#Album"
+                $ref: "./api/definitions.yml#/Album"
         404:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#ResourceNotFound"
+                $ref: "./api/definitions.yml#/ResourceNotFound"
 
   /api/v1/albums/{id}/libraries/:
     get:
       summary: List available user libraries containing tracks from this album
       parameters:
-        - $ref: "./api/parameters.yml#ObjectId"
-        - $ref: "./api/parameters.yml#PageNumber"
-        - $ref: "./api/parameters.yml#PageSize"
+        - $ref: "./api/parameters.yml#/ObjectId"
+        - $ref: "./api/parameters.yml#/PageNumber"
+        - $ref: "./api/parameters.yml#/PageSize"
 
       security:
         - oauth2:
@@ -520,12 +520,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#LibraryPage"
+                $ref: "./api/definitions.yml#/LibraryPage"
         404:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#ResourceNotFound"
+                $ref: "./api/definitions.yml#/ResourceNotFound"
 
   /api/v1/tracks/:
     get:
@@ -538,7 +538,7 @@ paths:
           - "read:libraries"
       parameters:
 
-        - $ref: "./api/parameters.yml#Search"
+        - $ref: "./api/parameters.yml#/Search"
         - name: "artist"
           in: "query"
           default: null
@@ -571,7 +571,7 @@ paths:
             required: false
             type: "string"
         - allOf:
-            - $ref: "./api/parameters.yml#Ordering"
+            - $ref: "./api/parameters.yml#/Ordering"
             - default: "-creation_date"
               schema:
                 required: false
@@ -582,12 +582,12 @@ paths:
                   - release_date
                   - title
                   - random
-        - $ref: "./api/parameters/Library"
-        - $ref: "./api/parameters/Playable"
-        - $ref: "./api/parameters/PageNumber"
-        - $ref: "./api/parameters/PageSize"
-        - $ref: "./api/parameters/Related"
-        - $ref: "./api/parameters/Scope"
+        - $ref: "./api/parameters.yml#/Library"
+        - $ref: "./api/parameters.yml#/Playable"
+        - $ref: "./api/parameters.yml#/PageNumber"
+        - $ref: "./api/parameters.yml#/PageSize"
+        - $ref: "./api/parameters.yml#/Related"
+        - $ref: "./api/parameters.yml#/Scope"
 
       responses:
         200:
@@ -595,18 +595,18 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: "./api/definitions.yml#ResultPage"
+                  - $ref: "./api/definitions.yml#/ResultPage"
                   - type: "object"
                     properties:
                       results:
                         type: "array"
                         items:
-                          $ref: "./api/definitions.yml#Track"
+                          $ref: "./api/definitions.yml#/Track"
   /api/v1/tracks/{id}/:
     get:
       parameters:
-        - $ref: "./api/parameters.yml#ObjectId"
-        - $ref: "./api/parameters.yml#Refresh"
+        - $ref: "./api/parameters.yml#/ObjectId"
+        - $ref: "./api/parameters.yml#/Refresh"
       summary: Retrieve a single track
 
       security:
@@ -619,20 +619,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#Track"
+                $ref: "./api/definitions.yml#/Track"
         404:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#ResourceNotFound"
+                $ref: "./api/definitions.yml#/ResourceNotFound"
 
   /api/v1/tracks/{id}/libraries/:
     get:
       summary: List available user libraries containing given track
       parameters:
-        - $ref: "./api/parameters.yml#ObjectId"
-        - $ref: "./api/parameters.yml#PageNumber"
-        - $ref: "./api/parameters.yml#PageSize"
+        - $ref: "./api/parameters.yml#/ObjectId"
+        - $ref: "./api/parameters.yml#/PageNumber"
+        - $ref: "./api/parameters.yml#/PageSize"
       security:
         - oauth2:
           - "read:libraries"
@@ -643,12 +643,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#LibraryPage"
+                $ref: "./api/definitions.yml#/LibraryPage"
         404:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#ResourceNotFound"
+                $ref: "./api/definitions.yml#/ResourceNotFound"
   /api/v1/listen/{uuid}/:
     get:
       summary: Download the audio file matching the given track uuid
@@ -680,7 +680,7 @@ paths:
 
             This endpoint support bytess-range requests.
           schema:
-            $ref: "./api/properties.yml#transcode_options"
+            $ref: "./api/properties.yml#/transcode_options"
         - name: upload
           in: query
           required: false
@@ -718,7 +718,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#ResourceNotFound"
+                $ref: "./api/definitions.yml#/ResourceNotFound"
 
   /api/v1/licenses/:
     get:
@@ -729,21 +729,21 @@ paths:
       tags:
         - "Library and metadata"
       parameters:
-        - $ref: "./api/parameters.yml#PageNumber"
-        - $ref: "./api/parameters.yml#PageSize"
+        - $ref: "./api/parameters.yml#/PageNumber"
+        - $ref: "./api/parameters.yml#/PageSize"
       responses:
         200:
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: "./api/definitions.yml#ResultPage"
+                  - $ref: "./api/definitions.yml#/ResultPage"
                   - type: "object"
                     properties:
                       results:
                         type: "array"
                         items:
-                          $ref: "./api/definitions.yml#License"
+                          $ref: "./api/definitions.yml#/License"
 
   /api/v1/licenses/{code}/:
     get:
@@ -767,12 +767,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#License"
+                $ref: "./api/definitions.yml#/License"
         404:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#ResourceNotFound"
+                $ref: "./api/definitions.yml#/ResourceNotFound"
 
   /api/v1/libraries/:
     get:
@@ -780,23 +780,23 @@ paths:
       tags:
         - "Uploads and audio content"
       parameters:
-        - $ref: "./api/parameters.yml#PageNumber"
-        - $ref: "./api/parameters.yml#PageSize"
-        - $ref: "./api/parameters.yml#Search"
-        - $ref: "./api/parameters.yml#Scope"
+        - $ref: "./api/parameters.yml#/PageNumber"
+        - $ref: "./api/parameters.yml#/PageSize"
+        - $ref: "./api/parameters.yml#/Search"
+        - $ref: "./api/parameters.yml#/Scope"
       responses:
         200:
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: "./api/definitions.yml#ResultPage"
+                  - $ref: "./api/definitions.yml#/ResultPage"
                   - type: "object"
                     properties:
                       results:
                         type: "array"
                         items:
-                          $ref: "./api/definitions.yml#OwnedLibrary"
+                          $ref: "./api/definitions.yml#/OwnedLibrary"
     post:
       tags:
         - "Uploads and audio content"
@@ -812,7 +812,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./api/definitions.yml#OwnedLibraryCreate"
+              $ref: "./api/definitions.yml#/OwnedLibraryCreate"
 
   /api/v1/libraries/{uuid}/:
     parameters:
@@ -831,7 +831,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#OwnedLibrary"
+                $ref: "./api/definitions.yml#/OwnedLibrary"
     post:
       summary: Update a library
       tags:
@@ -841,13 +841,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./api/definitions.yml#OwnedLibraryCreate"
+              $ref: "./api/definitions.yml#/OwnedLibraryCreate"
       responses:
         201:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#OwnedLibrary"
+                $ref: "./api/definitions.yml#/OwnedLibrary"
     delete:
       summary: Delete a library and all associated uploads
       description: |
@@ -866,7 +866,7 @@ paths:
         - "Channels and subscriptions"
       parameters:
         - allOf:
-            - $ref: "#/parameters/Ordering"
+            - $ref: "./api/parameters.yml#/Ordering"
             - default: "-creation_date"
               schema:
                 required: false
@@ -876,14 +876,14 @@ paths:
                   - creation_date
                   - modification_date
                   - random
-        - $ref: "./api/parameters/PageNumber"
-        - $ref: "./api/parameters/PageSize"
-        - $ref: "./api/parameters/Scope"
-        - $ref: "./api/parameters/Search"
-        - $ref: "./api/parameters/Tags"
-        - $ref: "./api/parameters/Subscribed"
-        - $ref: "./api/parameters/External"
-        - $ref: "./api/parameters/ChannelOrdering"
+        - $ref: "./api/parameters.yml#/PageNumber"
+        - $ref: "./api/parameters.yml#/PageSize"
+        - $ref: "./api/parameters.yml#/Scope"
+        - $ref: "./api/parameters.yml#/Search"
+        - $ref: "./api/parameters.yml#/Tags"
+        - $ref: "./api/parameters.yml#/Subscribed"
+        - $ref: "./api/parameters.yml#/External"
+        - $ref: "./api/parameters.yml#/ChannelOrdering"
 
       responses:
         200:
@@ -891,13 +891,13 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: "./api/definitions.yml#ResultPage"
+                  - $ref: "./api/definitions.yml#/ResultPage"
                   - type: "object"
                     properties:
                       results:
                         type: "array"
                         items:
-                          $ref: "./api/definitions.yml#Channel"
+                          $ref: "./api/definitions.yml#/Channel"
     post:
       summary: Create a new channel
       tags:
@@ -912,7 +912,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./api/definitions.yml#ChannelCreate"
+              $ref: "./api/definitions.yml#/ChannelCreate"
 
   /api/v1/channels/metadata-choices:
     summary: List metadata (locales, itunes categories) for creating and editing channels.
@@ -978,7 +978,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#Channel"
+                $ref: "./api/definitions.yml#/Channel"
     post:
       summary: Update a channel
       tags:
@@ -988,13 +988,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./api/definitions.yml#ChannelUpdate"
+              $ref: "./api/definitions.yml#/ChannelUpdate"
       responses:
         201:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#Channel"
+                $ref: "./api/definitions.yml#/Channel"
     delete:
       summary: Delete a channel and all associated uploads
       description: |
@@ -1028,7 +1028,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#Subscription"
+                $ref: "./api/definitions.yml#/Subscription"
 
   /api/v1/channels/{uuid}/rss/:
     parameters:
@@ -1064,7 +1064,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#Subscription"
+                $ref: "./api/definitions.yml#/Subscription"
 
   /api/v1/channels/{uuid}/unsubscribe/:
     parameters:
@@ -1088,23 +1088,23 @@ paths:
         - "Uploads and audio content"
       parameters:
 
-        - $ref: "./api/parameters.yml#Search"
-        - $ref: "./api/parameters.yml#PageNumber"
-        - $ref: "./api/parameters.yml#PageSize"
-        - $ref: "./api/parameters.yml#Scope"
+        - $ref: "./api/parameters.yml#/Search"
+        - $ref: "./api/parameters.yml#/PageNumber"
+        - $ref: "./api/parameters.yml#/PageSize"
+        - $ref: "./api/parameters.yml#/Scope"
       responses:
         200:
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: "./api/definitions.yml#ResultPage"
+                  - $ref: "./api/definitions.yml#/ResultPage"
                   - type: "object"
                     properties:
                       results:
                         type: "array"
                         items:
-                          $ref: "./api/definitions.yml#OwnedUpload"
+                          $ref: "./api/definitions.yml#/OwnedUpload"
     post:
       tags:
         - "Uploads and audio content"
@@ -1145,7 +1145,7 @@ paths:
                   - "pending"
                 import_metadata:
                   required: false
-                  $ref: "./api/definitions.yml#ImportMetadata"
+                  $ref: "./api/definitions.yml#/ImportMetadata"
 
 
   /api/v1/subscriptions/{uuid}/:
@@ -1165,7 +1165,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#Subscription"
+                $ref: "./api/definitions.yml#/Subscription"
 
   /api/v1/subscriptions/:
     get:
@@ -1178,13 +1178,13 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: "./api/definitions.yml#ResultPage"
+                  - $ref: "./api/definitions.yml#/ResultPage"
                   - type: "object"
                     properties:
                       results:
                         type: "array"
                         items:
-                          $ref: "./api/definitions.yml#Subscription"
+                          $ref: "./api/definitions.yml#/Subscription"
 
   /api/v1/subscriptions/all/:
     get:
@@ -1201,7 +1201,7 @@ paths:
                   results:
                     type: "array"
                     items:
-                      $ref: "./api/definitions.yml#SubscriptionsAll"
+                      $ref: "./api/definitions.yml#/SubscriptionsAll"
 
   /api/v1/uploads/{uuid}/:
     parameters:
@@ -1220,7 +1220,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#OwnedUpload"
+                $ref: "./api/definitions.yml#/OwnedUpload"
     patch:
       summary: Update a draft upload
       description: |
@@ -1238,7 +1238,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#OwnedUpload"
+                $ref: "./api/definitions.yml#/OwnedUpload"
     delete:
       summary: Delete an upload
       description: |
@@ -1275,10 +1275,10 @@ paths:
       tags:
         - "Content curation"
       parameters:
-        - $ref: "./api/parameters.yml#Search"
-        - $ref: "./api/parameters.yml#PageNumber"
-        - $ref: "./api/parameters.yml#PageSize"
-        - $ref: "./api/parameters.yml#Scope"
+        - $ref: "./api/parameters.yml#/Search"
+        - $ref: "./api/parameters.yml#/PageNumber"
+        - $ref: "./api/parameters.yml#/PageSize"
+        - $ref: "./api/parameters.yml#/Scope"
 
       responses:
         200:
@@ -1286,13 +1286,13 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: "./api/definitions.yml#ResultPage"
+                  - $ref: "./api/definitions.yml#/ResultPage"
                   - type: "object"
                     properties:
                       results:
                         type: "array"
                         items:
-                          $ref: "./api/definitions.yml#TrackFavorite"
+                          $ref: "./api/definitions.yml#/TrackFavorite"
     post:
       summary: Mark the given track as favorite
       tags:
@@ -1324,7 +1324,7 @@ paths:
                     format: "int64"
                     example: 98
                   creation_date:
-                    $ref: "./api/properties.yml#creation_date"
+                    $ref: "./api/properties.yml#/creation_date"
   /api/v1/favorites/tracks/remove/:
     post:
       summary: Remove the given track from favorites
@@ -1384,7 +1384,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#Attachment"
+                $ref: "./api/definitions.yml#/Attachment"
     delete:
       summary: Delete an attachment
       tags:
@@ -1399,9 +1399,9 @@ paths:
       tags:
         - "Content curation"
       parameters:
-        - $ref: "./api/parameters.yml#Search"
+        - $ref: "./api/parameters.yml#/Search"
         - allOf:
-            - $ref: "./api/parameters.yml#Ordering"
+            - $ref: "./api/parameters.yml#/Ordering"
             - default: "-creation_date"
               schema:
                 required: false
@@ -1430,22 +1430,22 @@ paths:
           schema:
             type: "integer"
             format: "int64"
-        - $ref: "./api/parameters.yml#Playable"
-        - $ref: "./api/parameters.yml#PageNumber"
-        - $ref: "./api/parameters.yml#PageSize"
+        - $ref: "./api/parameters.yml#/Playable"
+        - $ref: "./api/parameters.yml#/PageNumber"
+        - $ref: "./api/parameters.yml#/PageSize"
       responses:
         200:
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: "./api/definitions.yml#ResultPage"
+                  - $ref: "./api/definitions.yml#/ResultPage"
                   - type: "object"
                     properties:
                       results:
                         type: "array"
                         items:
-                          $ref: "./api/definitions.yml#Playlist"
+                          $ref: "./api/definitions.yml#/Playlist"
     post:
       tags:
         - "Content curation"
@@ -1460,7 +1460,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./api/definitions.yml#PlaylistCreate"
+              $ref: "./api/definitions.yml#/PlaylistCreate"
   /api/v1/playlists/{id}/:
     parameters:
       - name: id
@@ -1478,7 +1478,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#Playlist"
+                $ref: "./api/definitions.yml#/Playlist"
     post:
       summary: Update a playlist
       tags:
@@ -1488,13 +1488,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./api/definitions.yml#PlaylistCreate"
+              $ref: "./api/definitions.yml#/PlaylistCreate"
       responses:
         201:
           content:
             application/json:
               schema:
-                $ref: "./api/definitions.yml#Playlist"
+                $ref: "./api/definitions.yml#/Playlist"
     delete:
       description: Delete the playlist
       tags:
@@ -1520,13 +1520,13 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: "./api/definitions.yml#ResultPage"
+                  - $ref: "./api/definitions.yml#/ResultPage"
                   - type: "object"
                     properties:
                       results:
                         type: "array"
                         items:
-                          $ref: "./api/definitions.yml#PlaylistTrack"
+                          $ref: "./api/definitions.yml#/PlaylistTrack"
   /api/v1/playlists/{id}/add:
     parameters:
       - name: id
@@ -1565,13 +1565,13 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: "./api/definitions.yml#ResultPage"
+                  - $ref: "./api/definitions.yml#/ResultPage"
                   - type: "object"
                     properties:
                       results:
                         type: "array"
                         items:
-                          $ref: "./api/definitions.yml#PlaylistTrack"
+                          $ref: "./api/definitions.yml#/PlaylistTrack"
   /api/v1/playlists/{id}/clear:
     parameters:
       - name: id
