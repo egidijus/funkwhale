@@ -238,7 +238,7 @@ export default {
         this.fetchTracks({channel: id, playable: true, include_channels: 'true', ordering: "-creation_date"})
       }
       if (type === 'artist') {
-        this.fetchTracks({artist: id, playable: true, include_channels: 'true', ordering: "-release_date,disc_number,position"})
+        this.fetchTracks({artist: id, playable: true, include_channels: 'true', ordering: "-album__release_date,disc_number,position"})
       }
       if (type === 'playlist') {
         this.fetchTracks({}, `/api/v1/playlists/${id}/tracks/`)
