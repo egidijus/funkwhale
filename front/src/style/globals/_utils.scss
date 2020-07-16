@@ -59,7 +59,7 @@ a {
   }
 }
 .tablet-and-below {
-  @include media(">desktop") {
+  @include media(">=desktop") {
     display: none !important;
   }
 }
