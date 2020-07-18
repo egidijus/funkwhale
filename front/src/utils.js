@@ -45,3 +45,10 @@ export function setCsrf(xhr) {
     xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'))
   }
 }
+
+export function checkRedirectToLogin (store, router) {
+  console.log('HELLO', store.state.auth.authenticated, router.currentRoute.fullPath)
+  if (!store.state.auth.authenticated) {
+    router.push({name: 'login', query: {next: router.currentRoute.fullPath}})
+  }
+}

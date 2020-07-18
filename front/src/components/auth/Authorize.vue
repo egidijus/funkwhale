@@ -66,6 +66,7 @@ import TranslationsMixin from "@/components/mixins/Translations"
 
 import axios from 'axios'
 
+import {checkRedirectToLogin} from '@/utils'
 export default {
   mixins: [TranslationsMixin],
   props: [
@@ -99,6 +100,7 @@ export default {
     }
   },
   created () {
+    checkRedirectToLogin(this.$store, this.$router)
     if (this.clientId) {
       this.fetchApplication()
     }

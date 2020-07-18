@@ -82,6 +82,7 @@ import Pagination from "@/components/Pagination"
 import OrderingMixin from "@/components/mixins/Ordering"
 import PaginationMixin from "@/components/mixins/Pagination"
 import TranslationsMixin from "@/components/mixins/Translations"
+import {checkRedirectToLogin} from '@/utils'
 const FAVORITES_URL = "tracks/"
 
 export default {
@@ -107,9 +108,7 @@ export default {
     }
   },
   created() {
-    if (!this.$store.state.auth.authenticated) {
-      this.$router.push({name: 'login', query: {next: this.$router.currentRoute.fullPath}})
-    }
+    checkRedirectToLogin(this.$store, this.$router)
     this.fetchFavorites(FAVORITES_URL)
 
   },
