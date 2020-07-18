@@ -33,9 +33,6 @@ class PlaylistFilter(filters.FilterSet):
         fields = {
             "user": ["exact"],
             "name": ["exact", "icontains"],
-            "q": "exact",
-            "playable": "exact",
-            "scope": "exact",
         }
 
     def filter_playable(self, queryset, name, value):

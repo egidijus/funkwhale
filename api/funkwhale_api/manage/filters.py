@@ -60,7 +60,7 @@ class ManageChannelFilterSet(filters.FilterSet):
 
     class Meta:
         model = audio_models.Channel
-        fields = ["q"]
+        fields = []
 
 
 class ManageArtistFilterSet(filters.FilterSet):
@@ -89,7 +89,7 @@ class ManageArtistFilterSet(filters.FilterSet):
 
     class Meta:
         model = music_models.Artist
-        fields = ["q", "name", "mbid", "fid", "content_category"]
+        fields = ["name", "mbid", "fid", "content_category"]
 
 
 class ManageAlbumFilterSet(filters.FilterSet):
@@ -119,7 +119,7 @@ class ManageAlbumFilterSet(filters.FilterSet):
 
     class Meta:
         model = music_models.Album
-        fields = ["q", "title", "mbid", "fid", "artist"]
+        fields = ["title", "mbid", "fid", "artist"]
 
 
 class ManageTrackFilterSet(filters.FilterSet):
@@ -158,7 +158,7 @@ class ManageTrackFilterSet(filters.FilterSet):
 
     class Meta:
         model = music_models.Track
-        fields = ["q", "title", "mbid", "fid", "artist", "album", "license"]
+        fields = ["title", "mbid", "fid", "artist", "album", "license"]
 
 
 class ManageLibraryFilterSet(filters.FilterSet):
@@ -204,7 +204,7 @@ class ManageLibraryFilterSet(filters.FilterSet):
 
     class Meta:
         model = music_models.Library
-        fields = ["q", "name", "fid", "privacy_level", "domain"]
+        fields = ["name", "fid", "privacy_level"]
 
 
 class ManageUploadFilterSet(filters.FilterSet):
@@ -249,10 +249,7 @@ class ManageUploadFilterSet(filters.FilterSet):
     class Meta:
         model = music_models.Upload
         fields = [
-            "q",
             "fid",
-            "privacy_level",
-            "domain",
             "mimetype",
             "import_reference",
             "import_status",
@@ -275,7 +272,7 @@ class ManageDomainFilterSet(filters.FilterSet):
 
     class Meta:
         model = federation_models.Domain
-        fields = ["name", "allowed"]
+        fields = ["name"]
 
 
 class ManageActorFilterSet(filters.FilterSet):
@@ -300,7 +297,7 @@ class ManageActorFilterSet(filters.FilterSet):
 
     class Meta:
         model = federation_models.Actor
-        fields = ["q", "domain", "type", "manually_approves_followers", "local"]
+        fields = ["domain", "type", "manually_approves_followers"]
 
     def filter_local(self, queryset, name, value):
         return queryset.local(value)
@@ -320,7 +317,6 @@ class ManageUserFilterSet(filters.FilterSet):
     class Meta:
         model = users_models.User
         fields = [
-            "q",
             "is_active",
             "privacy_level",
             "is_staff",
@@ -337,7 +333,7 @@ class ManageInvitationFilterSet(filters.FilterSet):
 
     class Meta:
         model = users_models.Invitation
-        fields = ["q", "is_open"]
+        fields = []
 
     def filter_is_open(self, queryset, field_name, value):
         if value is None:
@@ -362,14 +358,10 @@ class ManageInstancePolicyFilterSet(filters.FilterSet):
     class Meta:
         model = moderation_models.InstancePolicy
         fields = [
-            "q",
             "block_all",
             "silence_activity",
             "silence_notifications",
             "reject_media",
-            "target_domain",
-            "target_account_domain",
-            "target_account_username",
         ]
 
 
@@ -378,7 +370,7 @@ class ManageTagFilterSet(filters.FilterSet):
 
     class Meta:
         model = tags_models.Tag
-        fields = ["q"]
+        fields = []
 
 
 class ManageReportFilterSet(filters.FilterSet):
@@ -404,7 +396,7 @@ class ManageReportFilterSet(filters.FilterSet):
 
     class Meta:
         model = moderation_models.Report
-        fields = ["q", "is_handled", "type", "submitter_email"]
+        fields = ["is_handled", "type", "submitter_email"]
 
 
 class ManageNoteFilterSet(filters.FilterSet):
@@ -423,7 +415,7 @@ class ManageNoteFilterSet(filters.FilterSet):
 
     class Meta:
         model = moderation_models.Note
-        fields = ["q"]
+        fields = []
 
 
 class ManageUserRequestFilterSet(filters.FilterSet):
@@ -446,4 +438,4 @@ class ManageUserRequestFilterSet(filters.FilterSet):
 
     class Meta:
         model = moderation_models.UserRequest
-        fields = ["q", "status", "type"]
+        fields = ["status", "type"]

@@ -20,7 +20,7 @@ class FollowFilter(django_filters.FilterSet):
 
     class Meta:
         model = models.Follow
-        fields = ["approved", "pending", "q"]
+        fields = ["approved"]
 
     def filter_pending(self, queryset, field_name, value):
         if value.lower() in ["true", "1", "yes"]:

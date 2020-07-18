@@ -11,5 +11,4 @@ class RadioFilter(django_filters.FilterSet):
         model = models.Radio
         fields = {
             "name": ["exact", "iexact", "startswith", "icontains"],
-            "scope": "exact",
         }

@@ -41,7 +41,7 @@ class ChannelFilter(moderation_filters.HiddenContentFilterSet):
 
     class Meta:
         model = models.Channel
-        fields = ["q", "scope", "tag", "subscribed", "ordering", "external"]
+        fields = []
         hidden_content_fields_mapping = moderation_filters.USER_FILTER_CONFIG["CHANNEL"]
 
     def filter_subscribed(self, queryset, name, value):
