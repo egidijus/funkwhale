@@ -119,7 +119,6 @@ class MultipleQueryFilter(filters.TypedMultipleChoiceFilter):
     def __init__(self, *args, **kwargs):
         kwargs["widget"] = QueryArrayWidget()
         super().__init__(*args, **kwargs)
-        self.lookup_expr = "in"
 
 
 def filter_target(value):

@@ -14,7 +14,7 @@ class TrackFavoriteFilter(moderation_filters.HiddenContentFilterSet):
     class Meta:
         model = models.TrackFavorite
         # XXX: 1.0 remove the user filter, we have scope=me now
-        fields = ["user", "q", "scope"]
+        fields = ["user"]
         hidden_content_fields_mapping = moderation_filters.USER_FILTER_CONFIG[
             "TRACK_FAVORITE"
         ]

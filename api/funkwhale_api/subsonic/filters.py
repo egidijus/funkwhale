@@ -8,7 +8,7 @@ class AlbumList2FilterSet(filters.FilterSet):
 
     class Meta:
         model = music_models.Album
-        fields = ["type"]
+        fields = []
 
     def filter_type(self, queryset, name, value):
         ORDERING = {

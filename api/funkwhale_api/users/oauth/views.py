@@ -155,20 +155,21 @@ class AuthorizeView(views.APIView, oauth_views.AuthorizationView):
 
     def form_valid(self, form):
         try:
-            response = super().form_valid(form)
+            return super().form_valid(form)
 
         except models.Application.DoesNotExist:
             return self.json_payload({"non_field_errors": ["Invalid application"]}, 400)
 
-        if self.request.is_ajax() and response.status_code == 302:
+    def redirect(self, redirect_to, application, token=None):
+        if self.request.is_ajax():
             # Web client need this to be able to redirect the user
-            query = urllib.parse.urlparse(response["Location"]).query
+            query = urllib.parse.urlparse(redirect_to).query
             code = urllib.parse.parse_qs(query)["code"][0]
             return self.json_payload(
-                {"redirect_uri": response["Location"], "code": code}, status_code=200
+                {"redirect_uri": redirect_to, "code": code}, status_code=200
             )
 
-        return response
+        return super().redirect(redirect_to, application, token)
 
     def error_response(self, error, application):
         if isinstance(error, oauth2_exceptions.FatalClientError):
