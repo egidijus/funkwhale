@@ -2,8 +2,8 @@
   <span :title="title" :class="['ui', {'tiny': discrete}, {'icon': !discrete}, {'buttons': !dropdownOnly && !iconOnly}, 'play-button component-play-button']">
     <button
       v-if="!dropdownOnly"
-      :title="labels.playNow"
-      @click.stop.prevent="addNext(true)"
+      :title="labels.replacePlay"
+      @click.stop.prevent="replacePlay"
       :disabled="!playable"
       :class="buttonClasses.concat(['ui', {loading: isLoading}, {'mini': discrete}, {disabled: !playable}])">
       <i :class="[playIconClass, 'icon']"></i>
@@ -24,9 +24,6 @@
         </button>
         <button class="item basic" ref="playNow" data-ref="playNow" :disabled="!playable" @click.stop.prevent="addNext(true)" :title="labels.playNow">
           <i class="play icon"></i>{{ labels.playNow }}
-        </button>
-        <button class="item basic" ref="replacePlay" data-ref="replacePlay" :disabled="!playable" @click.stop.prevent="replacePlay()" :title="labels.replacePlay">
-          <i class="list icon"></i>{{ labels.replacePlay }}
         </button>
         <button v-if="track" class="item basic" :disabled="!playable" @click.stop.prevent="$store.dispatch('radios/start', {type: 'similar', objectId: track.id})" :title="labels.startRadio">
           <i class="feed icon"></i><translate translate-context="*/Queue/Button.Label/Short, Verb">Start radio</translate>
@@ -231,7 +228,6 @@ export default {
       jQuery(self.$el).find('.ui.dropdown').dropdown('hide')
     },
     addNext (next) {
-      console.log('CLICKED')
       let self = this
       let wasEmpty = this.$store.state.queue.tracks.length === 0
       this.getPlayableTracks().then((tracks) => {
