@@ -584,6 +584,8 @@ AUTHENTICATION_BACKENDS = (
     "funkwhale_api.users.auth_backends.AllAuthBackend",
 )
 SESSION_COOKIE_HTTPONLY = False
+SESSION_COOKIE_AGE = env.int("SESSION_COOKIE_AGE", default=3600 * 25 * 60)
+
 # Some really nice defaults
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
