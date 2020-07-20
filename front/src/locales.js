@@ -98,6 +98,10 @@ export default {
       "label": "Русский"
     },
     {
+      "code": "sq",
+      "label": "Shqip"
+    },
+    {
       "code": "zh_Hans",
       "label": "中文(简体)"
     },
