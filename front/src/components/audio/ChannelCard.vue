@@ -31,7 +31,7 @@
         class="meta ellipsis"
         :datetime="object.artist.modification_date"
         :title="updatedTitle">
-        {{ object.artist.modification_date | fromNow }}
+        %{ updatedAgo }
       </time>
       <play-button
         class="right floated basic icon"
@@ -47,6 +47,7 @@ import PlayButton from '@/components/audio/PlayButton'
 import TagsList from "@/components/tags/List"
 
 import {momentFormat} from '@/filters'
+import moment from "moment"
 
 export default {
   props: {
@@ -75,6 +76,9 @@ export default {
       let d = momentFormat(this.object.artist.modification_date)
       let message = this.$pgettext('*/*/*', 'Updated on %{ date }')
       return this.$gettextInterpolate(message, {date: d})
+    },
+    updatedAgo () {
+      return moment(this.object.artist.modification_date).fromNow()
     }
   }
 }
