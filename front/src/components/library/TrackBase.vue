@@ -30,7 +30,7 @@
                 <div class="header">
                   <translate translate-context="Popup/Track/Title">Embed this track on your website</translate>
                 </div>
-                <div class="content">
+                <div class="scrolling content">
                   <div class="description">
                     <embed-wizard type="track" :id="track.id" />
                   </div>

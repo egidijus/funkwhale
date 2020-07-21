@@ -180,7 +180,7 @@ class AlbumViewSet(
     queryset = (
         models.Album.objects.all()
         .order_by("-creation_date")
-        .prefetch_related("artist", "attributed_to", "attachment_cover")
+        .prefetch_related("artist__channel", "attributed_to", "attachment_cover")
     )
     serializer_class = serializers.AlbumSerializer
     permission_classes = [oauth_permissions.ScopePermission]

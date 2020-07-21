@@ -30,9 +30,9 @@ FUNKWHALE_CONFIG = {
     "FUNKWHALE_URL": "mypod.funkwhale",
     "FUNKWHAL_PROTOCOL": "https",
     "DATABASE_URL": "postgres://localhost:5432/db",
-    "AWS_ACCESS_KEY_ID": 'my_access_key',
-    "AWS_SECRET_ACCESS_KEY": 'my_secret_key',
-    "AWS_STORAGE_BUCKET_NAME": 'my_bucket',
+    "AWS_ACCESS_KEY_ID": "my_access_key",
+    "AWS_SECRET_ACCESS_KEY": "my_secret_key",
+    "AWS_STORAGE_BUCKET_NAME": "my_bucket",
 }
 for key, value in FUNKWHALE_CONFIG.items():
     os.environ[key] = value
