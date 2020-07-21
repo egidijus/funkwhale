@@ -5,7 +5,7 @@
       <h4 class="header">
         <translate translate-context="Popup/Album/Title/Verb">Embed this album on your website</translate>
       </h4>
-      <div class="content">
+      <div class="scrolling content">
         <div class="description">
           <embed-wizard type="album" :id="object.id" />
 

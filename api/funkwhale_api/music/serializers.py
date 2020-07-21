@@ -177,6 +177,8 @@ def serialize_artist_simple(artist):
             if artist.attachment_cover
             else None
         )
+    if "channel" in artist._state.fields_cache and artist.get_channel():
+        data["channel"] = str(artist.channel.uuid)
 
     if getattr(artist, "_tracks_count", None) is not None:
         data["tracks_count"] = artist._tracks_count
@@ -833,4 +835,5 @@ class AlbumCreateSerializer(serializers.Serializer):
             instance, "description", validated_data.get("description")
         )
         tag_models.set_tags(instance, *(validated_data.get("tags", []) or []))
+        instance.artist.get_channel()
         return instance

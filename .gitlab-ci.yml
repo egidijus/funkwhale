@@ -136,7 +136,7 @@ test_api:
     - branches
   before_script:
     - apk add make git gcc python3-dev musl-dev
-    # - apk add postgresql-dev py3-psycopg2 libldap libffi-dev make zlib-dev jpeg-dev openldap-dev
+    - apk add postgresql-dev py3-psycopg2 libldap libffi-dev make zlib-dev jpeg-dev openldap-dev
     - cd api
     - pip3 install -r requirements/base.txt
     - pip3 install -r requirements/local.txt

@@ -181,10 +181,11 @@ class AlbumViewSet(
     viewsets.ReadOnlyModelViewSet,
 ):
     queryset = (
-        models.Album.objects.all().order_by("-creation_date")
-        # we do a prefetech related on tracks instead of a count because it's more efficient
-        # db-wise
-        .prefetch_related("artist", "attributed_to", "attachment_cover", "tracks")
+        models.Album.objects.all()
+        .order_by("-creation_date")
+        .prefetch_related(
+            "artist__channel", "attributed_to", "attachment_cover", "tracks"
+        )
     )
     serializer_class = serializers.AlbumSerializer
     permission_classes = [oauth_permissions.ScopePermission]

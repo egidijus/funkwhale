@@ -52,7 +52,7 @@
         <h4 class="header">
           <translate translate-context="Popup/Album/Title/Verb">Embed this playlist on your website</translate>
         </h4>
-        <div class="content">
+        <div class="scrolling content">
           <div class="description">
             <embed-wizard type="playlist" :id="playlist.id" />
           </div>

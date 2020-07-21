@@ -38,7 +38,7 @@
               <h4 class="header">
                 <translate translate-context="Popup/Artist/Title/Verb">Embed this artist work on your website</translate>
               </h4>
-              <div class="content">
+              <div class="scrolling content">
                 <div class="description">
                   <embed-wizard type="artist" :id="object.id" />
 

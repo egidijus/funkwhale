@@ -94,14 +94,19 @@ Scope:
     Limit the results to a given user or pod:
       - Use `all` (or do not specify the property to disable scope filtering)
       - Use `me` to retrieve content relative to the current user
+      - Use `subscribed` to retrieve content in libraries you follow
       - Use `actor:alice@example.com` to retrieve content relative to the account `alice@example.com
       - Use `domain:example.com` to retrieve content relative to the domain `example.com
+
+    You can specify multiple coma separated scopes, e.g `scope=me,subscribed` to retrieve content matching either scopes.
+
   schema:
     required: false
     type: "string"
     enum:
     - "me"
     - "all"
+    - "subscribed"
     - "actor:alice@example.com"
     - "domain:example.com"
 
