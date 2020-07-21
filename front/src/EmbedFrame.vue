@@ -280,6 +280,7 @@ export default {
     },
     fetchTracks (filters, path) {
       path = path || "/api/v1/tracks/"
+      filters.include_channels = "true"
       let self = this
       let url = `${this.baseUrl}${path}`
       axios.get(url, {params: filters}).then(response => {
