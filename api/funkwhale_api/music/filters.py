@@ -148,7 +148,9 @@ class TrackFilter(
     tag = TAG_FILTER
     id = common_filters.MultipleQueryFilter(coerce=int)
     scope = common_filters.ActorScopeFilter(
-        actor_field="uploads__library__actor", distinct=True
+        actor_field="uploads__library__actor",
+        library_field="uploads__library",
+        distinct=True,
     )
     artist = filters.ModelChoiceFilter(
         field_name="_", method="filter_artist", queryset=models.Artist.objects.all()
