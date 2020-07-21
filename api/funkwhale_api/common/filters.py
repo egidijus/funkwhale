@@ -7,6 +7,7 @@ from django_filters import rest_framework as filters
 from . import fields
 from . import models
 from . import search
+from . import utils
 
 
 class NoneObject(object):
@@ -170,13 +171,17 @@ class MutationFilter(filters.FilterSet):
         fields = ["is_approved", "is_applied", "type"]
 
 
+class EmptyQuerySet(ValueError):
+    pass
+
+
 class ActorScopeFilter(filters.CharFilter):
     def __init__(self, *args, **kwargs):
         self.actor_field = kwargs.pop("actor_field")
+        self.library_field = kwargs.pop("library_field", None)
         super().__init__(*args, **kwargs)
 
     def filter(self, queryset, value):
-        from funkwhale_api.federation import models as federation_models
 
         if not value:
             return queryset
@@ -186,35 +191,57 @@ class ActorScopeFilter(filters.CharFilter):
             return queryset.none()
 
         user = getattr(request, "user", None)
-        qs = queryset
-        if value.lower() == "me":
-            qs = self.filter_me(user=user, queryset=queryset)
-        elif value.lower() == "all":
-            return queryset
-        elif value.lower().startswith("actor:"):
-            full_username = value.split("actor:", 1)[1]
+        actor = getattr(user, "actor", None)
+        scopes = [v.strip().lower() for v in value.split(",")]
+        query = None
+        for scope in scopes:
+            try:
+                right_query = self.get_query(scope, user, actor)
+            except ValueError:
+                return queryset.none()
+            query = utils.join_queries_or(query, right_query)
+
+        return queryset.filter(query).distinct()
+
+    def get_query(self, scope, user, actor):
+        from funkwhale_api.federation import models as federation_models
+
+        if scope == "me":
+            return self.filter_me(actor)
+        elif scope == "all":
+            return Q(pk__gte=0)
+
+        elif scope == "subscribed":
+            if not actor or self.library_field is None:
+                raise EmptyQuerySet()
+            followed_libraries = federation_models.LibraryFollow.objects.filter(
+                approved=True, actor=user.actor
+            ).values_list("target_id", flat=True)
+            if not self.library_field:
+                predicate = "pk__in"
+            else:
+                predicate = "{}__in".format(self.library_field)
+            return Q(**{predicate: followed_libraries})
+
+        elif scope.startswith("actor:"):
+            full_username = scope.split("actor:", 1)[1]
             username, domain = full_username.split("@")
             try:
                 actor = federation_models.Actor.objects.get(
                     preferred_username=username, domain_id=domain,
                 )
             except federation_models.Actor.DoesNotExist:
-                return queryset.none()
+                raise EmptyQuerySet()
 
-            return queryset.filter(**{self.actor_field: actor})
-        elif value.lower().startswith("domain:"):
-            domain = value.split("domain:", 1)[1]
-            return queryset.filter(**{"{}__domain_id".format(self.actor_field): domain})
+            return Q(**{self.actor_field: actor})
+        elif scope.startswith("domain:"):
+            domain = scope.split("domain:", 1)[1]
+            return Q(**{"{}__domain_id".format(self.actor_field): domain})
         else:
-            return queryset.none()
+            raise EmptyQuerySet()
 
-        if self.distinct:
-            qs = qs.distinct()
-        return qs
-
-    def filter_me(self, user, queryset):
-        actor = getattr(user, "actor", None)
+    def filter_me(self, actor):
         if not actor:
-            return queryset.none()
+            raise EmptyQuerySet()
 
-        return queryset.filter(**{self.actor_field: actor})
+        return Q(**{self.actor_field: actor})

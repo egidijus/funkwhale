@@ -44,15 +44,20 @@ def test_mutation_filter_is_approved(value, expected, factories):
         ("me", 0, [0]),
         ("me", 1, [1]),
         ("me", 2, []),
-        ("all", 0, [0, 1, 2]),
-        ("all", 1, [0, 1, 2]),
-        ("all", 2, [0, 1, 2]),
+        ("all", 0, [0, 1, 2, 3]),
+        ("all", 1, [0, 1, 2, 3]),
+        ("all", 2, [0, 1, 2, 3]),
         ("noop", 0, []),
         ("noop", 1, []),
         ("noop", 2, []),
         ("actor:actor1@domain.test", 0, [0]),
         ("actor:actor2@domain.test", 0, [1]),
         ("domain:domain.test", 0, [0, 1]),
+        ("subscribed", 0, [3]),
+        ("subscribed", 1, []),
+        ("subscribed", 2, []),
+        ("me,subscribed", 0, [0, 3]),
+        ("me,subscribed", 1, [1]),
     ],
 )
 def test_actor_scope_filter(
@@ -72,15 +77,23 @@ def test_actor_scope_filter(
         preferred_username="actor2", domain=domain
     )
     users = [actor1.user, actor2.user, anonymous_user]
+    followed_library = factories["music.Library"]()
     tracks = [
         factories["music.Upload"](library__actor=actor1, playable=True).track,
         factories["music.Upload"](library__actor=actor2, playable=True).track,
         factories["music.Upload"](playable=True).track,
+        factories["music.Upload"](playable=True, library=followed_library).track,
     ]
+
+    factories["federation.LibraryFollow"](
+        actor=actor1, target=followed_library, approved=True
+    )
 
     class FS(filters.filters.FilterSet):
         scope = filters.ActorScopeFilter(
-            actor_field="uploads__library__actor", distinct=True
+            actor_field="uploads__library__actor",
+            library_field="uploads__library",
+            distinct=True,
         )
 
         class Meta:
