@@ -214,7 +214,7 @@ export default {
     }),
     labels() {
       return {
-        title: this.$pgettext('Head/Home/Title', "Welcome")
+        title: this.$pgettext('Head/Home/Title', "Home")
       }
     },
     podName() {
