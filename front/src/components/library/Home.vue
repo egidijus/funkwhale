@@ -75,7 +75,7 @@ export default {
   computed: {
     labels() {
       return {
-        title: this.$pgettext('Head/Home/Title', "Home")
+        title: this.$pgettext('Head/Home/Title', "Library")
       }
     }
   },

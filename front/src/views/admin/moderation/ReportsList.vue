@@ -1,5 +1,5 @@
 <template>
-  <main v-title="labels.accounts">
+  <main v-title="labels.reports">
     <section class="ui vertical stripe segment">
       <h2 class="ui header"><translate translate-context="*/Moderation/*/Noun">Reports</translate></h2>
       <div class="ui hidden divider"></div>

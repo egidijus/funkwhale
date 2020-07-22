@@ -1,5 +1,5 @@
 <template>
-  <main class="main pusher page-about">
+  <main class="main pusher page-about" v-title="labels.title">
     <section :class="['ui', 'head', {'with-background': banner}, 'vertical', 'center', 'aligned', 'stripe', 'segment']" :style="headerStyle">
       <div class="segment-content">
         <h1 class="ui center aligned large header">
@@ -216,6 +216,11 @@ export default {
   ...mapState({
       nodeinfo: state => state.instance.nodeinfo,
     }),
+    labels() {
+      return {
+        title: this.$pgettext('Head/About/Title', "About")
+      }
+    },
     podName() {
       return _.get(this.nodeinfo, 'metadata.nodeName') || "Funkwhale"
     },
