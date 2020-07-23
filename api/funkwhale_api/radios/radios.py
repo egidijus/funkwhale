@@ -102,7 +102,7 @@ class SessionRadio(SimpleRadio):
 class RandomRadio(SessionRadio):
     def get_queryset(self, **kwargs):
         qs = super().get_queryset(**kwargs)
-        return qs.order_by("?")
+        return qs.filter(artist__content_category="music").order_by("?")
 
 
 @registry.register(name="favorites")
@@ -116,7 +116,7 @@ class FavoritesRadio(SessionRadio):
     def get_queryset(self, **kwargs):
         qs = super().get_queryset(**kwargs)
         track_ids = kwargs["user"].track_favorites.all().values_list("track", flat=True)
-        return qs.filter(pk__in=track_ids)
+        return qs.filter(pk__in=track_ids, artist__content_category="music")
 
 
 @registry.register(name="custom")
@@ -271,7 +271,11 @@ class LessListenedRadio(SessionRadio):
     def get_queryset(self, **kwargs):
         qs = super().get_queryset(**kwargs)
         listened = self.session.user.listenings.all().values_list("track", flat=True)
-        return qs.exclude(pk__in=listened).order_by("?")
+        return (
+            qs.filter(artist__content_category="music")
+            .exclude(pk__in=listened)
+            .order_by("?")
+        )
 
 
 @registry.register(name="actor_content")
