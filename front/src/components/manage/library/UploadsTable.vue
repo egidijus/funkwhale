@@ -69,7 +69,7 @@
         </template>
         <template slot="row-cells" slot-scope="scope">
           <td>
-            <router-link :to="{name: 'manage.library.uploads.detail', params: {id: scope.obj.uuid }}" :title="displayName(scope.obj)">
+            <router-link :to="{name: 'manage.library.uploads.detail', params: {id: scope.obj.uuid }}">
               {{ displayName(scope.obj)|truncate(30, "…", true) }}
             </router-link>
           </td>

@@ -4,7 +4,6 @@
       :to="{name: detailRoute, params: {id: tag}}"
       :class="['ui', 'circular', 'hashtag', 'label', labelClasses]"
       v-for="tag in toDisplay"
-      :title="tag"
       :key="tag">
       #{{ tag|truncate(truncateSize) }}
     </router-link>

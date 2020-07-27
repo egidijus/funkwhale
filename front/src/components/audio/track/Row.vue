@@ -8,7 +8,7 @@
       <img class="ui mini image" v-else src="../../../assets/audio/default-cover.png">
     </td>
     <td colspan="6">
-      <router-link class="track" :title="track.title" :to="{name: 'library.tracks.detail', params: {id: track.id }}">
+      <router-link class="track" :to="{name: 'library.tracks.detail', params: {id: track.id }}">
         <template v-if="displayPosition && track.position">
           {{ track.position }}.
         </template>
@@ -21,7 +21,7 @@
       </router-link>
     </td>
     <td colspan="4">
-      <router-link v-if="track.album" class="album discrete link" :title="track.album.title" :to="{name: 'library.albums.detail', params: {id: track.album.id }}">
+      <router-link v-if="track.album" class="album discrete link" :to="{name: 'library.albums.detail', params: {id: track.album.id }}">
         {{ track.album.title|truncate(40) }}
       </router-link>
     </td>

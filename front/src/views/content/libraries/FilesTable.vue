@@ -123,7 +123,7 @@
         <template slot="row-cells" slot-scope="scope">
           <template v-if="scope.obj.track">
             <td>
-              <router-link :to="{name: 'library.tracks.detail', params: {id: scope.obj.track.id }}" :title="scope.obj.track.title">
+              <router-link :to="{name: 'library.tracks.detail', params: {id: scope.obj.track.id }}">
                 {{ scope.obj.track.title|truncate(25) }}
               </router-link>
             </td>

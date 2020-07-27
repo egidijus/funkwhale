@@ -7,7 +7,7 @@
     </div>
     <div class="content">
       <strong>
-        <router-link class="discrete link" :title="artist.name" :to="{name: 'library.artists.detail', params: {id: artist.id}}">
+        <router-link class="discrete link" :to="{name: 'library.artists.detail', params: {id: artist.id}}">
           {{ artist.name|truncate(30) }}
         </router-link>
       </strong>

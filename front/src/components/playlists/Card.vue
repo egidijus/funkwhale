@@ -8,7 +8,7 @@
     </div>
     <div class="content">
       <strong>
-        <router-link class="discrete link" :title="playlist.name" :to="{name: 'library.playlists.detail', params: {id: playlist.id }}">
+        <router-link class="discrete link" :to="{name: 'library.playlists.detail', params: {id: playlist.id }}">
           {{ playlist.name }}
         </router-link>
       </strong>

@@ -14,15 +14,15 @@
         <div class="middle aligned content">
           <div class="ui unstackable grid">
             <div class="thirteen wide stretched column">
-              <div>
-                <router-link :title="object.track.title" :to="{name: 'library.tracks.detail', params: {id: object.track.id}}">
-                  {{ object.track.title|truncate(25) }}
+              <div class="ellipsis">
+                <router-link :to="{name: 'library.tracks.detail', params: {id: object.track.id}}">
+                  {{ object.track.title }}
                 </router-link>
               </div>
-              <div class="meta">
+              <div class="meta ellipsis">
                 <span>
-                  <router-link :title="object.track.artist.name" class="discrete link" :to="{name: 'library.artists.detail', params: {id: object.track.artist.id}}">
-                    {{ object.track.artist.name|truncate(25) }}
+                  <router-link class="discrete link" :to="{name: 'library.artists.detail', params: {id: object.track.artist.id}}">
+                    {{ object.track.artist.name }}
                   </router-link>
                 </span>
               </div>

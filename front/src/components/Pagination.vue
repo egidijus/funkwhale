@@ -2,6 +2,7 @@
   <div v-if='maxPage > 1' class="ui pagination menu component-pagination" role="navigation" :aria-label="labels.pagination">
     <a href
       :disabled="current - 1 < 1"
+      :title="labels.previousPage"
       @click.prevent.stop="selectPage(current - 1)"
       :class="[{'disabled': current - 1 < 1}, 'item']"><i class="angle left icon"></i></a>
     <template v-if="!compact">
@@ -18,6 +19,7 @@
     </template>
     <a href
       :disabled="current + 1 > maxPage"
+      :title="labels.nextPage"
       @click.prevent.stop="selectPage(current + 1)"
       :class="[{'disabled': current + 1 > maxPage}, 'item']"><i class="angle right icon"></i></a>
   </div>
@@ -36,7 +38,9 @@ export default {
   computed: {
     labels() {
       return {
-        pagination: this.$pgettext('Content/*/Hidden text/Noun', "Pagination")
+        pagination: this.$pgettext('Content/*/Hidden text/Noun', "Pagination"),
+        previousPage: this.$pgettext('Content/*/Link', "Previous Page"),
+        nextPage: this.$pgettext('Content/*/Link', "Next Page")
       }
     },
     pages: function() {

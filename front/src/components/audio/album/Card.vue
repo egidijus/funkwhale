@@ -7,13 +7,13 @@
     </div>
     <div class="content">
       <strong>
-        <router-link class="discrete link" :title="album.title" :to="{name: 'library.albums.detail', params: {id: album.id}}">
+        <router-link class="discrete link" :to="{name: 'library.albums.detail', params: {id: album.id}}">
           {{ album.title }}
         </router-link>
       </strong>
       <div class="description">
         <span>
-          <router-link :title="album.artist.name" class="discrete link" :to="{name: 'library.artists.detail', params: {id: album.artist.id}}">
+          <router-link class="discrete link" :to="{name: 'library.artists.detail', params: {id: album.artist.id}}">
             {{ album.artist.name }}
           </router-link>
         </span>

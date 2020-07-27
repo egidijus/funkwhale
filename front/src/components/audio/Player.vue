@@ -16,13 +16,13 @@
           </div>
           <div @click.stop.prevent="" class="middle aligned content ellipsis">
             <strong>
-              <router-link @click.stop.prevent="" class="small header discrete link track" :title="currentTrack.title" :to="{name: 'library.tracks.detail', params: {id: currentTrack.id }}">
+              <router-link @click.stop.prevent="" class="small header discrete link track" :to="{name: 'library.tracks.detail', params: {id: currentTrack.id }}">
                 {{ currentTrack.title }}
               </router-link>
             </strong>
             <div class="meta">
-              <router-link @click.stop.prevent="" class="discrete link" :title="currentTrack.artist.name" :to="{name: 'library.artists.detail', params: {id: currentTrack.artist.id }}">
-                {{ currentTrack.artist.name }}</router-link><template v-if="currentTrack.album"> /<router-link @click.stop.prevent="" class="discrete link" :title="currentTrack.album.title" :to="{name: 'library.albums.detail', params: {id: currentTrack.album.id }}">
+              <router-link @click.stop.prevent="" class="discrete link" :to="{name: 'library.artists.detail', params: {id: currentTrack.artist.id }}">
+                {{ currentTrack.artist.name }}</router-link><template v-if="currentTrack.album"> /<router-link @click.stop.prevent="" class="discrete link" :to="{name: 'library.albums.detail', params: {id: currentTrack.album.id }}">
                 {{ currentTrack.album.title }}
               </router-link></template>
             </div>

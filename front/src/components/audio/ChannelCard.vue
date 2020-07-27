@@ -7,7 +7,7 @@
     </div>
     <div class="content">
       <strong>
-        <router-link class="discrete link" :title="object.artist.name" :to="{name: 'channels.detail', params: {id: urlId}}">
+        <router-link class="discrete link" :to="{name: 'channels.detail', params: {id: urlId}}">
           {{ object.artist.name }}
         </router-link>
       </strong>

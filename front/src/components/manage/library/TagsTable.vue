@@ -47,7 +47,7 @@
         </template>
         <template slot="row-cells" slot-scope="scope">
           <td>
-            <router-link :to="{name: 'manage.library.tags.detail', params: {id: scope.obj.name }}" :title="scope.obj.name">
+            <router-link :to="{name: 'manage.library.tags.detail', params: {id: scope.obj.name }}">
               {{ scope.obj.name|truncate(30, "…", true) }}
             </router-link>
           </td>
