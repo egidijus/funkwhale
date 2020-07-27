@@ -4,7 +4,7 @@
       <h2 class="ui header">
         <translate translate-context="Content/Artist/Title">Browsing artists</translate>
       </h2>
-      <form :class="['ui', {'loading': isLoading}, 'form']" @submit.prevent="updateQueryString();fetchData()">
+      <form :class="['ui', {'loading': isLoading}, 'form']" @submit.prevent="updatePage();updateQueryString();fetchData()">
         <div class="fields">
           <div class="field">
             <label>
@@ -195,6 +195,9 @@ export default {
     },
     selectPage: function(page) {
       this.page = page
+    },
+    updatePage() {
+      this.page = this.defaultPage
     }
   },
   watch: {
