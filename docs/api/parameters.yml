@@ -67,6 +67,14 @@ Playable:
   schema:
     required: false
     type: "boolean"
+HasAlbums:
+  name: "has_albums"
+  in: "query"
+  default: null
+  description: "Filter/exclude artists with no associated albums"
+  schema:
+    required: false
+    type: "boolean"
 Refresh:
   name: "refresh"
   in: "query"

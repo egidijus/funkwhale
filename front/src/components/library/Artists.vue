@@ -44,6 +44,13 @@
               <option :value="parseInt(50)">50</option>
             </select>
           </div>
+          <div class="field">
+            <label><translate translate-context="Content/Search/Checkbox/Noun">Exclude Compilation Artists</translate></label>
+            <div id="excludeCompilation" class="ui fitted toggle checkbox">
+              <input id="exclude-compilation" v-model="excludeCompilation" true-value="true" false-value="null" type="checkbox">
+              <label></label>
+            </div>
+          </div>
         </div>
       </form>
       <div class="ui hidden divider"></div>
@@ -116,6 +123,7 @@ export default {
     return {
       isLoading: true,
       result: null,
+      excludeCompilation: true,
       page: parseInt(this.defaultPage),
       query: this.defaultQuery,
       tags: (this.defaultTags || []).filter((t) => { return t.length > 0 }),
@@ -161,6 +169,7 @@ export default {
         scope: this.scope,
         page: this.page,
         page_size: this.paginateBy,
+        has_albums: this.excludeCompilation,
         q: this.query,
         ordering: this.getOrderingAsString(),
         playable: "true",
@@ -194,6 +203,9 @@ export default {
       this.fetchData()
     },
     "$store.state.moderation.lastUpdate": function () {
+      this.fetchData()
+    },
+    excludeCompilation() {
       this.fetchData()
     }
   }
