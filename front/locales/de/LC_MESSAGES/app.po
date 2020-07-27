@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: front 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2020-04-18 00:21+0000\n"
-"Last-Translator: marzzzello <anmeldezeugs@top-email.net>\n"
+"PO-Revision-Date: 2020-07-27 15:28+0000\n"
+"Last-Translator: Arne <trpjabarno@arnemail.de>\n"
 "Language-Team: none\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -4139,10 +4139,11 @@ msgid "Publish audio"
 msgstr "Audio veröffentlichen"
 
 #: front/src/components/audio/ChannelForm.vue:198
-#, fuzzy
 msgctxt "Content/Channels/Help"
 msgid "Publish music you make as a nice discography of albums and singles."
-msgstr "Veröffentliche die Musik, die du machst, als schöne Diskographie von Alben und Singles."
+msgstr ""
+"Veröffentliche die Musik, die du machst, als schöne Diskographie von Alben "
+"und Singles."
 
 #: front/src/views/content/Home.vue:10
 msgctxt "Content/Library/Title/Verb"
@@ -4377,7 +4378,6 @@ msgid "Regular user"
 msgstr "herkömmlicher Benutzer"
 
 #: front/src/components/notifications/NotificationRow.vue:79
-#, fuzzy
 msgctxt "Content/*/Button.Label/Verb"
 msgid "Reject"
 msgstr "Abweisen"
@@ -5476,16 +5476,18 @@ msgid "The artist will be removed, as well as associated uploads, tracks, albums
 msgstr "Die Kunstschaffende Person wird entfernt, ebenso wie die zugehörigen Uploads, Titel, Alben, Favoriten und der Wiedergabeverlauf. Dieser Vorgang ist unwiderruflich."
 
 #: front/src/views/channels/DetailBase.vue:107
-#, fuzzy
 msgctxt "Content/Moderation/Paragraph"
 msgid "The channel will be deleted, as well as any related files and data. This action is irreversible."
-msgstr "Die Bibliothek wird zusammen mit den zugehörigen Uploads und Abonnements gelöscht. Diese Aktion ist unwiderruflich."
+msgstr ""
+"Die Kanal wird zusammen mit den zugehörigen Daten und Dateien gelöscht. "
+"Diese Aktion ist unwiderruflich."
 
 #: front/src/views/admin/ChannelDetail.vue:67
-#, fuzzy
 msgctxt "Content/Moderation/Paragraph"
 msgid "The channel will be removed, as well as associated uploads, tracks, and albums. This action is irreversible."
-msgstr "Die Bibliothek wird zusammen mit den zugehörigen Uploads und Abonnements gelöscht. Diese Aktion ist unwiderruflich."
+msgstr ""
+"Der Kanal wird zusammen mit den zugehörigen Uploads, Songs und Abonnements "
+"gelöscht. Diese Aktion ist unwiderruflich."
 
 #: front/src/components/Footer.vue:64
 msgctxt "Footer/*/List item.Link"
@@ -5523,10 +5525,9 @@ msgid "The next track will play automatically in a few seconds…"
 msgstr "Der nächste Titel wird automatisch in wenigen Sekunden wiedergegeben…"
 
 #: front/src/components/manage/moderation/NotesThread.vue:26
-#, fuzzy
 msgctxt "Content/Moderation/Paragraph"
 msgid "The note will be removed. This action is irreversible."
-msgstr "Der Vorschlag wird entgültig gelöscht. Das kann nicht rückgängig gemacht werden."
+msgstr "Der Vorschlag wird gelöscht. Dies kann nicht rückgängig gemacht werden."
 
 #: front/src/components/manage/moderation/ReportCard.vue:120
 msgctxt "Content/Moderation/Message"
