@@ -25,7 +25,13 @@ info:
     Authentication
     --------------
 
-    To authenticate, use OAuth. You can register your own app using the `/apps` endpoint and proceed to the OAuth flow afterwards.
+    To authenticate, use OAuth. You can register your own app using the `/api/v1/oauth/apps/` endpoint. Proceed to the standard OAuth flow afterwards:
+
+    - Our authorize URL is at `/authorize`
+    - Our token acquisition and refresh URL is at `/api/v1/oauth/token`
+    - The list of supported scopes is available by clicking the `Authorize` button in the Swagger UI documentation
+    - Use `urn:ietf:wg:oauth:2.0:oob` as your redirect URI if you want the user to get a copy-pastable authorization code
+    - At the moment, endpoints that deal with admin or moderator-level content are not accessible via OAuth, only through the Web UI
 
     You can use our demo server at `https://demo.funkwhale.audio` for testing purposes.
 
@@ -142,26 +148,30 @@ components:
           scopes:
             "read": "Read-only access to all user data"
             "write": "Write-only access on all user data"
-            "read:profile": "Read-only access to profile data"
-            "read:libraries": "Read-only access to library and uploads"
-            "read:playlists": "Read-only access to playlists"
-            "read:listenings": "Read-only access to listening history"
-            "read:favorites": "Read-only access to favorites"
-            "read:radios": "Read-only access to radios"
             "read:edits": "Read-only access to edits"
-            "read:notifications": "Read-only access to notifications"
-            "read:follows": "Read-only to follows"
-            "read:filters": "Read-only to to content filters"
-            "write:profile": "Write-only access to profile data"
-            "write:libraries": "Write-only access to libraries"
-            "write:playlists": "Write-only access to playlists"
-            "write:follows": "Write-only access to follows"
-            "write:favorites": "Write-only access to favorits"
-            "write:notifications": "Write-only access to notifications"
-            "write:radios": "Write-only access to radios"
             "write:edits": "Write-only access to edits"
+            "read:favorites": "Read-only access to favorites"
+            "write:favorites": "Write-only access to favorits"
+            "read:filters": "Read-only to to content filters"
             "write:filters": "Write-only access to content-filters"
+            "read:follows": "Read-only to follows"
+            "write:follows": "Write-only access to follows"
+            "read:libraries": "Read-only access to library and uploads"
+            "write:libraries": "Write-only access to libraries"
+            "read:listenings": "Read-only access to listening history"
             "write:listenings": "Write-only access to listening history"
+            "read:notifications": "Read-only access to notifications"
+            "write:notifications": "Write-only access to notifications"
+            "read:playlists": "Read-only access to playlists"
+            "write:playlists": "Write-only access to playlists"
+            "read:profile": "Read-only access to profile data"
+            "write:profile": "Write-only access to profile data"
+            "read:radios": "Read-only access to radios"
+            "write:radios": "Write-only access to radios"
+            "read:reports": "Read-only access to reports"
+            "write:reports": "Write-only access to reports"
+            "read:security": "Read-only access security settings"
+            "write:security": "write-only access security settings"
     jwt:
       type: http
       scheme: bearer
@@ -195,7 +205,7 @@ paths:
     post:
       tags:
         - "Auth and security"
-      description:
+      summary:
         Register an OAuth application
       security: []
       responses:
@@ -225,32 +235,15 @@ paths:
                   type: "string"
                   summary: "A list of scopes requested by your app, separated by spaces"
                   example: "read write:playlists write:favorites"
-  /api/v1/token/:
+  /api/v1/oauth/token/:
     post:
       tags:
         - "Auth and security"
-      summary: Get an API token
-      description:
-        Obtain a JWT token you can use for authenticating your next requests.
+      summary:
+        Request an OAuth bearer token in exchange of an authorization_code or a refresh_token
       security: []
       responses:
-        '200':
-          description: Successfull auth
-        '400':
-          description: Invalid credentials
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: "object"
-              properties:
-                username:
-                  type: "string"
-                  example: "demo"
-                password:
-                  type: "string"
-                  example: "demo"
+        200:
 
   /api/v1/auth/registration/:
     post:
