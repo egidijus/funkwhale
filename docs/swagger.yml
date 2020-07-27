@@ -1,5 +1,4 @@
 # Undocumented endpoints:
-#  /api/v1/playlist-tracks
 #  /api/v1/radios
 #  /api/v1/history
 
@@ -1626,6 +1625,63 @@ paths:
                         type: "array"
                         items:
                           $ref: "./api/definitions.yml#/PlaylistTrack"
+  /api/v1/playlists/{id}/move:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: "integer"
+          format: "int64"
+    post:
+      tags:
+        - "Content curation"
+      summary: Move a track to another index within its playlist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                from:
+                  type: "integer"
+                  format: "int64"
+                  description: Current index of the track
+                to:
+                  type: "integer"
+                  format: "int64"
+                  description: New index of the track
+               
+      responses:
+        204:
+  /api/v1/playlists/{id}/remove:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: "integer"
+          format: "int64"
+    post:
+      tags:
+        - "Content curation"
+      summary: Remove a track from its playlist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                index:
+                  type: "integer"
+                  format: "int64"
+                  description: Index of the track to remove
+               
+      responses:
+        204:
+          
   /api/v1/playlists/{id}/clear:
     parameters:
       - name: id

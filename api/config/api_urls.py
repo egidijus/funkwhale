@@ -26,9 +26,6 @@ router.register(r"subscriptions", audio_views.SubscriptionsViewSet, "subscriptio
 router.register(r"albums", views.AlbumViewSet, "albums")
 router.register(r"licenses", views.LicenseViewSet, "licenses")
 router.register(r"playlists", playlists_views.PlaylistViewSet, "playlists")
-router.register(
-    r"playlist-tracks", playlists_views.PlaylistTrackViewSet, "playlist-tracks"
-)
 router.register(r"mutations", common_views.MutationViewSet, "mutations")
 router.register(r"attachments", common_views.AttachmentViewSet, "attachments")
 v1_patterns = router.urls
