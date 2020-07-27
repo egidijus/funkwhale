@@ -101,6 +101,7 @@ class ArtistFilter(
 
     q = fields.SearchFilter(search_fields=["name"], fts_search_fields=["body_text"])
     playable = filters.BooleanFilter(field_name="_", method="filter_playable")
+    has_albums = filters.BooleanFilter(field_name="_", method="filter_has_albums")
     tag = TAG_FILTER
     scope = common_filters.ActorScopeFilter(
         actor_field="tracks__uploads__library__actor", distinct=True
@@ -129,6 +130,12 @@ class ArtistFilter(
     def filter_playable(self, queryset, name, value):
         actor = utils.get_actor_from_request(self.request)
         return queryset.playable_by(actor, value).distinct()
+
+    def filter_has_albums(self, queryset, name, value):
+        if value is True:
+            return queryset.filter(albums__isnull=False)
+        else:
+            return queryset.filter(albums__isnull=True)
 
 
 class TrackFilter(

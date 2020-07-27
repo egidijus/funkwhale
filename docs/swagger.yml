@@ -361,6 +361,7 @@ paths:
                   - name
                   - random
         - $ref: "./api/parameters.yml#/Playable"
+        - $ref: "./api/parameters.yml#/HasAlbums"
         - $ref: "./api/parameters.yml#/Library"
         - $ref: "./api/parameters.yml#/PageNumber"
         - $ref: "./api/parameters.yml#/PageSize"

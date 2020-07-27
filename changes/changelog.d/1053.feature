@@ -1,0 +1,1 @@
+Allow users to hide compilation artists on the artist search page (#1053)
