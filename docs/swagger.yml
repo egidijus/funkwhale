@@ -1,8 +1,5 @@
 # Undocumented endpoints:
-#  /api/v1/settings
-#  /api/v1/activity
 #  /api/v1/playlist-tracks
-#  /api/v1/search
 #  /api/v1/radios
 #  /api/v1/history
 
@@ -1338,6 +1335,69 @@ paths:
       responses:
         204:
           $ref: "#/responses/204"
+          
+  ##########
+  # Others #
+  ##########
+  /api/v1/search:
+    get:
+      tags:
+        - "Other"
+      description:
+        Search artists, tracks, albums and other resources
+      parameters:
+        - $ref: "./api/parameters.yml#/Search"
+      responses:
+        200:
+          $ref: "#/responses/200"
+        400:
+          $ref: "#/responses/400"
+      
+  /api/v1/instance/settings:
+    get:
+      tags:
+        - "Other"
+      description:
+        Retrieve pod-level configuration such as description or max playlist size
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: "array"
+                description: "List of settings with their id, label and values"
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: "string"
+                      description: "Name of the setting"
+                      example: "max_channels"
+                    section:
+                      type: "string"
+                      description: "Group of the setting"
+                      example: "audio"
+                    identifier:
+                      type: "string"
+                      description: "Unique identifier of the setting"
+                      example: "audio__max_channels"
+                    default:
+                      description: Default value of the setting
+                    value:
+                      description: Current value of the setting
+                    verbose_name:
+                      type: "string"
+                      description: Human-readable label of the setting
+                    help_text:
+                      type: "string"
+                      description: Human-readable description of the setting
+                    field:
+                      type: "object"
+                      properties:
+                        input_type:
+                          type: string
+                          description: "Input type of the setting"
+                    
 
   /api/v1/attachments/:
     post:

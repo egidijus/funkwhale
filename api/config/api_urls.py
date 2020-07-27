@@ -1,5 +1,4 @@
 from django.conf.urls import include, url
-from dynamic_preferences.api.viewsets import GlobalPreferencesViewSet
 from rest_framework import routers
 from rest_framework.urlpatterns import format_suffix_patterns
 
@@ -14,7 +13,6 @@ from funkwhale_api.tags import views as tags_views
 from funkwhale_api.users import jwt_views
 
 router = common_routers.OptionalSlashRouter()
-router.register(r"settings", GlobalPreferencesViewSet, basename="settings")
 router.register(r"activity", activity_views.ActivityViewSet, "activity")
 router.register(r"tags", tags_views.TagViewSet, "tags")
 router.register(r"plugins", common_views.PluginViewSet, "plugins")
