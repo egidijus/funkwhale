@@ -6,10 +6,10 @@
       <img @click="$router.push({name: 'library.albums.detail', params: {id: serie.id}})" class="channel-image" v-if="cover.original" v-lazy="$store.getters['instance/absoluteUrl'](cover.square_crop)">
       <img @click="$router.push({name: 'library.albums.detail', params: {id: serie.id}})" class="channel-image" v-else src="../../assets/audio/default-cover.png">
     </div>
-    <div class="content">
+    <div class="content ellipsis">
       <strong>
-        <router-link class="discrete ellipsis link" :title="serie.title" :to="{name: 'library.albums.detail', params: {id: serie.id}}">
-          {{ serie.title|truncate(30) }}
+        <router-link class="discrete link" :to="{name: 'library.albums.detail', params: {id: serie.id}}">
+          {{ serie.title }}
         </router-link>
       </strong>
       <div class="description">

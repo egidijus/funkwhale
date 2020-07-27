@@ -117,7 +117,7 @@
                   <translate translate-context="Content/*/*/Noun">License</translate>
                 </td>
                 <td class="right aligned">
-                  <a v-if="license" :title="license.name" :href="license.url" target="_blank" rel="noopener noreferrer">{{ license.name }}</a>
+                  <a v-if="license" :href="license.url" target="_blank" rel="noopener noreferrer">{{ license.name }}</a>
                   <translate v-else translate-context="*/*/*">N/A</translate>
                 </td>
               </tr>

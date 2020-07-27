@@ -6,7 +6,7 @@
         <logo class="logo"></logo>
       </i>
     </router-link>
-    <router-link v-if="!$store.state.auth.authenticated" class="logo-wrapper" :to="{name: logoUrl}">
+    <router-link v-if="!$store.state.auth.authenticated" class="logo-wrapper" :to="{name: logoUrl}" :title="'Funkwhale'">
       <img src="../assets/logo/text-white.svg" />
     </router-link>
     <nav class="top ui compact right aligned inverted text menu">

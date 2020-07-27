@@ -10,14 +10,14 @@
                 <img ref="cover" v-else-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.medium_square_crop)">
                 <img class="ui image" v-else src="../assets/audio/default-cover.png">
                 <h1 class="ui header">
-                  <div class="content">
-                    <router-link class="small header discrete link track" :title="currentTrack.title" :to="{name: 'library.tracks.detail', params: {id: currentTrack.id }}">
-                      {{ currentTrack.title | truncate(35) }}
+                  <div class="content ellipsis">
+                    <router-link class="small header discrete link track" :to="{name: 'library.tracks.detail', params: {id: currentTrack.id }}">
+                      {{ currentTrack.title }}
                     </router-link>
-                    <div class="sub header">
-                      <router-link class="discrete link artist" :title="currentTrack.artist.name" :to="{name: 'library.artists.detail', params: {id: currentTrack.artist.id }}">
-                        {{ currentTrack.artist.name | truncate(35) }}</router-link> <template v-if="currentTrack.album">/<router-link class="discrete link album" :title="currentTrack.album.title" :to="{name: 'library.albums.detail', params: {id: currentTrack.album.id }}">
-                        {{ currentTrack.album.title | truncate(35) }}
+                    <div class="sub header ellipsis">
+                      <router-link class="discrete link artist" :to="{name: 'library.artists.detail', params: {id: currentTrack.artist.id }}">
+                        {{ currentTrack.artist.name }}</router-link> <template v-if="currentTrack.album">/<router-link class="discrete link album" :to="{name: 'library.albums.detail', params: {id: currentTrack.album.id }}">
+                        {{ currentTrack.album.title }}
                       </router-link></template>
                     </div>
                   </div>

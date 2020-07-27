@@ -24,7 +24,7 @@
       src="../../assets/audio/default-cover.png">
     <div class="ellipsis content">
       <strong>
-        <router-link class="discrete link" :title="entry.title" :to="{name: 'library.tracks.detail', params: {id: entry.id}}">
+        <router-link class="discrete link" :to="{name: 'library.tracks.detail', params: {id: entry.id}}">
           {{ entry.title }}
         </router-link>
       </strong>
