@@ -1,7 +1,7 @@
 import pytest
 from django.urls import reverse
 
-from funkwhale_api.playlists import models, serializers
+from funkwhale_api.playlists import models
 
 
 def test_can_create_playlist_via_api(logged_in_api_client):
@@ -60,21 +60,8 @@ def test_playlist_inherits_user_privacy(logged_in_api_client):
     assert playlist.privacy_level == user.privacy_level
 
 
-def test_can_add_playlist_track_via_api(factories, logged_in_api_client):
-    tracks = factories["music.Track"].create_batch(5)
-    playlist = factories["playlists.Playlist"](user=logged_in_api_client.user)
-    url = reverse("api:v1:playlist-tracks-list")
-    data = {"playlist": playlist.pk, "track": tracks[0].pk}
-
-    response = logged_in_api_client.post(url, data)
-    assert response.status_code == 201
-    plts = logged_in_api_client.user.playlists.latest("id").playlist_tracks.all()
-    assert plts.first().track == tracks[0]
-
-
 @pytest.mark.parametrize(
-    "name,method",
-    [("api:v1:playlist-tracks-list", "post"), ("api:v1:playlists-list", "post")],
+    "name,method", [("api:v1:playlists-list", "post")],
 )
 def test_url_requires_login(name, method, factories, api_client):
     url = reverse(name)
@@ -87,26 +74,30 @@ def test_url_requires_login(name, method, factories, api_client):
 def test_only_can_add_track_on_own_playlist_via_api(factories, logged_in_api_client):
     track = factories["music.Track"]()
     playlist = factories["playlists.Playlist"]()
-    url = reverse("api:v1:playlist-tracks-list")
-    data = {"playlist": playlist.pk, "track": track.pk}
+    url = reverse("api:v1:playlists-add", kwargs={"pk": playlist.pk})
+    data = {"tracks": [track.pk]}
 
-    response = logged_in_api_client.post(url, data)
-    assert response.status_code == 400
+    response = logged_in_api_client.post(url, data, format="json")
+    assert response.status_code == 404
     assert playlist.playlist_tracks.count() == 0
 
 
 def test_deleting_plt_updates_indexes(mocker, factories, logged_in_api_client):
     remove = mocker.spy(models.Playlist, "remove")
     factories["music.Track"]()
-    plt = factories["playlists.PlaylistTrack"](
-        index=0, playlist__user=logged_in_api_client.user
-    )
-    url = reverse("api:v1:playlist-tracks-detail", kwargs={"pk": plt.pk})
+    playlist = factories["playlists.Playlist"](user=logged_in_api_client.user)
+    plt0 = factories["playlists.PlaylistTrack"](index=0, playlist=playlist)
+    plt1 = factories["playlists.PlaylistTrack"](index=1, playlist=playlist)
+    url = reverse("api:v1:playlists-remove", kwargs={"pk": playlist.pk})
 
-    response = logged_in_api_client.delete(url)
+    response = logged_in_api_client.delete(url, {"index": 0})
 
     assert response.status_code == 204
-    remove.assert_called_once_with(plt.playlist, 0)
+    remove.assert_called_once_with(plt0.playlist, 0)
+    with pytest.raises(plt0.DoesNotExist):
+        plt0.refresh_from_db()
+    plt1.refresh_from_db()
+    assert plt1.index == 0
 
 
 @pytest.mark.parametrize("level", ["instance", "me", "followers"])
@@ -130,38 +121,6 @@ def test_only_owner_can_edit_playlist(method, factories, logged_in_api_client):
     assert response.status_code == 404
 
 
-@pytest.mark.parametrize("method", ["PUT", "PATCH", "DELETE"])
-def test_only_owner_can_edit_playlist_track(method, factories, logged_in_api_client):
-    plt = factories["playlists.PlaylistTrack"]()
-    url = reverse("api:v1:playlist-tracks-detail", kwargs={"pk": plt.pk})
-    response = getattr(logged_in_api_client, method.lower())(url)
-
-    assert response.status_code == 404
-
-
-@pytest.mark.parametrize("level", ["instance", "me", "followers"])
-def test_playlist_track_privacy_respected_in_list_anon(
-    level, factories, api_client, preferences
-):
-    preferences["common__api_authentication_required"] = False
-    factories["playlists.PlaylistTrack"](playlist__privacy_level=level)
-    url = reverse("api:v1:playlist-tracks-list")
-    response = api_client.get(url)
-
-    assert response.data["count"] == 0
-
-
-@pytest.mark.parametrize("level", ["instance", "me", "followers"])
-def test_can_list_tracks_from_playlist(level, factories, logged_in_api_client):
-    plt = factories["playlists.PlaylistTrack"](playlist__user=logged_in_api_client.user)
-    url = reverse("api:v1:playlists-tracks", kwargs={"pk": plt.playlist.pk})
-    response = logged_in_api_client.get(url)
-    serialized_plt = serializers.PlaylistTrackSerializer(plt).data
-
-    assert response.data["count"] == 1
-    assert response.data["results"][0] == serialized_plt
-
-
 def test_can_add_multiple_tracks_at_once_via_api(
     factories, mocker, logged_in_api_client
 ):
@@ -176,8 +135,22 @@ def test_can_add_multiple_tracks_at_once_via_api(
     assert playlist.playlist_tracks.count() == len(track_ids)
 
     for plt in playlist.playlist_tracks.order_by("index"):
-        assert response.data["results"][plt.index]["id"] == plt.id
+        assert response.data["results"][plt.index]["index"] == plt.index
         assert plt.track == tracks[plt.index]
+
+
+def test_honor_max_playlist_size(factories, mocker, logged_in_api_client, preferences):
+    preferences["playlists__max_tracks"] = 3
+    playlist = factories["playlists.Playlist"](user=logged_in_api_client.user)
+    tracks = factories["music.Track"].create_batch(
+        size=preferences["playlists__max_tracks"] + 1
+    )
+    track_ids = [t.id for t in tracks]
+    mocker.spy(playlist, "insert_many")
+    url = reverse("api:v1:playlists-add", kwargs={"pk": playlist.pk})
+    response = logged_in_api_client.post(url, {"tracks": track_ids})
+
+    assert response.status_code == 400
 
 
 def test_can_clear_playlist_from_api(factories, mocker, logged_in_api_client):
@@ -199,3 +172,19 @@ def test_update_playlist_from_api(factories, mocker, logged_in_api_client):
 
     assert response.status_code == 200
     assert response.data["user"]["username"] == playlist.user.username
+
+
+def test_move_plt_updates_indexes(mocker, factories, logged_in_api_client):
+    playlist = factories["playlists.Playlist"](user=logged_in_api_client.user)
+    plt0 = factories["playlists.PlaylistTrack"](index=0, playlist=playlist)
+    plt1 = factories["playlists.PlaylistTrack"](index=1, playlist=playlist)
+    url = reverse("api:v1:playlists-move", kwargs={"pk": playlist.pk})
+
+    response = logged_in_api_client.post(url, {"from": 1, "to": 0})
+
+    assert response.status_code == 204
+
+    plt0.refresh_from_db()
+    plt1.refresh_from_db()
+    assert plt0.index == 1
+    assert plt1.index == 0

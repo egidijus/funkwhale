@@ -22,7 +22,6 @@ from funkwhale_api.users.oauth import scopes
         ("api:v1:listen-detail", {"uuid": uuid.uuid4()}, "read:libraries", "get"),
         ("api:v1:uploads-list", {}, "read:libraries", "get"),
         ("api:v1:playlists-list", {}, "read:playlists", "get"),
-        ("api:v1:playlist-tracks-list", {}, "read:playlists", "get"),
         ("api:v1:favorites:tracks-list", {}, "read:favorites", "get"),
         ("api:v1:history:listenings-list", {}, "read:listenings", "get"),
         ("api:v1:radios:radios-list", {}, "read:radios", "get"),

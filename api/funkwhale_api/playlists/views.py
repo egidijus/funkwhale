@@ -93,40 +93,43 @@ class PlaylistViewSet(
             ),
         )
 
+    @action(methods=["post", "delete"], detail=True)
+    @transaction.atomic
+    def remove(self, request, *args, **kwargs):
+        playlist = self.get_object()
+        try:
+            index = int(request.data["index"])
+            assert index >= 0
+        except (KeyError, ValueError, AssertionError, TypeError):
+            return Response(status=400)
 
-class PlaylistTrackViewSet(
-    mixins.RetrieveModelMixin,
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
-    mixins.ListModelMixin,
-    viewsets.GenericViewSet,
-):
+        try:
+            plt = playlist.playlist_tracks.by_index(index)
+        except models.PlaylistTrack.DoesNotExist:
+            return Response(status=404)
+        plt.delete(update_indexes=True)
 
-    serializer_class = serializers.PlaylistTrackSerializer
-    queryset = models.PlaylistTrack.objects.all()
-    permission_classes = [
-        oauth_permissions.ScopePermission,
-        permissions.OwnerPermission,
-    ]
-    required_scope = "playlists"
-    anonymous_policy = "setting"
-    owner_field = "playlist.user"
-    owner_checks = ["write"]
+        return Response(status=204)
 
-    def get_serializer_class(self):
-        if self.request.method in ["PUT", "PATCH", "DELETE", "POST"]:
-            return serializers.PlaylistTrackWriteSerializer
-        return self.serializer_class
+    @action(methods=["post"], detail=True)
+    @transaction.atomic
+    def move(self, request, *args, **kwargs):
+        playlist = self.get_object()
+        try:
+            from_index = int(request.data["from"])
+            assert from_index >= 0
+        except (KeyError, ValueError, AssertionError, TypeError):
+            return Response({"detail": "invalid from index"}, status=400)
 
-    def get_queryset(self):
-        return self.queryset.filter(
-            fields.privacy_level_query(
-                self.request.user,
-                lookup_field="playlist__privacy_level",
-                user_field="playlist__user",
-            )
-        ).for_nested_serialization(music_utils.get_actor_from_request(self.request))
+        try:
+            to_index = int(request.data["to"])
+            assert to_index >= 0
+        except (KeyError, ValueError, AssertionError, TypeError):
+            return Response({"detail": "invalid to index"}, status=400)
 
-    def perform_destroy(self, instance):
-        instance.delete(update_indexes=True)
+        try:
+            plt = playlist.playlist_tracks.by_index(from_index)
+        except models.PlaylistTrack.DoesNotExist:
+            return Response(status=404)
+        playlist.insert(plt, to_index)
+        return Response(status=204)

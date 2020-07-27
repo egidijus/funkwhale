@@ -61,7 +61,7 @@
         <div class="table-wrapper">
           <table class="ui compact very basic unstackable table">
             <draggable v-model="plts" tag="tbody" @update="reorder">
-              <tr v-for="(plt, index) in plts" :key="plt.id">
+              <tr v-for="(plt, index) in plts" :key="`${index}-${plt.track.id}`">
                 <td class="left aligned">{{ plt.index + 1}}</td>
                 <td class="center aligned">
                   <img class="ui mini image" v-if="plt.track.album && plt.track.album.cover.original" v-lazy="$store.getters['instance/absoluteUrl'](plt.track.album.cover.small_square_crop)">
@@ -125,20 +125,19 @@ export default {
       let self = this
       self.isLoading = true
       let plt = this.plts[newIndex]
-      let url = 'playlist-tracks/' + plt.id + '/'
-      axios.patch(url, {index: newIndex}).then((response) => {
+      let url = `playlists/${this.playlist.id}/move`
+      axios.post(url, {from: oldIndex, to: newIndex}).then((response) => {
         self.success()
       }, error => {
         self.errored(error.backendErrors)
       })
     },
     removePlt (index) {
-      let plt = this.plts[index]
       this.plts.splice(index, 1)
       let self = this
       self.isLoading = true
-      let url = 'playlist-tracks/' + plt.id + '/'
-      axios.delete(url).then((response) => {
+      let url = `playlists/${this.playlist.id}/remove`
+      axios.post(url, {index}).then((response) => {
         self.success()
         self.$store.dispatch('playlists/fetchOwn')
       }, error => {

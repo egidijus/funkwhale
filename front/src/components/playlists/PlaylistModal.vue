@@ -139,14 +139,13 @@ export default {
     addToPlaylist (playlistId, allowDuplicate) {
       let self = this
       let payload = {
-        track: this.track.id,
-        playlist: playlistId,
+        tracks: [this.track.id],
         allow_duplicates: allowDuplicate
       }
 
       self.lastSelectedPlaylist = playlistId
 
-      return axios.post('playlist-tracks/', payload).then(response => {
+      return axios.post(`playlists/${playlistId}/add`, payload).then(response => {
         logger.default.info('Successfully added track to playlist')
         self.update(false)
         self.$store.dispatch('playlists/fetchOwn')
