@@ -6,11 +6,16 @@
       <div class="ui loader"></div>
     </div>
     <channel-entry-card v-for="entry in objects" :entry="entry" :key="entry.id" />
-    <template v-if="nextPage">
+    <template v-if="count > limit">
       <div class="ui hidden divider"></div>
-      <button v-if="nextPage" @click="fetchData(nextPage)" :class="['ui', 'basic', 'button']">
-        <translate translate-context="*/*/Button,Label">Show more</translate>
-      </button>
+      <div class = "ui center aligned basic segment">
+        <pagination
+          @page-changed="updatePage"
+          :current="page"
+          :paginate-by="limit"
+          :total="count"
+        ></pagination>
+      </div>
     </template>
     <template v-if="!isLoading && objects.length === 0">
       <empty-state @refresh="fetchData('tracks/')" :refresh="true">
@@ -26,6 +31,8 @@
 import _ from '@/lodash'
 import axios from 'axios'
 import ChannelEntryCard from '@/components/audio/ChannelEntryCard'
+import Pagination from "@/components/Pagination"
+import PaginationMixin from "@/components/mixins/Pagination"
 
 export default {
   props: {
@@ -33,7 +40,8 @@ export default {
     limit: {type: Number, default: 10},
   },
   components: {
-    ChannelEntryCard
+    ChannelEntryCard,
+    Pagination
   },
   data () {
     return {
@@ -41,7 +49,8 @@ export default {
       count: 0,
       isLoading: false,
       errors: null,
-      nextPage: null
+      nextPage: null,
+      page: 1
     }
   },
   created () {
@@ -56,11 +65,12 @@ export default {
       let self = this
       let params = _.clone(this.filters)
       params.page_size = this.limit
+      params.page = this.page
       params.include_channels = true
       axios.get(url, {params: params}).then((response) => {
         self.nextPage = response.data.next
         self.isLoading = false
-        self.objects = self.objects.concat(response.data.results)
+        self.objects = response.data.results
         self.count = response.data.count
         self.$emit('fetched', response.data)
       }, error => {
@@ -68,6 +78,14 @@ export default {
         self.errors = error.backendErrors
       })
     },
+    updatePage: function(page) {
+      this.page = page
+    }
+  },
+  watch: {
+    page() {
+      this.fetchData('tracks/')
+    }
   }
 }
 </script>

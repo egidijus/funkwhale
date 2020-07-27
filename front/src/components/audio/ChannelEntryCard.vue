@@ -36,7 +36,9 @@
           <track-favorite-icon class="tiny" :track="entry"></track-favorite-icon>
         </template>
         <human-duration v-if="duration" :duration="duration"></human-duration>
-
+    </div>
+    <div class="controls">
+      <play-button class="play-button basic icon" :dropdown-only="true" :is-playable="entry.is_playable" :dropdown-icon-classes="['ellipsis', 'vertical', 'large really discrete']" :track="entry"></play-button>      
     </div>
   </div>
 </template>

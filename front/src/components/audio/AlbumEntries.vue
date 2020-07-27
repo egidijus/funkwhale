@@ -16,6 +16,9 @@
         </template>
         <human-duration v-if="track.uploads[0] && track.uploads[0].duration" :duration="track.uploads[0].duration"></human-duration>
       </div>
+      <div class="actions">
+        <play-button class="play-button basic icon" :dropdown-only="true" :is-playable="track.is_playable" :dropdown-icon-classes="['ellipsis', 'vertical', 'large really discrete']" :track="track"></play-button>      
+      </div>
     </div>
   </div>
 </template>
