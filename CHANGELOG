@@ -10,6 +10,38 @@ This changelog is viewable on the web at https://docs.funkwhale.audio/changelog.
 
 .. towncrier
 
+0.21.2 (2020-07-27)
+-------------------
+
+Upgrade instructions are available at
+https://docs.funkwhale.audio/index.html
+
+Enhancements:
+
+- Added a new ?related=obj_id filter for artists, albums and tracks, based on tags
+- Can now filter subscribed content through API (#1116)
+- Support ordering=random for artists, albums, tracks and channels endpoints (#1145)
+- Use role=alert on forms/toast message to improve accessibility (#1134)
+
+
+Bugfixes:
+
+- Fix embedded player not working on channel serie/album (#1175)
+- Fixed broken mimetype detection during import (#1165)
+- Fixed crash when loading recent albums via Subsonic (#1158)
+- Fixed crash with null help text in admin (#1161)
+- Fixed invalid metadata when importing multi-artists tracks/albums (#1104)
+- Fixed player crash when using Funkwhale as a PWA (#1157)
+- Fixed wrong covert art displaying in some situations (#1138)
+- Make channel card updated times more humanly readable, add internationalization (#1089)
+
+Contributors to this release (development, documentation, reviews):
+
+- Agate
+- Bheesham Persaud
+- Ciarán Ainsworth
+
+
 0.21.1 (2020-06-11)
 -------------------
 
