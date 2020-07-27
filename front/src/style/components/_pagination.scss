@@ -9,4 +9,9 @@
   + span {
     margin-left: 1em;
   }
+  color: var(--text-color);
+  background-color: var(--light-background-color);
+  .active.item {
+    color: var(--discrete-background-color);
+  }
 }

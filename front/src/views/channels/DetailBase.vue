@@ -209,7 +209,7 @@
                 <translate translate-context="Content/Channels/Link">Overview</translate>
               </router-link>
               <router-link class="item" :exact="true" :to="{name: 'channels.detail.episodes', params: {id: id}}">
-                <translate key="1" v-if="isPodcast" translate-context="Content/Channels/*">Episodes</translate>
+                <translate key="1" v-if="isPodcast" translate-context="Content/Channels/*">All Episodes</translate>
                 <translate key="2" v-else translate-context="*/*/*">Tracks</translate>
               </router-link>
             </div>

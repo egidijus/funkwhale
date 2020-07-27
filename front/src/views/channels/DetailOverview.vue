@@ -49,7 +49,7 @@
         :can-update="false"></rendered-description>
         <div class="ui hidden divider"></div>
     </div>
-    <channel-entries :key="String(episodesKey) + 'entries'" :filters="{channel: object.uuid, ordering: '-creation_date'}">
+    <channel-entries :key="String(episodesKey) + 'entries'" :limit='25' :filters="{channel: object.uuid, ordering: '-creation_date', page_size: '25'}">
       <h2 class="ui header">
         <translate key="1" v-if="isPodcast" translate-context="Content/Channel/Paragraph">Latest episodes</translate>
         <translate key="2" v-else translate-context="Content/Channel/Paragraph">Latest tracks</translate>
