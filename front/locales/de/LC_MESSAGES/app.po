@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: front 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-22 11:22+0200\n"
-"PO-Revision-Date: 2020-07-27 15:28+0000\n"
+"PO-Revision-Date: 2020-07-27 17:03+0000\n"
 "Last-Translator: Arne <trpjabarno@arnemail.de>\n"
 "Language-Team: none\n"
 "Language: de\n"
@@ -70,12 +70,11 @@ msgstr[1] "%{ count } Künstler·innen"
 #: front/src/components/library/AlbumBase.vue:25
 #: front/src/components/library/AlbumBase.vue:67
 #: src/views/channels/DetailBase.vue:19
-#, fuzzy
 msgctxt "Content/Channel/Paragraph"
 msgid "%{ count } episode"
 msgid_plural "%{ count } episodes"
-msgstr[0] "%{ count } Künstler·in"
-msgstr[1] "%{ count } Künstler·innen"
+msgstr[0] "%{ count } Folge"
+msgstr[1] "%{ count } Folgen"
 
 #: front/src/components/favorites/List.vue:10
 msgctxt "Content/Favorites/Title"
@@ -92,12 +91,11 @@ msgstr[0] "%{ count } Musikstunde"
 msgstr[1] "%{ count } Musikstunden"
 
 #: front/src/components/About.vue:190
-#, fuzzy
 msgctxt "Content/Home/Stat"
 msgid "%{ count } listenings"
 msgid_plural "%{ count } listenings"
-msgstr[0] "%{ count } Titel"
-msgstr[1] "%{ count } Titel"
+msgstr[0] "%{ count } Anhörung"
+msgstr[1] "%{ count } Anhörungen"
 
 #: front/src/components/common/ActionTable.vue:67
 msgctxt "Content/*/Paragraph"
@@ -820,10 +818,9 @@ msgid "Artist data"
 msgstr "Daten der Künstler·in"
 
 #: front/src/components/audio/ChannelForm.vue:197
-#, fuzzy
 msgctxt "*/*/*"
 msgid "Artist discography"
-msgstr "Daten der Künstler·in"
+msgstr "Songs der Künstler·in"
 
 #: front/src/components/mixins/Translations.vue:77
 #: front/src/components/mixins/Translations.vue:78
@@ -3024,7 +3021,7 @@ msgstr "Höre öffentliche Alben und Wiedergabelisten an, die auf diesem Pod fre
 #: front/src/components/mixins/Translations.vue:108
 msgctxt "*/*/*/Noun"
 msgid "Listenings"
-msgstr ""
+msgstr "Anhörungen"
 
 #: front/src/components/audio/track/Table.vue:30
 #: front/src/components/library/ArtistDetail.vue:28
@@ -4048,7 +4045,6 @@ msgid "Preview"
 msgstr "Vorschau"
 
 #: front/src/components/admin/SignupFormBuilder.vue:8
-#, fuzzy
 msgctxt "*/Form/Menu.item"
 msgid "Preview form"
 msgstr "Vorschau-Formular"
@@ -4418,10 +4414,9 @@ msgid "Release date"
 msgstr "Zuletzt gesehen am"
 
 #: front/src/components/library/TrackDetail.vue:64
-#, fuzzy
 msgctxt "Content/*/*"
 msgid "Release Details"
-msgstr "Zuletzt gesehen am"
+msgstr "Veröffentlichungsdetails"
 
 #: front/src/components/library/FileUpload.vue:63
 msgctxt "Content/Library/Paragraph"
@@ -4560,10 +4555,9 @@ msgid "Reports"
 msgstr "Meldungen"
 
 #: front/src/components/manage/moderation/UserRequestCard.vue:5
-#, fuzzy
 msgctxt "Content/Moderation/Card/Short"
 msgid "Request %{ id }"
-msgstr "Melde %{ id }"
+msgstr "Anfrage %{ id }"
 
 #: front/src/components/auth/SubsonicTokenForm.vue:37
 #: front/src/components/auth/SubsonicTokenForm.vue:40
@@ -4636,10 +4630,9 @@ msgid "Restrict to unreviewed edits"
 msgstr "Begrenze auf unbestätigte Änderungen"
 
 #: front/src/views/library/DetailBase.vue:170
-#, fuzzy
 msgctxt "Content/Library/Card.Help text"
 msgid "Restricted"
-msgstr "Abgewiesen"
+msgstr "Beschränkt"
 
 #: front/src/components/favorites/List.vue:39
 #: src/components/library/Albums.vue:34
@@ -4787,10 +4780,9 @@ msgid "Search a remote library"
 msgstr "Eine Fernmediathek suchen"
 
 #: front/src/components/RemoteSearchForm.vue:64 src/views/Search.vue:25
-#, fuzzy
 msgctxt "Head/Fetch/Title"
 msgid "Search a remote object"
-msgstr "Eine Fernmediathek suchen"
+msgstr "Eine entferntes Objekt suchen"
 
 #: front/src/components/manage/library/EditsCardList.vue:211
 #: front/src/views/admin/moderation/ReportsList.vue:207
@@ -4996,10 +4988,12 @@ msgid "Share link"
 msgstr "Freigabe-Link"
 
 #: front/src/views/library/DetailBase.vue:81
-#, fuzzy
 msgctxt "Content/Library/Paragraph"
 msgid "Share this link with other users so they can request access to this library by copy-pasting it in their pod search bar."
-msgstr "Teile diesen Link mit anderen Nutzenden, damit diese Zugriff auf deine Mediathek anfordern können."
+msgstr ""
+"Teile diesen Link mit anderen Nutzenden, damit diese Zugriff auf deine "
+"Mediathek anfordern können, indem Sie diesen Link in ihrer Suchleiste "
+"eingeben können."
 
 #: front/src/views/content/Home.vue:14
 msgctxt "Content/Library/Paragraph"
@@ -5160,7 +5154,7 @@ msgstr "Übersprungene Dateien"
 #: front/src/components/audio/ChannelForm.vue:35
 msgctxt "Content/Channel/*"
 msgid "Social Network Name"
-msgstr ""
+msgstr "Name des sozialen Netzwerkes"
 
 #: front/src/views/admin/moderation/DomainsDetail.vue:126
 msgctxt "Content/Moderation/Table.Label"
@@ -5455,10 +5449,11 @@ msgid "Text copied to clipboard!"
 msgstr "Text in die Zwischenablage kopiert!"
 
 #: front/src/components/library/AlbumDropdown.vue:53
-#, fuzzy
 msgctxt "Content/Moderation/Paragraph"
 msgid "The album will be deleted, as well as any related files and data. This action is irreversible."
-msgstr "Die Bibliothek wird zusammen mit den zugehörigen Uploads und Abonnements gelöscht. Diese Aktion ist unwiderruflich."
+msgstr ""
+"Die Album wird zusammen mit den zugehörigen Songs und Daten gelöscht. Diese "
+"Aktion ist unwiderruflich."
 
 #: front/src/views/admin/library/AlbumDetail.vue:81
 msgctxt "Content/Moderation/Paragraph"
@@ -5575,10 +5570,11 @@ msgid "The selected library will be removed, as well as associated uploads and f
 msgstr "Die ausgewählte Mediathek wird entfernt, ebenso wie zugehörige Uploads und Abonnements. Diese Aktion ist unwiderruflich."
 
 #: front/src/components/manage/library/TagsTable.vue:180
-#, fuzzy
 msgctxt "Popup/*/Paragraph"
 msgid "The selected tag will be removed and unlinked with existing content, if any. This action is irreversible."
-msgstr "Der Vorschlag wird entgültig gelöscht. Das kann nicht rückgängig gemacht werden."
+msgstr ""
+"Der Tag wird entfernt und mögliche Songs welcher mit diesem Song getaged "
+"wurden, werden nicht mehr mit Tag verknüpft."
 
 #: front/src/components/manage/library/TracksTable.vue:191
 msgctxt "Popup/*/Paragraph"
@@ -5606,10 +5602,9 @@ msgid "The suggestion will be completely removed, this action is irreversible."
 msgstr "Der Vorschlag wird entgültig gelöscht. Das kann nicht rückgängig gemacht werden."
 
 #: front/src/views/admin/library/TagDetail.vue:44
-#, fuzzy
 msgctxt "Content/Moderation/Paragraph"
 msgid "The tag will be removed and unlinked from any existing entity. This action is irreversible."
-msgstr "Der Vorschlag wird entgültig gelöscht. Das kann nicht rückgängig gemacht werden."
+msgstr "Der Tag wird entfernt und vorhandene Einträge entlinked."
 
 #: front/src/components/playlists/PlaylistModal.vue:35
 msgctxt "Popup/Playlist/Error message.Title"
@@ -5622,10 +5617,11 @@ msgid "The track cannot be loaded"
 msgstr "Der Titel kann nicht geladen werden"
 
 #: front/src/components/library/TrackBase.vue:77
-#, fuzzy
 msgctxt "Content/Moderation/Paragraph"
 msgid "The track will be deleted, as well as any related files and data. This action is irreversible."
-msgstr "Die Bibliothek wird zusammen mit den zugehörigen Uploads und Abonnements gelöscht. Diese Aktion ist unwiderruflich."
+msgstr ""
+"Der Song wird mit allen dazu gehörenden Dateien und Daten gelöscht. Diese "
+"Aktion ist unwiederbringlich."
 
 #: front/src/views/admin/library/TrackDetail.vue:81
 msgctxt "Content/Moderation/Paragraph"
@@ -5643,10 +5639,9 @@ msgid "The uploaded music files are in OGG, Flac or MP3 format"
 msgstr "Die hochgeladenen Musikdateien sind im OGG-, Flac- oder MP3-Format"
 
 #: front/src/views/playlists/Detail.vue:80
-#, fuzzy
 msgctxt "Content/Home/Placeholder"
 msgid "There are no tracks in this playlist yet"
-msgstr "Klicke die Titel an und verschiebe sie, um die Wiedergabeliste umzuordnen"
+msgstr "In dieser Wiedergabelisten sind bisher keine Songs"
 
 #: front/src/components/manage/moderation/InstancePolicyForm.vue:66
 msgctxt "Popup/Moderation/Paragraph"
@@ -5675,7 +5670,6 @@ msgid "This domain is subject to specific moderation rules"
 msgstr "Für diese Domain gelten besondere Moderationsregeln"
 
 #: front/src/components/manage/moderation/InstancePolicyModal.vue:16
-#, fuzzy
 msgctxt "Content/Moderation/Card.Title"
 msgid "This entity is subject to specific moderation rules"
 msgstr "Für diese Domain gelten besondere Moderationsregeln"
@@ -5780,10 +5774,11 @@ msgstr "Der Titel wurde hochgeladen, er ist aber noch nicht vom Server verarbeit
 
 #: front/src/components/mixins/Translations.vue:29
 #: front/src/components/mixins/Translations.vue:30
-#, fuzzy
 msgctxt "Content/Library/Help text"
 msgid "This track has been uploaded, but hasn't been scheduled for processing yet"
-msgstr "Der Titel wurde hochgeladen, er ist aber noch nicht vom Server verarbeitet worden"
+msgstr ""
+"Der Titel wurde hochgeladen, er ist aber noch nicht vom Server verarbeitet "
+"worden"
 
 #: front/src/components/mixins/Translations.vue:25
 #: front/src/components/mixins/Translations.vue:26
@@ -5931,7 +5926,6 @@ msgid "Track data"
 msgstr "Trackname"
 
 #: front/src/components/library/TrackDetail.vue:8
-#, fuzzy
 msgctxt "Content/*/*"
 msgid "Track Details"
 msgstr "Titeldetails"
@@ -5943,7 +5937,6 @@ msgid "Track name"
 msgstr "Trackname"
 
 #: front/src/components/channels/UploadMetadataForm.vue:12
-#, fuzzy
 msgctxt "Content/Channel/*"
 msgid "Track Picture"
 msgstr "Titelbild"
@@ -6040,7 +6033,6 @@ msgid "Unresolved"
 msgstr "Ungelöst"
 
 #: front/src/components/channels/SubscribeButton.vue:19
-#, fuzzy
 msgctxt "Content/Channel/Button/Verb"
 msgid "Unsubscribe"
 msgstr "Deabonnieren"
@@ -6051,13 +6043,11 @@ msgid "Unsubscribe"
 msgstr "Deabonnieren"
 
 #: front/src/components/channels/UploadModal.vue:32
-#, fuzzy
 msgctxt "*/*/Button.Label/Verb"
 msgid "Update"
 msgstr "Aktualisieren"
 
 #: front/src/App.vue:421
-#, fuzzy
 msgctxt "App/Message/Paragraph"
 msgid "Update"
 msgstr "Aktualisieren"
@@ -6196,13 +6186,13 @@ msgid "Uploaded by <a class=\"internal\" href=\"%{ uploaderUrl }\">%{ uploader }
 msgstr "Hochgeladen von <a class=\"internal\" href=\"%{ uploaderUrl }\">%{ uploader }</a> am <time title=\"%{ date }\" datetime=\"%{ date }\">%{ prettyDate }</time>"
 
 #: front/src/components/library/TrackBase.vue:279
-#, fuzzy
 msgctxt "Content/Track/Paragraph"
 msgid "Uploaded on <time title=\"%{ date }\" datetime=\"%{ date }\">%{ prettyDate }</time>"
-msgstr "Hochgeladen am <time title=\"%{ date }\" datetime=\"%{ date }\">%{ prettyDate }</time>"
+msgstr ""
+"Hochgeladen am <time title=\"%{ date }\" datetime=\"%{ date }\">%{ "
+"prettyDate }</time>"
 
 #: front/src/components/channels/UploadForm.vue:83
-#, fuzzy
 msgctxt "Channels/*/*"
 msgid "Uploading"
 msgstr "Hochladen läuft"
@@ -6213,10 +6203,9 @@ msgid "Uploading"
 msgstr "Hochladen läuft"
 
 #: front/src/components/common/AttachmentInput.vue:32
-#, fuzzy
 msgctxt "Content/*/*/Noun"
 msgid "Uploading file…"
-msgstr "Hochladen läuft…"
+msgstr "Datei hochladen…"
 
 #: front/src/components/library/FileUpload.vue:123
 msgctxt "Content/Library/Table"
@@ -6246,10 +6235,9 @@ msgid "Uploads are being processed"
 msgstr "Uploads werden verarbeitet"
 
 #: front/src/views/channels/DetailOverview.vue:6
-#, fuzzy
 msgctxt "Content/Channel/Header"
 msgid "Uploads published successfully"
-msgstr "Kennwort erfolgreich aktualisiert"
+msgstr "Hochgeladene Daten erfolgreich veröffentlicht"
 
 #: front/src/views/admin/ChannelDetail.vue:135
 msgctxt "'Content/*/*/Noun"
@@ -6343,7 +6331,6 @@ msgid "User libraries"
 msgstr "Mediatheken der Nutzenden"
 
 #: front/src/views/auth/ProfileOverview.vue:23
-#, fuzzy
 msgctxt "Content/Profile/Header"
 msgid "User Libraries"
 msgstr "Nutzer-Mediatheken"
@@ -6356,10 +6343,9 @@ msgstr "Radios der Nutzenden"
 #: front/src/views/admin/moderation/Base.vue:14
 #: front/src/views/admin/moderation/RequestsList.vue:3
 #: front/src/views/admin/moderation/RequestsList.vue:143
-#, fuzzy
 msgctxt "*/Moderation/*/Noun"
 msgid "User Requests"
-msgstr "Bedienungsanleitungen"
+msgstr "Nutzeranfragen"
 
 #: front/src/components/auth/SignupForm.vue:34
 #: front/src/components/manage/users/UsersTable.vue:37
@@ -6686,28 +6672,29 @@ msgstr "Du kannst Verbindungsproblemen erfahren."
 #: front/src/views/library/DetailAlbums.vue:11
 #: front/src/views/library/DetailOverview.vue:19
 #: front/src/views/library/DetailTracks.vue:10
-#, fuzzy
 msgctxt "*/*/*"
 msgid "You may need to follow this library to see its content."
-msgstr "Wenn du diese Mediathek nicht mehr folgst, verlierst du den Zugriff auf alle ihre Inhalte."
+msgstr ""
+"Du musst wahrscheinlich dieser Bibliothek folgen, um ihren Inhalt zu sehen."
 
 #: front/src/components/audio/ChannelEntries.vue:17
-#, fuzzy
 msgctxt "Content/Channels/*"
 msgid "You may need to subscribe to this channel to see its content."
-msgstr "Wenn du diese Mediathek nicht mehr folgst, verlierst du den Zugriff auf alle ihre Inhalte."
+msgstr ""
+"Möglicherweise müssen Sie diesen Kanal abonnieren, um seinen Inhalt zu sehen."
 
 #: front/src/components/audio/ChannelSeries.vue:22
-#, fuzzy
 msgctxt "Content/Channels/*"
 msgid "You may need to subscribe to this channel to see its contents."
-msgstr "Wenn du diese Mediathek nicht mehr folgst, verlierst du den Zugriff auf alle ihre Inhalte."
+msgstr ""
+"Möglicherweise müssen Sie diesen Kanal abonnieren, um seinen Inhalt zu sehen."
 
 #: front/src/components/notifications/NotificationRow.vue:45
-#, fuzzy
 msgctxt "Content/Notifications/Paragraph"
 msgid "You rejected %{ username }&#39;s request to follow \"%{ library }\""
-msgstr "%{ username } möchte deine Mediathek \"%{ library }\" abonnieren"
+msgstr ""
+"Du hast die Anfrage von %{ username } deiner Bibliothek \"%{ library }\" zu "
+"folgen abgelehnt"
 
 #: front/src/components/auth/Settings.vue:90
 msgctxt "Popup/Settings/List item"
@@ -6760,10 +6747,9 @@ msgid "Your applications"
 msgstr "Deine Benachrichtigungen"
 
 #: front/src/components/common/AttachmentInput.vue:3
-#, fuzzy
 msgctxt "Content/*/Error message.Title"
 msgid "Your attachment cannot be saved"
-msgstr "Dein Avatar kann nicht gespeichert werden"
+msgstr "Dein Angehängte Datei konnte nicht gespeichert werden"
 
 #: front/src/components/auth/Settings.vue:39
 msgctxt "Content/Settings/Error message.Title"
@@ -6841,12 +6827,11 @@ msgid "You sent too many requests and have been rate limited, please try again l
 msgstr "Du hast zu viele Anfragen gesendet und bist derzeit eingeschränkt worden, bitte versuche es später noch einmal"
 
 #: front/src/components/channels/UploadModal.vue:98
-#, fuzzy
 msgctxt "*/*/*"
 msgid "%{ count } file"
 msgid_plural "%{ count } files"
-msgstr[0] "%{ count } Favorit"
-msgstr[1] "%{ count } Favoriten"
+msgstr[0] "%{ count } Datei"
+msgstr[1] "%{ count } Dateien"
 
 #: front/src/components/audio/PlayButton.vue:246
 msgctxt "*/Queue/Message"
