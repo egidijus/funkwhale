@@ -248,7 +248,7 @@ def test_can_start_actor_content_radio(factories):
     session = radio.start_session(
         actor_library.actor.user, related_object=actor_library.actor
     )
-    assert session.radio_type == "actor_content"
+    assert session.radio_type == "actor-content"
 
     for i in range(3):
         assert radio.pick() in good_tracks
@@ -261,14 +261,14 @@ def test_can_start_actor_content_radio_from_api(
     url = reverse("api:v1:radios:sessions-list")
 
     response = logged_in_api_client.post(
-        url, {"radio_type": "actor_content", "related_object_id": actor.full_username}
+        url, {"radio_type": "actor-content", "related_object_id": actor.full_username}
     )
 
     assert response.status_code == 201
 
     session = models.RadioSession.objects.latest("id")
 
-    assert session.radio_type == "actor_content"
+    assert session.radio_type == "actor-content"
     assert session.related_object == actor
 
 

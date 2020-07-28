@@ -278,7 +278,7 @@ class LessListenedRadio(SessionRadio):
         )
 
 
-@registry.register(name="actor_content")
+@registry.register(name="actor-content")
 class ActorContentRadio(RelatedObjectRadio):
     """
     Play content from given actor libraries
