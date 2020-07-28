@@ -67,7 +67,7 @@ def get():
                 "instance__funkwhale_support_message_enabled"
             ),
             "instanceSupportMessage": all_preferences.get("instance__support_message"),
-            "knownNodesListUrl": None,
+            "endpoints": {"knownNodes": None, "channels": None, "libraries": None},
         },
     }
 
@@ -90,7 +90,14 @@ def get():
             "downloads": {"total": statistics["downloads"]},
         }
         if not auth_required:
-            data["metadata"]["knownNodesListUrl"] = federation_utils.full_url(
+            data["metadata"]["endpoints"]["knownNodes"] = federation_utils.full_url(
                 reverse("api:v1:federation:domains-list")
             )
+    if not auth_required and preferences.get("federation__public_index"):
+        data["metadata"]["endpoints"]["libraries"] = federation_utils.full_url(
+            reverse("federation:index:index-libraries")
+        )
+        data["metadata"]["endpoints"]["channels"] = federation_utils.full_url(
+            reverse("federation:index:index-channels")
+        )
     return data

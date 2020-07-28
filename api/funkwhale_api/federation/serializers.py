@@ -1096,9 +1096,6 @@ class CollectionPageSerializer(jsonld.JsonLdSerializer):
         d = {
             "id": id,
             "partOf": conf["id"],
-            # XXX Stable release: remove the obsolete actor field
-            "actor": conf["actor"].fid,
-            "attributedTo": conf["actor"].fid,
             "totalItems": page.paginator.count,
             "type": "CollectionPage",
             "first": first,
@@ -1110,6 +1107,10 @@ class CollectionPageSerializer(jsonld.JsonLdSerializer):
                 for i in page.object_list
             ],
         }
+        if conf["actor"]:
+            # XXX Stable release: remove the obsolete actor field
+            d["actor"] = conf["actor"].fid
+            d["attributedTo"] = conf["actor"].fid
 
         if page.has_previous():
             d["prev"] = common_utils.set_query_parameter(
@@ -2030,3 +2031,33 @@ class DeleteSerializer(jsonld.JsonLdSerializer):
         ):
             raise serializers.ValidationError("You cannot delete this object")
         return validated_data
+
+
+class IndexSerializer(jsonld.JsonLdSerializer):
+    type = serializers.ChoiceField(
+        choices=[contexts.AS.Collection, contexts.AS.OrderedCollection]
+    )
+    totalItems = serializers.IntegerField(min_value=0)
+    id = serializers.URLField(max_length=500)
+    first = serializers.URLField(max_length=500)
+    last = serializers.URLField(max_length=500)
+
+    class Meta:
+        jsonld_mapping = PAGINATED_COLLECTION_JSONLD_MAPPING
+
+    def to_representation(self, conf):
+        paginator = Paginator(conf["items"], conf["page_size"])
+        first = common_utils.set_query_parameter(conf["id"], page=1)
+        current = first
+        last = common_utils.set_query_parameter(conf["id"], page=paginator.num_pages)
+        d = {
+            "id": conf["id"],
+            "totalItems": paginator.count,
+            "type": "OrderedCollection",
+            "current": current,
+            "first": first,
+            "last": last,
+        }
+        if self.context.get("include_ap_context", True):
+            d["@context"] = jsonld.get_default_context()
+        return d
