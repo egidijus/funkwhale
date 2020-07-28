@@ -517,3 +517,113 @@ def test_artist_retrieve_redirects_to_html_if_header_set(
     )
     assert response.status_code == 302
     assert response["Location"] == expected_url
+
+
+@pytest.mark.parametrize("index", ["channels", "libraries"])
+def test_public_index_disabled(index, api_client, preferences):
+    preferences["federation__public_index"] = False
+    url = reverse("federation:index:index-{}".format(index))
+    response = api_client.get(url)
+
+    assert response.status_code == 405
+
+
+def test_index_channels_retrieve(factories, api_client):
+    channels = [
+        factories["audio.Channel"](actor__local=True),
+        factories["audio.Channel"](actor__local=True),
+        factories["audio.Channel"](actor__local=True),
+    ]
+    expected = serializers.IndexSerializer(
+        {
+            "id": federation_utils.full_url(reverse("federation:index:index-channels")),
+            "items": channels[0].__class__.objects.order_by("creation_date"),
+            "page_size": 100,
+        },
+    ).data
+
+    url = reverse("federation:index:index-channels",)
+    response = api_client.get(url)
+
+    assert response.status_code == 200
+    assert response.data == expected
+
+
+def test_index_channels_page(factories, api_client, preferences):
+    preferences["federation__collection_page_size"] = 1
+    remote_actor = factories["federation.Actor"]()
+    channels = [
+        factories["audio.Channel"](actor__local=True),
+        factories["audio.Channel"](actor__local=True),
+        factories["audio.Channel"](actor__local=True),
+        factories["audio.Channel"](actor=remote_actor),
+    ]
+    id = federation_utils.full_url(reverse("federation:index:index-channels"))
+    expected = serializers.CollectionPageSerializer(
+        {
+            "id": id,
+            "item_serializer": serializers.ActorSerializer,
+            "page": Paginator([c.actor for c in channels][:3], 1).page(1),
+            "actor": None,
+        }
+    ).data
+
+    url = reverse("federation:index:index-channels")
+    response = api_client.get(url, {"page": 1})
+
+    assert response.status_code == 200
+    assert response.data == expected
+
+
+def test_index_libraries_retrieve(factories, api_client):
+    remote_actor = factories["federation.Actor"]()
+    libraries = [
+        factories["music.Library"](actor__local=True, privacy_level="everyone"),
+        factories["music.Library"](actor__local=True, privacy_level="everyone"),
+        factories["music.Library"](actor__local=True, privacy_level="me"),
+        factories["music.Library"](actor=remote_actor, privacy_level="everyone"),
+    ]
+    expected = serializers.IndexSerializer(
+        {
+            "id": federation_utils.full_url(
+                reverse("federation:index:index-libraries")
+            ),
+            "items": libraries[0]
+            .__class__.objects.local()
+            .filter(privacy_level="everyone")
+            .order_by("creation_date"),
+            "page_size": 100,
+        },
+    ).data
+
+    url = reverse("federation:index:index-libraries")
+    response = api_client.get(url)
+
+    assert response.status_code == 200
+    assert response.data == expected
+
+
+def test_index_libraries_page(factories, api_client, preferences):
+    preferences["federation__collection_page_size"] = 1
+    remote_actor = factories["federation.Actor"]()
+    libraries = [
+        factories["music.Library"](actor__local=True, privacy_level="everyone"),
+        factories["music.Library"](actor__local=True, privacy_level="everyone"),
+        factories["music.Library"](actor__local=True, privacy_level="me"),
+        factories["music.Library"](actor=remote_actor, privacy_level="everyone"),
+    ]
+    id = federation_utils.full_url(reverse("federation:index:index-libraries"))
+    expected = serializers.CollectionPageSerializer(
+        {
+            "id": id,
+            "item_serializer": serializers.LibrarySerializer,
+            "page": Paginator(libraries[:2], 1).page(1),
+            "actor": None,
+        }
+    ).data
+
+    url = reverse("federation:index:index-libraries")
+    response = api_client.get(url, {"page": 1})
+
+    assert response.status_code == 200
+    assert response.data == expected
