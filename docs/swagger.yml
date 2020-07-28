@@ -1,14 +1,10 @@
-# Undocumented endpoints:
-#  /api/v1/radios
-#  /api/v1/history
-
 openapi: "3.0.2"
 info:
   description: |
     Interactive documentation for [Funkwhale](https://funkwhale.audio) API.
 
-    The API is **not** freezed yet, but we will document breaking changes in our changelog,
-    and try to avoid those as much as possible.
+    Backward compatibility between minor versions (1.X to 1.Y) is guaranteed for all the
+    endpoints documented here.
 
     Usage
     -----
@@ -193,6 +189,8 @@ tags:
       url: https://docs.funkwhale.audio/users/upload.html#using-a-channel
   - name: Content curation
     description: Favorites, playlists, radios
+  - name: User activity
+    description: Listenings
   - name: Other
     description: Other endpoints that don't fit in the categories above
 
@@ -1335,9 +1333,60 @@ paths:
         204:
           $ref: "#/responses/204"
           
+      
+  #################
+  # User activity #
+  #################
+
+  /api/v1/history/listenings:
+    get:
+      tags:
+        - "User activity"
+      parameters:
+        - $ref: "./api/parameters.yml#/Search"
+        - $ref: "./api/parameters.yml#/PageNumber"
+        - $ref: "./api/parameters.yml#/PageSize"
+        - $ref: "./api/parameters.yml#/Scope"
+
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "./api/definitions.yml#/ResultPage"
+                  - type: "object"
+                    properties:
+                      results:
+                        type: "array"
+                        items:
+                          $ref: "./api/definitions.yml#/Listening"
+    post:
+      summary: Record a track in your history
+      tags:
+        - "User activity"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                track:
+                  type: "integer"
+                  format: "int64"
+                  example: 98
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: "./api/definitions.yml#/ListeningCreate"
+                
   ##########
   # Others #
   ##########
+
   /api/v1/search:
     get:
       tags:
@@ -1696,6 +1745,38 @@ paths:
         - "Content curation"
       responses:
         204:
+  /api/v1/radios/sessions:
+    post:
+      tags:
+        - "Content curation"
+      description: Start a new radio session
+      responses:
+        201:
+          $ref: "#/responses/201"
+        400:
+          $ref: "#/responses/400"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./api/definitions.yml#/RadioSessionCreate"
+  /api/v1/radios/tracks:
+    post:
+      tags:
+        - "Content curation"
+      description: Get a new track for a radio session
+      responses:
+        201:
+          $ref: "#/responses/201"
+        400:
+          $ref: "#/responses/400"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./api/definitions.yml#/Track"
 responses:
   200:
     description: Success

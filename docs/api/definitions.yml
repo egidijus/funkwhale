@@ -462,6 +462,36 @@ AlbumTrack:
           description: "List of uploads associated with this track"
           items:
             $ref: "#/Upload"
+
+
+ListeningCreate:
+  type: "object"
+  properties:
+    id:
+      type: "integer"
+      format: "int64"
+      example: 66
+    creation_date:
+      $ref: "./properties.yml#creation_date"
+    track:
+      type: "integer"
+      format: "int64"
+      example: 94
+
+Listening:
+  type: "object"
+  properties:
+    id:
+      type: "integer"
+      format: "int64"
+      example: 66
+    creation_date:
+      $ref: "./properties.yml#creation_date"
+    track:
+      $ref: "#/Track"
+    actor:
+      $ref: "#/Actor"
+
 Track:
   type: "object"
   allOf:
@@ -818,6 +848,37 @@ Permissions:
       type: "boolean"
       example: false
       description: A boolean indicating if the user can manage instance settings and users
+
+RadioSessionCreate:
+  type: "object"
+  properties:
+    radio_type:
+      type: "string"
+      description: |
+        The type of radio to start. Depending of the type, the `related_object_id` field
+        will need to be set to a non null value:
+        
+        - tag: tag `name`
+        - artist: artist `id`
+        - library: library `uuid`
+
+      enum:
+        - random
+        - favorites
+        - tag
+        - similar
+        - artist
+        - less-listened
+        - actor-content
+        - library
+    
+    related_object_id:
+      type: string 
+      default: null
+      description:
+        Value may be an integer depending of the `radio_type`.
+        Please refer to the `radio_type` documentation.
+
 RateLimitStatus:
   type: "object"
   properties:
