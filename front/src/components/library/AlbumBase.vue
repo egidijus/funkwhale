@@ -75,7 +75,7 @@
               </template>
               <human-duration v-if="totalDuration > 0" :duration="totalDuration"></human-duration>
               <div class="ui small hidden divider"></div>
-              <play-button class="vibrant" :tracks="object.tracks"></play-button>
+              <play-button class="vibrant" :album="object"></play-button>
               <div class="ui horizontal hidden divider"></div>
               <album-dropdown
                 :object="object"
