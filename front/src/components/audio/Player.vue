@@ -408,12 +408,18 @@ export default {
       return sound
     },
     getSrcs: function (trackData) {
-      let sources = trackData.uploads.map(u => {
+      let a = document.createElement('audio')
+      let allowed = ['probably', 'maybe']
+      let sources = trackData.uploads.filter(u => {
+        let canPlay = a.canPlayType(u.mimetype)
+        return allowed.indexOf(canPlay) > -1
+      }).map(u => {
         return {
           type: u.extension,
           url: this.$store.getters['instance/absoluteUrl'](u.listen_url),
         }
       })
+      a.remove()
       // We always add a transcoded MP3 src at the end
       // because transcoding is expensive, but we want browsers that do
       // not support other codecs to be able to play it :)
@@ -721,7 +727,7 @@ export default {
         }, 500);
         // If the session is playing as a PWA, populate the notification
         // with details from the track
-        if ('mediaSession' in navigator) {
+        if (this.currentTrack && 'mediaSession' in navigator) {
           let metadata = {
             title: this.currentTrack.title,
             artist: this.currentTrack.artist.name,

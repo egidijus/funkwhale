@@ -342,13 +342,19 @@ export default {
     },
     getSources (uploads) {
       let self = this;
-      let sources = uploads.map(u => {
+      let a = document.createElement('audio')
+      let allowed = ['probably', 'maybe']
+      let sources = uploads.filter(u => {
+        let canPlay = a.canPlayType(u.mimetype)
+        return allowed.indexOf(canPlay) > -1
+      }).map(u => {
         return {
           type: u.mimetype,
           src: self.fullUrl(u.listen_url),
           duration: u.duration
         }
       })
+      a.remove()
       if (sources.length > 0) {
         // We always add a transcoded MP3 src at the end
         // because transcoding is expensive, but we want browsers that do
