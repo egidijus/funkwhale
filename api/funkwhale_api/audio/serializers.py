@@ -235,6 +235,7 @@ class ChannelUpdateSerializer(serializers.Serializer):
 class ChannelSerializer(serializers.ModelSerializer):
     artist = serializers.SerializerMethodField()
     actor = serializers.SerializerMethodField()
+    downloads_count = serializers.SerializerMethodField()
     attributed_to = federation_serializers.APIActorSerializer()
     rss_url = serializers.CharField(source="get_rss_url")
     url = serializers.SerializerMethodField()
@@ -250,6 +251,7 @@ class ChannelSerializer(serializers.ModelSerializer):
             "metadata",
             "rss_url",
             "url",
+            "downloads_count",
         ]
 
     def get_artist(self, obj):
@@ -263,6 +265,9 @@ class ChannelSerializer(serializers.ModelSerializer):
 
     def get_subscriptions_count(self, obj):
         return obj.actor.received_follows.exclude(approved=False).count()
+
+    def get_downloads_count(self, obj):
+        return getattr(obj, "_downloads_count", None)
 
     def get_actor(self, obj):
         if obj.attributed_to == actors.get_service_actor():

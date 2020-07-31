@@ -234,6 +234,7 @@ def test_track_serializer(factories, to_api_date):
         "tags": [],
         "attributed_to": federation_serializers.APIActorSerializer(actor).data,
         "cover": common_serializers.AttachmentSerializer(track.attachment_cover).data,
+        "downloads_count": track.downloads_count,
     }
     serializer = serializers.TrackSerializer(track)
     assert serializer.data == expected

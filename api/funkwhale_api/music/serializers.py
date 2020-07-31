@@ -294,6 +294,7 @@ class TrackSerializer(OptionalDescriptionMixin, serializers.Serializer):
     is_local = serializers.BooleanField()
     position = serializers.IntegerField()
     disc_number = serializers.IntegerField()
+    downloads_count = serializers.IntegerField()
     copyright = serializers.CharField()
     license = serializers.SerializerMethodField()
     cover = cover_field

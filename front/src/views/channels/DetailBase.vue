@@ -28,7 +28,8 @@
                   <translate key="2" v-else translate-context="*/*/*" :translate-params="{count: totalTracks}" :translate-n="totalTracks" translate-plural="%{ count } tracks">%{ count } track</translate>
                 </template>
                 <template v-if="object.attributed_to.full_username === $store.state.auth.fullUsername || $store.getters['channels/isSubscribed'](object.uuid)">
-                  · <translate translate-context="Content/Channel/Paragraph" translate-plural="%{ count } subscribers" :translate-n="object.subscriptions_count" :translate-params="{count: object.subscriptions_count}">%{ count } subscriber</translate>
+                  <br><translate translate-context="Content/Channel/Paragraph" translate-plural="%{ count } subscribers" :translate-n="object.subscriptions_count" :translate-params="{count: object.subscriptions_count}">%{ count } subscriber</translate>
+                  <br><translate translate-context="Content/Channel/Paragraph" translate-plural="%{ count } listenings" :translate-n="object.downloads_count" :translate-params="{count: object.downloads_count}">%{ count } listening</translate>
                 </template>
                 <div class="ui hidden small divider"></div>
                 <a @click.stop.prevent="showSubscribeModal = true" class="ui icon small basic button">

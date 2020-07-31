@@ -7,7 +7,7 @@ from rest_framework import viewsets
 
 from django import http
 from django.db import transaction
-from django.db.models import Count, Prefetch, Q
+from django.db.models import Count, Prefetch, Q, Sum
 from django.utils import timezone
 
 from funkwhale_api.common import locales
@@ -92,6 +92,14 @@ class ChannelViewSet(
         elif self.action in ["update", "partial_update"]:
             return serializers.ChannelUpdateSerializer
         return serializers.ChannelCreateSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.action == "retrieve":
+            queryset = queryset.annotate(
+                _downloads_count=Sum("artist__tracks__downloads_count")
+            )
+        return queryset
 
     def perform_create(self, serializer):
         return serializer.save(attributed_to=self.request.user.actor)
