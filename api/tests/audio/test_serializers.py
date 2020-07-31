@@ -213,7 +213,7 @@ def test_channel_serializer_update_podcast(factories):
 def test_channel_serializer_representation(factories, to_api_date):
     content = factories["common.Content"]()
     channel = factories["audio.Channel"](artist__description=content)
-
+    setattr(channel, "_downloads_count", 12)
     expected = {
         "artist": music_serializers.serialize_artist_simple(channel.artist),
         "uuid": str(channel.uuid),
@@ -225,6 +225,7 @@ def test_channel_serializer_representation(factories, to_api_date):
         "metadata": {},
         "rss_url": channel.get_rss_url(),
         "url": channel.actor.url,
+        "downloads_count": 12,
     }
     expected["artist"]["description"] = common_serializers.ContentSerializer(
         content
@@ -248,6 +249,7 @@ def test_channel_serializer_external_representation(factories, to_api_date):
         "metadata": {},
         "rss_url": channel.get_rss_url(),
         "url": channel.actor.url,
+        "downloads_count": None,
     }
     expected["artist"]["description"] = common_serializers.ContentSerializer(
         content

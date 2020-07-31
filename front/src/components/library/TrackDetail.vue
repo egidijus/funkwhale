@@ -48,6 +48,14 @@
                     <translate v-else translate-context="*/*/*">N/A</translate>
                   </td>
                 </tr>
+                <tr>
+                  <td>
+                    <translate translate-context="Content/*/*">Downloads</translate>
+                  </td>
+                  <td class="right aligned">
+                    {{ track.downloads_count }}
+                  </td>
+                </tr>
               </tbody>
             </table>
 
