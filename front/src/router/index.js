@@ -91,7 +91,9 @@ export default new Router({
         import(/* webpackChunkName: "core" */ "@/views/Search"),
       props: route => ({
         initialId: route.query.id,
-        type: route.query.type,
+        initialType: route.query.type || 'artists',
+        initialQuery: route.query.q,
+        initialPage: parseInt(route.query.page) || 1,
       })
     },
     {
