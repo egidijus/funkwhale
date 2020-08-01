@@ -54,7 +54,7 @@
 
             <td v-if="field.diff">
               <template v-if="field.config.type === 'attachment' && field.oldRepr">
-                <img class="ui image" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${field.oldRepr}/proxy?next=medium_square_crop`)" />
+                <img class="ui image" alt="" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${field.oldRepr}/proxy?next=medium_square_crop`)" />
               </template>
               <template v-else>
                 <span v-if="!part.added" v-for="part in field.diff" :class="['diff', {removed: part.removed}]">
@@ -68,7 +68,7 @@
 
             <td v-if="field.diff" :title="field.newRepr">
               <template v-if="field.config.type === 'attachment' && field.newRepr">
-                <img class="ui image" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${field.newRepr}/proxy?next=medium_square_crop`)" />
+                <img class="ui image" alt="" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${field.newRepr}/proxy?next=medium_square_crop`)" />
               </template>
               <template v-else>
                 <span v-if="!part.removed" v-for="part in field.diff" :class="['diff', {added: part.added}]">
@@ -78,7 +78,7 @@
             </td>
             <td v-else :title="field.newRepr">
               <template v-if="field.config.type === 'attachment' && field.newRepr">
-                <img class="ui image" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${field.newRepr}/proxy?next=medium_square_crop`)" />
+                <img class="ui image" alt="" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${field.newRepr}/proxy?next=medium_square_crop`)" />
               </template>
               <template v-else>
                 {{ field.newRepr }}

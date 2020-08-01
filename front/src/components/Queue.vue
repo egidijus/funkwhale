@@ -6,9 +6,9 @@
           <div class="ui six wide column current-track">
             <div class="ui basic segment" id="player">
               <template v-if="currentTrack">
-                <img ref="cover" v-if="currentTrack.cover && currentTrack.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.cover.medium_square_crop)">
-                <img ref="cover" v-else-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.medium_square_crop)">
-                <img class="ui image" v-else src="../assets/audio/default-cover.png">
+                <img ref="cover" alt="" v-if="currentTrack.cover && currentTrack.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.cover.medium_square_crop)">
+                <img ref="cover" alt="" v-else-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.medium_square_crop)">
+                <img class="ui image" alt="" v-else src="../assets/audio/default-cover.png">
                 <h1 class="ui header">
                   <div class="content ellipsis">
                     <router-link class="small header discrete link track" :to="{name: 'library.tracks.detail', params: {id: currentTrack.id }}">
@@ -159,9 +159,9 @@
                     <i class="grip lines icon"></i>
                   </td>
                   <td class="image-cell" @click="$store.dispatch('queue/currentIndex', index)">
-                    <img class="ui mini image" v-if="track.cover && track.cover.original" :src="$store.getters['instance/absoluteUrl'](track.cover.medium_square_crop)">
-                    <img class="ui mini image" v-else-if="track.album && track.album.cover && track.album.cover.original" :src="$store.getters['instance/absoluteUrl'](track.album.cover.medium_square_crop)">
-                    <img class="ui mini image" v-else src="../assets/audio/default-cover.png">
+                    <img class="ui mini image" alt="" v-if="track.cover && track.cover.original" :src="$store.getters['instance/absoluteUrl'](track.cover.medium_square_crop)">
+                    <img class="ui mini image" alt="" v-else-if="track.album && track.album.cover && track.album.cover.original" :src="$store.getters['instance/absoluteUrl'](track.album.cover.medium_square_crop)">
+                    <img class="ui mini image" alt="" v-else src="../assets/audio/default-cover.png">
                   </td>
                   <td colspan="3" @click="$store.dispatch('queue/currentIndex', index)">
                     <button class="title reset ellipsis" :title="track.title" :aria-label="labels.selectTrack">

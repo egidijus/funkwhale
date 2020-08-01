@@ -3,7 +3,7 @@
     <div
       @click="$router.push({name: 'library.playlists.detail', params: {id: playlist.id }})"
       :class="['ui', 'head-image', 'squares']">
-      <img v-lazy="url" v-for="(url, idx) in images" :key="idx" />
+      <img alt="" v-lazy="url" v-for="(url, idx) in images" :key="idx" />
       <play-button :icon-only="true" :is-playable="playlist.is_playable" :button-classes="['ui', 'circular', 'large', 'vibrant', 'icon', 'button']" :playlist="playlist"></play-button>
     </div>
     <div class="content">

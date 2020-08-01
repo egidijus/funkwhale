@@ -12,8 +12,8 @@
       </span>
       <div class="ui stackable grid row">
         <div class="three wide column">
-          <img :class="['ui', imageClass, 'image']" v-if="value && value === initialValue" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${value}/proxy?next=medium_square_crop`)" />
-          <img :class="['ui', imageClass, 'image']" v-else-if="attachment" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${attachment.uuid}/proxy?next=medium_square_crop`)" />
+          <img alt="" :class="['ui', imageClass, 'image']" v-if="value && value === initialValue" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${value}/proxy?next=medium_square_crop`)" />
+          <img alt="" :class="['ui', imageClass, 'image']" v-else-if="attachment" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${attachment.uuid}/proxy?next=medium_square_crop`)" />
           <div :class="['ui', imageClass, 'static', 'large placeholder image']" v-else></div>
         </div>
         <div class="eleven wide column">
