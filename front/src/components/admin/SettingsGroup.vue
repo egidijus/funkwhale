@@ -73,7 +73,7 @@
         <div v-if="values[setting.identifier]">
           <div class="ui hidden divider"></div>
           <h3 class="ui header"><translate translate-context="Content/Settings/Title/Noun">Current image</translate></h3>
-          <img class="ui image" v-if="values[setting.identifier]" :src="$store.getters['instance/absoluteUrl'](values[setting.identifier])" />
+          <img class="ui image" alt="" v-if="values[setting.identifier]" :src="$store.getters['instance/absoluteUrl'](values[setting.identifier])" />
         </div>
       </div>
     </div>

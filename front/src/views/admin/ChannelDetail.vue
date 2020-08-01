@@ -9,8 +9,8 @@
           <div class="ui column">
             <div class="segment-content">
               <h2 class="ui header">
-                <img v-if="object.artist.cover && object.artist.cover.square_crop" v-lazy="$store.getters['instance/absoluteUrl'](object.artist.cover.square_crop)">
-                <img v-else src="../../assets/audio/default-cover.png">
+                <img alt="" v-if="object.artist.cover && object.artist.cover.square_crop" v-lazy="$store.getters['instance/absoluteUrl'](object.artist.cover.square_crop)">
+                <img alt="" v-else src="../../assets/audio/default-cover.png">
                 <div class="content">
                   {{ object.artist.name | truncate(100) }}
                   <div class="sub header">

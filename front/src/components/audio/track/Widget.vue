@@ -7,8 +7,8 @@
     <div v-if="count > 0" class="ui divided unstackable items">
       <div :class="['item', itemClasses]" v-for="object in objects" :key="object.id">
         <div class="ui tiny image">
-          <img v-if="object.track.album && object.track.album.cover.original" v-lazy="$store.getters['instance/absoluteUrl'](object.track.album.cover.medium_square_crop)">
-          <img v-else src="../../../assets/audio/default-cover.png">
+          <img alt="" v-if="object.track.album && object.track.album.cover.original" v-lazy="$store.getters['instance/absoluteUrl'](object.track.album.cover.medium_square_crop)">
+          <img alt="" v-else src="../../../assets/audio/default-cover.png">
           <play-button class="play-overlay" :icon-only="true" :button-classes="['ui', 'circular', 'tiny', 'vibrant', 'icon', 'button']" :track="object.track"></play-button>
         </div>
         <div class="middle aligned content">

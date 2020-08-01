@@ -5,6 +5,7 @@
     </div>
     <img
       @click="$router.push({name: 'library.tracks.detail', params: {id: entry.id}})"
+      alt=""
       class="channel-image image"
       v-if="cover && cover.original"
       v-lazy="$store.getters['instance/absoluteUrl'](cover.square_crop)">
@@ -14,11 +15,13 @@
       v-else-if="entry.artist.content_category === 'podcast'">#{{ entry.position }}</span>
     <img
       @click="$router.push({name: 'library.tracks.detail', params: {id: entry.id}})"
+      alt=""
       class="channel-image image"
       v-else-if="entry.album && entry.album.cover && entry.album.cover.original"
       v-lazy="$store.getters['instance/absoluteUrl'](entry.album.cover.square_crop)">
     <img
       @click="$router.push({name: 'library.tracks.detail', params: {id: entry.id}})"
+      alt=""
       class="channel-image image"
       v-else
       src="../../assets/audio/default-cover.png">

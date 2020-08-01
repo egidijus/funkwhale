@@ -10,9 +10,9 @@
 
         <div class="controls track-controls queue-not-focused desktop-and-up">
           <div class="ui tiny image" @click.stop.prevent="$router.push({name: 'library.tracks.detail', params: {id: currentTrack.id }})">
-            <img ref="cover" v-if="currentTrack.cover && currentTrack.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.cover.medium_square_crop)">
-            <img ref="cover" v-else-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.medium_square_crop)">
-            <img v-else src="../../assets/audio/default-cover.png">
+            <img ref="cover" alt="" v-if="currentTrack.cover && currentTrack.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.cover.medium_square_crop)">
+            <img ref="cover" alt="" v-else-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.medium_square_crop)">
+            <img v-else src="../../assets/audio/default-cover.png" alt="">
           </div>
           <div @click.stop.prevent="" class="middle aligned content ellipsis">
             <strong>
@@ -30,9 +30,9 @@
         </div>
         <div class="controls track-controls queue-not-focused tablet-and-below">
           <div class="ui tiny image">
-            <img ref="cover" v-if="currentTrack.cover && currentTrack.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.cover.medium_square_crop)">
-            <img ref="cover" v-else-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.medium_square_crop)">
-            <img v-else src="../../assets/audio/default-cover.png">
+            <img ref="cover" alt="" v-if="currentTrack.cover && currentTrack.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.cover.medium_square_crop)">
+            <img ref="cover" alt="" v-else-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.medium_square_crop)">
+            <img v-else src="../../assets/audio/default-cover.png" alt="">
           </div>
           <div class="middle aligned content ellipsis">
             <strong>

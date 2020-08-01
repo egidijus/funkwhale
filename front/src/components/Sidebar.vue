@@ -8,7 +8,7 @@
       </i>
     </router-link>
     <router-link v-if="!$store.state.auth.authenticated" class="logo-wrapper" :to="{name: logoUrl}" :title="'Funkwhale'">
-      <img src="../assets/logo/text-white.svg" />
+      <img src="../assets/logo/text-white.svg" alt="" />
     </router-link>
     <nav class="top ui compact right aligned inverted text menu">
       <template v-if="$store.state.auth.authenticated">
@@ -78,7 +78,7 @@
         </router-link>
         <div class="item">
           <div class="ui user-dropdown dropdown" >
-            <img class="ui avatar image" v-if="$store.state.auth.profile.avatar && $store.state.auth.profile.avatar.square_crop" :src="$store.getters['instance/absoluteUrl']($store.state.auth.profile.avatar.square_crop)" />
+            <img class="ui avatar image" alt="" v-if="$store.state.auth.profile.avatar && $store.state.auth.profile.avatar.square_crop" :src="$store.getters['instance/absoluteUrl']($store.state.auth.profile.avatar.square_crop)" />
             <actor-avatar v-else :actor="{preferred_username: $store.state.auth.username, full_username: $store.state.auth.username}" />
             <div class="menu">
               <router-link class="item" :to="{name: 'profile.overview', params: {username: $store.state.auth.username}}"><translate translate-context="*/*/*/Noun">Profile</translate></router-link>
