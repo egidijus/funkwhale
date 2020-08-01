@@ -2,7 +2,7 @@
   <div ref="dropdown" class="ui multiple search selection dropdown">
     <input type="hidden">
     <i class="dropdown icon"></i>
-    <input type="text" class="search">
+    <input id="tags-search" type="text" class="search">
     <div class="default text">
       <translate translate-context="*/Dropdown/Placeholder/Verb">Search for tags…</translate>
     </div>

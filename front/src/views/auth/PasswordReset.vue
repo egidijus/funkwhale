@@ -12,8 +12,9 @@
           </div>
           <p><translate translate-context="Content/Signup/Paragraph">Use this form to request a password reset. We will send an email to the given address with instructions to reset your password.</translate></p>
           <div class="field">
-            <label><translate translate-context="Content/Signup/Input.Label">Account's email</translate></label>
+            <label for="account-email"><translate translate-context="Content/Signup/Input.Label">Account's email</translate></label>
             <input
+              id="account-email"
               required
               ref="email"
               type="email"

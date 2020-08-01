@@ -48,9 +48,9 @@
       <form class="ui form" @submit.prevent="currentTab = 'uploads'">
         <div class="fields">
           <div class="ui field">
-            <label><translate translate-context="Content/Library/Input.Label/Noun">Import reference</translate></label>
+            <label for="import-reference"><translate translate-context="Content/Library/Input.Label/Noun">Import reference</translate></label>
             <p><translate translate-context="Content/Library/Paragraph">This reference will be used to group imported files together.</translate></p>
-            <input name="import-ref" type="text" v-model="importReference" />
+            <input id="import-reference" name="import-ref" type="text" v-model="importReference" />
           </div>
         </div>
 

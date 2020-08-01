@@ -1,6 +1,6 @@
 <template>
   <div class="component-track-widget">
-    <h3 class="ui header">
+    <h3 v-if="!!this.$slots.title">
       <slot name="title"></slot>
       <span v-if="showCount" class="ui tiny circular label">{{ count }}</span>
     </h3>

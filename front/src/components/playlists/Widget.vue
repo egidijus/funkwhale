@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="ui header">
+    <h3 v-if="!!this.$slots.title" class="ui header">
       <slot name="title"></slot>
     </h3>
     <div v-if="isLoading" class="ui inverted active dimmer">

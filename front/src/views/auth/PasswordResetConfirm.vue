@@ -12,8 +12,8 @@
           </div>
           <template v-if="token && uid">
             <div class="field">
-              <label><translate translate-context="Content/Settings/Input.Label">New password</translate></label>
-              <password-input v-model="newPassword" />
+              <label for="password-field"><translate translate-context="Content/Settings/Input.Label">New password</translate></label>
+              <password-input field-id="password-field" v-model="newPassword" />
             </div>
             <router-link :to="{path: '/login'}">
               <translate translate-context="Content/Signup/Link">Back to login</translate>

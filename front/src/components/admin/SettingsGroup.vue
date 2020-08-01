@@ -61,6 +61,7 @@
         <p v-if="setting.help_text">{{ setting.help_text }}</p>
       </div>
       <select
+        :id="setting.identifier"
         v-else-if="setting.field.class === 'MultipleChoiceField'"
         v-model="values[setting.identifier]"
         multiple
@@ -68,7 +69,7 @@
         <option v-for="v in setting.additional_data.choices" :value="v[0]">{{ v[1] }}</option>
       </select>
       <div v-else-if="setting.field.widget.class === 'ImageWidget'">
-        <input type="file" :ref="setting.identifier">
+        <input :id="setting.identifier" type="file" :ref="setting.identifier">
         <div v-if="values[setting.identifier]">
           <div class="ui hidden divider"></div>
           <h3 class="ui header"><translate translate-context="Content/Settings/Title/Noun">Current image</translate></h3>

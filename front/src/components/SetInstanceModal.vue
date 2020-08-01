@@ -17,9 +17,9 @@
           <translate translate-context="Popup/Instance/Paragraph">To continue, please select the Funkwhale instance you want to connect to. Enter the address directly, or select one of the suggested choices.</translate>
         </p>
         <div class="field">
-          <label><translate translate-context="Popup/Instance/Input.Label/Noun">Instance URL</translate></label>
+          <label for="instance-picker"><translate translate-context="Popup/Instance/Input.Label/Noun">Instance URL</translate></label>
           <div class="ui action input">
-            <input type="text" v-model="instanceUrl" placeholder="https://funkwhale.server">
+            <input id ="instance-picker" type="text" v-model="instanceUrl" placeholder="https://funkwhale.server">
             <button type="submit" :class="['ui', 'icon', {loading: isLoading}, 'button']">
               <translate translate-context="*/*/Button.Label/Verb">Submit</translate>
             </button>
@@ -29,7 +29,7 @@
       <div class="ui hidden divider"></div>
       <form class="ui form" @submit.prevent="">
         <div class="field">
-          <label><translate translate-context="Popup/Instance/List.Label">Suggested choices</translate></label>
+          <h4><translate translate-context="Popup/Instance/List.Label">Suggested choices</translate></h4>
           <button v-for="url in suggestedInstances" @click="checkAndSwitch(url)" class="ui basic button">{{ url }}</button>
         </div>
       </form>

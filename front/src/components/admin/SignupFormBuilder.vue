@@ -49,7 +49,7 @@
               <th>
                 <translate translate-context="*/*/Form-builder,Help">Required</translate>
               </th>
-              <th></th>
+              <th><span class="visually-hidden"><translate translate-context="*/*/Form-builder,Help">Actions</translate></span></th>
             </tr>
           </thead>
           <tbody>
@@ -86,7 +86,7 @@
                 <i
                   :disabled="idx >= local.fields.length - 1"
                   @click="move(idx, 1)" rel="button"
-                  :title="labels.up"
+                  :title="labels.down"
                   :class="['down', 'arrow', {disabled: idx >= local.fields.length - 1}, 'icon']"></i>
                 <i @click="remove(idx)" rel="button" :title="labels.delete" class="x icon"></i>
               </td>

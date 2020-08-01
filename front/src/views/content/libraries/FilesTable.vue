@@ -3,7 +3,7 @@
     <div class="ui inline form">
       <div class="fields">
         <div class="ui six wide field">
-          <label>
+          <label for="files-search">
             <translate translate-context="Content/Search/Input.Label/Noun">Search</translate>
           </label>
           <form @submit.prevent="search.query = $refs.search.value">
@@ -11,16 +11,18 @@
               name="search"
               ref="search"
               type="text"
+              id="files-search"
               :value="search.query"
               :placeholder="labels.searchPlaceholder"
             />
           </form>
         </div>
         <div class="field">
-          <label>
+          <label for="import-status">
             <translate translate-context="Content/*/*/Noun">Import status</translate>
           </label>
           <select
+            id="import-status"
             class="ui dropdown"
             @change="addSearchToken('status', $event.target.value)"
             :value="getTokenValue('status', '')"
@@ -46,10 +48,10 @@
           </select>
         </div>
         <div class="field">
-          <label>
+          <label for="ordering-select">
             <translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate>
           </label>
-          <select class="ui dropdown" v-model="ordering">
+          <select id="ordering-select" class="ui dropdown" v-model="ordering">
             <option
               v-for="option in orderingOptions"
               :value="option[0]"
@@ -57,10 +59,10 @@
           </select>
         </div>
         <div class="field">
-          <label>
+          <label for="ordering-direction">
             <translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate>
           </label>
-          <select class="ui dropdown" v-model="orderingDirection">
+          <select id="ordering-direction" class="ui dropdown" v-model="orderingDirection">
             <option value="+">
               <translate translate-context="Content/Search/Dropdown">Ascending</translate>
             </option>
@@ -131,7 +133,6 @@
               <span
                 class="discrete link"
                 @click="addSearchToken('artist', scope.obj.track.artist.name)"
-                :title="scope.obj.track.artist.name"
               >{{ scope.obj.track.artist.name|truncate(20) }}</span>
             </td>
             <td>
@@ -139,7 +140,6 @@
                 v-if="scope.obj.track.album"
                 class="discrete link"
                 @click="addSearchToken('album', scope.obj.track.album.title)"
-                :title="scope.obj.track.album.title"
               >{{ scope.obj.track.album.title|truncate(20) }}</span>
             </td>
           </template>
@@ -160,6 +160,7 @@
             <button
               class="ui tiny basic icon button"
               :title="sharedLabels.fields.import_status.detailTitle"
+              :aria-label="labels.showStatus"
               @click="detailedUpload = scope.obj; showUploadDetailModal = true"
             >
               <i class="question circle outline icon"></i>
@@ -287,7 +288,8 @@ export default {
         searchPlaceholder: this.$pgettext(
           "Content/Library/Input.Placeholder",
           "Search by title, artist, album…"
-        )
+        ),
+        showStatus: this.$pgettext('Content/Library/Button.Label/Verb', 'Show information about the upload status for this track')
       };
     },
     actionFilters() {

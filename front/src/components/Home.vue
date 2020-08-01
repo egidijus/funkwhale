@@ -18,9 +18,9 @@
     <section class="ui vertical stripe segment">
       <div class="ui stackable grid">
         <div class="ten wide column">
-          <h3 class="header">
+          <h2 class="header">
             <translate translate-context="Content/Home/Header">About this Funkwhale pod</translate>
-          </h3>
+          </h2>
           <div class="ui raised segment" id="pod">
             <div class="ui stackable grid">
               <div class="eight wide column">
@@ -77,7 +77,7 @@
         </div>
 
         <div class="six wide column">
-          <img class="ui image" src="../assets/network.png" />
+          <img class="ui image" src="../assets/network.png" alt=""/>
         </div>
       </div>
       <div class="ui hidden divider"></div>
@@ -98,7 +98,7 @@
           <h3 class="header">
             <translate translate-context="Head/Login/Title">Log In</translate>
           </h3>
-          <login-form button-classes="basic success" :show-signup="false"></login-form>
+          <login-form button-classes="success" :show-signup="false"></login-form>
           <div class="ui hidden clearing divider"></div>
         </div>
         <div class="four wide column">
@@ -112,7 +112,7 @@
             <p v-if="defaultUploadQuota">
               <translate translate-context="Content/Home/Paragraph" :translate-params="{quota: humanSize(defaultUploadQuota * 1000 * 1000)}">Users on this pod also get %{ quota } of free storage to upload their own content!</translate>
             </p>
-            <signup-form button-classes="basic success" :show-login="false"></signup-form>
+            <signup-form button-classes="success" :show-login="false"></signup-form>
           </template>
           <div v-else>
             <p translate-context="Content/Home/Paragraph">Registrations are closed on this pod. You can signup on another pod using the link below.</p>

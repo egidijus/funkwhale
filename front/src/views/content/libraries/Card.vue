@@ -46,7 +46,7 @@
         <translate translate-context="Content/Library/Card.Button.Label/Verb">Upload</translate>
       </router-link>
       <router-link :to="{name: 'library.detail', params: {id: library.uuid}}" exact class="ui button">
-        <translate translate-context="Content/Library/Card.Button.Label/Noun">Details</translate>
+        <translate translate-context="Content/Library/Card.Button.Label/Noun">Library Details</translate>
       </router-link>
     </div>
   </div>

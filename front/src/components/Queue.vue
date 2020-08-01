@@ -180,7 +180,7 @@
                     <template v-if="$store.getters['favorites/isFavorite'](track.id)">
                       <i class="pink heart icon"></i>
                     </template>
-                    <button :title="labels.removeFromQueue" @click.stop="cleanTrack(index)" :class="['ui', 'really', 'tiny', 'basic', 'circular', 'icon', 'button']">
+                    <button :aria-label="labels.removeFromQueue" :title="labels.removeFromQueue" @click.stop="cleanTrack(index)" :class="['ui', 'really', 'tiny', 'basic', 'circular', 'icon', 'button']">
                       <i class="x icon"></i>
                     </button>
                   </td>
@@ -272,6 +272,7 @@ export default {
       return {
         queue: this.$pgettext('*/*/*', 'Queue'),
         duration: this.$pgettext('*/*/*', 'Duration'),
+        addArtistContentFilter: this.$pgettext('Sidebar/Player/Icon.Tooltip/Verb', 'Hide content from this artist…')
       }
     },
     timeLeft () {

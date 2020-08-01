@@ -5,6 +5,7 @@
     name="password"
     :type="passwordInputType"
     @input="$emit('input', $event.target.value)"
+    :id="fieldId"
     :value="value">
     <span @click="showPassword = !showPassword" :title="labels.title" class="ui icon button">
       <i class="eye icon"></i>
@@ -29,7 +30,7 @@ function copyStringToClipboard (str) {
 }
 
 export default {
-  props: ['value', 'defaultShow', 'copyButton'],
+  props: ['value', 'defaultShow', 'copyButton', 'fieldId'],
   data () {
     return {
       showPassword: this.defaultShow || false,

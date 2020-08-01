@@ -158,7 +158,7 @@
           </div>
           <div class="group">
             <div class="fake-dropdown">
-              <span class="position control desktop-and-up" role="button" @click.stop="toggleMobilePlayer">
+              <span class="position control desktop-and-up" role="button" @click.stop="toggleMobilePlayer" aria-expanded="true">
                 <i class="stream icon"></i>
                 <translate translate-context="Sidebar/Queue/Text" :translate-params="{index: queue.currentIndex + 1, length: queue.tracks.length}">
                   %{ index } of %{ length }

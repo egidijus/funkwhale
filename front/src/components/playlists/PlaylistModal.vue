@@ -43,18 +43,17 @@
           <div class="fields">
             <div class="field">
               <label for="playlist-name-filter"><translate translate-context="Popup/Playlist/Label">Filter</translate></label>
-              <input name="playlist-name-filter" v-model="playlistNameFilter" type="text" class="inline" :placeholder="labels.filterPlaylistField" />
+              <input id="playlist-name-filter" v-model="playlistNameFilter" type="text" class="inline" :placeholder="labels.filterPlaylistField" />
             </div>
           </div>
         </div>
         <table v-if="sortedPlaylists.length > 0" class="ui unstackable very basic table">
           <thead>
             <tr>
-              <th></th>
+              <th><span class="visually-hidden"><translate translate-context="*/*/*/Verb">Edit</translate></span></th>
               <th><translate translate-context="*/*/*/Noun">Name</translate></th>
               <th class="sorted descending"><translate translate-context="Popup/Playlist/Table.Label/Short">Last modification</translate></th>
               <th><translate translate-context="*/*/*">Tracks</translate></th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -62,9 +61,10 @@
               <td>
                 <router-link
                   class="ui icon basic small button"
-                  :to="{name: 'library.playlists.detail', params: {id: playlist.id }, query: {mode: 'edit'}}"><i class="ui pencil icon"></i></router-link>
+                  :to="{name: 'library.playlists.detail', params: {id: playlist.id }, query: {mode: 'edit'}}"><i class="ui pencil icon"></i>
+                  <span class="visually-hidden"><translate translate-context="*/*/*/Verb">Edit</translate></span></router-link>
               </td>
-              <td :title="playlist.name">
+              <td>
                 <router-link v-on:click.native="update(false)" :to="{name: 'library.playlists.detail', params: {id: playlist.id }}">{{ playlist.name }}</router-link></td>
               <td><human-date :date="playlist.modification_date"></human-date></td>
               <td>{{ playlist.tracks_count }}</td>

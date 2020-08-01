@@ -3,8 +3,10 @@
     <td>{{ filter.label }}</td>
     <td>
       <div class="ui toggle checkbox">
-        <input name="public" type="checkbox" v-model="exclude" @change="$emit('update-config', index, 'not', exclude)">
-        <label></label>
+        <input id="exclude-filter" name="public" type="checkbox" v-model="exclude" @change="$emit('update-config', index, 'not', exclude)">
+        <label for="exclude-filter" class="visually-hidden">
+          <translate translate-context="Popup/Radio/Title/Noun">Exclude</translate>
+        </label>
       </div>
     </td>
     <td>
@@ -16,7 +18,7 @@
         <div :class="['ui', 'search', 'selection', 'dropdown', {'autocomplete': f.autocomplete}, {'multiple': f.type === 'list'}]">
           <i class="dropdown icon"></i>
           <div class="default text">{{ f.placeholder }}</div>
-          <input v-if="f.type === 'list' && config[f.name]" :value="config[f.name].join(',')" type="hidden">
+          <input :id="f.name" v-if="f.type === 'list' && config[f.name]" :value="config[f.name].join(',')" type="hidden">
           <div v-if="config[f.name]" class="ui menu">
             <div
               v-if="f.type === 'list'"
@@ -49,14 +51,14 @@
           </div>
         </div>
         <div class="actions">
-          <div class="ui basic deny button">
+          <div class="ui deny button">
             <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
           </div>
         </div>
       </modal>
     </td>
     <td>
-      <button @click="$emit('delete', index)" class="ui basic danger button"><translate translate-context="Content/Radio/Button.Label/Verb">Remove</translate></button>
+      <button @click="$emit('delete', index)" class="ui danger button"><translate translate-context="Content/Radio/Button.Label/Verb">Remove</translate></button>
     </td>
   </tr>
 </template>

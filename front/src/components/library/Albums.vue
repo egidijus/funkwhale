@@ -7,38 +7,38 @@
       <form :class="['ui', {'loading': isLoading}, 'form']" @submit.prevent="updatePage();updateQueryString();fetchData()">
         <div class="fields">
           <div class="field">
-            <label>
+            <label for="albums-search">
               <translate translate-context="Content/Search/Input.Label/Noun">Search</translate>
             </label>
             <div class="ui action input">
-              <input type="text" name="search" v-model="query" :placeholder="labels.searchPlaceholder"/>
+              <input id="albums-search" type="text" name="search" v-model="query" :placeholder="labels.searchPlaceholder"/>
               <button class="ui icon button" type="submit" :aria-label="$pgettext('Content/Search/Input.Label/Noun', 'Search')">
                 <i class="search icon"></i>
               </button>
             </div>
           </div>
           <div class="field">
-            <label><translate translate-context="*/*/*/Noun">Tags</translate></label>
+            <label for="tags-search"><translate translate-context="*/*/*/Noun">Tags</translate></label>
             <tags-selector v-model="tags"></tags-selector>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
-            <select class="ui dropdown" v-model="ordering">
+            <label for="album-ordering"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
+            <select id="album-ordering" class="ui dropdown" v-model="ordering">
               <option v-for="option in orderingOptions" :value="option[0]">
                 {{ sharedLabels.filters[option[1]] }}
               </option>
             </select>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
-            <select class="ui dropdown" v-model="orderingDirection">
+            <label for="album-ordering-direction"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
+            <select id="album-ordering-direction" class="ui dropdown" v-model="orderingDirection">
               <option value="+"><translate translate-context="Content/Search/Dropdown">Ascending</translate></option>
               <option value="-"><translate translate-context="Content/Search/Dropdown">Descending</translate></option>
             </select>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Results per page</translate></label>
-            <select class="ui dropdown" v-model="paginateBy">
+            <label for="album-results"><translate translate-context="Content/Search/Dropdown.Label/Noun">Results per page</translate></label>
+            <select id="album-results" class="ui dropdown" v-model="paginateBy">
               <option :value="parseInt(12)">12</option>
               <option :value="parseInt(25)">25</option>
               <option :value="parseInt(50)">50</option>

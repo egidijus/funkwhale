@@ -19,17 +19,17 @@
     </div>
     <div class="three fields">
       <div class="field">
-        <label><translate translate-context="Content/Playlist/Input.Label">Playlist name</translate></label>
-        <input name="name" v-model="name" required type="text" :placeholder="labels.placeholder" />
+        <label for="playlist-name"><translate translate-context="Content/Playlist/Input.Label">Playlist name</translate></label>
+        <input id ="playlist-name" name="name" v-model="name" required type="text" :placeholder="labels.placeholder" />
       </div>
       <div class="field">
-        <label><translate translate-context="Content/Playlist/Dropdown.Label">Playlist visibility</translate></label>
-        <select class="ui dropdown" v-model="privacyLevel">
+        <label for="playlist-visibility"><translate translate-context="Content/Playlist/Dropdown.Label">Playlist visibility</translate></label>
+        <select id="playlist-visibility" class="ui dropdown" v-model="privacyLevel">
           <option :value="c.value" v-for="c in privacyLevelChoices">{{ c.label }}</option>
         </select>
       </div>
       <div class="field">
-        <label>&nbsp;</label>
+        <span id="updatePlaylistLabel"></span>
         <button :class="['ui', 'fluid', {'loading': isLoading}, 'button']" type="submit">
           <template v-if="playlist"><translate translate-context="Content/Playlist/Button.Label/Verb">Update playlist</translate></template>
           <template v-else><translate translate-context="Content/Playlist/Button.Label/Verb">Create playlist</translate></template>

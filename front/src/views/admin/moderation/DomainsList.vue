@@ -11,8 +11,8 @@
         </div>
         <div class="inline fields">
           <div class="field">
-            <label for="domain"><translate translate-context="Content/Moderation/Form.Label/Verb">Add a domain</translate></label>
-            <input type="text" name="domain" id="domain" v-model="domainName">
+            <label for="add-domain"><translate translate-context="Content/Moderation/Form.Label/Verb">Add a domain</translate></label>
+            <input type="text" name="domain" id="add-domain" v-model="domainName">
           </div>
           <div class="field" v-if="allowListEnabled">
             <input type="checkbox" name="allowed" id="allowed" v-model="domainAllowed">
@@ -20,7 +20,7 @@
           </div>
           <div class="field">
             <button :class="['ui', {'loading': isCreating}, 'success', 'button']" type="submit" :disabled="isCreating">
-              <label for="domain"><translate translate-context="Content/Moderation/Button/Verb">Add</translate></label>
+              <translate translate-context="Content/Moderation/Button/Verb">Add</translate>
             </button>
           </div>
         </div>

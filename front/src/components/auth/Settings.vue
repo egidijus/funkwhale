@@ -18,12 +18,12 @@
             </ul>
           </div>
           <div class="field" v-for="f in orderedSettingsFields">
-            <label>{{ sharedLabels.fields[f.id].label }}</label>
+            <label :for="f.id">{{ sharedLabels.fields[f.id].label }}</label>
             <p v-if="f.help">{{ sharedLabels.fields[f.id].help }}</p>
-            <select v-if="f.type === 'dropdown'" class="ui dropdown" v-model="f.value">
+            <select :id="f.id" v-if="f.type === 'dropdown'" class="ui dropdown" v-model="f.value">
               <option :value="c" v-for="c in f.choices">{{ sharedLabels.fields[f.id].choices[c] }}</option>
             </select>
-            <content-form v-if="f.type === 'content'" v-model="f.value.text"></content-form>
+            <content-form :field-id="f.id" v-if="f.type === 'content'" v-model="f.value.text"></content-form>
           </div>
           <button :class="['ui', {'loading': isLoading}, 'button']" type="submit">
             <translate translate-context="Content/Settings/Button.Label/Verb">Update settings</translate>
@@ -72,13 +72,12 @@
             </ul>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Settings/Input.Label">Old password</translate></label>
-            <password-input required v-model="old_password" />
-
+            <label for="old-password-field"><translate translate-context="Content/Settings/Input.Label">Old password</translate></label>
+            <password-input field-id="old-password-field" required v-model="old_password" />
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Settings/Input.Label">New password</translate></label>
-            <password-input required v-model="new_password" />
+            <label for="new-password-field"><translate translate-context="Content/Settings/Input.Label">New password</translate></label>
+            <password-input field-id="new-password-field" required v-model="new_password" />
           </div>
           <dangerous-button
             :class="['ui', {'loading': isLoading}, 'warning', 'button']"
@@ -111,7 +110,7 @@
 
         <button
           @click="$store.dispatch('moderation/fetchContentFilters')"
-          class="ui basic icon button">
+          class="ui icon button">
           <i class="refresh icon"></i>&nbsp;
           <translate translate-context="Content/*/Button.Label/Short, Verb">Refresh</translate>
         </button>
@@ -156,7 +155,7 @@
         <p><translate translate-context="Content/Settings/Paragraph">This is the list of applications that have access to your account data.</translate></p>
         <button
           @click="fetchApps()"
-          class="ui basic icon button">
+          class="ui icon button">
           <i class="refresh icon"></i>&nbsp;
           <translate translate-context="Content/*/Button.Label/Short, Verb">Refresh</translate>
         </button>
@@ -178,7 +177,7 @@
               </td>
               <td>
                 <dangerous-button
-                  class="ui tiny basic danger button"
+                  class="ui tiny danger button"
                   @confirm="revokeApp(app.client_id)">
                   <translate translate-context="*/*/*/Verb">Revoke</translate>
                   <p slot="modal-header" v-translate="{application: app.name}" translate-context="Popup/Settings/Title">Revoke access for application "%{ application }"?</p>
@@ -207,7 +206,7 @@
           </div>
         </h2>
         <p><translate translate-context="Content/Settings/Paragraph">This is the list of applications that you have created.</translate></p>
-        <router-link class="ui basic success button" :to="{name: 'settings.applications.new'}">
+        <router-link class="ui success button" :to="{name: 'settings.applications.new'}">
           <translate translate-context="Content/Settings/Button.Label">Create a new application</translate>
         </router-link>
         <table v-if="ownedApps.length > 0" class="ui compact very basic unstackable table">
@@ -233,11 +232,11 @@
                 <human-date :date="app.created" />
               </td>
               <td>
-                <router-link class="ui basic tiny success button" :to="{name: 'settings.applications.edit', params: {id: app.client_id}}">
+                <router-link class="ui tiny success button" :to="{name: 'settings.applications.edit', params: {id: app.client_id}}">
                   <translate translate-context="Content/*/Button.Label/Verb">Edit</translate>
                 </router-link>
                 <dangerous-button
-                  class="ui tiny basic danger button"
+                  class="ui tiny danger button"
                   @confirm="deleteApp(app.client_id)">
                   <translate translate-context="*/*/*/Verb">Delete</translate>
                   <p slot="modal-header" v-translate="{application: app.name}" translate-context="Popup/Settings/Title">Delete application "%{ application }"?</p>
@@ -267,7 +266,7 @@
           </div>
         </h2>
         <p><translate translate-context="Content/Settings/Paragraph">Use plugins to extend Funkwhale and get additional features.</translate></p>
-        <router-link class="ui basic success button" :to="{name: 'settings.plugins'}">
+        <router-link class="ui success button" :to="{name: 'settings.plugins'}">
           <translate translate-context="Content/Settings/Button.Label">Manage plugins</translate>
         </router-link>
       </section>
@@ -293,8 +292,8 @@
             </ul>
           </div>
           <div class="field">
-            <label><translate translate-context="*/*/*">Password</translate></label>
-            <password-input required v-model="password" />
+            <label for="current-password-field"><translate translate-context="*/*/*">Password</translate></label>
+            <password-input field-id="current-password-field" required v-model="password" />
           </div>
           <dangerous-button
             :class="['ui', {'loading': isDeletingAccount}, {disabled: !password}, 'danger', 'button']"

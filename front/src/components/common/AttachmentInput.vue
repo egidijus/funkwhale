@@ -7,9 +7,9 @@
       </ul>
     </div>
     <div class="ui field">
-      <label :for="attachmentId">
+      <span id="avatarLabel">
         <slot name="label"></slot>
-      </label>
+      </span>
       <div class="ui stackable grid row">
         <div class="three wide column">
           <img :class="['ui', imageClass, 'image']" v-if="value && value === initialValue" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${value}/proxy?next=medium_square_crop`)" />

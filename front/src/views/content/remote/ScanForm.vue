@@ -7,10 +7,10 @@
       </ul>
     </div>
     <div class="ui field">
-      <label><translate translate-context="Content/Library/Input.Label/Verb">Search a remote library</translate></label>
+      <label for="library-search"><translate translate-context="Content/Library/Input.Label/Verb">Search a remote library</translate></label>
       <div :class="['ui', 'action', {loading: isLoading}, 'input']">
-        <input name="url" v-model="query" :placeholder="labels.placeholder" type="url">
-        <button type="submit" :class="['ui', 'icon', {loading: isLoading}, 'button']">
+        <input id="library-search" name="url" v-model="query" :placeholder="labels.placeholder" type="url">
+        <button :aria-label="labels.submitLibrarySearch" type="submit" :class="['ui', 'icon', {loading: isLoading}, 'button']">
           <i class="search icon"></i>
         </button>
       </div>
@@ -47,9 +47,9 @@ export default {
   },
   computed: {
     labels () {
-      let placeholder = this.$pgettext('Content/Library/Input.Placeholder', 'Enter a library URL')
       return {
-        placeholder
+        placeholder: this.$pgettext('Content/Library/Input.Placeholder', 'Enter a library URL'),
+        submitLibrarySearch: this.$pgettext('Content/Library/Input.Label', 'Submit search')
       }
     }
   }

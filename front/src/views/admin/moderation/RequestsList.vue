@@ -6,14 +6,14 @@
       <div class="ui inline form">
         <div class="fields">
           <div class="ui field">
-            <label><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
+            <label for="requests-search"><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
             <form @submit.prevent="search.query = $refs.search.value">
-              <input name="search" ref="search" type="text" :value="search.query" :placeholder="labels.searchPlaceholder" />
+              <input id="requests-search" name="search" ref="search" type="text" :value="search.query" :placeholder="labels.searchPlaceholder" />
             </form>
           </div>
           <div class="field">
-            <label><translate translate-context="*/*/*">Status</translate></label>
-            <select class="ui dropdown" @change="addSearchToken('status', $event.target.value)" :value="getTokenValue('status', '')">
+            <label for="requests-status"><translate translate-context="*/*/*">Status</translate></label>
+            <select id="requests-status" class="ui dropdown" @change="addSearchToken('status', $event.target.value)" :value="getTokenValue('status', '')">
               <option value="">
                 <translate translate-context="Content/*/Dropdown">All</translate>
               </option>
@@ -29,16 +29,16 @@
             </select>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
-            <select class="ui dropdown" v-model="ordering">
+            <label for="requests-ordering"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
+            <select id="requests-ordering" class="ui dropdown" v-model="ordering">
               <option v-for="option in orderingOptions" :value="option[0]">
                 {{ sharedLabels.filters[option[1]] }}
               </option>
             </select>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Order</translate></label>
-            <select class="ui dropdown" v-model="orderingDirection">
+            <label for="requests-ordering-direction"><translate translate-context="Content/Search/Dropdown.Label/Noun">Order</translate></label>
+            <select id="requests-ordering-direction" class="ui dropdown" v-model="orderingDirection">
               <option value="+"><translate translate-context="Content/Search/Dropdown">Ascending</translate></option>
               <option value="-"><translate translate-context="Content/Search/Dropdown">Descending</translate></option>
             </select>

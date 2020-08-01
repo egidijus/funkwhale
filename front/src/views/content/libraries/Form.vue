@@ -8,17 +8,17 @@
       </ul>
     </div>
     <div class="required field">
-      <label><translate translate-context="*/*/*/Noun">Name</translate></label>
-      <input name="name" v-model="currentName" :placeholder="labels.namePlaceholder" required maxlength="100">
+      <label for="current-name"><translate translate-context="*/*/*/Noun">Name</translate></label>
+      <input id="current-name" name="name" v-model="currentName" :placeholder="labels.namePlaceholder" required maxlength="100">
     </div>
     <div class="field">
-      <label><translate translate-context="*/*/*/Noun">Description</translate></label>
-      <textarea v-model="currentDescription" :placeholder="labels.descriptionPlaceholder" maxlength="2000"></textarea>
+      <label for="current-description"><translate translate-context="*/*/*/Noun">Description</translate></label>
+      <textarea id="current-description" v-model="currentDescription" :placeholder="labels.descriptionPlaceholder" maxlength="2000"></textarea>
     </div>
     <div class="field">
-      <label><translate translate-context="*/*/*">Visibility</translate></label>
+      <label for="visibility-level"><translate translate-context="*/*/*">Visibility</translate></label>
       <p><translate translate-context="Content/Library/Paragraph">You are able to share your library with other people, regardless of its visibility.</translate></p>
-      <select class="ui dropdown" v-model="currentVisibilityLevel">
+      <select id="visibility-level" class="ui dropdown" v-model="currentVisibilityLevel">
         <option :value="c" v-for="c in ['me', 'instance', 'everyone']">{{ sharedLabels.fields.privacy_level.choices[c] }}</option>
       </select>
     </div>

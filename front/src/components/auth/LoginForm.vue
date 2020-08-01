@@ -14,7 +14,7 @@
     </div>
     <template v-if="$store.getters['instance/appDomain'] === $store.getters['instance/domain']" >
       <div class="field">
-        <label>
+        <label for="username-field">
           <translate translate-context="Content/Login/Input.Label/Noun">Username or email</translate>
           <template v-if="showSignup">
             |
@@ -28,19 +28,20 @@
         required
         name="username"
         type="text"
+        id="username-field"
         autofocus
         :placeholder="labels.usernamePlaceholder"
         v-model="credentials.username"
         >
       </div>
       <div class="field">
-        <label>
+        <label for="password-field">
           <translate translate-context="*/*/*">Password</translate> |
           <router-link :to="{name: 'auth.password-reset', query: {email: credentials.username}}">
             <translate translate-context="*/Login/*/Verb">Reset your password</translate>
           </router-link>
         </label>
-        <password-input required v-model="credentials.password" />
+        <password-input field-id="password-field" required v-model="credentials.password" />
 
       </div>
     </template>
