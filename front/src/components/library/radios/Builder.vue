@@ -38,17 +38,15 @@
           </div>
         </div>
         <div class="ui form">
-          <p>
-            <translate translate-context="Content/Radio/Paragraph">Add filters to customize your radio</translate>
-          </p>
           <div class="inline field">
-            <select class="ui dropdown" v-model="currentFilterType">
+            <label id="radioFilterLabel" for="radio-filters"><translate translate-context="Content/Radio/Paragraph">Add filters to customize your radio</translate></label>
+            <select id="radio-filters" class="ui dropdown" v-model="currentFilterType">
               <option value="">
                 <translate translate-context="Content/Radio/Dropdown.Placeholder/Verb">Select a filter</translate>
               </option>
               <option v-for="f in availableFilters" :value="f.type">{{ f.label }}</option>
             </select>
-            <button :disabled="!currentFilterType" @click="add" class="ui button">
+            <button id="addFilter" :disabled="!currentFilterType" @click="add" class="ui button">
               <translate translate-context="Content/Radio/Button.Label/Verb">Add filter</translate>
             </button>
           </div>

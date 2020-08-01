@@ -47,7 +47,7 @@
           </translate>
         </div>
 
-      <dangerous-button :disabled="plts.length === 0" class="ui labeled right floated warning icon button" :action="clearPlaylist">
+      <dangerous-button :disabled="plts.length === 0" class="ui labeled right floated danger icon button" :action="clearPlaylist">
         <i class="eraser icon"></i> <translate translate-context="*/Playlist/Button.Label/Verb">Clear playlist</translate>
         <p slot="modal-header" v-translate="{playlist: playlist.name}" translate-context="Popup/Playlist/Title"  :translate-params="{playlist: playlist.name}">
           Do you want to clear the playlist "%{ playlist }"?

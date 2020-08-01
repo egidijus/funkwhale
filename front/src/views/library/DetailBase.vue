@@ -27,7 +27,7 @@
             <div class="ui hidden divider"></div>
             <div class="ellipsis content">
               <i class="layer group small icon"></i>
-              <span :title="object.name">{{ object.name }}</span>
+              <span>{{ object.name }}</span>
               <div class="ui very small hidden divider"></div>
               <div class="sub header ellipsis" :title="object.full_username">
                 <actor-link :avatar="false" :actor="object.actor" :truncate-length="0">
@@ -74,13 +74,15 @@
               :can-update="false"></rendered-description>
               <div class="ui hidden divider"></div>
           </template>
-          <h5 class="ui header">
-            <label for="copy-input">
-              <translate translate-context="Content/Library/Title">Sharing link</translate>
-            </label>
-          </h5>
-          <p><translate translate-context="Content/Library/Paragraph">Share this link with other users so they can request access to this library by copy-pasting it in their pod search bar.</translate></p>
-          <copy-input :value="object.fid" />
+          <div class="ui form">
+            <div class="field">
+              <label for="copy-input">
+                <translate translate-context="Content/Library/Title">Sharing link</translate>
+              </label>
+              <p><translate translate-context="Content/Library/Paragraph">Share this link with other users so they can request access to this library by copy-pasting it in their pod search bar.</translate></p>
+              <copy-input :value="object.fid" />
+            </div>
+          </div>
         </div>
         <div class="ui eleven wide column">
           <div class="ui head vertical stripe segment">

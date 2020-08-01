@@ -15,7 +15,7 @@
           <div class="ui field">
             <div class="ui action input">
               <input class="ui input" id="query" name="query" type="text" v-model="query">
-              <button type="submit" class="ui icon button">
+              <button :aria-label="labels.submitSearch" type="submit" class="ui icon button">
                 <i class="search icon"></i>
               </button>
             </div>
@@ -134,6 +134,7 @@ export default {
   },
   computed: {
     labels() {
+      let submitSearch = this.$pgettext("Content/Search/Button.Label/Verb", "Submit Search Query")
       let title = this.$pgettext("Content/Search/Input.Label/Noun", "Search")
       if (this.initialId) {
         title = this.$pgettext('Head/Fetch/Title', "Search a remote object")
@@ -143,6 +144,7 @@ export default {
       } 
       return {
         title,
+        submitSearch
       }
     },
     types () {

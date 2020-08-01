@@ -7,13 +7,13 @@
     <table v-else :class="['ui', 'compact', 'very', 'basic', {loading: isLoading}, 'unstackable', 'table']">
       <thead>
         <tr>
-          <th></th>
-          <th></th>
+          <th><span class="visually-hidden"><translate translate-context="*/*/*/Noun">Play</translate></span></th>
+          <th><span class="visually-hidden"><translate translate-context="*/*/*/Noun">Track Art</translate></span></th>
           <th colspan="6"><translate translate-context="*/*/*/Noun">Title</translate></th>
           <th colspan="4"><translate translate-context="*/*/*/Noun">Artist</translate></th>
           <th colspan="4"><translate translate-context="*/*/*">Album</translate></th>
           <th colspan="4"><translate translate-context="Content/*/*">Duration</translate></th>
-          <th colspan="2" v-if="displayActions"></th>
+          <th colspan="2" v-if="displayActions"><span class="visually hidden"><translate translate-context="*/*/*/Noun">Actions</translate></span></th>
         </tr>
       </thead>
       <tbody>

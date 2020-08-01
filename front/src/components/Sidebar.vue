@@ -4,6 +4,7 @@
     <router-link :title="'Funkwhale'" :to="{name: logoUrl}">
       <i class="logo bordered inverted vibrant big icon">
         <logo class="logo"></logo>
+        <span class="visually-hidden">Home</span>
       </i>
     </router-link>
     <router-link v-if="!$store.state.auth.authenticated" class="logo-wrapper" :to="{name: logoUrl}" :title="'Funkwhale'">
@@ -64,13 +65,16 @@
         <router-link
           class="item"
           v-if="$store.state.auth.authenticated"
-          :title="labels.addContent"
-          :to="{name: 'content.index'}"><i class="upload icon"></i></router-link>
-
-        <router-link class="item" v-if="$store.state.auth.authenticated" :title="labels.notifications" :to="{name: 'notifications'}">
-          <i class="bell icon"></i><div
-            v-if="$store.state.ui.notifications.inbox + additionalNotifications > 0"
-            :class="['ui', 'accent', 'mini', 'bottom floating', 'circular', 'label']">{{ $store.state.ui.notifications.inbox + additionalNotifications }}</div>
+          :to="{name: 'content.index'}">
+        <i class="upload icon"></i>
+        <span class="visually-hidden">{{ labels.addContent }}</span>
+        </router-link>
+        <router-link class="item" v-if="$store.state.auth.authenticated" :to="{name: 'notifications'}">
+          <i class="bell icon"></i>
+          <div v-if="$store.state.ui.notifications.inbox + additionalNotifications > 0" :class="['ui', 'accent', 'mini', 'bottom floating', 'circular', 'label']">
+            {{ $store.state.ui.notifications.inbox + additionalNotifications }}
+          </div>
+          <span v-else class="visually-hidden">{{ labels.notifications }}</span>
         </router-link>
         <div class="item">
           <div class="ui user-dropdown dropdown" >
@@ -108,10 +112,10 @@
     <section :class="['ui', 'bottom', 'attached', {active: selectedTab === 'library'}, 'tab']" :aria-label="labels.mainMenu">
       <nav class="ui vertical large fluid inverted menu" role="navigation" :aria-label="labels.mainMenu">
         <div :class="[{collapsed: !exploreExpanded}, 'collaspable item']">
-          <h3 class="header" @click="exploreExpanded = true" tabindex="0" @focus="exploreExpanded = true">
+          <h2 class="header" @click="exploreExpanded = true" tabindex="0" @focus="exploreExpanded = true">
             <translate translate-context="*/*/*/Verb">Explore</translate>
             <i class="angle right icon" v-if="!exploreExpanded"></i>
-          </h3>
+          </h2>
           <div class="menu">
             <router-link class="item" :exact="true" :to="{name: 'library.index'}"><i class="music icon"></i><translate translate-context="Sidebar/Navigation/List item.Link/Verb">Browse</translate></router-link>
             <router-link class="item" :to="{name: 'library.albums.browse'}"><i class="compact disc icon"></i><translate translate-context="*/*/*">Albums</translate></router-link>

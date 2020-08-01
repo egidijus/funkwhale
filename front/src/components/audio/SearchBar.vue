@@ -1,7 +1,7 @@
 <template>
   <div class="ui fluid category search">
     <slot></slot><div class="ui icon input">
-      <input ref="search" type="search" class="prompt" name="search" :placeholder="labels.placeholder" @keydown.esc="$event.target.blur()">
+      <input :aria-label="labels.searchContent" ref="search" type="search" class="prompt" name="search" :placeholder="labels.placeholder" @keydown.esc="$event.target.blur()">
       <i class="search icon"></i>
     </div>
     <div class="results"></div>
@@ -25,7 +25,8 @@ export default {
   computed: {
     labels () {
       return {
-        placeholder: this.$pgettext('Sidebar/Search/Input.Placeholder', 'Search for artists, albums, tracks…')
+        placeholder: this.$pgettext('Sidebar/Search/Input.Placeholder', 'Search for artists, albums, tracks…'),
+        searchContent: this.$pgettext('Sidebar/Search/Input.Label', 'Search for content')
       }
     }
   },

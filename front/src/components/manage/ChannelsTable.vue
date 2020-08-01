@@ -3,14 +3,14 @@
     <div class="ui inline form">
       <div class="fields">
         <div class="ui six wide field">
-          <label><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
+          <label for="channel-search"><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
           <form @submit.prevent="search.query = $refs.search.value">
-            <input name="search" ref="search" type="text" :value="search.query" :placeholder="labels.searchPlaceholder" />
+            <input id="channel-search" name="search" ref="search" type="text" :value="search.query" :placeholder="labels.searchPlaceholder" />
           </form>
         </div>
         <div class="field">
-          <label><translate translate-context="*/*/*">Category</translate></label>
-          <select class="ui dropdown" @change="addSearchToken('category', $event.target.value)" :value="getTokenValue('category', '')">
+          <label for="channel-category"><translate translate-context="*/*/*">Category</translate></label>
+          <select id="channel-category" class="ui dropdown" @change="addSearchToken('category', $event.target.value)" :value="getTokenValue('category', '')">
             <option value=""><translate translate-context="Content/*/Dropdown">All</translate></option>
             <option value="podcast">{{ sharedLabels.fields.content_category.choices.podcast }}</option>
             <option value="music">{{ sharedLabels.fields.content_category.choices.music }}</option>
@@ -18,16 +18,16 @@
           </select>
         </div>
         <div class="field">
-          <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
-          <select class="ui dropdown" v-model="ordering">
+          <label for="channel-ordering"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
+          <select id="channel-ordering" class="ui dropdown" v-model="ordering">
             <option v-for="option in orderingOptions" :value="option[0]">
               {{ sharedLabels.filters[option[1]] }}
             </option>
           </select>
         </div>
         <div class="field">
-          <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
-          <select class="ui dropdown" v-model="orderingDirection">
+          <label for="channel-ordering-direction"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
+          <select id="channel-ordering-direction" class="ui dropdown" v-model="orderingDirection">
             <option value="+"><translate translate-context="Content/Search/Dropdown">Ascending</translate></option>
             <option value="-"><translate translate-context="Content/Search/Dropdown">Descending</translate></option>
           </select>
@@ -60,15 +60,17 @@
           <td>
             <router-link :to="{name: 'manage.moderation.accounts.detail', params: {id: scope.obj.attributed_to.full_username }}">
               <i class="wrench icon"></i>
+              <span class="visually-hidden">{{ labels.openModeration }}</span>
             </router-link>
-            <span role="button" class="discrete link" @click="addSearchToken('account', scope.obj.attributed_to.full_username)" :title="scope.obj.attributed_to.full_username">{{ scope.obj.attributed_to.preferred_username }}</span>
+            <span role="button" class="discrete link" @click="addSearchToken('account', scope.obj.attributed_to.full_username)">{{ scope.obj.attributed_to.preferred_username }}</span>
           </td>
           <td>
             <template v-if="!scope.obj.is_local">
               <router-link :to="{name: 'manage.moderation.domains.detail', params: {id: scope.obj.attributed_to.domain }}">
                 <i class="wrench icon"></i>
+                <span class="visually-hidden">{{ labels.openModeration }}</span>
               </router-link>
-              <span role="button" class="discrete link" @click="addSearchToken('domain', scope.obj.attributed_to.domain)" :title="scope.obj.attributed_to.domain">{{ scope.obj.attributed_to.domain }}</span>
+              <span role="button" class="discrete link" @click="addSearchToken('domain', scope.obj.attributed_to.domain)">{{ scope.obj.attributed_to.domain }}</span>
             </template>
             <span role="button" v-else class="ui tiny accent icon link label" @click="addSearchToken('domain', scope.obj.attributed_to.domain)">
               <i class="home icon"></i>
@@ -177,7 +179,8 @@ export default {
   computed: {
     labels () {
       return {
-        searchPlaceholder: this.$pgettext('Content/Search/Input.Placeholder', 'Search by domain, name, account…')
+        searchPlaceholder: this.$pgettext('Content/Search/Input.Placeholder', 'Search by domain, name, account…'),
+        openModeration: this.$pgettext('Content/Moderation/Verb', 'Open in moderation interface')
       }
     },
     actionFilters () {

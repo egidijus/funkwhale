@@ -19,12 +19,12 @@
               </translate>
             </p>
             <div class="field">
-              <label><translate translate-context="Content/Applications/Label">Application ID</translate></label>
-              <copy-input :value="application.client_id" />
+              <label for="copy-id"><translate translate-context="Content/Applications/Label">Application ID</translate></label>
+              <copy-input id="copy-id" :value="application.client_id" />
             </div>
             <div class="field">
-              <label><translate translate-context="Content/Applications/Label">Application secret</translate></label>
-              <copy-input :value="application.client_secret" />
+              <label for="copy-secret"><translate translate-context="Content/Applications/Label">Application secret</translate></label>
+              <copy-input id="copy-secret" :value="application.client_secret" />
             </div>
           </div>
           <h2 class="ui header">

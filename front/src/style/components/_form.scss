@@ -1,6 +1,7 @@
 
 .ui.checkbox label {
   cursor: pointer;
+  color: var(--text-color);
 }
 
 input + .help {
@@ -27,4 +28,17 @@ input + .help {
 }
 .ui.icon.input > .icon {
   color: var(--input-color);
+}
+
+#updatePlaylistLabel {
+  display: block;
+  margin: 0 0 0.28571429rem 0;
+  color: var(--form-label-color);
+  font-size: 0.92857143em;
+  font-weight: bold;
+  text-transform: none;
+}
+
+#updatePlaylistLabel:before {
+  content: "\200b";
 }

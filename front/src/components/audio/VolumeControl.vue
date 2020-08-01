@@ -25,7 +25,9 @@
       <i class="volume up icon"></i>
     </span>
     <div class="popup">
+      <label for="volume-slider" class="visually-hidden">{{ labels.slider }}</label>
       <input
+        id="volume-slider"
         type="range"
         step="0.05"
         min="0"
@@ -57,7 +59,7 @@ export default {
       return {
         unmute: this.$pgettext('Sidebar/Player/Icon.Tooltip/Verb', "Unmute"),
         mute: this.$pgettext('Sidebar/Player/Icon.Tooltip/Verb', "Mute"),
-
+        slider: this.$pgettext('Sidebar/Player/Icon.Tooltip/Verb', "Adjust volume")
       }
     }
   },

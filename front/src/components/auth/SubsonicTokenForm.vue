@@ -24,7 +24,9 @@
     </div>
     <template v-if="subsonicEnabled">
       <div v-if="token" class="field">
+        <label for="subsonic-password" class="visually-hidden">{{ labels.subsonicField }}</label>
         <password-input
+          field-id="subsonic-password"
           ref="passwordInput"
           v-model="token"
           :key="token"
@@ -131,6 +133,9 @@ export default {
   computed: {
     subsonicEnabled () {
       return this.$store.state.instance.settings.subsonic.enabled.value
+    },
+    labels () {
+      subsonicField: this.$pgettext("Content/Password/Input.label", "Your subsonic API password")
     }
   }
 }

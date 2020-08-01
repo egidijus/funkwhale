@@ -85,13 +85,13 @@
       </div>
     </div>
     <div class="extra content">
-      <actor-link :actor="library.actor" />
+      <actor-link style="color: var(--link-color)" :actor="library.actor" />
     </div>
     <div v-if="displayCopyFid" class="extra content">
       <div class="ui form">
         <div class="field">
-          <label><translate translate-context="Content/Library/Title">Sharing link</translate></label>
-          <copy-input :button-classes="'basic'" :value="library.fid" />
+          <label :for="library.fid"><translate translate-context="Content/Library/Title">Sharing link</translate></label>
+          <copy-input :id="library.fid" :button-classes="'basic'" :value="library.fid" />
         </div>
       </div>
     </div>

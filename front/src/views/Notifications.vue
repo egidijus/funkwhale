@@ -15,10 +15,10 @@
               <div class="ui bottom attached segment">
                 <form @submit.prevent="setDisplayDate('instance_support_message_display_date', instanceSupportMessageDelay)" class="ui inline form">
                   <div class="inline field">
-                    <label>
+                    <label for="instance-reminder-delay">
                       <translate translate-context="Content/Notifications/Label">Remind me in:</translate>
                     </label>
-                    <select v-model="instanceSupportMessageDelay">
+                    <select id="instance-reminder-delay" v-model="instanceSupportMessageDelay">
                       <option :value="30"><translate translate-context="*/*/*">30 days</translate></option>
                       <option :value="60"><translate translate-context="*/*/*">60 days</translate></option>
                       <option :value="90"><translate translate-context="*/*/*">90 days</translate></option>
@@ -49,10 +49,10 @@
               <div class="ui bottom attached segment">
                 <form @submit.prevent="setDisplayDate('funkwhale_support_message_display_date', funkwhaleSupportMessageDelay)" class="ui inline form">
                   <div class="inline field">
-                    <label>
+                    <label for="funkwhale-reminder-delay">
                       <translate translate-context="Content/Notifications/Label">Remind me in:</translate>
                     </label>
-                    <select v-model="funkwhaleSupportMessageDelay">
+                    <select id="funkwhale-reminder-delay" v-model="funkwhaleSupportMessageDelay">
                       <option :value="30"><translate translate-context="*/*/*">30 days</translate></option>
                       <option :value="60"><translate translate-context="*/*/*">60 days</translate></option>
                       <option :value="90"><translate translate-context="*/*/*">90 days</translate></option>
@@ -69,8 +69,8 @@
         </div>
         <h1 class="ui header"><translate translate-context="Content/Notifications/Title">Your notifications</translate></h1>
         <div class="ui toggle checkbox">
-          <input v-model="filters.is_read" type="checkbox">
-          <label><translate translate-context="Content/Notifications/Form.Label/Verb">Show read notifications</translate></label>
+          <input id="show-read-notifications" v-model="filters.is_read" type="checkbox">
+          <label for="show-read-notifications"><translate translate-context="Content/Notifications/Form.Label/Verb">Show read notifications</translate></label>
         </div>
         <div
           v-if="filters.is_read === false && notifications.count > 0"

@@ -32,19 +32,21 @@
       </ul>
     </div>
     <div class="required field">
-      <label><translate translate-context="Content/*/*">Username</translate></label>
+      <label for="username-field"><translate translate-context="Content/*/*">Username</translate></label>
       <input
       ref="username"
       name="username"
       required
+      id="username-field"
       type="text"
       autofocus
       :placeholder="labels.usernamePlaceholder"
       v-model="username">
     </div>
     <div class="required field">
-      <label><translate translate-context="Content/*/*/Noun">Email</translate></label>
+      <label for="email-field"><translate translate-context="Content/*/*/Noun">Email</translate></label>
       <input
+      id="email-field"
       ref="email"
       name="email"
       required
@@ -53,12 +55,13 @@
       v-model="email">
     </div>
     <div class="required field">
-      <label><translate translate-context="*/*/*">Password</translate></label>
-      <password-input v-model="password" />
+      <label for="password-field"><translate translate-context="*/*/*">Password</translate></label>
+      <password-input field-id="password-field" v-model="password" />
     </div>
     <div class="required field" v-if="!$store.state.instance.settings.users.registration_enabled.value">
-      <label><translate translate-context="Content/*/Input.Label">Invitation code</translate></label>
+      <label for="invitation-code"><translate translate-context="Content/*/Input.Label">Invitation code</translate></label>
       <input
+      id="invitation-code"
       required
       type="text"
       name="invitation"
@@ -70,10 +73,11 @@
         <label :for="`custom-field-${idx}`">{{ field.label }}</label>
         <textarea
           v-if="field.input_type === 'long_text'"
+          :id="`custom-field-${idx}`"
           :value="customFields[field.label]"
           :required="field.required"
           @input="$set(customFields, field.label, $event.target.value)" rows="5"></textarea>
-        <input v-else type="text" :value="customFields[field.label]" :required="field.required" @input="$set(customFields, field.label, $event.target.value)">
+        <input v-else :id="`custom-field-${idx}`" type="text" :value="customFields[field.label]" :required="field.required" @input="$set(customFields, field.label, $event.target.value)">
       </div>
     </template>
     <button :class="['ui', buttonClasses, {'loading': isLoading}, ' right floated button']" type="submit">

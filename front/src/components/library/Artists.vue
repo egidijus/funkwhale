@@ -7,48 +7,48 @@
       <form :class="['ui', {'loading': isLoading}, 'form']" @submit.prevent="updatePage();updateQueryString();fetchData()">
         <div class="fields">
           <div class="field">
-            <label>
+            <label for="artist-search">
               <translate translate-context="Content/Search/Input.Label/Noun">Search</translate>
             </label>
             <div class="ui action input">
-              <input type="text" name="search" v-model="query" :placeholder="labels.searchPlaceholder"/>
+              <input id="artist-search" type="text" name="search" v-model="query" :placeholder="labels.searchPlaceholder"/>
               <button class="ui icon button" type="submit" :aria-label="$pgettext('Content/Search/Input.Label/Noun', 'Search')">
                 <i class="search icon"></i>
               </button>
             </div>
           </div>
           <div class="field">
-            <label><translate translate-context="*/*/*/Noun">Tags</translate></label>
+            <label for="tags-search"><translate translate-context="*/*/*/Noun">Tags</translate></label>
             <tags-selector v-model="tags"></tags-selector>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
-            <select class="ui dropdown" v-model="ordering">
+            <label for="artist-ordering"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
+            <select id="artist-ordering" class="ui dropdown" v-model="ordering">
               <option v-for="option in orderingOptions" :value="option[0]">
                 {{ sharedLabels.filters[option[1]] }}
               </option>
             </select>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
-            <select class="ui dropdown" v-model="orderingDirection">
+            <label for="artist-ordering-direction"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
+            <select id="artist-ordering-direction" class="ui dropdown" v-model="orderingDirection">
               <option value="+"><translate translate-context="Content/Search/Dropdown">Ascending</translate></option>
               <option value="-"><translate translate-context="Content/Search/Dropdown">Descending</translate></option>
             </select>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Results per page</translate></label>
-            <select class="ui dropdown" v-model="paginateBy">
+            <label for="artist-results"><translate translate-context="Content/Search/Dropdown.Label/Noun">Results per page</translate></label>
+            <select id="artist-results" class="ui dropdown" v-model="paginateBy">
               <option :value="parseInt(12)">12</option>
               <option :value="parseInt(30)">30</option>
               <option :value="parseInt(50)">50</option>
             </select>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Checkbox/Noun">Exclude Compilation Artists</translate></label>
-            <div id="excludeCompilation" class="ui fitted toggle checkbox">
+            <span id="excludeHeader">Exclude Compilation Artists</span>
+              <div id="excludeCompilation" class="ui toggle checkbox">
               <input id="exclude-compilation" v-model="excludeCompilation" true-value="true" false-value="null" type="checkbox">
-              <label></label>
+              <label for="exclude-compilation" class="visually-hidden"><translate translate-context="Content/Search/Checkbox/Noun">Exclude Compilation Artists</translate></label>
             </div>
           </div>
         </div>

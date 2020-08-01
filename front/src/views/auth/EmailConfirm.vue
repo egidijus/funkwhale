@@ -11,8 +11,8 @@
             </ul>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Signup/Form.Label">Confirmation code</translate></label>
-            <input name="confirmation-code" type="text" required v-model="key" />
+            <label for="confirmation-code"><translate translate-context="Content/Signup/Form.Label">Confirmation code</translate></label>
+            <input id="confirmation-code" name="confirmation-code" type="text" required v-model="key" />
           </div>
           <router-link :to="{path: '/login'}">
             <translate translate-context="Content/Signup/Link/Verb">Return to login</translate>

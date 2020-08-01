@@ -8,12 +8,12 @@
       </ul>
     </div>
     <div class="ui field">
-      <label><translate translate-context="*/*/*/Noun">Name</translate></label>
-      <input name="name" required type="text" v-model="fields.name" />
+      <label for="application-name"><translate translate-context="*/*/*/Noun">Name</translate></label>
+      <input id="application-name" name="name" required type="text" v-model="fields.name" />
     </div>
     <div class="ui field">
-      <label><translate translate-context="Content/Applications/Input.Label/Noun">Redirect URI</translate></label>
-      <input name="redirect_uris" type="text" v-model="fields.redirect_uris" />
+      <label for="redirect-uris"><translate translate-context="Content/Applications/Input.Label/Noun">Redirect URI</translate></label>
+      <input id="redirect-uris" name="redirect_uris" type="text" v-model="fields.redirect_uris" />
       <p class="help">
         <translate translate-context="Content/Applications/Help Text">
           Use "urn:ietf:wg:oauth:2.0:oob" as a redirect URI if your application is not served on the web.

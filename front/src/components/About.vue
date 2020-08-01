@@ -20,9 +20,9 @@
         <div class="ui mobile reversed stackable grid">
           <div class="ten wide column">
             <div class="ui text container">
-              <h3 class="ui header" id="description">
+              <h2 class="ui header" id="description">
                 <translate translate-context="Content/About/Header">About this pod</translate>
-              </h3>
+              </h2>
               <div v-html="markdown.makeHtml(longDescription)" v-if="longDescription"></div>
               <p v-else>
                 <translate translate-context="Content/Home/Paragraph">No description available.</translate>

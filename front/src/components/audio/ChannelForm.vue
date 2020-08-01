@@ -7,10 +7,10 @@
       </ul>
     </div>
     <template v-if="metadataChoices">
-      <div v-if="creating && step === 1" class="ui grouped channel-type required field">
-        <label>
+      <fieldset v-if="creating && step === 1" class="ui grouped channel-type required field">
+        <legend>
           <translate translate-context="Content/Channel/Paragraph">What this channel will be used for?</translate>
-        </label>
+        </legend>
         <div class="ui hidden divider"></div>
         <div class="field">
           <div :class="['ui', 'radio', 'checkbox', {selected: choice.value == newValues.content_category}]" v-for="choice in categoryChoices">
@@ -23,7 +23,7 @@
             </label>
           </div>
         </div>
-      </div>
+      </fieldset>
       <template v-if="!creating || step === 2">
         <div class="ui required field">
           <label for="channel-name">

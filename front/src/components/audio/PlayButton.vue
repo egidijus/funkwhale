@@ -2,9 +2,9 @@
   <span :title="title" :class="['ui', {'tiny': discrete}, {'icon': !discrete}, {'buttons': !dropdownOnly && !iconOnly}, 'play-button component-play-button']">
     <button
       v-if="!dropdownOnly"
-      :title="labels.replacePlay"
       @click.stop.prevent="replacePlay"
       :disabled="!playable"
+      :aria-label="labels.replacePlay"
       :class="buttonClasses.concat(['ui', {loading: isLoading}, {'mini': discrete}, {disabled: !playable}])">
       <i :class="[playIconClass, 'icon']"></i>
       <template v-if="!discrete && !iconOnly">&nbsp;<slot><translate translate-context="*/Queue/Button.Label/Short, Verb">Play</translate></slot></template>

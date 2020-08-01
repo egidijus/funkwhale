@@ -30,7 +30,7 @@
             <img class="ui big circular image" v-else v-lazy="$store.getters['instance/absoluteUrl'](object.icon.square_crop)" />
             <div class="ellispsis content">
               <div class="ui very small hidden divider"></div>
-              <span :title="displayName">{{ displayName }}</span>
+              <span>{{ displayName }}</span>
               <div class="ui very small hidden divider"></div>
               <div class="sub header ellipsis" :title="object.full_username">
                 {{ object.full_username }}
