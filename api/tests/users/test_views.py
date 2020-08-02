@@ -568,3 +568,26 @@ def test_update_settings(logged_in_api_client, factories):
     logged_in_api_client.user.refresh_from_db()
 
     assert logged_in_api_client.user.settings == {"foo": "bar", "theme": "dark"}
+
+
+def test_user_change_email_requires_valid_password(logged_in_api_client):
+    url = reverse("api:v1:users:users-change-email")
+    payload = {"password": "invalid", "email": "test@new.email"}
+    response = logged_in_api_client.post(url, payload)
+
+    assert response.status_code == 400
+
+
+def test_user_change_email(logged_in_api_client, mocker, mailoutbox):
+    user = logged_in_api_client.user
+    user.set_password("mypassword")
+    url = reverse("api:v1:users:users-change-email")
+    payload = {"password": "mypassword", "email": "test@new.email"}
+    response = logged_in_api_client.post(url, payload)
+
+    address = user.emailaddress_set.latest("id")
+
+    assert address.email == payload["email"]
+    assert address.verified is False
+    assert response.status_code == 204
+    assert len(mailoutbox) == 1

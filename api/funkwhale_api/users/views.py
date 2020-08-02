@@ -111,6 +111,22 @@ class UserViewSet(mixins.UpdateModelMixin, viewsets.GenericViewSet):
         data = {"subsonic_api_token": self.request.user.subsonic_api_token}
         return Response(data)
 
+    @action(
+        methods=["post"],
+        required_scope="security",
+        url_path="change-email",
+        detail=False,
+    )
+    def change_email(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return Response(status=403)
+        serializer = serializers.UserChangeEmailSerializer(
+            request.user, data=request.data, context={"user": request.user}
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save(request)
+        return Response(status=204)
+
     def update(self, request, *args, **kwargs):
         if not self.request.user.username == kwargs.get("username"):
             return Response(status=403)

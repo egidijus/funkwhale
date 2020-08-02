@@ -273,6 +273,38 @@
       <section class="ui text container">
         <div class="ui hidden divider"></div>
         <h2 class="ui header">
+          <i class="comment icon"></i>
+          <div class="content">
+            <translate translate-context="*/*/Button.Label">Change my email address</translate>
+          </div>
+        </h2>
+        <p>
+          <translate translate-context="Content/Settings/Paragraph'">Change the email address associated with your account. We will send a confirmation to the new address.</translate>
+        </p>
+        <p>
+          <translate :translate-params="{email: $store.state.auth.profile.email}" translate-context="Content/Settings/Paragraph'">Your current email address is %{ email }.</translate>
+        </p>
+        <form class="ui form" @submit.prevent="changeEmail">
+          <div v-if="changeEmailErrors.length > 0" role="alert" class="ui negative message">
+            <h4 class="header"><translate translate-context="Content/Settings/Error message.Title">We cannot change your email address</translate></h4>
+            <ul class="list">
+              <li v-for="error in changeEmailErrors">{{ error }}</li>
+            </ul>
+          </div>
+          <div class="field">
+            <label for="new-email"><translate translate-context="*/*/*">New email</translate></label>
+            <input id="new-email" required v-model="newEmail" type="email" />
+          </div>
+          <div class="field">
+            <label for="current-password-field-email"><translate translate-context="*/*/*">Password</translate></label>
+            <password-input field-id="current-password-field-email" required v-model="emailPassword" />
+          </div>
+          <button type="submit" class="ui button"><translate translate-context="*/*/*">Update</translate></button>
+        </form>
+      </section>
+      <section class="ui text container">
+        <div class="ui hidden divider"></div>
+        <h2 class="ui header">
           <i class="trash icon"></i>
           <div class="content">
             <translate translate-context="*/*/Button.Label">Delete my account</translate>
@@ -339,6 +371,10 @@ export default {
       isLoading: false,
       isLoadingAvatar: false,
       isDeletingAccount: false,
+      changeEmailErrors: [],
+      isChangingEmail: false,
+      newEmail: null,
+      emailPassword: null,
       accountDeleteErrors: [],
       avatarErrors: [],
       apps: [],
@@ -516,6 +552,33 @@ export default {
           error => {
             self.isDeletingAccount = false
             self.accountDeleteErrors = error.backendErrors
+          }
+        )
+    },
+
+    changeEmail() {
+      this.isChangingEmail = true
+      this.changeEmailErrors = []
+      let self = this
+      let payload = {
+        password: this.emailPassword,
+        email: this.newEmail,
+      }
+      axios.post(`users/users/change-email/`, payload)
+        .then(
+          response => {
+            self.isChangingEmail = false
+            self.newEmail = null
+            self.emailPassword = null
+            let msg = self.$pgettext('*/Auth/Message', 'Your email has been changed, please check your inbox for our confirmation message.')
+            self.$store.commit('ui/addMessage', {
+              content: msg,
+              date: new Date()
+            })
+          },
+          error => {
+            self.isChangingEmail = false
+            self.changeEmailErrors = error.backendErrors
           }
         )
     },

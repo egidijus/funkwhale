@@ -310,6 +310,53 @@ paths:
             application/json:
               schema:
                 $ref: "./api/definitions.yml#/Me"
+    delete:
+      summary: Delete the user account performing the request
+      tags:
+        - "Auth and security"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                confirm:
+                  type: "boolean"
+                  description: "Must be set to true, to avoid accidental deletion"
+                password:
+                  type: "string"
+                  description: "The current password of the account"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "./api/definitions.yml#/Me"
+  /api/v1/users/users/change-email/:
+    post:
+      summary: Update the email address associated with a user account
+      tags:
+        - "Auth and security"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                email:
+                  type: "string"
+                  format: "email"
+                password:
+                  type: "string"
+                  description: "The current password of the account"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "./api/definitions.yml#/Me"
 
   /api/v1/rate-limit/:
     get:
