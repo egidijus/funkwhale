@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from django.contrib import auth
 
+from allauth.account import models as allauth_models
 from rest_auth.serializers import PasswordResetSerializer as PRS
 from rest_auth.registration.serializers import RegisterSerializer as RS, get_adapter
 from rest_framework import serializers
@@ -288,3 +289,29 @@ class LoginSerializer(serializers.Serializer):
 
     def save(self, request):
         return auth.login(request, self.validated_data)
+
+
+class UserChangeEmailSerializer(serializers.Serializer):
+    password = serializers.CharField()
+    email = serializers.EmailField()
+
+    def validate_password(self, value):
+        if not self.instance.check_password(value):
+            raise serializers.ValidationError("Invalid password")
+
+    def validate_email(self, value):
+        if (
+            allauth_models.EmailAddress.objects.filter(email__iexact=value)
+            .exclude(user=self.context["user"])
+            .exists()
+        ):
+            raise serializers.ValidationError("This email address is already in use")
+        return value
+
+    def save(self, request):
+        current, _ = allauth_models.EmailAddress.objects.get_or_create(
+            user=request.user,
+            email=request.user.email,
+            defaults={"verified": False, "primary": True},
+        )
+        current.change(request, self.validated_data["email"], confirm=True)
