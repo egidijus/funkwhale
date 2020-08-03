@@ -3,6 +3,7 @@ import datetime
 import logging
 import urllib.parse
 from django.conf import settings
+from django.core.cache import cache
 from django.db import transaction
 from django.db.models import Count, Prefetch, Sum, F, Q
 import django.db.utils
@@ -313,6 +314,64 @@ class LibraryViewSet(
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+    @action(
+        methods=["get", "post", "delete"],
+        detail=False,
+        url_name="fs-import",
+        url_path="fs-import",
+    )
+    @transaction.non_atomic_requests
+    def fs_import(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response({}, status=403)
+        if not request.user.all_permissions["library"]:
+            return Response({}, status=403)
+        if request.method == "GET":
+            path = request.GET.get("path", "")
+            data = {
+                "root": settings.MUSIC_DIRECTORY_PATH,
+                "path": path,
+                "import": None,
+            }
+            status = cache.get("fs-import:status", default=None)
+            if status:
+                data["import"] = {
+                    "status": status,
+                    "reference": cache.get("fs-import:reference"),
+                    "logs": cache.get("fs-import:logs", default=[]),
+                }
+            try:
+                data["content"] = utils.browse_dir(data["root"], data["path"])
+            except (NotADirectoryError, ValueError, FileNotFoundError) as e:
+                return Response({"detail": str(e)}, status=400)
+
+            return Response(data)
+        if request.method == "POST":
+            if cache.get("fs-import:status", default=None) in [
+                "pending",
+                "started",
+            ]:
+                return Response({"detail": "An import is already running"}, status=400)
+
+            data = request.data
+            serializer = serializers.FSImportSerializer(
+                data=data, context={"user": request.user}
+            )
+            serializer.is_valid(raise_exception=True)
+            cache.set("fs-import:status", "pending")
+            cache.set(
+                "fs-import:reference", serializer.validated_data["import_reference"]
+            )
+            tasks.fs_import.delay(
+                library_id=serializer.validated_data["library"].pk,
+                path=serializer.validated_data["path"],
+                import_reference=serializer.validated_data["import_reference"],
+            )
+            return Response(status=201)
+        if request.method == "DELETE":
+            cache.set("fs-import:status", "canceled")
+            return Response(status=204)
 
 
 class TrackViewSet(

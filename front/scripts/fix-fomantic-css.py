@@ -114,6 +114,7 @@ def discard_unused_icons(rule):
         ".eye",
         ".feed",
         ".file",
+        ".folder",
         ".forward",
         ".globe",
         ".hashtag",

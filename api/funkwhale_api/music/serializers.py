@@ -838,3 +838,23 @@ class AlbumCreateSerializer(serializers.Serializer):
         tag_models.set_tags(instance, *(validated_data.get("tags", []) or []))
         instance.artist.get_channel()
         return instance
+
+
+class FSImportSerializer(serializers.Serializer):
+    path = serializers.CharField(allow_blank=True)
+    library = serializers.UUIDField()
+    import_reference = serializers.CharField()
+
+    def validate_path(self, value):
+        try:
+            utils.browse_dir(settings.MUSIC_DIRECTORY_PATH, value)
+        except (NotADirectoryError, FileNotFoundError, ValueError):
+            raise serializers.ValidationError("Invalid path")
+
+        return value
+
+    def validate_library(self, value):
+        try:
+            return self.context["user"].actor.libraries.get(uuid=value)
+        except models.Library.DoesNotExist:
+            raise serializers.ValidationError("Invalid library")
