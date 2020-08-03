@@ -235,12 +235,12 @@ export default {
       )
     },
     cover() {
-      if (this.object.cover && this.object.cover.original) {
+      if (this.object.cover && this.object.cover.urls.original) {
         return this.object.cover
       }
       return this.object.albums
         .filter(album => {
-          return album.cover && album.cover.original
+          return album.cover && album.cover.urls.original
         })
         .map(album => {
           return album.cover
@@ -253,12 +253,12 @@ export default {
       })
     },
     headerStyle() {
-      if (!this.cover || !this.cover.original) {
+      if (!this.cover || !this.cover.urls.original) {
         return ""
       }
       return (
         "background-image: url(" +
-        this.$store.getters["instance/absoluteUrl"](this.cover.original) +
+        this.$store.getters["instance/absoluteUrl"](this.cover.urls.original) +
         ")"
       )
     },

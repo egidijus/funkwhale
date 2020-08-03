@@ -720,7 +720,7 @@ User:
       type: "string"
       example: "Alice Kingsley"
     avatar:
-      $ref: "#/Avatar"
+      $ref: "#/Attachment"
 
 Me:
   type: "object"
@@ -767,30 +767,8 @@ Me:
                 via request headers isn't possible.
 
                 The token expires after 3 days by default.
-Avatar:
-  type: "object"
-  properties:
-    original:
-      type: "string"
-      format: "uri"
-      description: "Original image URL"
-      example: "http://yourinstance/media/users/avatars/92/49/60/b3c-4736-43b3-bb5c-ed7a99ac6996.jpg"
-    square_crop:
-      type: "string"
-      format: "uri"
-      description: "400x400 thumbnail URL"
-      example: "http://yourinstance/media/__sized__/users/avatars/92/49/60/b3c-4736-43b3-bb5c-ed7a99ac6996-crop-c0-5__0-5-400x400-70.jpg"
-    small_square_crop:
-      type: "string"
-      format: "uri"
-      description: "50x50 thumbnail URL"
-      example: "http://yourinstance/media/__sized__/users/avatars/92/49/60/b3c-4736-43b3-bb5c-ed7a99ac6996-crop-c0-5__0-5-50x50-70.jpg"
-    medium_square_crop:
-      type: "string"
-      format: "uri"
-      description: "200x200 thumbnail URL"
-      example: "http://yourinstance/media/__sized__/users/avatars/92/49/60/b3c-4736-43b3-bb5c-ed7a99ac6996-crop-c0-5__0-5-200x200-70.jpg"
-QuotaStatus:
+
+                QuotaStatus:
   type: "object"
   properties:
     max:

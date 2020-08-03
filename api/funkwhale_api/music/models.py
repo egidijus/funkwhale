@@ -20,7 +20,6 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-from versatileimagefield.fields import VersatileImageField
 
 from funkwhale_api import musicbrainz
 from funkwhale_api.common import fields
@@ -325,10 +324,6 @@ class Album(APIModelMixin):
     artist = models.ForeignKey(Artist, related_name="albums", on_delete=models.CASCADE)
     release_date = models.DateField(null=True, blank=True, db_index=True)
     release_group_id = models.UUIDField(null=True, blank=True)
-    # XXX: 1.0 clean this uneeded field in favor of attachment_cover
-    cover = VersatileImageField(
-        upload_to="albums/covers/%Y/%m/%d", null=True, blank=True
-    )
     attachment_cover = models.ForeignKey(
         "common.Attachment",
         null=True,

@@ -60,7 +60,7 @@ export default {
   computed: {
     imageUrl () {
       if (this.object.artist.cover) {
-        return this.$store.getters['instance/absoluteUrl'](this.object.artist.cover.medium_square_crop)
+        return this.$store.getters['instance/absoluteUrl'](this.object.artist.cover.urls.medium_square_crop)
       }
     },
     urlId () {

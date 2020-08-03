@@ -114,7 +114,7 @@ export default {
     fetch () {
       let self = this
       self.isLoading = true
-      axios.get('users/users/me/').then((response) => {
+      axios.get('users/me/').then((response) => {
         self.quotaStatus = response.data.quota_status
         self.isLoading = false
       })

@@ -9,7 +9,7 @@
           <div class="ui column">
             <div class="segment-content">
               <h2 class="ui header">
-                <img alt="" v-if="object.cover && object.cover.square_crop" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.square_crop)">
+                <img alt="" v-if="object.cover && object.cover.urls.square_crop" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.urls.square_crop)">
                 <img alt="" v-else src="../../../assets/audio/default-cover.png">
                 <div class="content">
                   {{ object.title | truncate(100) }}

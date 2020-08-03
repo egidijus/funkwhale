@@ -388,7 +388,6 @@ def test_paginated_collection_serializer(factories):
         "@context": jsonld.get_default_context(),
         "type": "Collection",
         "id": conf["id"],
-        "actor": actor.fid,
         "attributedTo": actor.fid,
         "totalItems": len(uploads),
         "current": conf["id"] + "?page=1",
@@ -486,7 +485,6 @@ def test_collection_page_serializer(factories):
         "@context": jsonld.get_default_context(),
         "type": "CollectionPage",
         "id": conf["id"] + "?page=2",
-        "actor": actor.fid,
         "attributedTo": actor.fid,
         "totalItems": len(uploads),
         "partOf": conf["id"],
@@ -521,7 +519,6 @@ def test_music_library_serializer_to_ap(factories):
         "id": library.fid,
         "name": library.name,
         "summary": library.description,
-        "actor": library.actor.fid,
         "attributedTo": library.actor.fid,
         "totalItems": 0,
         "current": library.fid + "?page=1",
@@ -764,11 +761,6 @@ def test_activity_pub_album_serializer_to_ap(factories):
         "type": "Album",
         "id": album.fid,
         "name": album.title,
-        "cover": {
-            "type": "Link",
-            "mediaType": "image/jpeg",
-            "href": utils.full_url(album.attachment_cover.file.url),
-        },
         "image": {
             "type": "Image",
             "mediaType": "image/jpeg",
@@ -815,7 +807,7 @@ def test_activity_pub_album_serializer_from_ap_create(factories, faker, now):
         "type": "Album",
         "id": "https://album.example",
         "name": faker.sentence(),
-        "cover": {"type": "Link", "mediaType": "image/jpeg", "href": faker.url()},
+        "image": {"type": "Link", "mediaType": "image/jpeg", "href": faker.url()},
         "musicbrainzId": faker.uuid4(),
         "published": now.isoformat(),
         "released": released.isoformat(),
@@ -839,8 +831,8 @@ def test_activity_pub_album_serializer_from_ap_create(factories, faker, now):
     assert str(album.mbid) == payload["musicbrainzId"]
     assert album.release_date == released
     assert album.artist == artist
-    assert album.attachment_cover.url == payload["cover"]["href"]
-    assert album.attachment_cover.mimetype == payload["cover"]["mediaType"]
+    assert album.attachment_cover.url == payload["image"]["href"]
+    assert album.attachment_cover.mimetype == payload["image"]["mediaType"]
     assert sorted(album.tagged_items.values_list("tag__name", flat=True)) == [
         "Punk",
         "Rock",
@@ -879,7 +871,7 @@ def test_activity_pub_album_serializer_from_ap_update(factories, faker):
         "type": "Album",
         "id": album.fid,
         "name": faker.sentence(),
-        "cover": {"type": "Link", "mediaType": "image/jpeg", "href": faker.url()},
+        "image": {"type": "Link", "mediaType": "image/jpeg", "href": faker.url()},
         "musicbrainzId": faker.uuid4(),
         "published": album.creation_date.isoformat(),
         "released": released.isoformat(),
@@ -904,8 +896,8 @@ def test_activity_pub_album_serializer_from_ap_update(factories, faker):
     assert album.title == payload["name"]
     assert str(album.mbid) == payload["musicbrainzId"]
     assert album.release_date == released
-    assert album.attachment_cover.url == payload["cover"]["href"]
-    assert album.attachment_cover.mimetype == payload["cover"]["mediaType"]
+    assert album.attachment_cover.url == payload["image"]["href"]
+    assert album.attachment_cover.mimetype == payload["image"]["mediaType"]
     assert sorted(album.tagged_items.values_list("tag__name", flat=True)) == [
         "Punk",
         "Rock",
@@ -996,7 +988,7 @@ def test_activity_pub_track_serializer_from_ap(factories, r_mock, mocker):
             "content": "Album summary",
             "mediaType": "text/markdown",
             "attributedTo": album_attributed_to.fid,
-            "cover": {
+            "image": {
                 "type": "Link",
                 "href": "https://cover.image/test.png",
                 "mediaType": "image/png",
@@ -1066,8 +1058,8 @@ def test_activity_pub_track_serializer_from_ap(factories, r_mock, mocker):
     assert track.attachment_cover.mimetype == data["image"]["mediaType"]
 
     assert album.from_activity == activity
-    assert album.attachment_cover.url == data["album"]["cover"]["href"]
-    assert album.attachment_cover.mimetype == data["album"]["cover"]["mediaType"]
+    assert album.attachment_cover.url == data["album"]["image"]["href"]
+    assert album.attachment_cover.mimetype == data["album"]["image"]["mediaType"]
     assert album.title == data["album"]["name"]
     assert album.fid == data["album"]["id"]
     assert str(album.mbid) == data["album"]["musicbrainzId"]
@@ -1196,7 +1188,7 @@ def test_activity_pub_upload_serializer_from_ap(factories, mocker, r_mock):
                 "musicbrainzId": str(uuid.uuid4()),
                 "published": published.isoformat(),
                 "released": released.isoformat(),
-                "cover": {
+                "image": {
                     "type": "Link",
                     "href": "https://cover.image/test.png",
                     "mediaType": "image/png",
@@ -1222,7 +1214,7 @@ def test_activity_pub_upload_serializer_from_ap(factories, mocker, r_mock):
             ],
         },
     }
-    r_mock.get(data["track"]["album"]["cover"]["href"], body=io.BytesIO(b"coucou"))
+    r_mock.get(data["track"]["album"]["image"]["href"], body=io.BytesIO(b"coucou"))
 
     serializer = serializers.UploadSerializer(data=data, context={"activity": activity})
     assert serializer.is_valid(raise_exception=True)
@@ -1266,7 +1258,7 @@ def test_activity_pub_upload_serializer_from_ap_update(factories, mocker, now, r
         "library": library.fid,
         "track": serializers.TrackSerializer(upload.track).data,
     }
-    r_mock.get(data["track"]["album"]["cover"]["href"], body=io.BytesIO(b"coucou"))
+    r_mock.get(data["track"]["album"]["image"]["url"], body=io.BytesIO(b"coucou"))
 
     serializer = serializers.UploadSerializer(upload, data=data)
     assert serializer.is_valid(raise_exception=True)
@@ -1628,7 +1620,6 @@ def test_channel_actor_outbox_serializer(factories):
         "@context": jsonld.get_default_context(),
         "type": "OrderedCollection",
         "id": channel.actor.outbox_url,
-        "actor": channel.actor.fid,
         "attributedTo": channel.actor.fid,
         "totalItems": len(uploads),
         "first": channel.actor.outbox_url + "?page=1",

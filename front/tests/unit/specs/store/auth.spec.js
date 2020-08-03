@@ -146,7 +146,7 @@ describe('store/auth', () => {
           admin: true
         }
       }
-      moxios.stubRequest('users/users/me/', {
+      moxios.stubRequest('users/me/', {
         status: 200,
         response: profile
       })

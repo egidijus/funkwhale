@@ -227,7 +227,6 @@ class PlaylistTrack(models.Model):
 
     class Meta:
         ordering = ("-playlist", "index")
-        unique_together = ("playlist", "index")
 
     def delete(self, *args, **kwargs):
         playlist = self.playlist

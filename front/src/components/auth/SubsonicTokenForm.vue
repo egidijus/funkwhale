@@ -87,7 +87,7 @@ export default {
       this.errors = []
       this.isLoading = true
       let self = this
-      let url = `users/users/${this.$store.state.auth.username}/subsonic-token/`
+      let url = `users/${this.$store.state.auth.username}/subsonic-token/`
       return axios.get(url).then(response => {
         self.token = response.data['subsonic_api_token']
         self.isLoading = false
@@ -102,7 +102,7 @@ export default {
       this.errors = []
       this.isLoading = true
       let self = this
-      let url = `users/users/${this.$store.state.auth.username}/subsonic-token/`
+      let url = `users/${this.$store.state.auth.username}/subsonic-token/`
       return axios.post(url, {}).then(response => {
         self.showToken = true
         self.token = response.data['subsonic_api_token']
@@ -119,7 +119,7 @@ export default {
       this.errors = []
       this.isLoading = true
       let self = this
-      let url = `users/users/${this.$store.state.auth.username}/subsonic-token/`
+      let url = `users/${this.$store.state.auth.username}/subsonic-token/`
       return axios.delete(url).then(response => {
         self.isLoading = false
         self.token = null

@@ -31,7 +31,6 @@ class PlaylistFilter(filters.FilterSet):
     class Meta:
         model = models.Playlist
         fields = {
-            "user": ["exact"],
             "name": ["exact", "icontains"],
         }
 

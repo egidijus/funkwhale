@@ -347,7 +347,7 @@ export default {
     },
     fetchQuota () {
       let self = this
-      axios.get('users/users/me/').then((response) => {
+      axios.get('users/me/').then((response) => {
         self.quotaStatus = response.data.quota_status
       })
     },
@@ -391,8 +391,8 @@ export default {
             value: c.uuid,
             selected: self.channel && self.channel.uuid === c.uuid,
           }
-          if (c.artist.cover && c.artist.cover.small_square_crop) {
-            let coverUrl = self.$store.getters['instance/absoluteUrl'](c.artist.cover.small_square_crop)
+          if (c.artist.cover && c.artist.cover.urls.medium_square_crop) {
+            let coverUrl = self.$store.getters['instance/absoluteUrl'](c.artist.cover.urls.medium_square_crop)
             d.image = coverUrl
             if (c.artist.content_category === 'podcast') {
               d.imageClass = 'ui image'

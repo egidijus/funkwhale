@@ -9,7 +9,7 @@
           <div class="seven wide column">
             <div class="ui two column grid">
               <div class="column">
-                <img alt="" class="huge channel-image" v-if="object.artist.cover" :src="$store.getters['instance/absoluteUrl'](object.artist.cover.medium_square_crop)">
+                <img alt="" class="huge channel-image" v-if="object.artist.cover" :src="$store.getters['instance/absoluteUrl'](object.artist.cover.urls.medium_square_crop)">
                 <i v-else class="huge circular inverted users violet icon"></i>
               </div>
               <div class="ui column right aligned">

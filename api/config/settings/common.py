@@ -169,17 +169,7 @@ os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = env.bool(
     "DJANGO_ALLOW_ASYNC_UNSAFE", default="true"
 )
 
-# XXX: deprecated, see #186
-FEDERATION_ENABLED = env.bool("FEDERATION_ENABLED", default=True)
 FEDERATION_HOSTNAME = env("FEDERATION_HOSTNAME", default=FUNKWHALE_HOSTNAME).lower()
-# XXX: deprecated, see #186
-FEDERATION_COLLECTION_PAGE_SIZE = env.int("FEDERATION_COLLECTION_PAGE_SIZE", default=50)
-# XXX: deprecated, see #186
-FEDERATION_MUSIC_NEEDS_APPROVAL = env.bool(
-    "FEDERATION_MUSIC_NEEDS_APPROVAL", default=True
-)
-# XXX: deprecated, see #186
-FEDERATION_ACTOR_FETCH_DELAY = env.int("FEDERATION_ACTOR_FETCH_DELAY", default=60 * 12)
 FEDERATION_SERVICE_ACTOR_USERNAME = env(
     "FEDERATION_SERVICE_ACTOR_USERNAME", default="service"
 )
@@ -1129,11 +1119,6 @@ Exemples:
 CSRF_USE_SESSIONS = True
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
-# Playlist settings
-# XXX: deprecated, see #186
-PLAYLISTS_MAX_TRACKS = env.int("PLAYLISTS_MAX_TRACKS", default=250)
-
-
 ACCOUNT_USERNAME_BLACKLIST = [
     "funkwhale",
     "library",
@@ -1170,8 +1155,6 @@ EXTERNAL_REQUESTS_TIMEOUT = env.int("EXTERNAL_REQUESTS_TIMEOUT", default=10)
 """
 Default timeout for external requests.
 """
-# XXX: deprecated, see #186
-API_AUTHENTICATION_REQUIRED = env.bool("API_AUTHENTICATION_REQUIRED", True)
 
 MUSIC_DIRECTORY_PATH = env("MUSIC_DIRECTORY_PATH", default=None)
 """
@@ -1285,8 +1268,6 @@ FUNKWHALE_SUPPORT_MESSAGE_DELAY = env.int("FUNKWHALE_SUPPORT_MESSAGE_DELAY", def
 """
 Delay in days after signup before we show the "support Funkwhale" message
 """
-# XXX Stable release: remove
-USE_FULL_TEXT_SEARCH = env.bool("USE_FULL_TEXT_SEARCH", default=True)
 
 MIN_DELAY_BETWEEN_DOWNLOADS_COUNT = env.int(
     "MIN_DELAY_BETWEEN_DOWNLOADS_COUNT", default=60 * 60 * 6

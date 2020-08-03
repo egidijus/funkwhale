@@ -182,7 +182,7 @@ export default {
     fetchProfile ({commit, dispatch, state}) {
 
       return new Promise((resolve, reject) => {
-        axios.get('users/users/me/').then((response) => {
+        axios.get('users/me/').then((response) => {
           logger.default.info('Successfully fetched user profile')
           dispatch('ui/initSettings', response.data.settings, { root: true })
           dispatch('updateProfile', response.data).then(() => {

@@ -167,7 +167,7 @@ export default {
       }
       payload[field] = newDisplayDate
       let self = this
-      axios.patch(`users/users/${this.$store.state.auth.username}/`, payload).then((response) => {
+      axios.patch(`users/${this.$store.state.auth.username}/`, payload).then((response) => {
         self.$store.commit('auth/profilePartialUpdate', response.data)
       })
     },

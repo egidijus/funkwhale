@@ -27,7 +27,7 @@
           </div>
           <h1 class="ui center aligned icon header">
             <i v-if="!object.icon" class="circular inverted user success icon"></i>
-            <img alt="" class="ui big circular image" v-else v-lazy="$store.getters['instance/absoluteUrl'](object.icon.square_crop)" />
+            <img alt="" class="ui big circular image" v-else v-lazy="$store.getters['instance/absoluteUrl'](object.icon.urls.square_crop)" />
             <div class="ellispsis content">
               <div class="ui very small hidden divider"></div>
               <span>{{ displayName }}</span>
@@ -49,7 +49,7 @@
               @updated="$emit('updated', $event)"
               :content="object.summary"
               :field-name="'summary'"
-              :update-url="`users/users/${$store.state.auth.username}/`"
+              :update-url="`users/${$store.state.auth.username}/`"
               :can-update="$store.state.auth.authenticated && object.full_username === $store.state.auth.fullUsername"></rendered-description>
           </div>
         </div>

@@ -33,7 +33,7 @@ export default {
       let playlists = []
       let url = 'playlists/'
       while (url != null) {
-        let response = await axios.get(url, {params: {user: userId}})
+        let response = await axios.get(url, {params: {scope: "me"}})
         playlists = [...playlists, ...response.data.results]
         url = response.data.next
 

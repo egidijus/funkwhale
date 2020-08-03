@@ -364,7 +364,7 @@ def federation_audio_track_to_metadata(payload, references):
             "mbid": str(payload["album"]["musicbrainzId"])
             if payload["album"].get("musicbrainzId")
             else None,
-            "cover_data": get_cover(payload["album"], "cover"),
+            "cover_data": get_cover(payload["album"], "image"),
             "release_date": payload["album"].get("released"),
             "tags": [t["name"] for t in payload["album"].get("tags", []) or []],
             "artists": [
@@ -896,8 +896,6 @@ UPDATE_CONFIG = {
 
 @transaction.atomic
 def update_track_metadata(audio_metadata, track):
-    # XXX: implement this to support updating metadata when an imported files
-    # is updated by an outside tool (e.g beets).
     serializer = metadata.TrackMetadataSerializer(data=audio_metadata)
     serializer.is_valid(raise_exception=True)
     new_data = serializer.validated_data
