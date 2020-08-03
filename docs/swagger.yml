@@ -296,7 +296,7 @@ paths:
       responses:
         200:
           $ref: "#/responses/200"
-  /api/v1/users/users/me/:
+  /api/v1/users/me/:
     get:
       summary: Retrive profile information
       description: |

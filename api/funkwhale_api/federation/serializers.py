@@ -938,8 +938,6 @@ class PaginatedCollectionSerializer(jsonld.JsonLdSerializer):
         last = common_utils.set_query_parameter(conf["id"], page=paginator.num_pages)
         d = {
             "id": conf["id"],
-            # XXX Stable release: remove the obsolete actor field
-            "actor": conf["actor"].fid,
             "attributedTo": conf["actor"].fid,
             "totalItems": paginator.count,
             "type": conf.get("type", "Collection"),
@@ -1004,9 +1002,8 @@ class LibrarySerializer(PaginatedCollectionSerializer):
             "name": library.name,
             "summary": library.description,
             "page_size": 100,
-            # XXX Stable release: remove the obsolete actor field
-            "actor": library.actor,
             "attributedTo": library.actor,
+            "actor": library.actor,
             "items": library.uploads.for_federation(),
             "type": "Library",
         }
@@ -1108,8 +1105,6 @@ class CollectionPageSerializer(jsonld.JsonLdSerializer):
             ],
         }
         if conf["actor"]:
-            # XXX Stable release: remove the obsolete actor field
-            d["actor"] = conf["actor"].fid
             d["attributedTo"] = conf["actor"].fid
 
         if page.has_previous():
@@ -1297,8 +1292,7 @@ class AlbumSerializer(MusicEntitySerializer):
         child=MultipleSerializer(allowed=[BasicActorSerializer, ArtistSerializer]),
         min_length=1,
     )
-    # XXX: 1.0 rename to image
-    cover = ImageSerializer(
+    image = ImageSerializer(
         allowed_mimetypes=["image/*"],
         allow_null=True,
         required=False,
@@ -1306,7 +1300,7 @@ class AlbumSerializer(MusicEntitySerializer):
     )
     updateable_fields = [
         ("name", "title"),
-        ("cover", "attachment_cover"),
+        ("image", "attachment_cover"),
         ("musicbrainzId", "mbid"),
         ("attributedTo", "attributed_to"),
         ("released", "release_date"),
@@ -1320,7 +1314,7 @@ class AlbumSerializer(MusicEntitySerializer):
             {
                 "released": jsonld.first_val(contexts.FW.released),
                 "artists": jsonld.first_attr(contexts.FW.artists, "@list"),
-                "cover": jsonld.first_obj(contexts.FW.cover),
+                "image": jsonld.first_obj(contexts.AS.image),
             },
         )
 
@@ -1354,11 +1348,6 @@ class AlbumSerializer(MusicEntitySerializer):
             ]
         include_content(d, instance.description)
         if instance.attachment_cover:
-            d["cover"] = {
-                "type": "Link",
-                "href": instance.attachment_cover.download_url_original,
-                "mediaType": instance.attachment_cover.mimetype or "image/jpeg",
-            }
             include_image(d, instance.attachment_cover)
 
         if self.context.get("include_ap_context", self.parent is None):

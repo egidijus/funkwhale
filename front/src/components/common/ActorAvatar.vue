@@ -1,5 +1,5 @@
 <template>
-  <img alt="" v-if="actor.icon && actor.icon.original" :src="actor.icon.small_square_crop" class="ui avatar circular image" />
+  <img alt="" v-if="actor.icon && actor.icon.urls.original" :src="actor.icon.urls.medium_square_crop" class="ui avatar circular image" />
   <span v-else :style="defaultAvatarStyle" class="ui avatar circular label">{{ actor.preferred_username[0]}}</span>
 </template>
 

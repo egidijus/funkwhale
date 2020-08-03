@@ -416,12 +416,12 @@ export default {
       this.settings.errors = []
       let self = this
       let payload = this.settingsValues
-      let url = `users/users/${this.$store.state.auth.username}/`
+      let url = `users/${this.$store.state.auth.username}/`
       return axios.patch(url, payload).then(
         response => {
           logger.default.info("Updated settings successfully")
           self.settings.success = true
-          return axios.get("users/users/me/").then(response => {
+          return axios.get("users/me/").then(response => {
             self.$store.dispatch("auth/updateProfile", response.data)
           })
         },
@@ -487,7 +487,7 @@ export default {
       this.avatarErrors = []
       let self = this
       axios
-        .patch(`users/users/${this.$store.state.auth.username}/`, {avatar: uuid})
+        .patch(`users/${this.$store.state.auth.username}/`, {avatar: uuid})
         .then(
           response => {
             this.isLoadingAvatar = false
@@ -538,7 +538,7 @@ export default {
         confirm: true,
         password: this.password,
       }
-      axios.delete(`users/users/me/`, {data: payload})
+      axios.delete(`users/me/`, {data: payload})
         .then(
           response => {
             self.isDeletingAccount = false

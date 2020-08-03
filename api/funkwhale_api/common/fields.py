@@ -1,6 +1,5 @@
 import django_filters
 from django import forms
-from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 
@@ -40,7 +39,7 @@ class SearchFilter(django_filters.CharFilter):
     def filter(self, qs, value):
         if not value:
             return qs
-        if settings.USE_FULL_TEXT_SEARCH and self.fts_search_fields:
+        if self.fts_search_fields:
             query = search.get_fts_query(
                 value, self.fts_search_fields, model=self.parent.Meta.model
             )

@@ -264,12 +264,12 @@ export default {
       return route.href
     },
     headerStyle() {
-      if (!this.cover || !this.cover.original) {
+      if (!this.cover || !this.cover.urls.original) {
         return ""
       }
       return (
         "background-image: url(" +
-        this.$store.getters["instance/absoluteUrl"](this.cover.original) +
+        this.$store.getters["instance/absoluteUrl"](this.cover.urls.original) +
         ")"
       )
     },

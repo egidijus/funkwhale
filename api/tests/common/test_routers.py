@@ -17,7 +17,7 @@ from django import urls
         "/api/v1/auth/registration/account-confirm-email/key",
         "/api/v1/history/listenings",
         "/api/v1/radios/sessions",
-        "/api/v1/users/users/me",
+        "/api/v1/users/me",
         "/api/v1/federation/follows/library",
         "/api/v1/manage/accounts",
         "/api/v1/oauth/apps",

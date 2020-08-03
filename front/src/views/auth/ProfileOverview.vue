@@ -5,7 +5,7 @@
         @updated="$emit('updated', $event)"
         :content="object.summary"
         :field-name="'summary'"
-        :update-url="`users/users/${$store.state.auth.username}/`"
+        :update-url="`users/${$store.state.auth.username}/`"
         :can-update="$store.state.auth.authenticated && object.full_username === $store.state.auth.fullUsername"></rendered-description>
       <div class="ui hidden divider"></div>
     </div>

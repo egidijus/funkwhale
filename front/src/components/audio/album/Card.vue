@@ -2,7 +2,7 @@
   <div class="card app-card component-album-card">
     <div
       @click="$router.push({name: 'library.albums.detail', params: {id: album.id}})"
-      :class="['ui', 'head-image', 'image', {'default-cover': !album.cover.original}]" v-lazy:background-image="imageUrl">
+      :class="['ui', 'head-image', 'image', {'default-cover': !album.cover || !album.cover.urls.original}]" v-lazy:background-image="imageUrl">
       <play-button :icon-only="true" :is-playable="album.is_playable" :button-classes="['ui', 'circular', 'large', 'vibrant', 'icon', 'button']" :album="album"></play-button>
     </div>
     <div class="content">
@@ -38,8 +38,8 @@ export default {
   },
   computed: {
     imageUrl () {
-      if (this.album.cover.original) {
-        return this.$store.getters['instance/absoluteUrl'](this.album.cover.medium_square_crop)
+      if (this.album.cover && this.album.cover.urls.original) {
+        return this.$store.getters['instance/absoluteUrl'](this.album.cover.urls.medium_square_crop)
       }
     }
   }

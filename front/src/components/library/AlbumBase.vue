@@ -11,10 +11,10 @@
               <div class="ui two column grid" v-if="isSerie">
                 <div class="column">
                   <div class="large two-images">
-                    <img class="channel-image" alt="" v-if="object.cover && object.cover.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.square_crop)">
-                    <img class="channel-image" alt="" v-else src="../../assets/audio/default-cover.png">
-                    <img class="channel-image" alt="" v-if="object.cover && object.cover.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.square_crop)">
-                    <img class="channel-image" alt="" v-else src="../../assets/audio/default-cover.png">
+                    <img alt="" class="channel-image" v-if="object.cover && object.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.urls.square_crop)">
+                    <img alt="" class="channel-image" v-else src="../../assets/audio/default-cover.png">
+                    <img alt="" class="channel-image" v-if="object.cover && object.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.urls.square_crop)">
+                    <img alt="" class="channel-image" v-else src="../../assets/audio/default-cover.png">
                   </div>
                 </div>
                 <div class="ui column right aligned">
@@ -53,8 +53,8 @@
               </header>
             </div>
             <div v-else class="ui center aligned text padded basic segment">
-              <img class="channel-image" alt="" v-if="object.cover && object.cover.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.square_crop)">
-              <img class="channel-image" alt="" v-else src="../../assets/audio/default-cover.png">
+              <img alt="" class="channel-image" v-if="object.cover && object.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.urls.square_crop)">
+              <img alt="" class="channel-image" v-else src="../../assets/audio/default-cover.png">
               <div class="ui hidden divider"></div>
               <header>
                 <h2 class="ui header" :title="object.title">

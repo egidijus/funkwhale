@@ -1307,9 +1307,7 @@ def test_get_upload_audio_metadata(logged_in_api_client, factories):
     assert response.data == serializer.validated_data
 
 
-@pytest.mark.parametrize("use_fts", [True, False])
-def test_search_get(use_fts, settings, logged_in_api_client, factories):
-    settings.USE_FULL_TEXT_SEARCH = use_fts
+def test_search_get(logged_in_api_client, factories):
     artist = factories["music.Artist"](name="Foo Fighters")
     album = factories["music.Album"](title="Foo Bar")
     track = factories["music.Track"](title="Foo Baz")
@@ -1332,8 +1330,7 @@ def test_search_get(use_fts, settings, logged_in_api_client, factories):
     assert response.data == expected
 
 
-def test_search_get_fts_advanced(settings, logged_in_api_client, factories):
-    settings.USE_FULL_TEXT_SEARCH = True
+def test_search_get_fts_advanced(logged_in_api_client, factories):
     artist1 = factories["music.Artist"](name="Foo Bighters")
     artist2 = factories["music.Artist"](name="Bar Fighter")
     factories["music.Artist"]()
@@ -1353,8 +1350,7 @@ def test_search_get_fts_advanced(settings, logged_in_api_client, factories):
     assert response.data == expected
 
 
-def test_search_get_fts_stop_words(settings, logged_in_api_client, factories):
-    settings.USE_FULL_TEXT_SEARCH = True
+def test_search_get_fts_stop_words(logged_in_api_client, factories):
     artist = factories["music.Artist"](name="she")
     factories["music.Artist"](name="something else")
 

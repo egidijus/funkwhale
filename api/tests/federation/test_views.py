@@ -384,11 +384,6 @@ def test_music_upload_detail_private_approved_follow(
         ("text/html,application/xhtml+xml", True, True),
         ("text/html,application/json", True, True),
         ("", True, False),
-        (
-            "*/*",
-            True,
-            False,
-        ),  # XXX: compat with older versions of Funkwhale that miss the Accept header
         (None, True, False),
         ("application/json", True, False),
         ("application/activity+json", True, False),

@@ -113,7 +113,7 @@ def get_spa_html(spa_url):
 
 def get_spa_file(spa_url, name):
     if spa_url.startswith("/"):
-        # XXX: spa_url is an absolute path to index.html, on the local disk.
+        # spa_url is an absolute path to index.html, on the local disk.
         # However, we may want to access manifest.json or other files as well, so we
         # strip the filename
         path = os.path.join(os.path.dirname(spa_url), name)

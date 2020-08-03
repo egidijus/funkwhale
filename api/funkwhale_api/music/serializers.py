@@ -32,10 +32,7 @@ COVER_WRITE_FIELD = common_serializers.RelatedField(
 from funkwhale_api.audio import serializers as audio_serializers  # NOQA
 
 
-class CoverField(
-    common_serializers.NullToEmptDict, common_serializers.AttachmentSerializer
-):
-    # XXX: BACKWARD COMPATIBILITY
+class CoverField(common_serializers.AttachmentSerializer):
     pass
 
 

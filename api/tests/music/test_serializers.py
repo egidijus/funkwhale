@@ -196,15 +196,6 @@ def test_album_serializer(factories, to_api_date):
     assert serializer.data == expected
 
 
-def test_album_serializer_empty_cover(factories, to_api_date):
-    # XXX: BACKWARD COMPATIBILITY
-    album = factories["music.Album"](attachment_cover=None)
-
-    serializer = serializers.AlbumSerializer(album)
-
-    assert serializer.data["cover"] == {}
-
-
 def test_track_serializer(factories, to_api_date):
     actor = factories["federation.Actor"]()
     upload = factories["music.Upload"](

@@ -660,7 +660,7 @@ def test_federation_audio_track_to_metadata(now, mocker):
                     },
                 }
             ],
-            "cover": {
+            "image": {
                 "type": "Link",
                 "href": "http://cover.test",
                 "mediaType": "image/png",
@@ -713,8 +713,8 @@ def test_federation_audio_track_to_metadata(now, mocker):
             "tags": ["AlbumTag"],
             "description": {"content_type": "text/plain", "text": "album desc"},
             "cover_data": {
-                "mimetype": serializer.validated_data["album"]["cover"]["mediaType"],
-                "url": serializer.validated_data["album"]["cover"]["href"],
+                "mimetype": serializer.validated_data["album"]["image"]["mediaType"],
+                "url": serializer.validated_data["album"]["image"]["href"],
             },
             "artists": [
                 {

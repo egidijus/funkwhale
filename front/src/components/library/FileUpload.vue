@@ -274,7 +274,7 @@ export default {
     fetchQuota () {
       let self = this
       self.isLoadingQuota = true
-      axios.get('users/users/me/').then((response) => {
+      axios.get('users/me/').then((response) => {
         self.quotaStatus = response.data.quota_status
         self.isLoadingQuota = false
       })

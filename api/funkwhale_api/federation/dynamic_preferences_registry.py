@@ -1,8 +1,6 @@
 from dynamic_preferences import types
 from dynamic_preferences.registries import global_preferences_registry
 
-from funkwhale_api.common import preferences
-
 federation = types.Section("federation")
 
 
@@ -22,10 +20,10 @@ class MusicCacheDuration(types.IntPreference):
 
 
 @global_preferences_registry.register
-class Enabled(preferences.DefaultFromSettingMixin, types.BooleanPreference):
+class Enabled(types.BooleanPreference):
     section = federation
     name = "enabled"
-    setting = "FEDERATION_ENABLED"
+    default = True
     verbose_name = "Federation enabled"
     help_text = (
         "Use this setting to enable or disable federation logic and API" " globally."
@@ -33,20 +31,20 @@ class Enabled(preferences.DefaultFromSettingMixin, types.BooleanPreference):
 
 
 @global_preferences_registry.register
-class CollectionPageSize(preferences.DefaultFromSettingMixin, types.IntPreference):
+class CollectionPageSize(types.IntPreference):
     section = federation
     name = "collection_page_size"
-    setting = "FEDERATION_COLLECTION_PAGE_SIZE"
+    default = 50
     verbose_name = "Federation collection page size"
     help_text = "How many items to display in ActivityPub collections."
     field_kwargs = {"required": False}
 
 
 @global_preferences_registry.register
-class ActorFetchDelay(preferences.DefaultFromSettingMixin, types.IntPreference):
+class ActorFetchDelay(types.IntPreference):
     section = federation
     name = "actor_fetch_delay"
-    setting = "FEDERATION_ACTOR_FETCH_DELAY"
+    default = 60 * 12
     verbose_name = "Federation actor fetch delay"
     help_text = (
         "How many minutes to wait before refetching actors on "

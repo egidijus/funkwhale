@@ -74,11 +74,6 @@ v1_patterns += [
         include(("funkwhale_api.history.urls", "history"), namespace="history"),
     ),
     url(r"^", include(("funkwhale_api.users.api_urls", "users"), namespace="users"),),
-    # XXX: 1.0: remove this
-    url(
-        r"^users/",
-        include(("funkwhale_api.users.api_urls", "users"), namespace="users-nested"),
-    ),
     url(
         r"^oauth/",
         include(("funkwhale_api.users.oauth.urls", "oauth"), namespace="oauth"),

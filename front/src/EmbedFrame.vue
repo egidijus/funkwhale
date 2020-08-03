@@ -337,7 +337,7 @@ export default {
     },
     getCover(albumCover) {
       if (albumCover) {
-        return albumCover.medium_square_crop
+        return albumCover.urls.medium_square_crop
       }
     },
     getSources (uploads) {

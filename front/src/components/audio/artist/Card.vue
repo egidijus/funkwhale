@@ -2,7 +2,7 @@
   <div class="app-card card">
     <div
       @click="$router.push({name: 'library.artists.detail', params: {id: artist.id}})"
-      :class="['ui', 'head-image', 'circular', 'image', {'default-cover': !cover.original}]" v-lazy:background-image="imageUrl">
+      :class="['ui', 'head-image', 'circular', 'image', {'default-cover': !cover || !cover.urls.original}]" v-lazy:background-image="imageUrl">
       <play-button :icon-only="true" :is-playable="artist.is_playable" :button-classes="['ui', 'circular', 'large', 'vibrant', 'icon', 'button']" :artist="artist"></play-button>
     </div>
     <div class="content">
@@ -40,19 +40,19 @@ export default {
   computed: {
     imageUrl () {
       let cover = this.cover
-      if (cover.original) {
-        return this.$store.getters['instance/absoluteUrl'](cover.medium_square_crop)
+      if (cover && cover.urls.original) {
+        return this.$store.getters['instance/absoluteUrl'](cover.urls.medium_square_crop)
       }
     },
     cover () {
-      if (this.artist.cover && this.artist.cover.original) {
+      if (this.artist.cover && this.artist.cover.urls.original) {
         return this.artist.cover
       }
       return this.artist.albums.map((a) => {
         return a.cover
       }).filter((c) => {
-        return c && c.original
-      })[0] || {}
+        return c && c.urls.original
+      })[0]
     },
   }
 }
