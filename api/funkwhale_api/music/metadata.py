@@ -494,7 +494,7 @@ class ArtistField(serializers.Field):
 
     def to_internal_value(self, data):
         # we have multiple values that can be separated by various separators
-        separators = [";"]
+        separators = [";", ","]
         # we get a list like that if tagged via musicbrainz
         # ae29aae4-abfb-4609-8f54-417b1f4d64cc; 3237b5a8-ae44-400c-aa6d-cea51f0b9074;
         raw_mbids = data["mbids"]
