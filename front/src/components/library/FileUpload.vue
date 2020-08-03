@@ -56,6 +56,40 @@
 
         <button type="submit" class="ui success button"><translate translate-context="Content/Library/Button.Label">Proceed</translate></button>
       </form>
+
+      <template v-if="$store.state.auth.availablePermissions['library']">
+        <div class="ui divider"></div>
+        <h2 class="ui header"><translate translate-context="Content/Library/Title/Verb">Import music from your server</translate></h2>
+        <div v-if="fsErrors.length > 0" role="alert" class="ui negative message">
+          <h3 class="header"><translate translate-context="Content/*/Error message.Title">Error while launching import</translate></h3>
+          <ul class="list">
+            <li v-for="error in fsErrors">{{ error }}</li>
+          </ul>
+        </div>
+        <fs-browser
+          v-if="fsStatus"
+          v-model="fsPath"
+          @import="importFs"
+          :loading="isLoadingFs"
+          :data="fsStatus"></fs-browser>
+        
+        <template v-if="fsStatus && fsStatus.import">
+          <h3 class="ui header"><translate translate-context="Content/Library/Title/Verb">Import status</translate></h3>
+          <p v-if="fsStatus.import.reference != importReference">
+            <translate translate-context="Content/Library/Paragraph">Results of your previous import:</translate>
+          </p>
+          <p v-else>
+            <translate translate-context="Content/Library/Paragraph">Results of your import:</translate>
+          </p>
+          <button
+            class="ui button"
+            @click="cancelFsScan"
+            v-if="fsStatus.import.status === 'started' || fsStatus.import.status === 'pending'">
+            <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
+          </button>
+          <fs-logs :data="fsStatus.import"></fs-logs>
+        </template>
+      </template>
     </div>
     <div :class="['ui', 'bottom', 'attached', 'segment', {hidden: currentTab != 'uploads'}]">
       <div :class="['ui', {loading: isLoadingQuota}, 'container']">
@@ -163,6 +197,8 @@ import $ from "jquery";
 import axios from "axios";
 import logger from "@/logging";
 import FileUploadWidget from "./FileUploadWidget";
+import FsBrowser from "./FsBrowser";
+import FsLogs from "./FsLogs";
 import LibraryFilesTable from "@/views/content/libraries/FilesTable";
 import moment from "moment";
 
@@ -170,7 +206,9 @@ export default {
   props: ["library", "defaultImportReference"],
   components: {
     FileUploadWidget,
-    LibraryFilesTable
+    LibraryFilesTable,
+    FsBrowser,
+    FsLogs,
   },
   data() {
     let importReference = this.defaultImportReference || moment().format();
@@ -190,11 +228,22 @@ export default {
         errored: 0,
         objects: {}
       },
-      processTimestamp: new Date()
+      processTimestamp: new Date(),
+      fsStatus: null,
+      fsPath: [],
+      isLoadingFs: false,
+      fsInterval: null,
+      fsErrors: []
     };
   },
   created() {
     this.fetchStatus();
+    if (this.$store.state.auth.availablePermissions['library']) {
+      this.fetchFs(true)
+      setInterval(() => {
+        this.fetchFs(false)
+      }, 5000);
+    }
     this.fetchQuota();
     this.$store.commit("ui/addWebsocketEventHandler", {
       eventName: "import.status_updated",
@@ -209,6 +258,9 @@ export default {
       id: "fileUpload"
     });
     window.onbeforeunload = null;
+    if (this.fsInterval) {
+      clearInterval(this.fsInterval)
+    }
   },
   methods: {
     onBeforeUnload(e = {}) {
@@ -226,6 +278,38 @@ export default {
         self.quotaStatus = response.data.quota_status
         self.isLoadingQuota = false
       })
+    },
+    fetchFs (updateLoading) {
+      let self = this
+      if (updateLoading) {
+        self.isLoadingFs = true
+      }
+      axios.get('libraries/fs-import', {params: {path: this.fsPath.join('/')}}).then((response) => {
+        self.fsStatus = response.data
+        if (updateLoading) {
+          self.isLoadingFs = false
+        }
+      })
+    },
+    importFs () {
+      let self = this
+      self.isLoadingFs = true
+      let payload = {
+        path: this.fsPath.join('/'),
+        library: this.library.uuid,
+        import_reference: this.importReference,
+      }
+      axios.post('libraries/fs-import', payload).then((response) => {
+        self.fsStatus = response.data
+        self.isLoadingFs = false
+      }, error => {
+        self.isLoadingFs = false
+        self.fsErrors = error.backendErrors
+      })
+    },
+    async cancelFsScan () {
+      await axios.delete('libraries/fs-import')
+      this.fetchFs()
     },
     inputFile(newFile, oldFile) {
       if (!newFile) {
@@ -392,6 +476,9 @@ export default {
       if (v > o) {
         this.$emit('uploads-finished', v - o)
       }
+    },
+    "fsPath" () {
+      this.fetchFs(true)
     }
   }
 };

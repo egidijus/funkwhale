@@ -1,3 +1,5 @@
+import os
+import pathlib
 import mimetypes
 
 import magic
@@ -130,3 +132,21 @@ def increment_downloads_count(upload, user, wsgi_request):
     duration = max(upload.duration or 0, settings.MIN_DELAY_BETWEEN_DOWNLOADS_COUNT)
 
     cache.set(cache_key, 1, duration)
+
+
+def browse_dir(root, path):
+    if ".." in path:
+        raise ValueError("Relative browsing is not allowed")
+
+    root = pathlib.Path(root)
+    real_path = root / path
+
+    dirs = []
+    files = []
+    for el in sorted(os.listdir(real_path)):
+        if os.path.isdir(real_path / el):
+            dirs.append({"name": el, "dir": True})
+        else:
+            files.append({"name": el, "dir": False})
+
+    return dirs + files

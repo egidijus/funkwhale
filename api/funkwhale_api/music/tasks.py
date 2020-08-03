@@ -3,10 +3,12 @@ import datetime
 import logging
 import os
 
-from django.utils import timezone
+from django.conf import settings
+from django.core.cache import cache
 from django.db import transaction
 from django.db.models import F, Q
 from django.dispatch import receiver
+from django.utils import timezone
 
 from musicbrainzngs import ResponseError
 from requests.exceptions import RequestException
@@ -17,6 +19,7 @@ from funkwhale_api.common import utils as common_utils
 from funkwhale_api.federation import routes
 from funkwhale_api.federation import library as lb
 from funkwhale_api.federation import utils as federation_utils
+from funkwhale_api.music.management.commands import import_files
 from funkwhale_api.tags import models as tags_models
 from funkwhale_api.tags import tasks as tags_tasks
 from funkwhale_api.taskapp import celery
@@ -938,3 +941,32 @@ def update_track_metadata(audio_metadata, track):
         common_utils.attach_file(
             track.album, "attachment_cover", new_data["album"].get("cover_data")
         )
+
+
+@celery.app.task(name="music.fs_import")
+@celery.require_instance(models.Library.objects.all(), "library")
+def fs_import(library, path, import_reference):
+    if cache.get("fs-import:status") != "pending":
+        raise ValueError("Invalid import status")
+
+    command = import_files.Command()
+
+    options = {
+        "recursive": True,
+        "library_id": str(library.uuid),
+        "path": [os.path.join(settings.MUSIC_DIRECTORY_PATH, path)],
+        "update_cache": True,
+        "in_place": True,
+        "reference": import_reference,
+        "watch": False,
+        "interactive": False,
+        "batch_size": 1000,
+        "async_": False,
+        "prune": True,
+        "replace": False,
+        "verbosity": 1,
+        "exit_on_failure": False,
+        "outbox": False,
+        "broadcast": False,
+    }
+    command.handle(**options)

@@ -1382,3 +1382,39 @@ def test_update_track_metadata(factories):
     assert str(track.artist.mbid) == data["musicbrainz_artistid"]
     assert track.album.artist.name == "Edvard Grieg"
     assert str(track.album.artist.mbid) == "013c8e5b-d72a-4cd3-8dee-6c64d6125823"
+
+
+def test_fs_import_not_pending(factories):
+    with pytest.raises(ValueError):
+        tasks.fs_import(
+            library_id=factories["music.Library"]().pk,
+            path="path",
+            import_reference="test",
+        )
+
+
+def test_fs_import(factories, cache, mocker, settings):
+    _handle = mocker.spy(tasks.import_files.Command, "_handle")
+    cache.set("fs-import:status", "pending")
+    library = factories["music.Library"](actor__local=True)
+    tasks.fs_import(library_id=library.pk, path="path", import_reference="test")
+    assert _handle.call_args[1] == {
+        "recursive": True,
+        "path": [settings.MUSIC_DIRECTORY_PATH + "/path"],
+        "library_id": str(library.uuid),
+        "update_cache": True,
+        "in_place": True,
+        "reference": "test",
+        "watch": False,
+        "interactive": False,
+        "batch_size": 1000,
+        "async_": False,
+        "prune": True,
+        "broadcast": False,
+        "outbox": False,
+        "exit_on_failure": False,
+        "replace": False,
+        "verbosity": 1,
+    }
+    assert cache.get("fs-import:status") == "finished"
+    assert "Pruning dangling tracks" in cache.get("fs-import:logs")[-1]

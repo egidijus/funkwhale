@@ -2,6 +2,7 @@ import datetime
 import io
 import magic
 import os
+import pathlib
 import urllib.parse
 import uuid
 
@@ -1514,3 +1515,68 @@ def test_listen_to_track_with_scoped_token(factories, api_client):
     response = api_client.get(url, {"token": token})
 
     assert response.status_code == 200
+
+
+def test_fs_import_get(factories, superuser_api_client, mocker, settings):
+    browse_dir = mocker.patch.object(
+        views.utils, "browse_dir", return_value={"hello": "world"}
+    )
+    url = reverse("api:v1:libraries-fs-import")
+
+    expected = {
+        "root": settings.MUSIC_DIRECTORY_PATH,
+        "path": "",
+        "content": {"hello": "world"},
+        "import": None,
+    }
+    response = superuser_api_client.get(url, {"path": ""})
+
+    assert response.status_code == 200
+    assert response.data == expected
+    browse_dir.assert_called_once_with(expected["root"], expected["path"])
+
+
+def test_fs_import_post(
+    factories, superuser_api_client, cache, mocker, settings, tmpdir
+):
+    actor = superuser_api_client.user.create_actor()
+    library = factories["music.Library"](actor=actor)
+    settings.MUSIC_DIRECTORY_PATH = tmpdir
+    (pathlib.Path(tmpdir) / "test").mkdir()
+    fs_import = mocker.patch(
+        "funkwhale_api.music.tasks.fs_import.delay", return_value={"hello": "world"}
+    )
+    url = reverse("api:v1:libraries-fs-import")
+
+    response = superuser_api_client.post(
+        url, {"path": "test", "library": library.uuid, "import_reference": "test"}
+    )
+
+    assert response.status_code == 201
+    fs_import.assert_called_once_with(
+        path="test", library_id=library.pk, import_reference="test"
+    )
+    assert cache.get("fs-import:status") == "pending"
+
+
+def test_fs_import_post_already_running(
+    factories, superuser_api_client, cache, mocker, settings, tmpdir
+):
+    url = reverse("api:v1:libraries-fs-import")
+    cache.set("fs-import:status", "pending")
+
+    response = superuser_api_client.post(url, {"path": "test"})
+
+    assert response.status_code == 400
+
+
+def test_fs_import_cancel_already_running(
+    factories, superuser_api_client, cache, mocker, settings, tmpdir
+):
+    url = reverse("api:v1:libraries-fs-import")
+    cache.set("fs-import:status", "pending")
+
+    response = superuser_api_client.delete(url)
+
+    assert response.status_code == 204
+    assert cache.get("fs-import:status") == "canceled"
