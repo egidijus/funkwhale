@@ -40,7 +40,7 @@
           <div class="ui list">
             <a href="https://docs.funkwhale.audio" class="link item" target="_blank"><translate translate-context="Footer/*/List item.Link/Short, Noun">Documentation</translate></a>
             <a href="https://funkwhale.audio/apps" class="link item" target="_blank"><translate translate-context="Footer/*/List item.Link">Mobile and desktop apps</translate></a>
-            <a role="button" class="link item" @click.prevent="$emit('show:shortcuts-modal')"><translate translate-context="*/*/*/Noun">Keyboard shortcuts</translate></a>
+            <a hrelf="" class="link item" @click.prevent="$emit('show:shortcuts-modal')"><translate translate-context="*/*/*/Noun">Keyboard shortcuts</translate></a>
           </div>
           <div class="ui form">
             <div class="ui field">
