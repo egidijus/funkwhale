@@ -395,9 +395,6 @@ export default {
           self.$store.commit('player/duration', this.duration())
 
         },
-        onpause: function () {
-          self.$store.commit('player/playing', false)
-        },
         onloaderror: function (sound, error) {
           self.removeFromCache(this)
           if (this != self.currentSound) {
