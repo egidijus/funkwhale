@@ -206,7 +206,7 @@
       </div>
     </div>
     <GlobalEvents
-      @keydown.space.prevent.exact="togglePlay"
+      @keydown.p.prevent.exact="togglePlay"
       @keydown.ctrl.shift.left.prevent.exact="previous"
       @keydown.ctrl.shift.right.prevent.exact="next"
       @keydown.shift.down.prevent.exact="$store.commit('player/incrementVolume', -0.1)"

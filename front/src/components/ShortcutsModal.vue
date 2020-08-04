@@ -70,20 +70,6 @@ export default {
         },
       ]
     },
-        // space.prevent.exact="togglePlay"
-        // ctrl.shift.left.prevent.exact="previous"
-        // ctrl.shift.right.prevent.exact="next"
-        // shift.down.prevent.exact="$store.commit('player/incrementVolume', -0.1)"
-        // shift.up.prevent.exact="$store.commit('player/incrementVolume', 0.1)"
-        // right.prevent.exact="seek (5)"
-        // left.prevent.exact="seek (-5)"
-        // shift.right.prevent.exact="seek (30)"
-        // shift.left.prevent.exact="seek (-30)"
-        // m.prevent.exact="toggleMute"
-        // l.prevent.exact="$store.commit('player/toggleLooping')"
-        // s.prevent.exact="shuffle"
-        // f.prevent.exact="$store.dispatch('favorites/toggle', currentTrack.id)"
-        // q.prevent.exact="clean"
 
     player () {
       return [
@@ -91,7 +77,7 @@ export default {
           title: this.$pgettext('Popup/Keyboard shortcuts/Title', 'Audio player shortcuts'),
           shortcuts: [
             {
-              key: 'space',
+              key: 'p',
               summary: this.$pgettext('Popup/Keyboard shortcuts/Table.Label/Verb', 'Pause/play the current track')
             },
             {
