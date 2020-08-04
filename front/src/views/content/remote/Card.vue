@@ -5,17 +5,16 @@
         <router-link :to="{name: 'library.detail', params: {id: library.uuid}}">
           {{ library.name }}
         </router-link>
-        <div class="ui right floated dropdown">
+        <div class="ui right floated dropdown" v-dropdown>
           <i class="ellipsis vertical large icon nomargin"></i>
           <div class="menu">
-            <div
-              role="button"
+            <button
               v-for="obj in getReportableObjs({library, account: library.actor})"
               :key="obj.target.type + obj.target.id"
               class="item basic"
               @click.stop.prevent="$store.dispatch('moderation/report', obj.target)">
               <i class="share icon" /> {{ obj.label }}
-            </div>
+            </button>
           </div>
         </div>
         <span
@@ -155,18 +154,6 @@ export default {
       scanTimeout: null,
       latestScan: this.library.latest_scan,
     }
-  },
-  mounted () {
-    let self = this
-    jQuery(this.$el).find('.ui.dropdown').dropdown({
-      selectOnKeydown: false,
-      action: function (text, value, $el) {
-        // used ton ensure focusing the dropdown and clicking via keyboard
-        // works as expected
-        self.$refs[$el.data('ref')].click()
-        jQuery(self.$el).find('.ui.dropdown').dropdown('hide')
-      }
-    })
   },
   computed: {
     labels () {

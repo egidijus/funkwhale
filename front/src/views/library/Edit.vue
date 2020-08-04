@@ -38,12 +38,12 @@
           </span>
         </td>
         <td>
-          <div @click="updateApproved(follow, true)" :class="['ui', 'mini', 'icon', 'labeled', 'success', 'button']" v-if="follow.approved === null || follow.approved === false">
+          <button @click="updateApproved(follow, true)" :class="['ui', 'mini', 'icon', 'labeled', 'success', 'button']" v-if="follow.approved === null || follow.approved === false">
             <i class="ui check icon"></i> <translate translate-context="Content/Library/Button.Label">Accept</translate>
-          </div>
-          <div @click="updateApproved(follow, false)" :class="['ui', 'mini', 'icon', 'labeled', 'danger', 'button']" v-if="follow.approved === null || follow.approved === true">
+          </button>
+          <button @click="updateApproved(follow, false)" :class="['ui', 'mini', 'icon', 'labeled', 'danger', 'button']" v-if="follow.approved === null || follow.approved === true">
             <i class="ui x icon"></i> <translate translate-context="Content/Library/Button.Label">Reject</translate>
-          </div>
+          </button>
         </td>
       </tr>
 

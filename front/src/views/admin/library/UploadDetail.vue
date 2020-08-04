@@ -35,7 +35,7 @@
                     <i class="wrench icon"></i>
                     <translate translate-context="Content/Moderation/Link/Verb">View in Django's admin</translate>&nbsp;
                   </a>
-                  <div class="ui floating dropdown icon button" v-dropdown>
+                  <button class="ui floating dropdown icon button" v-dropdown>
                     <i class="dropdown icon"></i>
                     <div class="menu">
                       <a
@@ -51,7 +51,7 @@
                         <translate translate-context="Content/Moderation/Link/Verb">Open remote profile</translate>&nbsp;
                       </a>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div class="ui buttons">
                   <a class="ui labeled icon button" v-if="object.audio_file" :href="$store.getters['instance/absoluteUrl'](object.audio_file)" target="_blank" rel="noopener noreferrer">

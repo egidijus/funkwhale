@@ -23,9 +23,9 @@
             :redirect="false"></remote-search-form>
         </div>
         <div class="actions">
-          <div class="ui basic deny button">
+          <button class="ui basic deny button">
             <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-          </div>
+          </button>
           <button form="remote-search" type="submit" class="ui primary button">
             <i class="bookmark icon"></i>
             <translate translate-context="*/*/*/Verb">Subscribe</translate>

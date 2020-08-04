@@ -192,9 +192,6 @@
     border: none;
     background-color: transparent;
     color: inherit;
-    &:focus {
-      box-shadow: none;
-    }
 
   }
   .fake-dropdown {
@@ -204,13 +201,19 @@
     align-items: center;
     justify-content: space-between;
     min-width: 10em;
-    > * {
+    > .control.button {
       padding: 0.5em;
 
     }
     .position.control {
       padding-right: 1em;
       flex-grow: 1;
+      padding-left: 0;
+      i.stream.icon {
+        position: relative;
+        top: -2px;
+        left: -2px;
+      }
     }
     .angle.icon {
       margin-right: 0;

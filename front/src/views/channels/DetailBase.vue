@@ -68,12 +68,12 @@
                     </div>
                   </div>
                   <div class="actions">
-                    <div class="ui basic deny button">
+                    <button class="ui basic deny button">
                       <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-                    </div>
+                    </button>
                   </div>
                 </modal>
-                <div class="ui right floated pointing dropdown icon small basic button" ref="dropdown" v-dropdown="{direction: 'downward'}">
+                <button class="ui right floated pointing dropdown icon small basic button" ref="dropdown" v-dropdown="{direction: 'downward'}">
                   <i class="ellipsis vertical icon"></i>
                   <div class="menu">
                     <div
@@ -122,7 +122,7 @@
                       </router-link>
                     </template>
                   </div>
-                </div>
+                </button>
               </div>
             </div>
             <h1 class="ui header">
@@ -166,9 +166,9 @@
                   </div>
                 </div>
                 <div class="actions">
-                  <div class="ui basic deny button">
+                  <button class="ui basic deny button">
                     <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-                  </div>
+                  </button>
                 </div>
               </modal>
               <modal :show.sync="showEditModal" v-if="isOwner">
@@ -187,9 +187,9 @@
                     <div class="ui hidden divider"></div>
                 </div>
                 <div class="actions">
-                  <div class="ui left floated basic deny button">
+                  <button class="ui left floated basic deny button">
                     <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-                  </div>
+                  </button>
                   <button @click.stop="$refs.editForm.submit" :class="['ui', 'primary', 'confirm', {loading: edit.isLoading}, 'button']" :disabled="!edit.submittable">
                     <translate translate-context="*/Channels/Button.Label">Update channel</translate>
                   </button>

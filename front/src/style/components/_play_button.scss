@@ -2,4 +2,9 @@
   button.item {
     width: 100%;
   }
+  > .floating.dropdown {
+    background: transparent;
+    padding: 0;
+    border: none;
+  }
 }

@@ -9,10 +9,9 @@
       <i :class="[playIconClass, 'icon']"></i>
       <template v-if="!discrete && !iconOnly">&nbsp;<slot><translate translate-context="*/Queue/Button.Label/Short, Verb">Play</translate></slot></template>
     </button>
-    <div
+    <button
       v-if="!discrete && !iconOnly"
       @click.prevent="clicked = true"
-      role="button"
       :class="['ui', {disabled: !playable && !filterableArtist}, 'floating', 'dropdown', {'icon': !dropdownOnly}, {'button': !dropdownOnly}]">
       <i :class="dropdownIconClasses.concat(['icon'])" :title="title" ></i>
       <div class="menu" v-if="clicked">
@@ -29,18 +28,19 @@
           <i class="feed icon"></i><translate translate-context="*/Queue/Button.Label/Short, Verb">Start radio</translate>
         </button>
         <div class="divider"></div>
-        <button v-if="filterableArtist" class="item basic" :disabled="!filterableArtist" @click.stop.prevent="filterArtist" :title="labels.hideArtist">
+        <button v-if="filterableArtist" ref="filterArtist" data-ref="filterArtist" class="item basic" :disabled="!filterableArtist" @click.stop.prevent="filterArtist" :title="labels.hideArtist">
           <i class="eye slash outline icon"></i><translate translate-context="*/Queue/Dropdown/Button/Label/Short">Hide content from this artist</translate>
         </button>
         <button
           v-for="obj in getReportableObjs({track, album, artist, playlist, account, channel})"
           :key="obj.target.type + obj.target.id"
           class="item basic"
+          :ref="`report${obj.target.type}${obj.target.id}`" :data-ref="`report${obj.target.type}${obj.target.id}`" 
           @click.stop.prevent="$store.dispatch('moderation/report', obj.target)">
           <i class="share icon" /> {{ obj.label }}
         </button>
       </div>
-    </div>
+    </button>
   </span>
 </template>
 
@@ -270,9 +270,14 @@ export default {
         jQuery(this.$el).find('.ui.dropdown').dropdown({
           selectOnKeydown: false,
           action: function (text, value, $el) {
-            // used ton ensure focusing the dropdown and clicking via keyboard
+            // used to ensure focusing the dropdown and clicking via keyboard
             // works as expected
-            self.$refs[$el.data('ref')].click()
+            let button = self.$refs[$el.data('ref')]
+            if (Array.isArray(button)) {
+              button[0].click()
+            } else {
+              button.click()
+            }
             jQuery(self.$el).find('.ui.dropdown').dropdown('hide')
           },
         })

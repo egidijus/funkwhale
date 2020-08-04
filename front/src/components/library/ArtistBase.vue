@@ -45,26 +45,26 @@
                 </div>
               </div>
               <div class="actions">
-                <div class="ui deny button">
+                <button class="ui deny button">
                   <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-                </div>
+                </button>
               </div>
             </modal>
             <div class="ui buttons">
               <button class="ui button" @click="$refs.dropdown.click()">
                 <translate translate-context="*/*/Button.Label/Noun">More…</translate>
               </button>
-              <div class="ui floating dropdown icon button" ref="dropdown" v-dropdown>
+              <button class="ui floating dropdown icon button" ref="dropdown" v-dropdown>
                 <i class="dropdown icon"></i>
                 <div class="menu">
-                  <div
+                  <button
                     role="button"
                     v-if="publicLibraries.length > 0"
-                    @click="showEmbedModal = !showEmbedModal"
+                    @click.prevent="showEmbedModal = !showEmbedModal"
                     class="basic item">
                     <i class="code icon"></i>
                     <translate translate-context="Content/*/Button.Label/Verb">Embed</translate>
-                  </div>
+                  </button>
                   <a :href="wikipediaUrl" target="_blank" rel="noreferrer noopener" class="basic item">
                     <i class="wikipedia w icon"></i>
                     <translate translate-context="Content/*/Button.Label/Verb">Search on Wikipedia</translate>
@@ -108,7 +108,7 @@
                     <translate translate-context="Content/Moderation/Link/Verb">View in Django's admin</translate>&nbsp;
                   </a>
                 </div>
-              </div>
+              </button>
             </div>
           </div>
         </div>

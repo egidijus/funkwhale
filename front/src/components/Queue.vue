@@ -194,7 +194,7 @@
                   <i class="feed icon"></i> <translate translate-context="Sidebar/Player/Title">You have a radio playing</translate>
                 </h3>
                 <p><translate translate-context="Sidebar/Player/Paragraph">New tracks will be appended here automatically.</translate></p>
-                <div @click="$store.dispatch('radios/stop')" class="ui basic primary button"><translate translate-context="*/Player/Button.Label/Short, Verb">Stop radio</translate></div>
+                <button @click="$store.dispatch('radios/stop')" class="ui basic primary button"><translate translate-context="*/Player/Button.Label/Short, Verb">Stop radio</translate></button>
               </div>
             </div>
           </div>

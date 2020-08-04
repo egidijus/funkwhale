@@ -13,7 +13,7 @@
       <h2 class="ui with-actions header">
         <translate translate-context="*/*/*">Channels</translate>
         <div class="actions" v-if="$store.state.auth.authenticated && object.full_username === $store.state.auth.fullUsername">
-          <a @click.stop.prevent="showCreateModal = true">
+          <a @click.stop.prevent="showCreateModal = true" href="">
             <i class="plus icon"></i>
             <translate translate-context="Content/Profile/Button">Add new</translate>
           </a>
@@ -53,9 +53,9 @@
           <div class="ui hidden divider"></div>
       </div>
       <div class="actions">
-        <div v-if="step === 1" class="ui basic deny button">
+        <button v-if="step === 1" class="ui basic deny button">
           <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-        </div>
+        </button>
         <button v-if="step > 1" class="ui basic button" @click.stop.prevent="step -= 1">
           <translate translate-context="*/*/Button.Label/Verb">Previous step</translate>
         </button>

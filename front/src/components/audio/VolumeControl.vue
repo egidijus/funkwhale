@@ -1,5 +1,5 @@
 <template>
-   <span :class="['component-volume-control', {'expanded': expanded}]" @click.prevent.stop="" @mouseover="handleOver" @mouseleave="handleLeave">
+   <button class="circular control button" :class="['component-volume-control', {'expanded': expanded}]" @click.prevent.stop="" @mouseover="handleOver" @mouseleave="handleLeave">
     <span
       role="button"
       v-if="sliderVolume === 0"
@@ -34,7 +34,7 @@
         max="1"
         v-model="sliderVolume" />
     </div>
-  </span>
+  </button class="circular control">
 </template>
 <script>
 import { mapState, mapGetters, mapActions } from "vuex"
