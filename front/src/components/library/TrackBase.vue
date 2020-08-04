@@ -36,12 +36,12 @@
                   </div>
                 </div>
                 <div class="actions">
-                  <div class="ui basic deny button">
+                  <button class="ui basic deny button">
                     <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-                  </div>
+                  </button>
                 </div>
               </modal>
-              <div class="ui floating dropdown circular icon basic button" :title="labels.more" v-dropdown="{direction: 'downward'}">
+              <button class="ui floating dropdown circular icon basic button" :title="labels.more" v-dropdown="{direction: 'downward'}">
                 <i class="ellipsis vertical icon"></i>
                 <div class="menu" style="right: 0; left: auto">
                   <div
@@ -102,7 +102,7 @@
                     <translate translate-context="Content/Moderation/Link/Verb">View in Django's admin</translate>&nbsp;
                   </a>
                 </div>
-              </div>
+              </button>
             </div>
           </div>
         </div>

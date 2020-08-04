@@ -1,5 +1,5 @@
 <template>
-  <div @click="showModal = true" :class="[{disabled: disabled}]" role="button" :disabled="disabled">
+  <button @click="showModal = true" :class="[{disabled: disabled}]" :disabled="disabled">
     <slot></slot>
 
     <modal class="small" :show.sync="showModal">
@@ -24,7 +24,7 @@
         </button>
       </div>
     </modal>
-  </div>
+  </button>
 
 </template>
 <script>

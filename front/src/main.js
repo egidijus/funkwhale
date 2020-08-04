@@ -66,6 +66,13 @@ Vue.directive('title', function (el, binding) {
 Vue.directive('dropdown', function (el, binding) {
   jQuery(el).dropdown({
     selectOnKeydown: false,
+    action: function (text, value, $el) {
+      // used to ensure focusing the dropdown and clicking via keyboard
+      // works as expected
+      let button = $el[0]
+      button.click()
+      jQuery(el).find('.ui.dropdown').dropdown('hide')
+    },
     ...(binding.value || {})
   })
 })

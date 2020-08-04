@@ -58,9 +58,9 @@
           </div>
         </div>
         <div class="actions">
-          <div class="ui basic deny button">
+          <button class="ui basic deny button">
             <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-          </div>
+          </button>
         </div>
       </modal>
     </section>

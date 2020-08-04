@@ -9,7 +9,7 @@
       <p v-if="libraries.length == 0">
         <translate translate-context="Content/Library/Paragraph">Looks like you don't have a library, it's time to create one.</translate>
       </p>
-      <a :aria-expanded="!hiddenForm" @click="hiddenForm = !hiddenForm">
+      <a :aria-expanded="!hiddenForm" @click="hiddenForm = !hiddenForm" href="">
         <i class="plus icon" v-if="hiddenForm" />
         <i class="minus icon" v-else />
         <translate translate-context="Content/Library/Link/Verb">Create a new library</translate>

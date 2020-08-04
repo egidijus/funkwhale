@@ -6,7 +6,7 @@
     <div class="ui head vertical stripe segment container">
       <div class="ui stackable grid" v-if="object">
         <div class="ui five wide column">
-          <div class="ui pointing dropdown icon small basic right floated button" ref="dropdown" v-dropdown="{direction: 'downward'}" style="position: absolute; right: 1em; top: 1em;">
+          <button class="ui pointing dropdown icon small basic right floated button" ref="dropdown" v-dropdown="{direction: 'downward'}" style="position: absolute; right: 1em; top: 1em;">
             <i class="ellipsis vertical icon"></i>
             <div class="menu">
               <div
@@ -24,7 +24,7 @@
                 <translate translate-context="Content/Moderation/Link">Open in moderation interface</translate>
               </router-link>
             </div>
-          </div>
+          </button>
           <h1 class="ui center aligned icon header">
             <i v-if="!object.icon" class="circular inverted user success icon"></i>
             <img alt="" class="ui big circular image" v-else v-lazy="$store.getters['instance/absoluteUrl'](object.icon.urls.medium_square_crop)" />

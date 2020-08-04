@@ -9,14 +9,14 @@
       </router-link>
       <template v-else v-html="notificationData.message"></template>
       <template v-if="notificationData.acceptFollow">&nbsp;
-        <div @click="handleAction(notificationData.acceptFollow.handler)" :class="['ui', 'basic', 'tiny', notificationData.acceptFollow.buttonClass || '', 'button']">
+        <button @click="handleAction(notificationData.acceptFollow.handler)" :class="['ui', 'basic', 'tiny', notificationData.acceptFollow.buttonClass || '', 'button']">
           <i v-if="notificationData.acceptFollow.icon" :class="[notificationData.acceptFollow.icon, 'icon']" />
           {{ notificationData.acceptFollow.label }}
-        </div>
-        <div @click="handleAction(notificationData.rejectFollow.handler)" :class="['ui', 'basic', 'tiny', notificationData.rejectFollow.buttonClass || '', 'button']">
+        </button>
+        <button @click="handleAction(notificationData.rejectFollow.handler)" :class="['ui', 'basic', 'tiny', notificationData.rejectFollow.buttonClass || '', 'button']">
           <i v-if="notificationData.rejectFollow.icon" :class="[notificationData.rejectFollow.icon, 'icon']" />
           {{ notificationData.rejectFollow.label }}
-        </div>
+        </button>
       </template>
     </td>
     <td><human-date :date="item.activity.creation_date" /></td>

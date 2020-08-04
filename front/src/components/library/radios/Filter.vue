@@ -51,9 +51,9 @@
           </div>
         </div>
         <div class="actions">
-          <div class="ui deny button">
+          <button class="ui deny button">
             <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-          </div>
+          </button>
         </div>
       </modal>
     </td>

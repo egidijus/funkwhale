@@ -33,7 +33,7 @@
       </template>
     </div>
     <div class="ui bottom attached segment">
-      <div
+      <button
         @click="insertMany(queueTracks, false)"
         :disabled="queueTracks.length === 0"
         :class="['ui', {disabled: queueTracks.length === 0}, 'labeled', 'icon', 'button']"
@@ -45,7 +45,7 @@
             :translate-params="{count: queueTracks.length}">
             Insert from queue (%{ count } track)
           </translate>
-        </div>
+        </button>
 
       <dangerous-button :disabled="plts.length === 0" class="ui labeled right floated danger icon button" :action="clearPlaylist">
         <i class="eraser icon"></i> <translate translate-context="*/Playlist/Button.Label/Verb">Clear playlist</translate>
@@ -64,7 +64,7 @@
               <tr v-for="(plt, index) in plts" :key="`${index}-${plt.track.id}`">
                 <td class="left aligned">{{ plt.index + 1}}</td>
                 <td class="center aligned">
-                  <img alt="" class="ui mini image" v-if="plt.track.album && plt.track.album.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](plt.track.album.cover.urls.medium_square_crop)">
+                  <img alt="" class="ui mini image" v-if="plt.track.album && plt.track.album.cover && plt.track.album.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](plt.track.album.cover.urls.medium_square_crop)">
                   <img alt="" class="ui mini image" v-else src="../../assets/audio/default-cover.png">
                 </td>
                 <td colspan="4">
@@ -72,7 +72,9 @@
                     {{ plt.track.artist.name }}
                 </td>
                 <td class="right aligned">
-                  <i @click.stop="removePlt(index)" class="circular danger trash icon"></i>
+                  <button class="ui circular danger basic icon button">
+                    <i @click.stop="removePlt(index)" class="trash icon"></i>                
+                  </button>
                 </td>
               </tr>
             </draggable>
