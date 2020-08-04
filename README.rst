@@ -28,6 +28,16 @@ Contribute
 Contribution guidelines as well as development installation instructions
 are outlined in `CONTRIBUTING <CONTRIBUTING.rst>`_.
 
+Security issues and vulnerabilities
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you found a vulnerability in Funkwhale, please report it on our Gitlab instance at `https://dev.funkwhale.audio/funkwhale/funkwhale/-/issues`_, ensuring
+you have checked the ``This issue is confidential and should only be visible to team members with at least Reporter access.
+`` box. 
+
+This will ensure only maintainers and developpers have access to the vulnerability. Thank you for your help!
+
+
 Translate
 ^^^^^^^^^
 
