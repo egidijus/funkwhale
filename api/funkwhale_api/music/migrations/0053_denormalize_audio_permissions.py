@@ -35,6 +35,6 @@ def rewind(apps, schema_editor):
 
 class Migration(migrations.Migration):
 
-    dependencies = [("music", "0041_auto_20191021_1705")]
+    dependencies = [("music", "0052_auto_20200505_0810")]
 
     operations = [migrations.RunPython(denormalize, rewind)]

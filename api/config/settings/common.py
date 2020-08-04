@@ -1198,7 +1198,7 @@ On non-docker setup, you don't need to configure this setting.
 """
 # When this is set to default=True, we need to reenable migration music/0042
 # to ensure data is populated correctly on existing pods
-MUSIC_USE_DENORMALIZATION = env.bool("MUSIC_USE_DENORMALIZATION", default=False)
+MUSIC_USE_DENORMALIZATION = env.bool("MUSIC_USE_DENORMALIZATION", default=True)
 
 USERS_INVITATION_EXPIRATION_DAYS = env.int(
     "USERS_INVITATION_EXPIRATION_DAYS", default=14
