@@ -107,7 +107,10 @@
       <translate translate-context="*/Signup/Link/Verb">Create an account</translate>
     </router-link>
   </div>
-  <nav class="secondary" role="navigation">
+  <nav class="secondary" role="navigation" aria-labelledby="navigation-label">
+    <h1 id="navigation-label" class="visually-hidden">
+      <translate translate-context="*/*/*">Main navigation</translate>
+    </h1>
     <div class="ui small hidden divider"></div>
     <section :class="['ui', 'bottom', 'attached', {active: selectedTab === 'library'}, 'tab']" :aria-label="labels.mainMenu">
       <nav class="ui vertical large fluid inverted menu" role="navigation" :aria-label="labels.mainMenu">

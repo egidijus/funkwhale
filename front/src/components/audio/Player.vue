@@ -1,5 +1,8 @@
 <template>
-  <section v-if="currentTrack" class="player-wrapper ui bottom-player component-player">
+  <section role="complementary" v-if="currentTrack" class="player-wrapper ui bottom-player component-player" aria-labelledby="player-label">
+    <h1 id="player-label" class="visually-hidden">
+      <translate translate-context="*/*/*">Audio player and controls</translate>
+    </h1>
     <div class="ui inverted segment fixed-controls" @click.prevent.stop="toggleMobilePlayer">
       <div
         :class="['ui', 'top attached', 'small', 'inverted', {'indicating': isLoadingAudio}, 'progress']">

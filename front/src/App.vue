@@ -15,7 +15,7 @@
       <transition name="queue">
         <queue @touch-progress="$refs.player.setCurrentTime($event)" v-if="$store.state.ui.queueFocused"></queue>
       </transition>
-      <router-view :class="{hidden: $store.state.ui.queueFocused}"></router-view>
+      <router-view role="main" :class="{hidden: $store.state.ui.queueFocused}"></router-view>
       <player ref="player"></player>
       <app-footer
         :class="{hidden: $store.state.ui.queueFocused}"

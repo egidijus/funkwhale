@@ -1,5 +1,8 @@
 <template>
-  <footer id="footer" role="contentinfo" class="ui vertical footer segment">
+  <footer id="footer" role="contentinfo" class="ui vertical footer segment" aria-labelledby="footer-label">
+    <h1 id="footer-label" class="visually-hidden">
+      <translate translate-context="*/*/*">Application footer</translate>      
+    </h1>
     <div class="ui container">
       <div class="ui stackable equal height stackable grid">
         <section class="four wide column">
