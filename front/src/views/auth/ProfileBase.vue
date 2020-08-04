@@ -27,7 +27,7 @@
           </div>
           <h1 class="ui center aligned icon header">
             <i v-if="!object.icon" class="circular inverted user success icon"></i>
-            <img alt="" class="ui big circular image" v-else v-lazy="$store.getters['instance/absoluteUrl'](object.icon.urls.square_crop)" />
+            <img alt="" class="ui big circular image" v-else v-lazy="$store.getters['instance/absoluteUrl'](object.icon.urls.medium_square_crop)" />
             <div class="ellispsis content">
               <div class="ui very small hidden divider"></div>
               <span>{{ displayName }}</span>

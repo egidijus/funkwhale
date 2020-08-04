@@ -1,9 +1,9 @@
 <template>
   <div class="channel-serie-card">
     <div class="two-images">
-      <img alt="" @click="$router.push({name: 'library.albums.detail', params: {id: serie.id}})" class="channel-image" v-if="cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](cover.urls.square_crop)">
+      <img alt="" @click="$router.push({name: 'library.albums.detail', params: {id: serie.id}})" class="channel-image" v-if="cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](cover.urls.medium_square_crop)">
       <img alt="" @click="$router.push({name: 'library.albums.detail', params: {id: serie.id}})" class="channel-image" v-else src="../../assets/audio/default-cover.png">
-      <img alt="" @click="$router.push({name: 'library.albums.detail', params: {id: serie.id}})" class="channel-image" v-if="cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](cover.urls.square_crop)">
+      <img alt="" @click="$router.push({name: 'library.albums.detail', params: {id: serie.id}})" class="channel-image" v-if="cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](cover.urls.medium_square_crop)">
       <img alt="" @click="$router.push({name: 'library.albums.detail', params: {id: serie.id}})" class="channel-image" v-else src="../../assets/audio/default-cover.png">
     </div>
     <div class="content ellipsis">

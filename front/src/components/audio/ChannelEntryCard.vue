@@ -8,7 +8,7 @@
       alt=""
       class="channel-image image"
       v-if="cover && cover.urls.original"
-      v-lazy="$store.getters['instance/absoluteUrl'](cover.urls.square_crop)">
+      v-lazy="$store.getters['instance/absoluteUrl'](cover.urls.medium_square_crop)">
     <span
       @click="$router.push({name: 'library.tracks.detail', params: {id: entry.id}})"
       class="channel-image image"
@@ -18,7 +18,7 @@
       alt=""
       class="channel-image image"
       v-else-if="entry.album && entry.album.cover && entry.album.cover.urls.original"
-      v-lazy="$store.getters['instance/absoluteUrl'](entry.album.cover.urls.square_crop)">
+      v-lazy="$store.getters['instance/absoluteUrl'](entry.album.cover.urls.medium_square_crop)">
     <img
       @click="$router.push({name: 'library.tracks.detail', params: {id: entry.id}})"
       alt=""

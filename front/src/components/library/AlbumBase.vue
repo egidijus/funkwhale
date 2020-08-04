@@ -11,9 +11,9 @@
               <div class="ui two column grid" v-if="isSerie">
                 <div class="column">
                   <div class="large two-images">
-                    <img alt="" class="channel-image" v-if="object.cover && object.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.urls.square_crop)">
+                    <img alt="" class="channel-image" v-if="object.cover && object.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.urls.medium_square_crop)">
                     <img alt="" class="channel-image" v-else src="../../assets/audio/default-cover.png">
-                    <img alt="" class="channel-image" v-if="object.cover && object.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.urls.square_crop)">
+                    <img alt="" class="channel-image" v-if="object.cover && object.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.urls.medium_square_crop)">
                     <img alt="" class="channel-image" v-else src="../../assets/audio/default-cover.png">
                   </div>
                 </div>
@@ -53,7 +53,7 @@
               </header>
             </div>
             <div v-else class="ui center aligned text padded basic segment">
-              <img alt="" class="channel-image" v-if="object.cover && object.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.urls.square_crop)">
+              <img alt="" class="channel-image" v-if="object.cover && object.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.urls.medium_square_crop)">
               <img alt="" class="channel-image" v-else src="../../assets/audio/default-cover.png">
               <div class="ui hidden divider"></div>
               <header>

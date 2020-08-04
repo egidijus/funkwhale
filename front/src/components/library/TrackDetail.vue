@@ -4,7 +4,6 @@
     <section class="ui vertical stripe segment">
       <div class="ui stackable grid row container">
         <div class="six wide column">
-          <img alt="" class="image" v-if="cover && cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](cover.urls.square_crop)">
           <template v-if="upload">
             <h3 class="ui header">
               <translate key="1" v-if="track.artist.content_category === 'music'" translate-context="Content/*/*">Track Details</translate>
