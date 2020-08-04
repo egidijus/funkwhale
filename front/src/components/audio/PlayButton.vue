@@ -78,13 +78,26 @@ export default {
   },
   computed: {
     labels () {
+      let replacePlay
+      if (this.track) {
+        replacePlay = this.$pgettext('*/Queue/Dropdown/Button/Title', 'Play track')
+      } else if (this.album) {
+        replacePlay = this.$pgettext('*/Queue/Dropdown/Button/Title', 'Play album')
+      } else if (this.artist) {
+        replacePlay = this.$pgettext('*/Queue/Dropdown/Button/Title', 'Play artist')
+      } else if (this.playlist) {
+        replacePlay = this.$pgettext('*/Queue/Dropdown/Button/Title', 'Play playlist')
+      } else {
+        replacePlay = this.$pgettext('*/Queue/Dropdown/Button/Title', 'Play tracks')
+      }
+      
       return {
         playNow: this.$pgettext('*/Queue/Dropdown/Button/Title', 'Play now'),
         addToQueue: this.$pgettext('*/Queue/Dropdown/Button/Title', 'Add to current queue'),
         playNext: this.$pgettext('*/Queue/Dropdown/Button/Title', 'Play next'),
         startRadio: this.$pgettext('*/Queue/Dropdown/Button/Title', 'Play similar songs'),
-        replacePlay: this.$pgettext('*/Queue/Dropdown/Button/Title', 'Replace current queue'),
         report: this.$pgettext('*/Moderation/*/Button/Label,Verb', 'Report…'),
+        replacePlay,
       }
     },
     title () {
