@@ -314,7 +314,9 @@ def test_rss_item_serializer(factories):
         "link": [{"value": federation_utils.full_url(upload.track.get_absolute_url())}],
         "enclosure": [
             {
-                "url": federation_utils.full_url(upload.get_listen_url("mp3")),
+                "url": federation_utils.full_url(
+                    upload.get_listen_url("mp3", download=False)
+                ),
                 "length": upload.size,
                 "type": "audio/mpeg",
             }

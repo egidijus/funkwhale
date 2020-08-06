@@ -829,7 +829,9 @@ def rss_serialize_item(upload):
         "enclosure": [
             {
                 # we enforce MP3, since it's the only format supported everywhere
-                "url": federation_utils.full_url(upload.get_listen_url(to="mp3")),
+                "url": federation_utils.full_url(
+                    upload.get_listen_url(to="mp3", download=False)
+                ),
                 "length": upload.size or 0,
                 "type": "audio/mpeg",
             }
