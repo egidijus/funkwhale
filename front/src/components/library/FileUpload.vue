@@ -240,7 +240,7 @@ export default {
     this.fetchStatus();
     if (this.$store.state.auth.availablePermissions['library']) {
       this.fetchFs(true)
-      setInterval(() => {
+      this.fsInterval = setInterval(() => {
         this.fetchFs(false)
       }, 5000);
     }
