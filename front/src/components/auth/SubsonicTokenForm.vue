@@ -135,7 +135,9 @@ export default {
       return this.$store.state.instance.settings.subsonic.enabled.value
     },
     labels () {
-      subsonicField: this.$pgettext("Content/Password/Input.label", "Your subsonic API password")
+      return {
+        subsonicField: this.$pgettext("Content/Password/Input.label", "Your subsonic API password")
+      }
     }
   }
 }
