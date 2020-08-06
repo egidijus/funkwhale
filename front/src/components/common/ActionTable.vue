@@ -132,7 +132,7 @@
           <td v-if="actions.length > 0" class="collapsing">
             <input
               type="checkbox"
-              :aria-label="labels.selectItem + ' ' + obj.track.title"
+              :aria-label="labels.selectItem"
               :disabled="checkable.indexOf(getId(obj)) === -1"
               @click="toggleCheck($event, getId(obj), index)"
               :checked="checked.indexOf(getId(obj)) > -1">
