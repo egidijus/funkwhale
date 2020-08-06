@@ -513,7 +513,7 @@ Upload:
     uuid:
       type: string
       format: uuid
-    size:size:
+    size:
       type: "integer"
       format: "int64"
       example: 278987000
@@ -541,6 +541,9 @@ Upload:
       type: "string"
       format: "uri"
       description: "URL to stream the upload"
+    is_local:
+      type: "boolean"
+      description: "Indicates if the object was initally created locally or on another server"
 
 OwnedLibraryCreate:
   type: "object"

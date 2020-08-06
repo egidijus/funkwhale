@@ -255,6 +255,7 @@ def serialize_upload(upload):
         "bitrate": upload.bitrate,
         "mimetype": upload.mimetype,
         "extension": upload.extension,
+        "is_local": federation_utils.is_local(upload.fid),
     }
 
 
@@ -305,7 +306,10 @@ class TrackSerializer(OptionalDescriptionMixin, serializers.Serializer):
 
     def get_uploads(self, obj):
         uploads = getattr(obj, "playable_uploads", [])
-        return [serialize_upload(u) for u in sort_uploads_for_listen(uploads)]
+        # we put local uploads first
+        uploads = [serialize_upload(u) for u in sort_uploads_for_listen(uploads)]
+        uploads = sorted(uploads, key=lambda u: u["is_local"], reverse=True)
+        return list(uploads)
 
     def get_tags(self, obj):
         tagged_items = getattr(obj, "_prefetched_tagged_items", [])

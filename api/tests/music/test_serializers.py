@@ -354,6 +354,7 @@ def test_serialize_upload(factories):
         "mimetype": upload.mimetype,
         "extension": upload.extension,
         "duration": upload.duration,
+        "is_local": False,
     }
 
     data = serializers.serialize_upload(upload)
