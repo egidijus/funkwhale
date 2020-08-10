@@ -109,5 +109,9 @@ export default {
       "code": "zh_Hant",
       "label": "中文(繁體)"
     }
+    {
+      "code": "fa_ir",
+      "label": "فارسی"
+    }
   ]
 }
