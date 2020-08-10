@@ -110,7 +110,7 @@ export default {
       "label": "中文(繁體)"
     },
     {
-      "code": "fa_ir",
+      "code": "fa_IR",
       "label": "فارسی"
     }
   ]
