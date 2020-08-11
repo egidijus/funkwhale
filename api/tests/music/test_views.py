@@ -445,6 +445,30 @@ def test_listen_explicit_file(factories, logged_in_api_client, mocker, settings)
     )
 
 
+def test_stream(factories, logged_in_api_client, mocker, settings):
+    mocked_serve = mocker.spy(views, "handle_serve")
+    upload = factories["music.Upload"](
+        library__privacy_level="everyone", import_status="finished"
+    )
+    url = (
+        reverse("api:v1:stream-detail", kwargs={"uuid": str(upload.track.uuid)})
+        + ".mp3"
+    )
+    assert url.endswith("/{}.mp3".format(upload.track.uuid))
+    response = logged_in_api_client.get(url)
+
+    assert response.status_code == 200
+    mocked_serve.assert_called_once_with(
+        upload=upload,
+        user=logged_in_api_client.user,
+        format="mp3",
+        download=False,
+        max_bitrate=None,
+        proxy_media=True,
+        wsgi_request=response.wsgi_request,
+    )
+
+
 def test_listen_no_proxy(factories, logged_in_api_client, settings):
     settings.PROXY_MEDIA = False
     upload = factories["music.Upload"](

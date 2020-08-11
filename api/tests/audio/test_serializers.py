@@ -6,6 +6,7 @@ import pytest
 import pytz
 
 from django.templatetags.static import static
+from django.urls import reverse
 
 from funkwhale_api.audio import serializers
 from funkwhale_api.common import serializers as common_serializers
@@ -315,7 +316,10 @@ def test_rss_item_serializer(factories):
         "enclosure": [
             {
                 "url": federation_utils.full_url(
-                    upload.get_listen_url("mp3", download=False)
+                    reverse(
+                        "api:v1:stream-detail", kwargs={"uuid": str(upload.track.uuid)}
+                    )
+                    + ".mp3"
                 ),
                 "length": upload.size,
                 "type": "audio/mpeg",
