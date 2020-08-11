@@ -10,6 +10,7 @@ import django.db.utils
 from django.utils import timezone
 
 from rest_framework import mixins
+from rest_framework import renderers
 from rest_framework import settings as rest_settings
 from rest_framework import views, viewsets
 from rest_framework.decorators import action
@@ -614,7 +615,7 @@ def handle_serve(
     return response
 
 
-class ListenViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class ListenMixin(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     queryset = models.Track.objects.all()
     serializer_class = serializers.TrackSerializer
     authentication_classes = (
@@ -627,39 +628,66 @@ class ListenViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     lookup_field = "uuid"
 
     def retrieve(self, request, *args, **kwargs):
+        config = {
+            "explicit_file": request.GET.get("upload"),
+            "download": request.GET.get("download", "true").lower() == "true",
+            "format": request.GET.get("to"),
+            "max_bitrate": request.GET.get("max_bitrate"),
+        }
         track = self.get_object()
-        actor = utils.get_actor_from_request(request)
-        queryset = track.uploads.prefetch_related(
-            "track__album__artist", "track__artist"
-        )
-        explicit_file = request.GET.get("upload")
-        download = request.GET.get("download", "true").lower() == "true"
-        if explicit_file:
-            queryset = queryset.filter(uuid=explicit_file)
-        queryset = queryset.playable_by(actor)
-        queryset = queryset.order_by(F("audio_file").desc(nulls_last=True))
-        upload = queryset.first()
-        if not upload:
-            return Response(status=404)
+        return handle_stream(track, request, **config)
 
-        format = request.GET.get("to")
-        max_bitrate = request.GET.get("max_bitrate")
-        try:
-            max_bitrate = min(max(int(max_bitrate), 0), 320) or None
-        except (TypeError, ValueError):
-            max_bitrate = None
 
-        if max_bitrate:
-            max_bitrate = max_bitrate * 1000
-        return handle_serve(
-            upload=upload,
-            user=request.user,
-            format=format,
-            max_bitrate=max_bitrate,
-            proxy_media=settings.PROXY_MEDIA,
-            download=download,
-            wsgi_request=request._request,
-        )
+def handle_stream(track, request, download, explicit_file, format, max_bitrate):
+    actor = utils.get_actor_from_request(request)
+    queryset = track.uploads.prefetch_related("track__album__artist", "track__artist")
+    if explicit_file:
+        queryset = queryset.filter(uuid=explicit_file)
+    queryset = queryset.playable_by(actor)
+    queryset = queryset.order_by(F("audio_file").desc(nulls_last=True))
+    upload = queryset.first()
+    if not upload:
+        return Response(status=404)
+
+    try:
+        max_bitrate = min(max(int(max_bitrate), 0), 320) or None
+    except (TypeError, ValueError):
+        max_bitrate = None
+
+    if max_bitrate:
+        max_bitrate = max_bitrate * 1000
+    return handle_serve(
+        upload=upload,
+        user=request.user,
+        format=format,
+        max_bitrate=max_bitrate,
+        proxy_media=settings.PROXY_MEDIA,
+        download=download,
+        wsgi_request=request._request,
+    )
+
+
+class ListenViewSet(ListenMixin):
+    pass
+
+
+class MP3Renderer(renderers.JSONRenderer):
+    format = "mp3"
+    media_type = "audio/mpeg"
+
+
+class StreamViewSet(ListenMixin):
+    renderer_classes = [MP3Renderer]
+
+    def retrieve(self, request, *args, **kwargs):
+        config = {
+            "explicit_file": None,
+            "download": False,
+            "format": "mp3",
+            "max_bitrate": None,
+        }
+        track = self.get_object()
+        return handle_stream(track, request, **config)
 
 
 class UploadViewSet(
