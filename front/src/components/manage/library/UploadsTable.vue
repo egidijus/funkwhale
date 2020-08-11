@@ -77,42 +77,42 @@
             <router-link :to="{name: 'manage.library.libraries.detail', params: {id: scope.obj.library.uuid }}">
               <i class="wrench icon"></i>
             </router-link>
-            <span role="button" class="discrete link"
-              @click="addSearchToken('library_id', scope.obj.library.id)"
+            <a href="" class="discrete link"
+              @click.prevent="addSearchToken('library_id', scope.obj.library.id)"
               :title="scope.obj.library.name">
               {{ scope.obj.library.name | truncate(20) }}
-            </span>
+            </a>
           </td>
           <td>
             <router-link :to="{name: 'manage.moderation.accounts.detail', params: {id: scope.obj.library.actor.full_username }}">
             </router-link>
-            <span role="button" class="discrete link" @click="addSearchToken('account', scope.obj.library.actor.full_username)" :title="scope.obj.library.actor.full_username">{{ scope.obj.library.actor.preferred_username }}</span>
+            <a href="" class="discrete link" @click.prevent="addSearchToken('account', scope.obj.library.actor.full_username)" :title="scope.obj.library.actor.full_username">{{ scope.obj.library.actor.preferred_username }}</a>
           </td>
           <td>
             <template v-if="!scope.obj.is_local">
               <router-link :to="{name: 'manage.moderation.domains.detail', params: {id: scope.obj.domain }}">
                 <i class="wrench icon"></i>
               </router-link>
-              <span role="button" class="discrete link" @click="addSearchToken('domain', scope.obj.domain)" :title="scope.obj.domain">{{ scope.obj.domain }}</span>
+              <a href="" class="discrete link" @click.prevent="addSearchToken('domain', scope.obj.domain)" :title="scope.obj.domain">{{ scope.obj.domain }}</a>
             </template>
-            <span role="button" v-else class="ui tiny accent icon link label" @click="addSearchToken('domain', scope.obj.domain)">
+            <a href="" v-else class="ui tiny accent icon link label" @click.prevent="addSearchToken('domain', scope.obj.domain)">
               <i class="home icon"></i>
               <translate translate-context="Content/Moderation/*/Short, Noun">Local</translate>
-            </span>
+            </a>
           </td>
           <td>
-            <span
-              role="button"
+            <a
+              href=""
               class="discrete link"
-              @click="addSearchToken('privacy_level', scope.obj.library.privacy_level)"
+              @click.prevent="addSearchToken('privacy_level', scope.obj.library.privacy_level)"
               :title="sharedLabels.fields.privacy_level.shortChoices[scope.obj.library.privacy_level]">
               {{ sharedLabels.fields.privacy_level.shortChoices[scope.obj.library.privacy_level] }}
-            </span>
+            </a>
           </td>
           <td>
-            <span class="discrete link" @click="addSearchToken('status', scope.obj.import_status)" :title="sharedLabels.fields.import_status.choices[scope.obj.import_status].help">
+            <a href="" class="discrete link" @click.prevent="addSearchToken('status', scope.obj.import_status)" :title="sharedLabels.fields.import_status.choices[scope.obj.import_status].help">
               {{ sharedLabels.fields.import_status.choices[scope.obj.import_status].label }}
-            </span>
+            </a>
             <button class="ui tiny basic icon button" :title="sharedLabels.fields.import_status.detailTitle" @click="detailedUpload = scope.obj; showUploadDetailModal = true">
               <i class="question circle outline icon"></i>
             </button>

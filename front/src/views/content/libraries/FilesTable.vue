@@ -130,17 +130,19 @@
               </router-link>
             </td>
             <td>
-              <span
+              <a
+                href=""
                 class="discrete link"
-                @click="addSearchToken('artist', scope.obj.track.artist.name)"
-              >{{ scope.obj.track.artist.name|truncate(20) }}</span>
+                @click.prevent="addSearchToken('artist', scope.obj.track.artist.name)"
+              >{{ scope.obj.track.artist.name|truncate(20) }}</a>
             </td>
             <td>
-              <span
+              <a
+                href=""
                 v-if="scope.obj.track.album"
                 class="discrete link"
-                @click="addSearchToken('album', scope.obj.track.album.title)"
-              >{{ scope.obj.track.album.title|truncate(20) }}</span>
+                @click.prevent="addSearchToken('album', scope.obj.track.album.title)"
+              >{{ scope.obj.track.album.title|truncate(20) }}</a>
             </td>
           </template>
           <template v-else>
@@ -152,11 +154,12 @@
             <human-date :date="scope.obj.creation_date"></human-date>
           </td>
           <td>
-            <span
+            <a 
+              href=""
               class="discrete link"
-              @click="addSearchToken('status', scope.obj.import_status)"
+              @click.prevent="addSearchToken('status', scope.obj.import_status)"
               :title="sharedLabels.fields.import_status.choices[scope.obj.import_status].help"
-            >{{ sharedLabels.fields.import_status.choices[scope.obj.import_status].label }}</span>
+            >{{ sharedLabels.fields.import_status.choices[scope.obj.import_status].label }}</a>
             <button
               class="ui tiny basic icon button"
               :title="sharedLabels.fields.import_status.detailTitle"

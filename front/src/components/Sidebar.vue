@@ -90,10 +90,10 @@
       </template>
       <div class="item collapse-button-wrapper">
 
-        <span
+        <button
           @click="isCollapsed = !isCollapsed"
           :class="['ui', 'basic', 'big', {'vibrant': !isCollapsed}, 'inverted icon', 'collapse', 'button']">
-            <i class="sidebar icon"></i></span>
+            <i class="sidebar icon"></i></button>
       </div>
     </nav>
   </header>
@@ -115,7 +115,7 @@
     <section :class="['ui', 'bottom', 'attached', {active: selectedTab === 'library'}, 'tab']" :aria-label="labels.mainMenu">
       <nav class="ui vertical large fluid inverted menu" role="navigation" :aria-label="labels.mainMenu">
         <div :class="[{collapsed: !exploreExpanded}, 'collaspable item']">
-          <h2 class="header" @click="exploreExpanded = true" tabindex="0" @focus="exploreExpanded = true">
+          <h2 class="header" role="button" @click="exploreExpanded = true" tabindex="0" @focus="exploreExpanded = true">
             <translate translate-context="*/*/*/Verb">Explore</translate>
             <i class="angle right icon" v-if="!exploreExpanded"></i>
           </h2>
@@ -128,7 +128,7 @@
           </div>
         </div>
         <div :class="[{collapsed: !myLibraryExpanded}, 'collaspable item']" v-if="$store.state.auth.authenticated">
-          <h3 class="header" @click="myLibraryExpanded = true" tabindex="0" @focus="myLibraryExpanded = true">
+          <h3 class="header" role="button" @click="myLibraryExpanded = true" tabindex="0" @focus="myLibraryExpanded = true">
             <translate translate-context="*/*/*/Noun">My Library</translate>
             <i class="angle right icon" v-if="!myLibraryExpanded"></i>
           </h3>

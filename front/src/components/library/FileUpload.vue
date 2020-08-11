@@ -1,8 +1,8 @@
   <template>
   <div class="component-file-upload">
     <div class="ui top attached tabular menu">
-      <a :class="['item', {active: currentTab === 'summary'}]" @click="currentTab = 'summary'"><translate translate-context="Content/Library/Tab.Title/Short">Summary</translate></a>
-      <a :class="['item', {active: currentTab === 'uploads'}]" @click="currentTab = 'uploads'">
+      <a href="" :class="['item', {active: currentTab === 'summary'}]" @click.prevent="currentTab = 'summary'"><translate translate-context="Content/Library/Tab.Title/Short">Summary</translate></a>
+      <a href="" :class="['item', {active: currentTab === 'uploads'}]" @click.prevent="currentTab = 'uploads'">
         <translate translate-context="Content/Library/Tab.Title/Short">Uploading</translate>
         <div v-if="files.length === 0" class="ui label">
           0
@@ -14,7 +14,7 @@
           {{ uploadedFilesCount + erroredFilesCount }}/{{ files.length }}
         </div>
       </a>
-      <a :class="['item', {active: currentTab === 'processing'}]" @click="currentTab = 'processing'">
+      <a href="" :class="['item', {active: currentTab === 'processing'}]" @click.prevent="currentTab = 'processing'">
         <translate translate-context="Content/Library/Tab.Title/Short">Processing</translate>
         <div v-if="processableFiles === 0" class="ui label">
           0

@@ -80,15 +80,15 @@
               <td>
                 <i
                   :disabled="idx === 0"
-                  @click="move(idx, -1)" rel="button"
+                  @click="move(idx, -1)" role="button"
                   :title="labels.up"
                   :class="['up', 'arrow', {disabled: idx === 0}, 'icon']"></i>
                 <i
                   :disabled="idx >= local.fields.length - 1"
-                  @click="move(idx, 1)" rel="button"
+                  @click="move(idx, 1)" role="button"
                   :title="labels.down"
                   :class="['down', 'arrow', {disabled: idx >= local.fields.length - 1}, 'icon']"></i>
-                <i @click="remove(idx)" rel="button" :title="labels.delete" class="x icon"></i>
+                <i @click="remove(idx)" role="button" :title="labels.delete" class="x icon"></i>
               </td>
             </tr>
           </tbody>

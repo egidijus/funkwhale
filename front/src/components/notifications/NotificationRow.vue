@@ -21,12 +21,12 @@
     </td>
     <td><human-date :date="item.activity.creation_date" /></td>
     <td class="read collapsing">
-      <span @click="markRead(false)" role="button" v-if="item.is_read" :title="labels.markUnread">
+      <a href="" :aria-label="labels.markUnread" @click.prevent="markRead(false)" class="discrete link" v-if="item.is_read" :title="labels.markUnread">
         <i class="redo icon" />
-      </span>
-      <span @click="markRead(true)" role="button" v-else :title="labels.markRead">
+      </a>
+      <a href="" :aria-label="labels.markRead" @click.prevent="markRead(true)" class="discrete link" v-else :title="labels.markRead">
         <i class="check icon" />
-      </span>
+      </a>
     </td>
   </tr>
 </template>

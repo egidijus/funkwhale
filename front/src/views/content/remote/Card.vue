@@ -65,11 +65,11 @@
           <i class="warning download icon"></i>
           <translate translate-context="Content/Library/Card.List item">Scanned with errors</translate>
         </template>
-        <span class="link right floated" @click="showScan = !showScan">
+        <a href="" class="link right floated" @click.prevent="showScan = !showScan">
           <translate translate-context="Content/Library/Card.Button.Label/Noun">Details</translate>
           <i v-if="showScan" class="angle down icon" />
           <i v-else class="angle right icon" />
-        </span>
+        </a>
         <div v-if="showScan">
           <template v-if="latestScan.modification_date">
             <translate translate-context="Content/Library/Card.List item/Noun">Last update:</translate><human-date :date="latestScan.modification_date" /><br />
@@ -78,9 +78,9 @@
         </div>
       </div>
       <div v-if="displayScan && canLaunchScan" class="clearfix">
-        <span class="right floated link" @click="launchScan">
+        <a href="" class="right floated link" @click.prevent="launchScan">
           <translate translate-context="Content/Library/Card.Button.Label/Verb">Scan now</translate> <i class="paper plane icon" />
-        </span>
+        </a>
       </div>
     </div>
     <div class="extra content">

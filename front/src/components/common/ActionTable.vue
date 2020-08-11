@@ -48,13 +48,13 @@
                     </p>
                     <div :aria-label="labels.performAction" slot="modal-confirm"><translate translate-context="Modal/*/Button.Label/Short, Verb">Launch</translate></div>
                   </dangerous-button>
-                  <div
+                  <button
                     v-else
                     @click="launchAction"
                     :disabled="checked.length === 0"
                     :aria-label="labels.performAction"
                     :class="['ui', {disabled: checked.length === 0}, {'loading': actionLoading}, 'button']">
-                    <translate translate-context="Content/*/Button.Label/Short, Verb">Go</translate></div>
+                    <translate translate-context="Content/*/Button.Label/Short, Verb">Go</translate></button>
                 </div>
                 <div class="count field">
                   <translate translate-context="Content/*/Paragraph"
@@ -76,7 +76,7 @@
                     %{ count } on %{ total } selected
                   </translate>
                   <template v-if="currentAction.allowAll && checkable.length > 0 && checkable.length === checked.length">
-                    <a @click="selectAll = true" v-if="!selectAll">
+                    <a @click.prevent="selectAll = true" v-if="!selectAll" href="">
                       <translate translate-context="Content/*/Link/Verb"
                         key="3"
                         :translate-n="objectsData.count"
@@ -85,7 +85,7 @@
                         Select all %{ total } elements
                       </translate>
                     </a>
-                    <a @click="selectAll = false" v-else>
+                    <a @click.prevent="selectAll = false" v-else href="">
                       <translate translate-context="Content/*/Link/Verb" key="4">Select only current page</translate>
                     </a>
                   </template>

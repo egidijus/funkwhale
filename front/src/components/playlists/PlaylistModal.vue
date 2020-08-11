@@ -69,13 +69,13 @@
               <td><human-date :date="playlist.modification_date"></human-date></td>
               <td>{{ playlist.tracks_count }}</td>
               <td>
-                <div
+                <button
                   v-if="track"
                   class="ui success icon basic small right floated button"
                   :title="labels.addToPlaylist"
-                  @click="addToPlaylist(playlist.id, false)">
+                  @click.prevent="addToPlaylist(playlist.id, false)">
                   <i class="plus icon"></i> <translate translate-context="Popup/Playlist/Table.Button.Label/Verb">Add track</translate>
-                </div>
+                </button>
               </td>
             </tr>
           </tbody>

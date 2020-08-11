@@ -72,7 +72,7 @@
                   </div>
                   <div class="progress">
                     <template v-if="!isLoadingAudio">
-                      <span role="button" class="left floated timer start" @click="setCurrentTime(0)">{{currentTimeFormatted}}</span>
+                      <a href="" :aria-label="labels.restart" class="left floated timer discrete start" @click.prevent="setCurrentTime(0)">{{currentTimeFormatted}}</a>
                       <span class="right floated timer total">{{durationFormatted}}</span>
                     </template>
                     <template v-else>
@@ -272,7 +272,8 @@ export default {
       return {
         queue: this.$pgettext('*/*/*', 'Queue'),
         duration: this.$pgettext('*/*/*', 'Duration'),
-        addArtistContentFilter: this.$pgettext('Sidebar/Player/Icon.Tooltip/Verb', 'Hide content from this artist…')
+        addArtistContentFilter: this.$pgettext('Sidebar/Player/Icon.Tooltip/Verb', 'Hide content from this artist…'),
+        restart: this.$pgettext('*/*/*', 'Restart track'),
       }
     },
     timeLeft () {

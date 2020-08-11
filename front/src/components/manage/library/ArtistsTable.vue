@@ -63,12 +63,12 @@
               <router-link :to="{name: 'manage.moderation.domains.detail', params: {id: scope.obj.domain }}">
                 <i class="wrench icon"></i>
               </router-link>
-              <span role="button" class="discrete link" @click="addSearchToken('domain', scope.obj.domain)" :title="scope.obj.domain">{{ scope.obj.domain }}</span>
+              <a href="" class="discrete link" @click.prevent="addSearchToken('domain', scope.obj.domain)" :title="scope.obj.domain">{{ scope.obj.domain }}</a>
             </template>
-            <span role="button" v-else class="ui tiny accent icon link label" @click="addSearchToken('domain', scope.obj.domain)">
+            <a href="" v-else class="ui tiny accent icon link label" @click.prevent="addSearchToken('domain', scope.obj.domain)">
               <i class="home icon"></i>
               <translate translate-context="Content/Moderation/*/Short, Noun">Local</translate>
-            </span>
+            </a>
           </td>
           <td>
             {{ scope.obj.albums_count }}

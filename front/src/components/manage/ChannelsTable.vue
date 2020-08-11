@@ -62,7 +62,7 @@
               <i class="wrench icon"></i>
               <span class="visually-hidden">{{ labels.openModeration }}</span>
             </router-link>
-            <span role="button" class="discrete link" @click="addSearchToken('account', scope.obj.attributed_to.full_username)">{{ scope.obj.attributed_to.preferred_username }}</span>
+            <a href="" class="discrete link" @click.prevent="addSearchToken('account', scope.obj.attributed_to.full_username)">{{ scope.obj.attributed_to.preferred_username }}</a>
           </td>
           <td>
             <template v-if="!scope.obj.is_local">
@@ -70,12 +70,12 @@
                 <i class="wrench icon"></i>
                 <span class="visually-hidden">{{ labels.openModeration }}</span>
               </router-link>
-              <span role="button" class="discrete link" @click="addSearchToken('domain', scope.obj.attributed_to.domain)">{{ scope.obj.attributed_to.domain }}</span>
+              <a href="" class="discrete link" @click.prevent="addSearchToken('domain', scope.obj.attributed_to.domain)">{{ scope.obj.attributed_to.domain }}</a>
             </template>
-            <span role="button" v-else class="ui tiny accent icon link label" @click="addSearchToken('domain', scope.obj.attributed_to.domain)">
+            <a href="" v-else class="ui tiny accent icon link label" @click.prevent="addSearchToken('domain', scope.obj.attributed_to.domain)">
               <i class="home icon"></i>
               <translate translate-context="Content/Moderation/*/Short, Noun">Local</translate>
-            </span>
+            </a>
           </td>
           <td>
             {{ scope.obj.artist.albums_count }}

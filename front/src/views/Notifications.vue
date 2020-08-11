@@ -72,13 +72,13 @@
           <input id="show-read-notifications" v-model="filters.is_read" type="checkbox">
           <label for="show-read-notifications"><translate translate-context="Content/Notifications/Form.Label/Verb">Show read notifications</translate></label>
         </div>
-        <div
+        <button
           v-if="filters.is_read === false && notifications.count > 0"
-          @click="markAllAsRead"
+          @click.prevent="markAllAsRead"
           class="ui basic labeled icon right floated button">
           <i class="ui check icon" />
           <translate translate-context="Content/Notifications/Button.Label/Verb">Mark all as read</translate>
-        </div>
+        </button>
         <div class="ui hidden divider" />
 
         <div v-if="isLoading" :class="['ui', {'active': isLoading}, 'inverted', 'dimmer']">

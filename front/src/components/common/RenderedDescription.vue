@@ -4,10 +4,10 @@
       <div v-html="html"></div>
       <template v-if="isTruncated">
         <div class="ui small hidden divider"></div>
-        <a @click.stop.prevent="showMore = true" v-if="showMore === false">
+        <a href="" @click.stop.prevent="showMore = true" v-if="showMore === false">
           <translate translate-context="*/*/Button,Label">Show more</translate>
         </a>
-        <a @click.stop.prevent="showMore = false" v-else="showMore === true">
+        <a href="" @click.stop.prevent="showMore = false" v-else="showMore === true">
           <translate translate-context="*/*/Button,Label">Show less</translate>
         </a>
 

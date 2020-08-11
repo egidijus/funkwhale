@@ -35,12 +35,13 @@
       </div>
     </td>
     <td>
-      <span
-        @click="showCandidadesModal = !showCandidadesModal"
+      <a
+        href=""
+        @click.prevent="showCandidadesModal = !showCandidadesModal"
         v-if="checkResult"
         :class="['ui', {'success': checkResult.candidates.count > 10}, 'label']">
         {{ checkResult.candidates.count }} tracks matching filter
-      </span>
+      </a>
       <modal v-if="checkResult" :show.sync="showCandidadesModal">
         <h4 class="header">
           <translate translate-context="Popup/Radio/Title/Noun">Tracks matching filter</translate>

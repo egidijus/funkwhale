@@ -53,29 +53,29 @@
               <router-link :to="{name: 'manage.library.albums.detail', params: {id: scope.obj.album.id }}">
                 <i class="wrench icon"></i>
               </router-link>
-              <span role="button" class="discrete link" @click="addSearchToken('album_id', scope.obj.album.id)" :title="scope.obj.album.title">{{ scope.obj.album.title }}</span>
+              <a href="" class="discrete link" @click.prevent="addSearchToken('album_id', scope.obj.album.id)" :title="scope.obj.album.title">{{ scope.obj.album.title }}</a>
             </template>
           </td>
           <td>
             <router-link :to="{name: 'manage.library.artists.detail', params: {id: scope.obj.artist.id }}">
               <i class="wrench icon"></i>
             </router-link>
-            <span role="button" class="discrete link" @click="addSearchToken('artist_id', scope.obj.artist.id)" :title="scope.obj.artist.name">{{ scope.obj.artist.name }}</span>
+            <a href="" class="discrete link" @click.prevent="addSearchToken('artist_id', scope.obj.artist.id)" :title="scope.obj.artist.name">{{ scope.obj.artist.name }}</a>
           </td>
           <td>
             <template v-if="!scope.obj.is_local">
               <router-link :to="{name: 'manage.moderation.domains.detail', params: {id: scope.obj.domain }}">
                 <i class="wrench icon"></i>
               </router-link>
-              <span role="button" class="discrete link" @click="addSearchToken('domain', scope.obj.domain)" :title="scope.obj.domain">{{ scope.obj.domain }}</span>
+              <a href="" class="discrete link" @click.prevent="addSearchToken('domain', scope.obj.domain)" :title="scope.obj.domain">{{ scope.obj.domain }}</a>
             </template>
-            <span role="button" v-else class="ui tiny accent icon link label" @click="addSearchToken('domain', scope.obj.domain)">
+            <a href="" v-else class="ui tiny accent icon link label" @click.prevent="addSearchToken('domain', scope.obj.domain)">
               <i class="home icon"></i>
               <translate translate-context="Content/Moderation/*/Short, Noun">Local</translate>
-            </span>
+            </a>
           </td>
           <td>
-            <span role="button" v-if="scope.obj.license" class="discrete link" @click="addSearchToken('license', scope.obj.license)" :title="scope.obj.license">{{ scope.obj.license }}</span>
+            <a href="" v-if="scope.obj.license" class="discrete link" @click.prevent="addSearchToken('license', scope.obj.license)" :title="scope.obj.license">{{ scope.obj.license }}</a>
             <translate v-else translate-context="*/*/*">N/A</translate>
           </td>
           <td>

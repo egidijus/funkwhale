@@ -76,32 +76,32 @@
                 <button class="ui right floated pointing dropdown icon small basic button" ref="dropdown" v-dropdown="{direction: 'downward'}">
                   <i class="ellipsis vertical icon"></i>
                   <div class="menu">
-                    <div
-                      role="button"
+                    <a
+                      href=""
                       v-if="totalTracks > 0"
-                      @click="showEmbedModal = !showEmbedModal"
+                      @click.prevent="showEmbedModal = !showEmbedModal"
                       class="basic item">
                       <i class="code icon"></i>
                       <translate translate-context="Content/*/Button.Label/Verb">Embed</translate>
-                    </div>
+                    </a>
                     <div class="divider"></div>
-                    <div
-                      role="button"
+                    <a
+                      href=""
                       class="basic item"
                       v-for="obj in getReportableObjs({account: object.attributed_to, channel: object})"
                       :key="obj.target.type + obj.target.id"
                       @click.stop.prevent="$store.dispatch('moderation/report', obj.target)">
                       <i class="share icon" /> {{ obj.label }}
-                    </div>
+                    </a>
 
                     <template v-if="isOwner">
                       <div class="divider"></div>
-                      <div
+                      <a
                         class="item"
-                        role="button"
-                        @click.stop="showEditModal = true">
+                        href=""
+                        @click.stop.prevent="showEditModal = true">
                         <translate translate-context="*/*/*/Verb">Edit…</translate>
-                      </div>
+                      </a>
                       <dangerous-button
                         :class="['ui', {loading: isLoading}, 'item']"
                         v-if="object"

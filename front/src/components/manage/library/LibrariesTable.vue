@@ -62,28 +62,28 @@
             <router-link :to="{name: 'manage.moderation.accounts.detail', params: {id: scope.obj.actor.full_username }}">
               <i class="wrench icon"></i>
             </router-link>
-            <span role="button" class="discrete link" @click="addSearchToken('account', scope.obj.actor.full_username)" :title="scope.obj.actor.full_username">{{ scope.obj.actor.preferred_username }}</span>
+            <a href="" class="discrete link" @click.prevent="addSearchToken('account', scope.obj.actor.full_username)" :title="scope.obj.actor.full_username">{{ scope.obj.actor.preferred_username }}</a>
           </td>
           <td>
             <template v-if="!scope.obj.is_local">
               <router-link :to="{name: 'manage.moderation.domains.detail', params: {id: scope.obj.domain }}">
                 <i class="wrench icon"></i>
               </router-link>
-              <span role="button" class="discrete link" @click="addSearchToken('domain', scope.obj.domain)" :title="scope.obj.domain">{{ scope.obj.domain }}</span>
+              <a href="" class="discrete link" @click.prevent="addSearchToken('domain', scope.obj.domain)" :title="scope.obj.domain">{{ scope.obj.domain }}</a>
             </template>
-            <span role="button" v-else class="ui tiny accent icon link label" @click="addSearchToken('domain', scope.obj.domain)">
+            <a href="" v-else class="ui tiny accent icon link label" @click.prevent="addSearchToken('domain', scope.obj.domain)">
               <i class="home icon"></i>
               <translate translate-context="Content/Moderation/*/Short, Noun">Local</translate>
-            </span>
+            </a>
           </td>
           <td>
-            <span
-              role="button"
+            <a
+              href=""
               class="discrete link"
-              @click="addSearchToken('privacy_level', scope.obj.privacy_level)"
+              @click.prevent="addSearchToken('privacy_level', scope.obj.privacy_level)"
               :title="sharedLabels.fields.privacy_level.shortChoices[scope.obj.privacy_level]">
               {{ sharedLabels.fields.privacy_level.shortChoices[scope.obj.privacy_level] }}
-            </span>
+            </a>
           </td>
           <td>
             {{ scope.obj.uploads_count }}

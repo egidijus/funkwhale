@@ -53,7 +53,7 @@
               <i class="wrench icon"></i>
               <span class="visually-hidden">{{ labels.openModeration }}</span>
             </router-link>
-            <span role="button" class="discrete link" @click="addSearchToken('artist', scope.obj.artist.name)" :title="scope.obj.artist.name">{{ scope.obj.artist.name }}</span>
+            <a href="" class="discrete link" @click.prevent="addSearchToken('artist', scope.obj.artist.name)" :title="scope.obj.artist.name">{{ scope.obj.artist.name }}</a>
           </td>
           <td>
             <template v-if="!scope.obj.is_local">
@@ -61,12 +61,12 @@
                 <i class="wrench icon"></i>
                 <span class="visually-hidden">{{ labels.openModeration }}</span>
               </router-link>
-              <span role="button" class="discrete link" @click="addSearchToken('domain', scope.obj.domain)">{{ scope.obj.domain }}</span>
+              <a href="" class="discrete link" @click.prevent="addSearchToken('domain', scope.obj.domain)">{{ scope.obj.domain }}</a>
             </template>
-            <span role="button" v-else class="ui tiny accent icon link label" @click="addSearchToken('domain', scope.obj.domain)">
+            <a href="" v-else class="ui tiny accent icon link label" @click.prevent="addSearchToken('domain', scope.obj.domain)">
               <i class="home icon"></i>
               <translate translate-context="Content/Moderation/*/Short, Noun">Local</translate>
-            </span>
+            </a>
           </td>
           <td>
             {{ scope.obj.tracks_count }}
