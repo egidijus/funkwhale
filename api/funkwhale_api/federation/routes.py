@@ -82,6 +82,37 @@ def outbox_accept(context):
     }
 
 
+@outbox.register({"type": "Reject"})
+def outbox_reject_follow(context):
+    follow = context["follow"]
+    if follow._meta.label == "federation.LibraryFollow":
+        actor = follow.target.actor
+    else:
+        actor = follow.target
+    payload = serializers.RejectFollowSerializer(follow, context={"actor": actor}).data
+    yield {
+        "actor": actor,
+        "type": "Reject",
+        "payload": with_recipients(payload, to=[follow.actor]),
+        "object": follow,
+        "related_object": follow.target,
+    }
+
+
+@inbox.register({"type": "Reject"})
+def inbox_reject_follow(payload, context):
+    serializer = serializers.RejectFollowSerializer(data=payload, context=context)
+    if not serializer.is_valid(raise_exception=context.get("raise_exception", False)):
+        logger.debug(
+            "Discarding invalid follow reject from %s: %s",
+            context["actor"].fid,
+            serializer.errors,
+        )
+        return
+
+    serializer.save()
+
+
 @inbox.register({"type": "Undo", "object.type": "Follow"})
 def inbox_undo_follow(payload, context):
     serializer = serializers.UndoFollowSerializer(data=payload, context=context)
