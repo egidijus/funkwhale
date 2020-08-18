@@ -318,6 +318,22 @@ def test_accept_follow_serializer_validates_on_context(factories):
     assert "object" in serializer.errors["object"]
 
 
+def test_reject_follow_serializer_representation(factories):
+    follow = factories["federation.Follow"](approved=None)
+
+    expected = {
+        "@context": jsonld.get_default_context(),
+        "id": follow.get_federation_id() + "/reject",
+        "type": "Reject",
+        "actor": follow.target.fid,
+        "object": serializers.FollowSerializer(follow).data,
+    }
+
+    serializer = serializers.RejectFollowSerializer(follow)
+
+    assert serializer.data == expected
+
+
 def test_undo_follow_serializer_representation(factories):
     follow = factories["federation.Follow"](approved=True)
 

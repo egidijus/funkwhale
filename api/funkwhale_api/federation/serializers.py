@@ -688,11 +688,10 @@ class APIFollowSerializer(serializers.ModelSerializer):
         ]
 
 
-class AcceptFollowSerializer(serializers.Serializer):
+class FollowActionSerializer(serializers.Serializer):
     id = serializers.URLField(max_length=500, required=False)
     actor = serializers.URLField(max_length=500)
     object = FollowSerializer()
-    type = serializers.ChoiceField(choices=["Accept"])
 
     def validate_actor(self, v):
         expected = self.context.get("actor")
@@ -720,12 +719,13 @@ class AcceptFollowSerializer(serializers.Serializer):
                 follow_class.objects.filter(
                     target=target, actor=validated_data["object"]["actor"]
                 )
-                .exclude(approved=True)
                 .select_related()
                 .get()
             )
         except follow_class.DoesNotExist:
-            raise serializers.ValidationError("No follow to accept")
+            raise serializers.ValidationError(
+                "No follow to {}".format(self.action_type)
+            )
         return validated_data
 
     def to_representation(self, instance):
@@ -736,11 +736,17 @@ class AcceptFollowSerializer(serializers.Serializer):
 
         return {
             "@context": jsonld.get_default_context(),
-            "id": instance.get_federation_id() + "/accept",
-            "type": "Accept",
+            "id": instance.get_federation_id() + "/{}".format(self.action_type),
+            "type": self.action_type.title(),
             "actor": actor.fid,
             "object": FollowSerializer(instance).data,
         }
+
+
+class AcceptFollowSerializer(FollowActionSerializer):
+
+    type = serializers.ChoiceField(choices=["Accept"])
+    action_type = "accept"
 
     def save(self):
         follow = self.validated_data["follow"]
@@ -748,6 +754,18 @@ class AcceptFollowSerializer(serializers.Serializer):
         follow.save()
         if follow.target._meta.label == "music.Library":
             follow.target.schedule_scan(actor=follow.actor)
+        return follow
+
+
+class RejectFollowSerializer(FollowActionSerializer):
+
+    type = serializers.ChoiceField(choices=["Reject"])
+    action_type = "reject"
+
+    def save(self):
+        follow = self.validated_data["follow"]
+        follow.approved = False
+        follow.save()
         return follow
 
 
