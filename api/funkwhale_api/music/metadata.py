@@ -697,6 +697,12 @@ class AlbumSerializer(serializers.Serializer):
         return v
 
 
+def get_valid_position(v):
+    if v <= 0:
+        v = 1
+    return v
+
+
 class PositionField(serializers.CharField):
     def to_internal_value(self, v):
         v = super().to_internal_value(v)
@@ -704,15 +710,15 @@ class PositionField(serializers.CharField):
             return v
 
         try:
-            return int(v)
+            return get_valid_position(int(v))
         except ValueError:
             # maybe the position is of the form "1/4"
             pass
 
         try:
-            return int(v.split("/")[0])
+            return get_valid_position(int(v.split("/")[0]))
         except (ValueError, AttributeError, IndexError):
-            pass
+            return
 
 
 class DescriptionField(serializers.CharField):
