@@ -14,18 +14,25 @@ info:
     Use the "Try it out" button to send a real world payload to the endpoint and inspect
     the corresponding response.
 
-    Authentication
-    --------------
-
-    To authenticate, use OAuth. You can register your own app using the `/api/v1/oauth/apps/` endpoint. Proceed to the standard OAuth flow afterwards:
-
+    OAuth Authentication
+    --------------------
+      
+    You can register your own OAuth app using the `/api/v1/oauth/apps/` endpoint. Proceed to the standard OAuth flow afterwards:
+      
     - Our authorize URL is at `/authorize`
     - Our token acquisition and refresh URL is at `/api/v1/oauth/token`
     - The list of supported scopes is available by clicking the `Authorize` button in the Swagger UI documentation
     - Use `urn:ietf:wg:oauth:2.0:oob` as your redirect URI if you want the user to get a copy-pastable authorization code
     - At the moment, endpoints that deal with admin or moderator-level content are not accessible via OAuth, only through the Web UI
-
+    
     You can use our demo server at `https://demo.funkwhale.audio` for testing purposes.
+        
+    Application token authentication
+    --------------------------------
+    
+    If using OAuth isn't practical and you have an account on the Funkwhale pod, you can create an application by visiting `/settings`.
+
+    Once the application is created, you can authenticate using its access token in the `Authorization` header, like this: `Authorization: Bearer <token>`. 
 
     Rate limiting
     -------------
