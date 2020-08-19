@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
-import binascii
 import datetime
-import os
 import random
 import string
 import uuid
@@ -31,8 +29,9 @@ from funkwhale_api.federation import models as federation_models
 from funkwhale_api.federation import utils as federation_utils
 
 
-def get_token(length=15):
-    return binascii.b2a_hex(os.urandom(length)).decode("utf-8")
+def get_token(length=30):
+    choices = string.ascii_lowercase + string.ascii_uppercase + "0123456789"
+    return "".join(random.choice(choices) for i in range(length))
 
 
 PERMISSIONS_CONFIGURATION = {

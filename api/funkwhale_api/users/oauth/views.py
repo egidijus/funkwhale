@@ -93,7 +93,7 @@ class ApplicationViewSet(
         app = self.get_object()
         if not app.user_id or request.user != app.user:
             return response.Response(status=404)
-        app.token = models.get_token(15)
+        app.token = models.get_token()
         app.save(update_fields=["token"])
         serializer = serializers.CreateApplicationSerializer(app)
         return response.Response(serializer.data, status=200)
