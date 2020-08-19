@@ -8,3 +8,9 @@
     margin-bottom: 0.5em;
   }
 }
+
+.ui.menu .item > .label {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: #fff;
+}
