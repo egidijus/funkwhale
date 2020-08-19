@@ -7,10 +7,10 @@
     @input="$emit('input', $event.target.value)"
     :id="fieldId"
     :value="value">
-    <button @click.prevent="showPassword = !showPassword" :title="labels.title" class="ui icon button">
+    <button @click.prevent="showPassword = !showPassword" type="button" :title="labels.title" class="ui icon button">
       <i class="eye icon"></i>
     </button>
-    <button v-if="copyButton" @click.prevent="copy" class="ui icon button" :title="labels.copy">
+    <button v-if="copyButton" @click.prevent="copy" type="button" class="ui icon button" :title="labels.copy">
       <i class="copy icon"></i>
     </button>
   </div>
