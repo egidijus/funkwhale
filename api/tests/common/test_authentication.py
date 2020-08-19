@@ -60,3 +60,13 @@ def test_json_webtoken_auth_verify_email_validity(
             auth.authenticate(request)
 
     should_verify.assert_called_once_with(user)
+
+
+def test_app_token_authentication(factories, api_request):
+    user = factories["users.User"]()
+    app = factories["users.Application"](user=user, scope="read write")
+    request = api_request.get("/", HTTP_AUTHORIZATION="Bearer {}".format(app.token))
+
+    auth = authentication.ApplicationTokenAuthentication()
+    assert auth.authenticate(request)[0] == app.user
+    assert request.scopes == ["read", "write"]

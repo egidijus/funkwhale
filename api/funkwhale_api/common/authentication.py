@@ -12,6 +12,8 @@ from rest_framework import exceptions
 from rest_framework_jwt import authentication
 from rest_framework_jwt.settings import api_settings
 
+from funkwhale_api.users import models as users_models
+
 
 def should_verify_email(user):
     if user.is_superuser:
@@ -44,6 +46,36 @@ class OAuth2Authentication(BaseOAuth2Authentication):
         except UnverifiedEmail as e:
             request.oauth2_error = {"error": "unverified_email"}
             resend_confirmation_email(request, e.user)
+
+
+class ApplicationTokenAuthentication(object):
+    def authenticate(self, request):
+        try:
+            header = request.headers["Authorization"]
+        except KeyError:
+            return
+
+        if "Bearer" not in header:
+            return
+
+        token = header.split()[-1].strip()
+
+        try:
+            application = users_models.Application.objects.exclude(user=None).get(
+                token=token
+            )
+        except users_models.Application.DoesNotExist:
+            return
+        user = users_models.User.objects.all().for_auth().get(id=application.user_id)
+        if not user.is_active:
+            msg = _("User account is disabled.")
+            raise exceptions.AuthenticationFailed(msg)
+
+        if should_verify_email(user):
+            raise UnverifiedEmail(user)
+
+        request.scopes = application.scope.split()
+        return user, None
 
 
 class BaseJsonWebTokenAuth(object):

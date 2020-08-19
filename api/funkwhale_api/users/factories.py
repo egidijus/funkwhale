@@ -129,6 +129,7 @@ class SuperUserFactory(UserFactory):
 class ApplicationFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("name")
     redirect_uris = factory.Faker("url")
+    token = factory.Faker("uuid4")
     client_type = models.Application.CLIENT_CONFIDENTIAL
     authorization_grant_type = models.Application.GRANT_AUTHORIZATION_CODE
     scope = "read"

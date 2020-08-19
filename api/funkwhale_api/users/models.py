@@ -31,8 +31,8 @@ from funkwhale_api.federation import models as federation_models
 from funkwhale_api.federation import utils as federation_utils
 
 
-def get_token():
-    return binascii.b2a_hex(os.urandom(15)).decode("utf-8")
+def get_token(length=15):
+    return binascii.b2a_hex(os.urandom(length)).decode("utf-8")
 
 
 PERMISSIONS_CONFIGURATION = {
@@ -350,6 +350,7 @@ class Invitation(models.Model):
 
 class Application(oauth2_models.AbstractApplication):
     scope = models.TextField(blank=True)
+    token = models.CharField(max_length=50, blank=True, null=True, unique=True)
 
     @property
     def normalized_scopes(self):

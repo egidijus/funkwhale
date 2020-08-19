@@ -4,7 +4,8 @@ import urllib.parse
 from django import http
 from django.utils import timezone
 from django.db.models import Q
-from rest_framework import mixins, permissions, views, viewsets
+from rest_framework import mixins, permissions, response, views, viewsets
+from rest_framework.decorators import action
 
 from oauth2_provider import exceptions as oauth2_exceptions
 from oauth2_provider import views as oauth_views
@@ -32,6 +33,7 @@ class ApplicationViewSet(
         "destroy": "write:security",
         "update": "write:security",
         "partial_update": "write:security",
+        "refresh_token": "write:security",
         "list": "read:security",
     }
     lookup_field = "client_id"
@@ -54,6 +56,7 @@ class ApplicationViewSet(
             client_type=models.Application.CLIENT_CONFIDENTIAL,
             authorization_grant_type=models.Application.GRANT_AUTHORIZATION_CODE,
             user=self.request.user if self.request.user.is_authenticated else None,
+            token=models.get_token(15) if self.request.user.is_authenticated else None,
         )
 
     def get_serializer(self, *args, **kwargs):
@@ -70,9 +73,30 @@ class ApplicationViewSet(
 
     def get_queryset(self):
         qs = super().get_queryset()
-        if self.action in ["list", "destroy", "update", "partial_update"]:
+        if self.action in [
+            "list",
+            "destroy",
+            "update",
+            "partial_update",
+            "refresh_token",
+        ]:
             qs = qs.filter(user=self.request.user)
         return qs
+
+    @action(
+        detail=True,
+        methods=["post"],
+        url_name="refresh_token",
+        url_path="refresh-token",
+    )
+    def refresh_token(self, request, *args, **kwargs):
+        app = self.get_object()
+        if not app.user_id or request.user != app.user:
+            return response.Response(status=404)
+        app.token = models.get_token(15)
+        app.save(update_fields=["token"])
+        serializer = serializers.CreateApplicationSerializer(app)
+        return response.Response(serializer.data, status=200)
 
 
 class GrantViewSet(
