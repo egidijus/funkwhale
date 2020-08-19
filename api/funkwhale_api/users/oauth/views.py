@@ -56,7 +56,7 @@ class ApplicationViewSet(
             client_type=models.Application.CLIENT_CONFIDENTIAL,
             authorization_grant_type=models.Application.GRANT_AUTHORIZATION_CODE,
             user=self.request.user if self.request.user.is_authenticated else None,
-            token=models.get_token(15) if self.request.user.is_authenticated else None,
+            token=models.get_token() if self.request.user.is_authenticated else None,
         )
 
     def get_serializer(self, *args, **kwargs):
