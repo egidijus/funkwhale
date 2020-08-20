@@ -1,0 +1,1 @@
+Dropped python 3.5 support. Python 3.6 is the minimum required version (#1099)

@@ -7,6 +7,20 @@ Next release notes
     after each release.
 
 
+Dropped python 3.5 support [manual action required, non-docker only]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+With Funkwhale 1.0, we're dropping support for Python 3.5. Before upgrading,
+ensure ``python3 --version`` returns ``3.6`` or higher.
+
+If it returns ``3.6`` or higher, you have nothing to do.
+
+If it returns ``3.5``, you will need to upgrade your Python version/Host, then recreate your virtual environment::
+
+    rm -rf /srv/funkwhale/virtualenv
+    python3 -m venv /srv/funkwhale/virtualenv
+
+
 Increased quality of JPEG thumbnails [manual action required]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
