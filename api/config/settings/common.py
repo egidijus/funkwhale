@@ -3,7 +3,6 @@ from __future__ import absolute_import, unicode_literals
 
 import datetime
 import logging.config
-import os
 import sys
 
 from urllib.parse import urlsplit
@@ -163,11 +162,6 @@ FUNKWHALE_SPA_REWRITE_MANIFEST_URL = env.bool(
 )
 
 APP_NAME = "Funkwhale"
-
-# XXX: for backward compat with django 2.2, remove this when django 2.2 support is dropped
-os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = env.bool(
-    "DJANGO_ALLOW_ASYNC_UNSAFE", default="true"
-)
 
 FEDERATION_HOSTNAME = env("FEDERATION_HOSTNAME", default=FUNKWHALE_HOSTNAME).lower()
 FEDERATION_SERVICE_ACTOR_USERNAME = env(

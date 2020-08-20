@@ -1,6 +1,5 @@
 # Bleeding edge Django
-django>=3.0.8,<3.1; python_version > '3.5'
-django>=2.2.12,<3; python_version < '3.6'
+django>=3.0.8,<3.1
 setuptools>=36
 # Configuration
 django-environ>=0.4,<0.5
@@ -37,9 +36,7 @@ persisting-theory>=0.2,<0.3
 django-versatileimagefield>=2.0,<2.1
 django-filter>=2.3,<2.4
 django-rest-auth>=0.9,<0.10
-# XXX: remove when we drop support for python 3.5
-ipython>=7.10,<8; python_version > '3.5'
-ipython>=7,<7.10; python_version < '3.6'
+ipython>=7.10,<8
 mutagen>=1.45,<1.46
 
 pymemoize==1.0.3
@@ -48,11 +45,8 @@ django-dynamic-preferences>=1.10,<1.11
 raven>=6.10,<7
 python-magic==0.4.18
 channels>=2.4,<2.5
-# XXX: remove when we drop support for python 3.5
-channels_redis==2.2.1; python_version < '3.6'
-channels_redis>=3,<3.1; python_version > '3.5'
-uvicorn==0.8.6; python_version < '3.6'
-uvicorn>=0.11.5,<0.12; python_version > '3.5'
+channels_redis>=3,<3.1
+uvicorn>=0.11.5,<0.12
 gunicorn>=20.0.4,<20.1
 
 cryptography>=2.8,<3
