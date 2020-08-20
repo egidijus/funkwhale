@@ -81,3 +81,10 @@ button.reset {
 .ui.dropdown .menu > .item {
   background: var(--dropdown-background);
 }
+
+.ui.circular.button {
+  padding: 0.78571429em;
+  > i {
+    margin-right: 0;
+  }
+}
