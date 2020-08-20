@@ -1,13 +1,12 @@
 # Test dependencies go here.
 
-flake8
-pytest>=5,<5.3.3
-pytest-django>=3.5.1
-pytest-mock
-pytest-sugar
-pytest-xdist
-pytest-cov
-pytest-env
-requests-mock
-pytest-randomly
+flake8~=3.8
+pytest~=6.0
+pytest-cov~=2.10
+pytest-django~=3.9
+pytest-env~=0.6
+pytest-mock~=3.2
+pytest-randomly~=3.4
+pytest-sugar~=0.9
+requests-mock~=1.8
 #pytest-profiling<1.4
