@@ -2,6 +2,7 @@ import click
 
 from django.core.cache import cache
 from django.conf import settings
+from django.core.files.storage import default_storage
 
 from versatileimagefield.image_warmer import VersatileImageFieldWarmer
 from versatileimagefield import settings as vif_settings
@@ -19,13 +20,23 @@ def media():
 
 
 @media.command("generate-thumbnails")
-def generate_thumbnails():
+@click.option("-d", "--delete", is_flag=True)
+def generate_thumbnails(delete):
     """
     Generate thumbnails for all images (avatars, covers, etc.).
 
     This can take a long time and generate a lot of I/O depending of the size
     of your library.
     """
+    click.echo("Deleting existing thumbnails…")
+    if delete:
+        try:
+            # FileSystemStorage doesn't support deleting a non-empty directory
+            # so we reimplemented a method to do so
+            default_storage.force_delete("__sized__")
+        except AttributeError:
+            # backends doesn't support directory deletion
+            pass
     MODELS = [
         (Attachment, "file", "attachment_square"),
     ]

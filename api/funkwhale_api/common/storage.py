@@ -1,3 +1,5 @@
+import os
+import shutil
 import slugify
 
 from django.core.files.storage import FileSystemStorage
@@ -14,6 +16,16 @@ def asciionly(name):
 class ASCIIFileSystemStorage(FileSystemStorage):
     def get_valid_name(self, name):
         return super().get_valid_name(asciionly(name))
+
+    def force_delete(self, name):
+        path = self.path(name)
+        try:
+            if os.path.isdir(path):
+                shutil.rmtree(path)
+            else:
+                return super().delete(name)
+        except FileNotFoundError:
+            pass
 
 
 class ASCIIS3Boto3Storage(S3Boto3Storage):
