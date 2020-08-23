@@ -231,6 +231,11 @@ export default {
     async page () {
       this.updateQueryString()
       await this.search()
+    },
+    "$route.query.q": async function (v) {
+      this.query = v
+      this.updateQueryString()
+      await this.search()
     }
   }
 }
