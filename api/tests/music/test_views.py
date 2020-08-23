@@ -1374,23 +1374,6 @@ def test_search_get_fts_advanced(logged_in_api_client, factories):
     assert response.data == expected
 
 
-def test_search_get_fts_stop_words(logged_in_api_client, factories):
-    artist = factories["music.Artist"](name="she")
-    factories["music.Artist"](name="something else")
-
-    url = reverse("api:v1:search")
-    expected = {
-        "artists": [serializers.ArtistWithAlbumsSerializer(artist).data],
-        "albums": [],
-        "tracks": [],
-        "tags": [],
-    }
-    response = logged_in_api_client.get(url, {"q": "sh"})
-
-    assert response.status_code == 200
-    assert response.data == expected
-
-
 @pytest.mark.parametrize(
     "route, factory_name",
     [
