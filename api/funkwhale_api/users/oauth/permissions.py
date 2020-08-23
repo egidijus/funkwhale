@@ -51,12 +51,7 @@ class ScopePermission(permissions.BasePermission):
         if request.method.lower() in ["options", "head"]:
             return True
 
-        try:
-            scope_config = getattr(view, "required_scope")
-        except AttributeError:
-            raise ImproperlyConfigured(
-                "ScopePermission requires the view to define the required_scope attribute"
-            )
+        scope_config = getattr(view, "required_scope", "noopscope")
         anonymous_policy = getattr(view, "anonymous_policy", False)
         if anonymous_policy not in [True, False, "setting"]:
             raise ImproperlyConfigured(
