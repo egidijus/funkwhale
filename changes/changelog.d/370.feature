@@ -1,1 +1,0 @@
-Dedicated, advanced search page (#370)
