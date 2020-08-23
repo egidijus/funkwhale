@@ -399,7 +399,9 @@ def fetch(fetch_obj):
 
     serializer = None
     for serializer_class in serializer_classes:
-        serializer = serializer_class(existing, data=payload)
+        serializer = serializer_class(
+            existing, data=payload, context={"fetch_actor": actor}
+        )
         if not serializer.is_valid():
             continue
         else:
