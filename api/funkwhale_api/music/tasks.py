@@ -251,6 +251,10 @@ def process_upload(upload, update_denormalization=True):
         fail_import(upload, "unknown_error")
         raise
 
+    broadcast = getter(
+        internal_config, "funkwhale", "config", "broadcast", default=True
+    )
+
     # under some situations, we want to skip the import (
     # for instance if the user already owns the files)
     owned_duplicates = get_owned_duplicates(upload, track)
@@ -266,12 +270,13 @@ def process_upload(upload, update_denormalization=True):
         upload.save(
             update_fields=["import_details", "import_status", "import_date", "track"]
         )
-        signals.upload_import_status_updated.send(
-            old_status=old_status,
-            new_status=upload.import_status,
-            upload=upload,
-            sender=None,
-        )
+        if broadcast:
+            signals.upload_import_status_updated.send(
+                old_status=old_status,
+                new_status=upload.import_status,
+                upload=upload,
+                sender=None,
+            )
         return
 
     # all is good, let's finalize the import
@@ -308,9 +313,6 @@ def process_upload(upload, update_denormalization=True):
             track.album, source=final_metadata.get("upload_source"),
         )
 
-    broadcast = getter(
-        internal_config, "funkwhale", "config", "broadcast", default=True
-    )
     if broadcast:
         signals.upload_import_status_updated.send(
             old_status=old_status,
