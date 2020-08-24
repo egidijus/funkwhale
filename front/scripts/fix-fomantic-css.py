@@ -693,7 +693,6 @@ REPLACEMENTS = {
     "table": {
         "skip": [
             ".marked",
-            ".active",
             ".olive",
             ".brown",
             ".teal",
