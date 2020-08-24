@@ -42,3 +42,7 @@ input + .help {
 #updatePlaylistLabel:before {
   content: "\200b";
 }
+
+.ui.toggle.checkbox label::before {
+  background-color: var(--input-selection-background);
+}
