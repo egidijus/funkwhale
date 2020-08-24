@@ -1,5 +1,5 @@
 <template>
-  <div v-if="result.count > 0">
+  <div>
     <div class="ui inline form">
       <div class="fields">
         <div class="ui field">
@@ -33,10 +33,10 @@
       </div>
     <div class="dimmable">
       <div v-if="isLoading" class="ui active inverted dimmer">
-          <div class="ui loader"></div>
+        <div class="ui loader"></div>
       </div>
       <action-table
-        v-if="result"
+        v-if="result && result.results.length > 0"
         @action-launched="fetchData"
         :objects-data="result"
         :actions="actions"
@@ -71,6 +71,12 @@
           </td>
         </template>
       </action-table>
+      <div v-else class="ui placeholder segment">
+        <div class="ui icon header">
+          <i class="server icon"></i>
+          <translate translate-context="Content/Home/Placeholder">No other pods found</translate>
+        </div>
+      </div>
     </div>
     <div>
       <pagination
@@ -88,12 +94,6 @@
           Showing results %{ start }-%{ end } on %{ total }
         </translate>
       </span>
-    </div>
-  </div>
-  <div v-else class="ui placeholder segment">
-    <div class="ui icon header">
-      <i class="server icon"></i>
-      <translate translate-context="Content/Home/Placeholder">No interactions with other pods yet</translate>
     </div>
   </div>
 </template>
