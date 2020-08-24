@@ -111,6 +111,13 @@ class ActorViewSet(FederationMixin, mixins.RetrieveModelMixin, viewsets.GenericV
         queryset = super().get_queryset()
         return queryset.exclude(channel__attributed_to=actors.get_service_actor())
 
+    def get_permissions(self):
+        # cf #1999 it must be possible to fetch actors without being authenticated
+        # otherwise we end up in a loop
+        if self.action == "retrieve":
+            return []
+        return super().get_permissions()
+
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         if utils.should_redirect_ap_to_html(request.headers.get("accept")):
