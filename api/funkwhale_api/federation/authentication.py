@@ -46,15 +46,14 @@ class SignatureAuthentication(authentication.BaseAuthentication):
             domain = urllib.parse.urlparse(actor_url).hostname
             allowed = models.Domain.objects.filter(name=domain, allowed=True).exists()
             if not allowed:
+                logger.debug("Actor domain %s is not on allow-list", domain)
                 raise exceptions.BlockedActorOrDomain()
 
         try:
             actor = actors.get_actor(actor_url)
         except Exception as e:
             logger.info(
-                "Discarding HTTP request from blocked actor/domain %s, %s",
-                actor_url,
-                str(e),
+                "Discarding HTTP request from actor/domain %s, %s", actor_url, str(e),
             )
             raise rest_exceptions.AuthenticationFailed(
                 "Cannot fetch remote actor to authenticate signature"

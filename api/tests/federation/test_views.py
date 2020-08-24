@@ -12,7 +12,7 @@ from funkwhale_api.federation import (
 )
 
 
-def test_authenticate_skips_anonymous_fetch_when_allow_list_enabled(
+def test_authenticate_allows_anonymous_actor_fetch_when_allow_list_enabled(
     preferences, api_client
 ):
     preferences["moderation__allow_list_enabled"] = True
@@ -21,6 +21,17 @@ def test_authenticate_skips_anonymous_fetch_when_allow_list_enabled(
         "federation:actors-detail",
         kwargs={"preferred_username": actor.preferred_username},
     )
+    response = api_client.get(url)
+
+    assert response.status_code == 200
+
+
+def test_authenticate_skips_anonymous_fetch_when_allow_list_enabled(
+    preferences, api_client, factories
+):
+    preferences["moderation__allow_list_enabled"] = True
+    library = factories["music.Library"]()
+    url = reverse("federation:music:libraries-detail", kwargs={"uuid": library.uuid},)
     response = api_client.get(url)
 
     assert response.status_code == 403
