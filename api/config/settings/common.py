@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
+from collections import OrderedDict
 import datetime
 import logging.config
 import sys
@@ -91,11 +92,21 @@ FUNKWHALE_PLUGINS_PATH = env(
 Path to a directory containing Funkwhale plugins. These will be imported at runtime.
 """
 sys.path.append(FUNKWHALE_PLUGINS_PATH)
+CORE_PLUGINS = [
+    "funkwhale_api.contrib.scrobbler",
+]
 
+LOAD_CORE_PLUGINS = env.bool("FUNKWHALE_LOAD_CORE_PLUGINS", default=True)
 PLUGINS = [p for p in env.list("FUNKWHALE_PLUGINS", default=[]) if p]
 """
 List of Funkwhale plugins to load.
 """
+if LOAD_CORE_PLUGINS:
+    PLUGINS = CORE_PLUGINS + PLUGINS
+
+# Remove duplicates
+PLUGINS = list(OrderedDict.fromkeys(PLUGINS))
+
 if PLUGINS:
     logger.info("Running with the following plugins enabled: %s", ", ".join(PLUGINS))
 else:
