@@ -34,6 +34,7 @@ def get_plugin_config(
     source=False,
     registry=_plugins,
     conf={},
+    settings={},
     description=None,
     version=None,
     label=None,
@@ -42,14 +43,36 @@ def get_plugin_config(
         "name": name,
         "label": label or name,
         "logger": logger,
+        # conf is for dynamic settings
         "conf": conf,
+        # settings is for settings hardcoded in .env
+        "settings": settings,
         "user": True if source else user,
+        # source plugins are plugins that provide audio content
         "source": source,
         "description": description,
         "version": version,
     }
     registry[name] = conf
     return conf
+
+
+def load_settings(name, settings):
+    from django.conf import settings as django_settings
+
+    mapping = {
+        "boolean": django_settings.ENV.bool,
+        "text": django_settings.ENV,
+    }
+    values = {}
+    prefix = "FUNKWHALE_PLUGIN_{}".format(name.upper())
+    for s in settings:
+        key = "_".join([prefix, s["name"].upper()])
+        value = mapping[s["type"]](key, default=s.get("default", None))
+        values[s["name"]] = value
+
+    logger.debug("Plugin %s running with settings %s", name, values)
+    return values
 
 
 def get_session():
