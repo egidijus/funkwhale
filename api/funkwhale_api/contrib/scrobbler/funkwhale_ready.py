@@ -1,5 +1,6 @@
-from config import plugins
+import hashlib
 
+from config import plugins
 from .funkwhale_startup import PLUGIN
 
 from . import scrobbler
@@ -24,10 +25,14 @@ def forward_to_scrobblers(listening, conf, **kwargs):
             and PLUGIN["settings"]["lastfm_api_secret"]
             and url == DEFAULT_SCROBBLER_URL
         ):
-            PLUGIN["logger"].info("Forwarding scrobble to %s", LASTFM_SCROBBLER_URL)
-            session_key = PLUGIN["cache"].get(
-                "lastfm:sessionkey:{}".format(listening.user.pk)
+            hashed_auth = hashlib.md5(
+                (username + " " + password).encode("utf-8")
+            ).hexdigest()
+            cache_key = "lastfm:sessionkey:{}".format(
+                ":".join([str(listening.user.pk), hashed_auth])
             )
+            PLUGIN["logger"].info("Forwarding scrobble to %s", LASTFM_SCROBBLER_URL)
+            session_key = PLUGIN["cache"].get(cache_key)
             if not session_key:
                 PLUGIN["logger"].debug("Authenticating…")
                 session_key = scrobbler.handshake_v2(
@@ -38,9 +43,7 @@ def forward_to_scrobblers(listening, conf, **kwargs):
                     api_key=PLUGIN["settings"]["lastfm_api_key"],
                     api_secret=PLUGIN["settings"]["lastfm_api_secret"],
                 )
-                PLUGIN["cache"].set(
-                    "lastfm:sessionkey:{}".format(listening.user.pk), session_key
-                )
+                PLUGIN["cache"].set(cache_key, session_key)
             scrobbler.submit_scrobble_v2(
                 session=session,
                 track=listening.track,
