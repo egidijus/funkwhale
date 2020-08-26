@@ -104,17 +104,21 @@ def get_scrobble2_payload(track, date, suffix="[0]"):
     """
     upload = track.uploads.filter(duration__gte=0).first()
     data = {
-        "artist{}".format(suffix): track.artist.name,
-        "track{}".format(suffix): track.title,
-        "duration{}".format(suffix): upload.duration if upload else 0,
-        "album{}".format(suffix): (track.album.title if track.album else "") or "",
-        "trackNumber{}".format(suffix): track.position or "",
-        "mbid{}".format(suffix): str(track.mbid) or "",
-        "chosenByUser{}".format(suffix): "P",  # Source: P = chosen by user
+        "artist": track.artist.name,
+        "track": track.title,
+        "chosenByUser": 1,
     }
+    if upload:
+        data["duration"] = upload.duration
+    if track.album:
+        data["album"] = track.album.title
+    if track.position:
+        data["trackNumber"] = track.position
+    if track.mbid:
+        data["mbid"] = str(track.mbid)
     if date:
         offset = upload.duration / 2 if upload.duration else 0
-        data["timestamp{}".format(suffix)] = int(date.timestamp()) - offset
+        data["timestamp"] = int(int(date.timestamp()) - offset)
     return data
 
 
@@ -142,7 +146,9 @@ def submit_scrobble_v2(
         "api_key": api_key,
         "sk": session_key,
     }
-    params.update(get_scrobble2_payload(track, scrobble_time))
+    scrobble = get_scrobble2_payload(track, scrobble_time)
+    PLUGIN["logger"].debug("Scrobble payload: %s", scrobble)
+    params.update(scrobble)
     params["api_sig"] = hash_request(params, api_secret)
     response = session.post(scrobble_url, params)
     if 'status="ok"' not in response.text:
