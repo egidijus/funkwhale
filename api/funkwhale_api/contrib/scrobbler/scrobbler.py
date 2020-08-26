@@ -96,3 +96,66 @@ def get_scrobble_payload(track, date, suffix="[0]"):
     if date:
         data["i{}".format(suffix)] = int(date.timestamp())
     return data
+
+
+def get_scrobble2_payload(track, date, suffix="[0]"):
+    """
+    Documentation available at https://web.archive.org/web/20190531021725/https://www.last.fm/api/submissions
+    """
+    upload = track.uploads.filter(duration__gte=0).first()
+    data = {
+        "artist{}".format(suffix): track.artist.name,
+        "track{}".format(suffix): track.title,
+        "duration{}".format(suffix): upload.duration if upload else 0,
+        "album{}".format(suffix): (track.album.title if track.album else "") or "",
+        "trackNumber{}".format(suffix): track.position or "",
+        "mbid{}".format(suffix): str(track.mbid) or "",
+        "chosenByUser{}".format(suffix): "P",  # Source: P = chosen by user
+    }
+    if date:
+        offset = upload.duration / 2 if upload.duration else 0
+        data["timestamp{}".format(suffix)] = int(date.timestamp()) - offset
+    return data
+
+
+def handshake_v2(username, password, session, api_key, api_secret, scrobble_url):
+    params = {
+        "method": "auth.getMobileSession",
+        "username": username,
+        "password": password,
+        "api_key": api_key,
+    }
+    params["api_sig"] = hash_request(params, api_secret)
+    response = session.post(scrobble_url, params)
+    if 'status="ok"' not in response.text:
+        raise ScrobblerException(response.text)
+
+    session_key = response.text.split("<key>")[1].split("</key>")[0]
+    return session_key
+
+
+def submit_scrobble_v2(
+    session, track, scrobble_time, session_key, scrobble_url, api_key, api_secret,
+):
+    params = {
+        "method": "track.scrobble",
+        "api_key": api_key,
+        "sk": session_key,
+    }
+    params.update(get_scrobble2_payload(track, scrobble_time))
+    params["api_sig"] = hash_request(params, api_secret)
+    response = session.post(scrobble_url, params)
+    if 'status="ok"' not in response.text:
+        raise ScrobblerException(response.text)
+
+
+def hash_request(data, secret_key):
+    string = ""
+    items = data.keys()
+    items = sorted(items)
+    for i in items:
+        string += str(i)
+        string += str(data[i])
+    string += secret_key
+    string_to_hash = string.encode("utf8")
+    return hashlib.md5(string_to_hash).hexdigest()
