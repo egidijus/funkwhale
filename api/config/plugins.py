@@ -5,6 +5,7 @@ import subprocess
 import sys
 
 import persisting_theory
+from django.core.cache import cache
 from django.db.models import Q
 
 from rest_framework import serializers
@@ -28,6 +29,19 @@ _filters = {}
 _hooks = {}
 
 
+class PluginCache(object):
+    def __init__(self, prefix):
+        self.prefix = prefix
+
+    def get(self, key, default=None):
+        key = ":".join([self.prefix, key])
+        return cache.get(key, default)
+
+    def set(self, key, value, duration=None):
+        key = ":".join([self.prefix, key])
+        return cache.set(key, value, duration)
+
+
 def get_plugin_config(
     name,
     user=False,
@@ -38,6 +52,7 @@ def get_plugin_config(
     description=None,
     version=None,
     label=None,
+    homepage=None,
 ):
     conf = {
         "name": name,
@@ -52,6 +67,8 @@ def get_plugin_config(
         "source": source,
         "description": description,
         "version": version,
+        "cache": PluginCache(name),
+        "homepage": homepage,
     }
     registry[name] = conf
     return conf
@@ -259,6 +276,7 @@ def serialize_plugin(plugin_conf, confs):
         "values": confs.get(plugin_conf["name"], {"conf"}).get("conf"),
         "enabled": plugin_conf["name"] in confs
         and confs[plugin_conf["name"]]["enabled"],
+        "homepage": plugin_conf["homepage"],
     }
 
 

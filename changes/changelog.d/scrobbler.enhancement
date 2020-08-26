@@ -1,0 +1,1 @@
+[plugin, scrobbler] Use last.fm API v2 for scrobbling if API key and secret are provided

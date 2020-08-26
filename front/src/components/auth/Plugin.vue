@@ -1,7 +1,14 @@
 <template>
-  <form :class="['ui form', {loading: isLoading}]" @submit.prevent="submit">  
+  <form :class="['ui segment form', {loading: isLoading}]" @submit.prevent="submit">  
     <h3>{{ plugin.label }}</h3>
     <div v-if="plugin.description" v-html="markdown.makeHtml(plugin.description)"></div>
+    <template v-if="plugin.homepage" >
+      <div class="ui small hidden divider"></div>
+      <a :href="plugin.homepage" target="_blank">
+        <i class="external icon"></i>
+        <translate translate-context="Footer/*/List item.Link/Short, Noun">Documentation</translate>
+      </a>
+    </template>
     <div class="ui clearing hidden divider"></div> 
     <div v-if="errors.length > 0" role="alert" class="ui negative message">
       <h4 class="header"><translate translate-context="Content/*/Error message.Title">Error while saving plugin</translate></h4>

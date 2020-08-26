@@ -493,7 +493,7 @@ export default {
           this.getSound(toPreload)
           this.nextTrackPreloaded = true
         }
-        if (t > this.listenDelay || d - t < 30) {
+        if (t > (d / 2)) {
           let onlyTrack = this.$store.state.queue.tracks.length === 1
           if (this.listeningRecorded != this.currentTrack) {
             this.listeningRecorded = this.currentTrack

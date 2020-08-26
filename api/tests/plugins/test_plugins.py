@@ -207,6 +207,7 @@ def test_serialize_plugin():
         "source": False,
         "label": "test_plugin",
         "values": None,
+        "homepage": None,
     }
 
     assert plugins.serialize_plugin(plugin, plugins.get_confs()) == expected
@@ -230,6 +231,7 @@ def test_serialize_plugin_user(factories):
         "source": False,
         "label": "test_plugin",
         "values": None,
+        "homepage": None,
     }
 
     assert plugins.serialize_plugin(plugin, plugins.get_confs(user)) == expected
@@ -242,6 +244,7 @@ def test_serialize_plugin_user_enabled(factories):
         description="Hello world",
         conf=[{"name": "foo", "type": "boolean"}],
         user=True,
+        homepage="https://example.com",
     )
 
     factories["common.PluginConfiguration"](
@@ -256,6 +259,7 @@ def test_serialize_plugin_user_enabled(factories):
         "source": False,
         "label": "test_plugin",
         "values": {"foo": "bar"},
+        "homepage": "https://example.com",
     }
 
     assert plugins.serialize_plugin(plugin, plugins.get_confs(user)) == expected
