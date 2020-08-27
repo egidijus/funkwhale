@@ -59,13 +59,19 @@ def get_query(query_string, search_fields):
     return query
 
 
+def remove_chars(string, chars):
+    for char in chars:
+        string = string.replace(char, "")
+    return string
+
+
 def get_fts_query(query_string, fts_fields=["body_text"], model=None):
-    search_type = "plain"
+    search_type = "raw"
     if query_string.startswith('"') and query_string.endswith('"'):
         # we pass the query directly to the FTS engine
         query_string = query_string[1:-1]
-        search_type = "raw"
     else:
+        query_string = remove_chars(query_string, ['"', "&", "(", ")", "!", "'"])
         parts = query_string.replace(":", "").split(" ")
         parts = ["{}:*".format(p) for p in parts if p]
         if not parts:
