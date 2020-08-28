@@ -429,7 +429,7 @@ def fetch(fetch_obj):
                 )
             except Exception:
                 logger.exception(
-                    "Error while fetching actor outbox: %s", obj.actor.outbox.url
+                    "Error while fetching actor outbox: %s", obj.actor.outbox_url
                 )
             else:
                 if result.get("next_page"):

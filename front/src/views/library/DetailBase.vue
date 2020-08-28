@@ -148,6 +148,10 @@ export default {
   },
   async created() {
     await this.fetchData()
+    let authenticated = this.$store.state.auth.authenticated
+    if (!authenticated && this.$store.getters['instance/domain'] != this.object.actor.domain) {
+      this.$router.push({name: 'login', query: {next: this.$route.fullPath}})
+    }
   },
   methods: {
     async fetchData() {

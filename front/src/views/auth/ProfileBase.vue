@@ -93,7 +93,12 @@ export default {
     }
   },
   created() {
-    this.fetch()
+    let authenticated = this.$store.state.auth.authenticated
+    if (!authenticated && this.domain && this.$store.getters['instance/domain'] != this.domain) {
+      this.$router.push({name: 'login', query: {next: this.$route.fullPath}})
+    } else {
+     this.fetch()
+    }
   },
   beforeRouteUpdate (to, from, next) {
     to.meta.preserveScrollPosition = true
