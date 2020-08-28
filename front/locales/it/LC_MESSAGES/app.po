@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: front 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-23 15:17+0200\n"
-"PO-Revision-Date: 2020-05-02 17:17+0000\n"
-"Last-Translator: Stefano Pigozzi <ste.pigozzi@gmail.com>\n"
+"PO-Revision-Date: 2020-08-28 18:23+0000\n"
+"Last-Translator: Meliurwen <meliurwen@gmail.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -377,10 +377,9 @@ msgstr "Accedi alla cronologia di ascolto"
 
 #: front/src/components/mixins/Translations.vue:140
 #: front/src/components/mixins/Translations.vue:141
-#, fuzzy
 msgctxt "Content/OAuth Scopes/Paragraph"
 msgid "Access to moderation reports"
-msgstr "Accesso alle radio"
+msgstr "Accesso ai report di moderazione"
 
 #: front/src/components/mixins/Translations.vue:128
 #: front/src/components/mixins/Translations.vue:129
@@ -404,14 +403,13 @@ msgstr "Accesso alle radio"
 #: front/src/components/mixins/Translations.vue:137
 msgctxt "Content/OAuth Scopes/Paragraph"
 msgid "Access to security settings such as password and authorization"
-msgstr ""
+msgstr "Accesso alle impostazioni di sicurezza come password e autorizzazioni"
 
 #: front/src/components/auth/ApplicationEdit.vue:29
 #: front/src/components/auth/ApplicationEdit.vue:22
-#, fuzzy
 msgctxt "Content/Applications/Label"
 msgid "Access token"
-msgstr "Accesso alle modifiche"
+msgstr "Token di accesso"
 
 #: front/src/components/manage/library/UploadsTable.vue:61
 #: front/src/components/manage/library/UploadsTable.vue:9
@@ -702,7 +700,7 @@ msgstr "Campi aggiuntivi da visualizzare nel modulo. Visualizzati solo se la con
 #: front/src/components/audio/VolumeControl.vue:62
 msgctxt "Sidebar/Player/Icon.Tooltip/Verb"
 msgid "Adjust volume"
-msgstr ""
+msgstr "Regola volume"
 
 #: front/src/components/manage/users/UsersTable.vue:64
 #: front/src/components/manage/users/UsersTable.vue:25
@@ -817,10 +815,9 @@ msgstr[1] "Tutti gli %{ count } elementi selezionati"
 
 #: front/src/views/channels/DetailBase.vue:183
 #: src/views/channels/DetailBase.vue:178
-#, fuzzy
 msgctxt "Content/Channels/*"
 msgid "All Episodes"
-msgstr "Episodi"
+msgstr "Tutti gli Episodi"
 
 #: front/src/components/auth/Authorize.vue:111
 msgctxt "Head/Authorize/Title"
@@ -1317,10 +1314,9 @@ msgid "Change language"
 msgstr "Cambia lingua"
 
 #: front/src/components/auth/Settings.vue:262
-#, fuzzy
 msgctxt "*/*/Button.Label"
 msgid "Change my email address"
-msgstr "Conferma il tuo indirizzo e-mail"
+msgstr "Cambia il mio indirizzo email"
 
 #: front/src/components/auth/Settings.vue:54
 msgctxt "Content/Settings/Title/Verb"
@@ -1336,6 +1332,8 @@ msgstr "Cambia password"
 msgctxt "Content/Settings/Paragraph'"
 msgid "Change the email address associated with your account. We will send a confirmation to the new address."
 msgstr ""
+"Cambia l'indirizzo email associato con il tuo account. Ti invieremo una "
+"conferma al nuovo indirizzo."
 
 #: front/src/components/Footer.vue:49
 msgctxt "Footer/Settings/Dropdown.Label/Short, Verb"
@@ -1551,10 +1549,11 @@ msgid "Content filters help you hide content you don't want to see on the servic
 msgstr "I filtri di contenuti ti aiutano a nascondere cose che non vuoi vedere su questo servizio."
 
 #: front/src/components/common/ActionTable.vue:8
-#, fuzzy
 msgctxt "Content/*/Button.Help text.Paragraph"
 msgid "Content has been updated, click refresh to see up-to-date content"
-msgstr "Il contenuto è stato aggiornato, clicca aggiorna per visualizzaare il contenuto aggiornato"
+msgstr ""
+"Il contenuto è stato aggiornato, clicca aggiorna per visualizzare il "
+"contenuto aggiornato"
 
 #: front/src/components/About.vue:45
 msgctxt "Content/About/Header"
@@ -2215,10 +2214,9 @@ msgstr "Scarica"
 
 #: front/src/components/library/TrackDetail.vue:50
 #: front/src/components/library/TrackDetail.vue:45
-#, fuzzy
 msgctxt "Content/*/*"
 msgid "Downloads"
-msgstr "Scarica"
+msgstr "Download"
 
 #: front/src/components/mixins/Translations.vue:28
 #: front/src/views/content/libraries/FilesTable.vue:21
@@ -2600,10 +2598,9 @@ msgstr "Errore durante il recupero dell'oggetto"
 
 #: front/src/components/library/FileUpload.vue:63
 #: front/src/components/library/FileUpload.vue:4
-#, fuzzy
 msgctxt "Content/*/Error message.Title"
 msgid "Error while launching import"
-msgstr "Errore durante l'invio della segnalazione"
+msgstr "Errore durante l'avvio dell'importazione"
 
 #: front/src/components/channels/UploadForm.vue:3
 msgctxt "Content/*/Error message.Title"
@@ -2616,10 +2613,9 @@ msgid "Error while saving channel"
 msgstr "Errore durante il salvataggio del canale"
 
 #: front/src/components/auth/Plugin.vue:6
-#, fuzzy
 msgctxt "Content/*/Error message.Title"
 msgid "Error while saving plugin"
-msgstr "Errore durante il salvataggio delle impostazioni"
+msgstr "Errore durante il salvataggio del plugin"
 
 #: front/src/components/admin/SettingsGroup.vue:5
 #: front/src/components/federation/FetchButton.vue:62
@@ -2981,10 +2977,9 @@ msgid "Go to home page"
 msgstr "Vai alla pagina iniziale"
 
 #: front/src/components/Footer.vue:19
-#, fuzzy
 msgctxt "Footer/*/List item.Link"
 msgid "Go to Library"
-msgstr "Libreria"
+msgstr "Vai alla Libreria"
 
 #: front/src/views/Notifications.vue:27 src/views/Notifications.vue:61
 msgctxt "Content/Notifications/Button.Label"
@@ -3089,10 +3084,9 @@ msgid "Illegal content"
 msgstr "Contenuto illegale"
 
 #: front/src/components/library/FsBrowser.vue:5
-#, fuzzy
 msgctxt "Content/Library/Button/Verb"
 msgid "Import"
-msgstr "Importato"
+msgstr "Importa"
 
 #: front/src/components/library/ImportStatusModal.vue:3
 msgctxt "Popup/Import/Title"
@@ -3102,13 +3096,13 @@ msgstr "Dettaglio dell'importazione"
 #: front/src/components/library/FsLogs.vue:4
 msgctxt "Content/Library/Paragraph"
 msgid "Import hasn't started yet"
-msgstr ""
+msgstr "L'importazione non è ancora cominciata"
 
 #: front/src/components/library/FileUpload.vue:61
 #: front/src/components/library/FileUpload.vue:2
 msgctxt "Content/Library/Title/Verb"
 msgid "Import music from your server"
-msgstr ""
+msgstr "Importa musica dal tuo server"
 
 #: front/src/components/library/FileUpload.vue:50
 msgctxt "Content/Library/Input.Label/Noun"
@@ -3462,10 +3456,9 @@ msgid "Library deleted"
 msgstr "Libreria eliminata"
 
 #: front/src/views/content/libraries/Card.vue:39
-#, fuzzy
 msgctxt "Content/Library/Card.Button.Label/Noun"
 msgid "Library Details"
-msgstr "Modifiche della libreria"
+msgstr "Dettagli Libreria"
 
 #: front/src/views/admin/library/EditsList.vue:4
 msgctxt "Content/Admin/Title/Noun"
@@ -3480,7 +3473,7 @@ msgstr "Libreria aggiornata"
 #: front/src/components/auth/Plugin.vue:24
 msgctxt "*/*/Paragraph/Noun"
 msgid "Library where files should be imported."
-msgstr ""
+msgstr "Libreria dove i file dovrebbero essere importati."
 
 #: front/src/components/channels/LicenseSelect.vue:3
 #: front/src/components/library/TrackDetail.vue:120
@@ -3629,10 +3622,9 @@ msgid "Log in to your Funkwhale account"
 msgstr "Accedi al tuo account Funkwhale"
 
 #: front/src/components/auth/Logout.vue:14
-#, fuzzy
 msgctxt "Content/Login/Button.Label"
 msgid "Log in!"
-msgstr "Accedi"
+msgstr "Accedi!"
 
 #: front/src/components/auth/Logout.vue:26
 msgctxt "Head/Login/Title"
@@ -3640,10 +3632,9 @@ msgid "Log Out"
 msgstr "Disconnetti"
 
 #: front/src/views/auth/Callback.vue:7
-#, fuzzy
 msgctxt "*/Login/*"
 msgid "Logging in…"
-msgstr "Caricando le Librerie…"
+msgstr "Accesso in corso…"
 
 #: front/src/components/Sidebar.vue:78 src/components/auth/LoginForm.vue:44
 msgctxt "*/Login/*/Verb"
@@ -3716,16 +3707,14 @@ msgid "Manage playlists"
 msgstr "Gestisci playlist"
 
 #: front/src/components/auth/Settings.vue:254
-#, fuzzy
 msgctxt "Content/Settings/Button.Label"
 msgid "Manage plugins"
-msgstr "Gestisci playlist"
+msgstr "Gestisci i plugin"
 
 #: front/src/views/auth/Plugins.vue:42
-#, fuzzy
 msgctxt "Head/Login/Title"
 msgid "Manage plugins"
-msgstr "Gestisci playlist"
+msgstr "Gestisci i plugin"
 
 #: front/src/views/admin/users/Base.vue:20
 msgctxt "Head/Admin/Title"
@@ -3834,7 +3823,7 @@ msgstr "Altri"
 #: front/src/components/audio/SearchBar.vue:202
 msgctxt "Search/*/*"
 msgid "More results 🡒"
-msgstr ""
+msgstr "Altri risultati 🡒"
 
 #: front/src/components/audio/PlayButton.vue:105
 #: front/src/components/library/AlbumDropdown.vue:113
@@ -4035,10 +4024,9 @@ msgid "New channels"
 msgstr "Nuovi canali"
 
 #: front/src/components/auth/Settings.vue:279
-#, fuzzy
 msgctxt "*/*/*"
 msgid "New email"
-msgstr "Nuovo album"
+msgstr "Nuova email"
 
 #: front/src/components/auth/Settings.vue:73
 #: front/src/views/auth/PasswordResetConfirm.vue:14
@@ -4063,10 +4051,9 @@ msgid "New value"
 msgstr "Nuovo valore"
 
 #: front/src/components/Pagination.vue:45
-#, fuzzy
 msgctxt "Content/*/Link"
 msgid "Next Page"
-msgstr "Prossimo passo"
+msgstr "Pagina Successiva"
 
 #: front/src/components/channels/UploadModal.vue:27
 #: front/src/views/auth/ProfileOverview.vue:49
