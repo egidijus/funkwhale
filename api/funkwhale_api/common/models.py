@@ -267,6 +267,13 @@ class Attachment(models.Model):
         proxy_url = reverse("api:v1:attachments-proxy", kwargs={"uuid": self.uuid})
         return federation_utils.full_url(proxy_url + "?next=medium_square_crop")
 
+    @property
+    def download_url_large_square_crop(self):
+        if self.file:
+            return utils.media_url(self.file.crop["600x600"].url)
+        proxy_url = reverse("api:v1:attachments-proxy", kwargs={"uuid": self.uuid})
+        return federation_utils.full_url(proxy_url + "?next=large_square_crop")
+
 
 class MutationAttachment(models.Model):
     """

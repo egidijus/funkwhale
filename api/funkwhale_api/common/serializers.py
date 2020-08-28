@@ -297,6 +297,7 @@ class AttachmentSerializer(serializers.Serializer):
         urls["source"] = o.url
         urls["original"] = o.download_url_original
         urls["medium_square_crop"] = o.download_url_medium_square_crop
+        urls["large_square_crop"] = o.download_url_large_square_crop
         return urls
 
     def create(self, validated_data):
