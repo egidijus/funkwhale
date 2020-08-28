@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: front 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-23 15:17+0200\n"
-"PO-Revision-Date: 2020-08-28 18:23+0000\n"
+"PO-Revision-Date: 2020-08-28 18:47+0000\n"
 "Last-Translator: Meliurwen <meliurwen@gmail.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -4415,7 +4415,7 @@ msgstr "Panoramica"
 #: front/src/views/library/DetailBase.vue:28
 msgctxt "*/*/*"
 msgid "Owned by %{ username }"
-msgstr "Posseduto da %{ username }"
+msgstr "Proprietà di %{ username }"
 
 #: front/src/components/manage/moderation/ReportCard.vue:141
 #: front/src/components/manage/users/InvitationsTable.vue:32
@@ -4427,23 +4427,21 @@ msgstr "Proprietario"
 #: front/src/components/audio/ChannelForm.vue:103
 #: front/src/components/audio/ChannelForm.vue:95
 #: front/src/components/audio/ChannelForm.vue:77
-#, fuzzy
 msgctxt "*/*/*"
 msgid "Owner email"
-msgstr "Inserisci la tua email"
+msgstr "Email proprietario"
 
 #: front/src/components/audio/ChannelForm.vue:109
 #: front/src/components/audio/ChannelForm.vue:101
 #: front/src/components/audio/ChannelForm.vue:83
-#, fuzzy
 msgctxt "*/*/*"
 msgid "Owner name"
-msgstr "Proprietario"
+msgstr "Nome proprietario"
 
 #: front/src/components/PageNotFound.vue:33
 msgctxt "Head/*/Title"
 msgid "Page Not Found"
-msgstr "Pagina non trovata"
+msgstr "Pagina Non Trovata"
 
 #: front/src/components/PageNotFound.vue:7
 msgctxt "Content/*/Title"
@@ -4542,10 +4540,9 @@ msgid "Pending review edits"
 msgstr "Revisioni delle modifiche in sospeso"
 
 #: front/src/components/common/ActionTable.vue:279
-#, fuzzy
 msgctxt "Content/*/Button.Label"
 msgid "Perform actions"
-msgstr "Informazioni di debug"
+msgstr "Esegui azioni"
 
 #: front/src/components/auth/Settings.vue:154
 #: front/src/components/manage/users/UsersTable.vue:36
@@ -4577,10 +4574,9 @@ msgid "Play"
 msgstr "Riproduci"
 
 #: front/src/components/audio/PlayButton.vue:85
-#, fuzzy
 msgctxt "*/Queue/Dropdown/Button/Title"
 msgid "Play album"
-msgstr "Riproduci tutti gli album"
+msgstr "Riproduci album"
 
 #: front/src/views/playlists/Detail.vue:20
 msgctxt "Content/Queue/Button.Label/Short, Verb"
@@ -4594,10 +4590,9 @@ msgid "Play all albums"
 msgstr "Riproduci tutti gli album"
 
 #: front/src/components/audio/PlayButton.vue:87
-#, fuzzy
 msgctxt "*/Queue/Dropdown/Button/Title"
 msgid "Play artist"
-msgstr "Playlist"
+msgstr "Riproduci artista"
 
 #: front/src/components/audio/PlayButton.vue:97
 msgctxt "*/Queue/Dropdown/Button/Title"
@@ -4615,10 +4610,9 @@ msgid "Play now"
 msgstr "Riproduci ora"
 
 #: front/src/components/audio/PlayButton.vue:89
-#, fuzzy
 msgctxt "*/Queue/Dropdown/Button/Title"
 msgid "Play playlist"
-msgstr "Pulisci playlist"
+msgstr "Riproduci playlist"
 
 #: front/src/components/ShortcutsModal.vue:101
 msgctxt "Popup/Keyboard shortcuts/Table.Label/Verb"
@@ -4647,10 +4641,9 @@ msgid "Play track"
 msgstr "Riproduci traccia"
 
 #: front/src/components/audio/PlayButton.vue:91
-#, fuzzy
 msgctxt "*/Queue/Dropdown/Button/Title"
 msgid "Play tracks"
-msgstr "Riproduci traccia"
+msgstr "Riproduci tracce"
 
 #: front/src/components/mixins/Report.vue:84 src/views/playlists/Detail.vue:129
 #: front/src/components/mixins/Report.vue:85
@@ -4727,7 +4720,7 @@ msgstr "Per favore, controlla che la combinazione username/password sia corretta
 #: front/src/components/auth/Settings.vue:249
 msgctxt "Content/Settings/Title/Noun"
 msgid "Plugins"
-msgstr ""
+msgstr "Plugin"
 
 #: front/src/components/common/AttachmentInput.vue:26
 msgctxt "Content/*/Paragraph"
@@ -4787,10 +4780,9 @@ msgid "Preview form"
 msgstr "Anteprima modulo"
 
 #: front/src/components/Pagination.vue:44
-#, fuzzy
 msgctxt "Content/*/Link"
 msgid "Previous Page"
-msgstr "Passo precedente"
+msgstr "Pagina Precedente"
 
 #: front/src/components/channels/UploadModal.vue:24
 #: front/src/views/auth/ProfileOverview.vue:46
@@ -5124,7 +5116,7 @@ msgstr "Rifiutata"
 #: front/src/components/auth/ApplicationEdit.vue:26
 msgctxt "Content/Applications/Label"
 msgid "Regenerate token"
-msgstr ""
+msgstr "Rigenera token"
 
 #: front/src/components/About.vue:85
 msgctxt "*/*/*"
@@ -5402,10 +5394,9 @@ msgid "Restart import"
 msgstr "Riavvia importazione"
 
 #: front/src/components/Queue.vue:276
-#, fuzzy
 msgctxt "*/*/*"
 msgid "Restart track"
-msgstr "Prossima traccia"
+msgstr "Riavvia traccia"
 
 #: front/src/components/library/EditForm.vue:31
 #: src/components/library/EditForm.vue:5
@@ -5421,17 +5412,16 @@ msgstr "Ristretto"
 #: front/src/components/library/FileUpload.vue:76
 #: front/src/components/library/FileUpload.vue:17
 #: front/src/components/library/FileUpload.vue:6
-#, fuzzy
 msgctxt "Content/Library/Paragraph"
 msgid "Results of your import:"
-msgstr "Riavvia importazione"
+msgstr "Risultati della tua importazione:"
 
 #: front/src/components/library/FileUpload.vue:73
 #: front/src/components/library/FileUpload.vue:14
 #: front/src/components/library/FileUpload.vue:3
 msgctxt "Content/Library/Paragraph"
 msgid "Results of your previous import:"
-msgstr ""
+msgstr "Risultati della tua precedente importazione:"
 
 #: front/src/components/favorites/List.vue:35
 #: src/components/library/Albums.vue:39
@@ -5515,10 +5505,9 @@ msgid "Save"
 msgstr "Salva"
 
 #: front/src/components/auth/Plugin.vue:54
-#, fuzzy
 msgctxt "Content/*/Button.Label/Verb"
 msgid "Scan"
-msgstr "Scansionata"
+msgstr "Scansiona"
 
 #: front/src/views/content/remote/Card.vue:200
 msgctxt "Content/Library/Message"
@@ -7754,10 +7743,9 @@ msgstr "Sarai disconnesso da questa sessione e dovrai accedere con una nuova"
 
 #: front/src/components/auth/LoginForm.vue:40
 #: src/components/auth/LoginForm.vue:2
-#, fuzzy
 msgctxt "Contant/Auth/Paragraph"
 msgid "You will be redirected to %{ domain } to authenticate."
-msgstr "Sarai reindirizzato su <strong>%{ url }</strong>"
+msgstr "Sarai reindirizzato su %{ domain } per autenticarti."
 
 #: front/src/components/auth/Authorize.vue:51
 msgctxt "Content/Auth/Paragraph"
@@ -7816,10 +7804,9 @@ msgid "Your avatar cannot be saved"
 msgstr "La tua immagine di profilo non può essere salvata"
 
 #: front/src/components/auth/Settings.vue:269
-#, fuzzy
 msgctxt "Content/Settings/Paragraph'"
 msgid "Your current email address is %{ email }."
-msgstr "Sei attualmente connesso come %{ username }"
+msgstr "Il tuo attuale indirizzo email è %{ email }."
 
 #: front/src/components/auth/Settings.vue:545
 msgctxt "*/Auth/Message"
