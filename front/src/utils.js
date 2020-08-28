@@ -51,3 +51,9 @@ export function checkRedirectToLogin (store, router) {
     router.push({name: 'login', query: {next: router.currentRoute.fullPath}})
   }
 }
+
+export function getDomain (url) {
+  let parser = document.createElement("a")
+  parser.href = url
+  return parser.hostname
+}
