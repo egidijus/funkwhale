@@ -44,6 +44,14 @@
               <button class="ui floating dropdown circular icon basic button" :title="labels.more" v-dropdown="{direction: 'downward'}">
                 <i class="ellipsis vertical icon"></i>
                 <div class="menu" style="right: 0; left: auto">
+                  <a
+                    :href="track.fid"
+                    v-if="domain != $store.getters['instance/domain']"
+                    target="_blank"
+                    class="basic item">
+                    <i class="external icon"></i>
+                    <translate :translate-params="{domain: domain}" translate-context="Content/*/Button.Label/Verb">View on %{ domain }</translate>
+                  </a>
                   <div
                     role="button"
                     v-if="publicLibraries.length > 0"
@@ -116,6 +124,7 @@
 import time from "@/utils/time"
 import axios from "axios"
 import url from "@/utils/url"
+import {getDomain} from '@/utils'
 import logger from "@/logging"
 import PlayButton from "@/components/audio/PlayButton"
 import TrackFavoriteIcon from "@/components/favorites/TrackFavoriteIcon"
@@ -190,6 +199,11 @@ export default {
     }
   },
   computed: {
+    domain () {
+      if (this.track) {
+        return getDomain(this.track.fid)
+      }
+    },
     publicLibraries () {
       return this.libraries.filter(l => {
         return l.privacy_level === 'everyone'

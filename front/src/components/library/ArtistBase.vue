@@ -57,6 +57,15 @@
               <button class="ui floating dropdown icon button" ref="dropdown" v-dropdown>
                 <i class="dropdown icon"></i>
                 <div class="menu">
+                  <a
+                    :href="object.fid"
+                    v-if="domain != $store.getters['instance/domain']"
+                    target="_blank"
+                    class="basic item">
+                    <i class="external icon"></i>
+                    <translate :translate-params="{domain: domain}" translate-context="Content/*/Button.Label/Verb">View on %{ domain }</translate>
+                  </a>
+
                   <button
                     role="button"
                     v-if="publicLibraries.length > 0"
@@ -137,6 +146,8 @@ import RadioButton from "@/components/radios/Button"
 import TagsList from "@/components/tags/List"
 import ReportMixin from '@/components/mixins/Report'
 
+import {getDomain} from '@/utils'
+
 const FETCH_URL = "albums/"
 
 export default {
@@ -205,6 +216,11 @@ export default {
     }
   },
   computed: {
+    domain () {
+      if (this.object) {
+        return getDomain(this.object.fid)
+      }
+    },
     isPlayable() {
       return (
         this.object.albums.filter(a => {

@@ -84,6 +84,14 @@
                       <i class="code icon"></i>
                       <translate translate-context="Content/*/Button.Label/Verb">Embed</translate>
                     </a>
+                    <a
+                      :href="object.url"
+                      v-if="object.actor.domain != $store.getters['instance/domain']"
+                      target="_blank"
+                      class="basic item">
+                      <i class="external icon"></i>
+                      <translate :translate-params="{domain: object.actor.domain}" translate-context="Content/*/Button.Label/Verb">View on %{ domain }</translate>
+                    </a>
                     <div class="divider"></div>
                     <a
                       href=""
