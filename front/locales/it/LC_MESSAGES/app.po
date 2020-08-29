@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: front 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-23 15:17+0200\n"
-"PO-Revision-Date: 2020-08-28 18:47+0000\n"
+"PO-Revision-Date: 2020-08-29 02:49+0000\n"
 "Last-Translator: Meliurwen <meliurwen@gmail.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -890,10 +890,9 @@ msgid "Application details"
 msgstr "Dettagli dell'applicazione"
 
 #: front/src/components/Footer.vue:3
-#, fuzzy
 msgctxt "*/*/*"
 msgid "Application footer"
-msgstr "Secret dell'applicazione"
+msgstr "Piè di pagina dell'applicazione"
 
 #: front/src/components/auth/ApplicationEdit.vue:21
 #: front/src/components/auth/ApplicationEdit.vue:14
@@ -4258,7 +4257,6 @@ msgstr "Apri una conversazione di supporto (includi nel tuo messaggio le informa
 
 #: front/src/components/manage/ChannelsTable.vue:183
 #: front/src/components/manage/library/AlbumsTable.vue:177
-#, fuzzy
 msgctxt "Content/Moderation/Verb"
 msgid "Open in moderation interface"
 msgstr "Apri nell'interfaccia di moderazione"
@@ -5760,7 +5758,7 @@ msgstr "Salta avanti 5s"
 #: front/src/components/common/ActionTable.vue:280
 msgctxt "Content/*/Select/Verb"
 msgid "Select"
-msgstr ""
+msgstr "Seleziona"
 
 #: front/src/components/library/radios/Builder.vue:44
 msgctxt "Content/Radio/Dropdown.Placeholder/Verb"
@@ -5776,10 +5774,9 @@ msgstr[0] "Seleziona tutto, %{ total } elemento"
 msgstr[1] "Seleziona tutti e %{ total } elementi"
 
 #: front/src/components/common/ActionTable.vue:278
-#, fuzzy
 msgctxt "Content/*/Select/Verb"
 msgid "Select all items"
-msgstr "Seleziona un filtro"
+msgstr "Seleziona tutti gli elementi"
 
 #: front/src/components/common/ActionTable.vue:56
 #: front/src/components/common/ActionTable.vue:7
@@ -5876,10 +5873,9 @@ msgid "Show available keyboard shortcuts"
 msgstr "Mostra scorciatoie da tastiera disponibili"
 
 #: front/src/views/content/libraries/FilesTable.vue:295
-#, fuzzy
 msgctxt "Content/Library/Button.Label/Verb"
 msgid "Show information about the upload status for this track"
-msgstr "Clicca per visualizzare più informazioni sul processo di importazione di questo caricamento"
+msgstr "Mostra informazioni sullo stato di caricamento di questa traccia"
 
 #: front/src/components/common/ExpandableDiv.vue:7
 #: front/src/components/common/RenderedDescription.vue:10
@@ -6700,10 +6696,9 @@ msgid "This track is present in the following libraries:"
 msgstr "Questa traccia è presente nelle seguenti librerie:"
 
 #: front/src/views/auth/ProfileOverview.vue:27
-#, fuzzy
 msgctxt "Content/Profile/Paragraph"
 msgid "This user shared the following libraries..."
-msgstr "Questo utente ha condiviso le seguenti librerie."
+msgstr "Questo utente ha condiviso le seguenti librerie..."
 
 #: front/src/components/manage/moderation/UserRequestCard.vue:98
 msgctxt "Content/Moderation/Paragraph"
@@ -7489,10 +7484,9 @@ msgid "Waiting for result…"
 msgstr "Aspettando i risultati…"
 
 #: front/src/components/auth/Settings.vue:273
-#, fuzzy
 msgctxt "Content/Settings/Error message.Title"
 msgid "We cannot change your email address"
-msgstr "Non è stato possibile confermare il tuo indirizzo e-mail"
+msgstr "Non possiamo cambiare il tuo indirizzo email"
 
 #: front/src/components/auth/Settings.vue:305
 msgctxt "Content/Settings/Error message.Title"
@@ -7629,10 +7623,9 @@ msgid "You are now using the Funkwhale instance at %{ url }"
 msgstr "Ora stai utilizzando l'istanza Funkwhale su %{ url }"
 
 #: front/src/components/auth/Logout.vue:12
-#, fuzzy
 msgctxt "Content/Login/Title"
 msgid "You aren't currently logged in"
-msgstr "Sei attualmente connesso come %{ username }"
+msgstr "Non hai ancora effettuato l'accesso"
 
 #: front/src/components/moderation/FilterModal.vue:27
 #: front/src/components/moderation/FilterModal.vue:13
@@ -7822,6 +7815,8 @@ msgstr "La tua modifica è stata inviata correttamente."
 msgctxt "*/Auth/Message"
 msgid "Your email has been changed, please check your inbox for our confirmation message."
 msgstr ""
+"La tua email è stata cambiata, per favore controlla la tua email per il "
+"nostro messaggio di conferma."
 
 #: front/src/components/favorites/List.vue:121
 msgctxt "Head/Favorites/Title"
@@ -7854,10 +7849,9 @@ msgid "Your settings can't be updated"
 msgstr "Le tue impostazioni non possono essere aggiornate"
 
 #: front/src/components/auth/SubsonicTokenForm.vue:139
-#, fuzzy
 msgctxt "Content/Password/Input.label"
 msgid "Your subsonic API password"
-msgstr "Password API Subsonic"
+msgstr "La tua password per le API subsonic"
 
 #: front/src/components/auth/Settings.vue:83
 msgctxt "Popup/Settings/List item"
