@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: front 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-23 15:17+0200\n"
-"PO-Revision-Date: 2020-08-29 02:49+0000\n"
+"PO-Revision-Date: 2020-08-29 06:47+0000\n"
 "Last-Translator: Meliurwen <meliurwen@gmail.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -104,7 +104,6 @@ msgstr[1] "%{ count } ore di musica"
 #: front/src/views/channels/DetailBase.vue:26
 #: src/views/channels/DetailBase.vue:21
 #: front/src/views/channels/DetailBase.vue:2
-#, fuzzy
 msgctxt "Content/Channel/Paragraph"
 msgid "%{ count } listening"
 msgid_plural "%{ count } listenings"
@@ -209,7 +208,7 @@ msgstr "%{ minutes } min"
 
 #: front/src/components/audio/ChannelCard.vue:21
 msgid "%{ updatedAgo }"
-msgstr ""
+msgstr "%{ updatedAgo }"
 
 #: front/src/components/notifications/NotificationRow.vue:44
 msgctxt "Content/Notifications/Paragraph"
@@ -500,13 +499,11 @@ msgid "Actions"
 msgstr "Azioni"
 
 #: front/src/components/audio/track/Table.vue:15
-#, fuzzy
 msgctxt "*/*/*/Noun"
 msgid "Actions"
 msgstr "Azioni"
 
 #: front/src/components/admin/SignupFormBuilder.vue:44
-#, fuzzy
 msgctxt "*/*/Form-builder,Help"
 msgid "Actions"
 msgstr "Azioni"
@@ -1069,10 +1066,9 @@ msgid "Audio content"
 msgstr "Contenuto audio"
 
 #: front/src/components/audio/Player.vue:3
-#, fuzzy
 msgctxt "*/*/*"
 msgid "Audio player and controls"
-msgstr "Scorciatoie del lettore audio"
+msgstr "Player audio e controlli"
 
 #: front/src/components/ShortcutsModal.vue:77
 msgctxt "Popup/Keyboard shortcuts/Title"
@@ -2290,7 +2286,6 @@ msgstr "Modifica"
 
 #: front/src/components/playlists/PlaylistModal.vue:42
 #: front/src/components/playlists/PlaylistModal.vue:52
-#, fuzzy
 msgctxt "*/*/*/Verb"
 msgid "Edit"
 msgstr "Modifica"
@@ -2434,7 +2429,6 @@ msgid "Enabled"
 msgstr "Abilitato"
 
 #: front/src/components/auth/Plugin.vue:14
-#, fuzzy
 msgctxt "*/*/*"
 msgid "Enabled"
 msgstr "Abilitato"
@@ -2680,7 +2674,6 @@ msgid "Everyone, across all instances"
 msgstr "Tutti, su tutte le istanze"
 
 #: front/src/components/library/radios/Filter.vue:7
-#, fuzzy
 msgctxt "Popup/Radio/Title/Noun"
 msgid "Exclude"
 msgstr "Escludi"
@@ -3026,7 +3019,6 @@ msgid "Home"
 msgstr "Pagina Iniziale"
 
 #: front/src/components/Footer.vue:22
-#, fuzzy
 msgctxt "Footer/*/List item.Link"
 msgid "Home Page"
 msgstr "Pagina Iniziale"
@@ -3122,7 +3114,6 @@ msgstr "Stato dell'importazione"
 #: front/src/components/library/FileUpload.vue:71
 #: front/src/components/library/FileUpload.vue:12
 #: front/src/components/library/FileUpload.vue:1
-#, fuzzy
 msgctxt "Content/Library/Title/Verb"
 msgid "Import status"
 msgstr "Stato dell'importazione"
@@ -3409,7 +3400,6 @@ msgid "Libraries help you organize and share your music collections. You can upl
 msgstr "Le librerie sono di aiuto per organizzare e condividere la tua collezione musicale. Puoi caricare la tua musica su Funkwhale e condividerla con amici e parenti."
 
 #: front/src/components/library/Home.vue:78
-#, fuzzy
 msgctxt "Head/Home/Title"
 msgid "Library"
 msgstr "Libreria"
@@ -4552,7 +4542,6 @@ msgid "Permissions"
 msgstr "Permessi"
 
 #: front/src/components/audio/track/Table.vue:9
-#, fuzzy
 msgctxt "*/*/*/Noun"
 msgid "Play"
 msgstr "Riproduci"
@@ -4633,7 +4622,6 @@ msgid "Play track"
 msgstr "Riproduci traccia"
 
 #: front/src/components/audio/PlayButton.vue:83
-#, fuzzy
 msgctxt "*/Queue/Dropdown/Button/Title"
 msgid "Play track"
 msgstr "Riproduci traccia"
@@ -5668,10 +5656,9 @@ msgid "Search for artists, albums, tracks…"
 msgstr "Cerca per artisti, album, tracce…"
 
 #: front/src/components/audio/SearchBar.vue:29
-#, fuzzy
 msgctxt "Sidebar/Search/Input.Label"
 msgid "Search for content"
-msgstr "Cerca un po' di musica"
+msgstr "Ricerca contenuti"
 
 #: front/src/components/audio/Search.vue:2
 msgctxt "Content/Search/Title"
@@ -5730,7 +5717,6 @@ msgstr "Sicurezza"
 
 #: front/src/components/mixins/Translations.vue:135
 #: front/src/components/mixins/Translations.vue:136
-#, fuzzy
 msgctxt "*/Admin/*/Noun"
 msgid "Security"
 msgstr "Sicurezza"
@@ -6144,16 +6130,14 @@ msgid "Submit report"
 msgstr "Invia segnalazione"
 
 #: front/src/views/content/remote/ScanForm.vue:52
-#, fuzzy
 msgctxt "Content/Library/Input.Label"
 msgid "Submit search"
-msgstr "Invia segnalazione"
+msgstr "Invia ricerca"
 
 #: front/src/views/Search.vue:137
-#, fuzzy
 msgctxt "Content/Search/Button.Label/Verb"
 msgid "Submit Search Query"
-msgstr "Invia segnalazione"
+msgstr "Invia Query di Ricerca"
 
 #: front/src/components/library/EditForm.vue:108
 msgctxt "Content/Library/Button.Label/Verb"
@@ -7002,7 +6986,6 @@ msgid "Update"
 msgstr "Aggiorna"
 
 #: front/src/components/auth/Settings.vue:286
-#, fuzzy
 msgctxt "*/*/*"
 msgid "Update"
 msgstr "Aggiorna"
@@ -7248,6 +7231,7 @@ msgstr "Usa Funkwhale su altri dispositivi con le nostre app"
 msgctxt "Content/Settings/Paragraph"
 msgid "Use plugins to extend Funkwhale and get additional features."
 msgstr ""
+"Usa i plugin per estendere Funkwhale ed ottenere funzionalità aggiuntive."
 
 #: front/src/components/moderation/ReportModal.vue:38
 msgctxt "*/*/Field,Help"
