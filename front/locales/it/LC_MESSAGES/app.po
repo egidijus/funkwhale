@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: front 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-23 15:17+0200\n"
-"PO-Revision-Date: 2020-08-29 06:47+0000\n"
+"PO-Revision-Date: 2020-08-29 12:09+0000\n"
 "Last-Translator: Meliurwen <meliurwen@gmail.com>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -27,7 +27,7 @@ msgstr "\"%{ title }\", di %{ artist }"
 #: front/src/components/RemoteSearchForm.vue:71
 msgctxt "Head/Fetch/Field.Placeholder"
 msgid "@channel@pod.example or https://website.example/rss.xml"
-msgstr "@channel@pod.example o https://website.example/rss.xml"
+msgstr "@canale@istanza.esempio o https://sitoweb.esempio/rss.xml"
 
 #: front/src/components/auth/Authorize.vue:16
 msgctxt "Content/Auth/Title"
@@ -275,7 +275,7 @@ msgstr "Pagina di informazioni"
 #: front/src/components/About.vue:5
 msgctxt "Content/Home/Header"
 msgid "About %{ podName }!"
-msgstr "A proposito di %{ instance }!"
+msgstr "A proposito di %{ podName }!"
 
 #: front/src/components/Footer.vue:9
 msgctxt "Footer/About/Title"
@@ -6757,7 +6757,7 @@ msgstr "Per continuare, per favore seleziona l'istanza Funkwhale alla quale vuoi
 #: front/src/components/ShortcutsModal.vue:137
 msgctxt "Popup/Keyboard shortcuts/Table.Label/Verb"
 msgid "Toggle favorite"
-msgstr "Alterna preferito"
+msgstr "Cambia preferito"
 
 #: front/src/components/ShortcutsModal.vue:117
 msgctxt "Popup/Keyboard shortcuts/Table.Label/Verb"
@@ -6790,7 +6790,7 @@ msgstr "Dimensione totale"
 #: front/src/views/content/libraries/Card.vue:68
 msgctxt "Content/Library/Card.Help text"
 msgid "Total size of the files in this library"
-msgstr "Dimensione totale dei files in questa libreria"
+msgstr "Dimensione totale dei file in questa libreria"
 
 #: front/src/views/admin/moderation/DomainsDetail.vue:125
 #: front/src/views/admin/moderation/DomainsDetail.vue:120
