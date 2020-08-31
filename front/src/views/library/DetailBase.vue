@@ -7,6 +7,14 @@
           <button class="ui pointing dropdown icon small basic right floated button" ref="dropdown" v-dropdown="{direction: 'downward'}" style="position: absolute; right: 1em; top: 1em;">
             <i class="ellipsis vertical icon"></i>
             <div class="menu">
+              <a
+                :href="object.fid"
+                v-if="object.actor.domain != $store.getters['instance/domain']"
+                target="_blank"
+                class="basic item">
+                <i class="external icon"></i>
+                <translate :translate-params="{domain: object.actor.domain}" translate-context="Content/*/Button.Label/Verb">View on %{ domain }</translate>
+              </a>
               <div
                 role="button"
                 class="basic item"
@@ -148,6 +156,10 @@ export default {
   },
   async created() {
     await this.fetchData()
+    let authenticated = this.$store.state.auth.authenticated
+    if (!authenticated && this.$store.getters['instance/domain'] != this.object.actor.domain) {
+      this.$router.push({name: 'login', query: {next: this.$route.fullPath}})
+    }
   },
   methods: {
     async fetchData() {

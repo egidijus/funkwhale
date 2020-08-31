@@ -20,6 +20,15 @@
     <button class="ui floating dropdown circular icon basic button" :title="labels.more" v-dropdown="{direction: 'downward'}">
       <i class="ellipsis vertical icon"></i>
       <div class="menu">
+        <a
+          :href="object.fid"
+          v-if="domain != $store.getters['instance/domain']"
+          target="_blank"
+          class="basic item">
+          <i class="external icon"></i>
+          <translate :translate-params="{domain: domain}" translate-context="Content/*/Button.Label/Verb">View on %{ domain }</translate>
+        </a>
+
         <div
           role="button"
           v-if="isEmbedable"
@@ -86,6 +95,7 @@ import EmbedWizard from "@/components/audio/EmbedWizard"
 import Modal from '@/components/semantic/Modal'
 import ReportMixin from '@/components/mixins/Report'
 
+import {getDomain} from '@/utils'
 
 export default {
   mixins: [ReportMixin],
@@ -108,6 +118,11 @@ export default {
     }
   },
   computed: {
+    domain () {
+      if (this.object) {
+        return getDomain(this.object.fid)
+      }
+    },
     labels() {
       return {
         more: this.$pgettext('*/*/Button.Label/Noun', "More…"),
