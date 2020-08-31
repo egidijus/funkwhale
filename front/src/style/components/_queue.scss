@@ -137,6 +137,10 @@
     bottom: 0;
     top: 0;
     width: 32%;
+    > img {
+      height: 50vh;
+      width: 50vh;
+    }
     @include media("<desktop") {
       padding: 0.5em;
       font-size: 1.5em;
@@ -148,7 +152,7 @@
         max-height: 50vh;
       }
     }
-    > *:not(.image) {
+    > *:not(.image):not(img) {
       width: 100%;
     }
     h1 {
