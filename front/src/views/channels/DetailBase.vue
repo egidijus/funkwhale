@@ -86,7 +86,7 @@
                     </a>
                     <a
                       :href="object.url"
-                      v-if="object.actor.domain != $store.getters['instance/domain']"
+                      v-if="object.actor && object.actor.domain != $store.getters['instance/domain']"
                       target="_blank"
                       class="basic item">
                       <i class="external icon"></i>
