@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: front 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-23 15:17+0200\n"
-"PO-Revision-Date: 2020-08-24 14:41+0000\n"
-"Last-Translator: Quentin PAGÈS <farga@mejans.fr>\n"
+"PO-Revision-Date: 2020-09-01 14:01+0000\n"
+"Last-Translator: Quentin PAGÈS <quentinantonin@free.fr>\n"
 "Language-Team: none\n"
 "Language: oc\n"
 "MIME-Version: 1.0\n"
@@ -401,7 +401,7 @@ msgstr "Accès a las ràdios"
 #: front/src/components/mixins/Translations.vue:137
 msgctxt "Content/OAuth Scopes/Paragraph"
 msgid "Access to security settings such as password and authorization"
-msgstr ""
+msgstr "Accedir als paramètres de seguretat coma lo senhal e las autorizacions"
 
 #: front/src/components/auth/ApplicationEdit.vue:29
 #: front/src/components/auth/ApplicationEdit.vue:22
@@ -1326,6 +1326,8 @@ msgstr "Cambiar lo senhal"
 msgctxt "Content/Settings/Paragraph'"
 msgid "Change the email address associated with your account. We will send a confirmation to the new address."
 msgstr ""
+"Cambiar l’adreça email ligada a vòstre compte. Mandarem una confirmacion a l’"
+"adreça novèla."
 
 #: front/src/components/Footer.vue:49
 msgctxt "Footer/Settings/Dropdown.Label/Short, Verb"
@@ -1541,10 +1543,11 @@ msgid "Content filters help you hide content you don't want to see on the servic
 msgstr "Los filtres de contengut vos ajudan a amagar los contenguts que volètz pas veire sus aqueste servici."
 
 #: front/src/components/common/ActionTable.vue:8
-#, fuzzy
 msgctxt "Content/*/Button.Help text.Paragraph"
 msgid "Content has been updated, click refresh to see up-to-date content"
-msgstr "Lo contengut es estat actualizat, clicar per tornar cargar e veire lo contengut a jorn"
+msgstr ""
+"Lo contengut es estat actualizat, clicar per tornar cargar e veire lo "
+"contengut a jorn"
 
 #: front/src/components/About.vue:45
 msgctxt "Content/About/Header"
@@ -3089,7 +3092,7 @@ msgstr "L’import a pas encara començat"
 #: front/src/components/library/FileUpload.vue:2
 msgctxt "Content/Library/Title/Verb"
 msgid "Import music from your server"
-msgstr ""
+msgstr "Importar de la musica de vòstre servidor estant"
 
 #: front/src/components/library/FileUpload.vue:50
 msgctxt "Content/Library/Input.Label/Noun"
@@ -3458,7 +3461,7 @@ msgstr "Bibliotèca actualizada"
 #: front/src/components/auth/Plugin.vue:24
 msgctxt "*/*/Paragraph/Noun"
 msgid "Library where files should be imported."
-msgstr ""
+msgstr "Bibliotèca ont los fichièrs devon èsser importats."
 
 #: front/src/components/channels/LicenseSelect.vue:3
 #: front/src/components/library/TrackDetail.vue:120
@@ -3807,7 +3810,7 @@ msgstr "Mai"
 #: front/src/components/audio/SearchBar.vue:202
 msgctxt "Search/*/*"
 msgid "More results 🡒"
-msgstr ""
+msgstr "Mai de resultats 🡒"
 
 #: front/src/components/audio/PlayButton.vue:105
 #: front/src/components/library/AlbumDropdown.vue:113
@@ -4008,10 +4011,9 @@ msgid "New channels"
 msgstr "Nòvas cadenas"
 
 #: front/src/components/auth/Settings.vue:279
-#, fuzzy
 msgctxt "*/*/*"
 msgid "New email"
-msgstr "Album novèl"
+msgstr "Adreça novèla"
 
 #: front/src/components/auth/Settings.vue:73
 #: front/src/views/auth/PasswordResetConfirm.vue:14
@@ -4243,7 +4245,6 @@ msgstr "Dobrir un fil de discutida d’assisténcia (donatz las informacions de 
 
 #: front/src/components/manage/ChannelsTable.vue:183
 #: front/src/components/manage/library/AlbumsTable.vue:177
-#, fuzzy
 msgctxt "Content/Moderation/Verb"
 msgid "Open in moderation interface"
 msgstr "Dobrir dins l’interfàcia de moderacion"
@@ -4412,10 +4413,9 @@ msgstr "Proprietari"
 #: front/src/components/audio/ChannelForm.vue:103
 #: front/src/components/audio/ChannelForm.vue:95
 #: front/src/components/audio/ChannelForm.vue:77
-#, fuzzy
 msgctxt "*/*/*"
 msgid "Owner email"
-msgstr "Escrivètz vòstre adreça electronica"
+msgstr "Adreça electronica del proprietari"
 
 #: front/src/components/audio/ChannelForm.vue:109
 #: front/src/components/audio/ChannelForm.vue:101
@@ -5406,7 +5406,7 @@ msgstr "Resultats de vòstre l’import :"
 #: front/src/components/library/FileUpload.vue:3
 msgctxt "Content/Library/Paragraph"
 msgid "Results of your previous import:"
-msgstr ""
+msgstr "Resultats de vòstre import precedent :"
 
 #: front/src/components/favorites/List.vue:35
 #: src/components/library/Albums.vue:39
@@ -5858,10 +5858,11 @@ msgid "Show available keyboard shortcuts"
 msgstr "Mostrar los acorchis clavièr disponibles"
 
 #: front/src/views/content/libraries/FilesTable.vue:295
-#, fuzzy
 msgctxt "Content/Library/Button.Label/Verb"
 msgid "Show information about the upload status for this track"
-msgstr "Clicar per mostrar mai d’informacion tocant lo processús d’import d’aqueste mandadís"
+msgstr ""
+"Clicar per mostrar mai d’informacion tocant lo processús d’import d’aquesta "
+"pista"
 
 #: front/src/components/common/ExpandableDiv.vue:7
 #: front/src/components/common/RenderedDescription.vue:10
@@ -6135,10 +6136,9 @@ msgid "Submit search"
 msgstr "Enviar la recèrca"
 
 #: front/src/views/Search.vue:137
-#, fuzzy
 msgctxt "Content/Search/Button.Label/Verb"
 msgid "Submit Search Query"
-msgstr "Enviar"
+msgstr "Enviar la requèsta"
 
 #: front/src/components/library/EditForm.vue:108
 msgctxt "Content/Library/Button.Label/Verb"
@@ -6681,10 +6681,9 @@ msgid "This track is present in the following libraries:"
 msgstr "Aquesta pista es presenta a las bibliotècas seguentas :"
 
 #: front/src/views/auth/ProfileOverview.vue:27
-#, fuzzy
 msgctxt "Content/Profile/Paragraph"
 msgid "This user shared the following libraries..."
-msgstr "Aqueste utilizaire partegèt las bibliotècas seguentas."
+msgstr "Aqueste utilizaire partegèt las bibliotècas seguentas..."
 
 #: front/src/components/manage/moderation/UserRequestCard.vue:98
 msgctxt "Content/Moderation/Paragraph"
@@ -6823,10 +6822,9 @@ msgid "Track %{ index } of %{ length }"
 msgstr "Pista (%{ index } sus %{ length })"
 
 #: front/src/components/audio/track/Table.vue:10
-#, fuzzy
 msgctxt "*/*/*/Noun"
 msgid "Track Art"
-msgstr "Donada de la pista"
+msgstr "Illustracion de la pista"
 
 #: front/src/views/admin/library/TrackDetail.vue:89
 #: front/src/views/admin/library/TrackDetail.vue:84
@@ -7235,6 +7233,8 @@ msgstr "Utilizar Funkwhale sus d’autres aparelhs amb nòstra aplicacion"
 msgctxt "Content/Settings/Paragraph"
 msgid "Use plugins to extend Funkwhale and get additional features."
 msgstr ""
+"Utilizatz d’extension per agrandir las possibilitat de Funkwhale e obténer "
+"mai de foncionalitats."
 
 #: front/src/components/moderation/ReportModal.vue:38
 msgctxt "*/*/Field,Help"
@@ -7471,10 +7471,9 @@ msgid "Waiting for result…"
 msgstr "En espèra dels resultats…"
 
 #: front/src/components/auth/Settings.vue:273
-#, fuzzy
 msgctxt "Content/Settings/Error message.Title"
 msgid "We cannot change your email address"
-msgstr "Confirmacion vòstra adreça electronica impossibla"
+msgstr "Cambiament d’adreça mail impossible"
 
 #: front/src/components/auth/Settings.vue:305
 msgctxt "Content/Settings/Error message.Title"
@@ -7611,10 +7610,9 @@ msgid "You are now using the Funkwhale instance at %{ url }"
 msgstr "Utilizatz una instància Funkwhale a %{ url }"
 
 #: front/src/components/auth/Logout.vue:12
-#, fuzzy
 msgctxt "Content/Login/Title"
 msgid "You aren't currently logged in"
-msgstr "Sètz connectat coma %{ username }"
+msgstr "Sètz pas connectat actualament"
 
 #: front/src/components/moderation/FilterModal.vue:27
 #: front/src/components/moderation/FilterModal.vue:13
@@ -7703,17 +7701,15 @@ msgstr "Es possible que vos calga seguir aquesta bibliotèca per veire son conte
 
 #: front/src/components/audio/ChannelEntries.vue:17
 #: front/src/components/audio/ChannelEntries.vue:3
-#, fuzzy
 msgctxt "Content/Channels/*"
 msgid "You may need to subscribe to this channel to see its content."
-msgstr "Es possible que vos calga seguir aquesta bibliotèca per veire son contengut."
+msgstr "Vos cal vos abonar a aquesta cadena per ne veire lo contengut."
 
 #: front/src/components/audio/ChannelSeries.vue:22
 #: front/src/components/audio/ChannelSeries.vue:3
-#, fuzzy
 msgctxt "Content/Channels/*"
 msgid "You may need to subscribe to this channel to see its contents."
-msgstr "Es possible que vos calga seguir aquesta bibliotèca per veire son contengut."
+msgstr "Vos cal benlèu vos abonar a aquesta cadena per ne veire lo contengut."
 
 #: front/src/components/notifications/NotificationRow.vue:45
 msgctxt "Content/Notifications/Paragraph"
@@ -7727,10 +7723,9 @@ msgstr "Sètz per èsser desconnectat d’aquesta session e vos caldrà vos conn
 
 #: front/src/components/auth/LoginForm.vue:40
 #: src/components/auth/LoginForm.vue:2
-#, fuzzy
 msgctxt "Contant/Auth/Paragraph"
 msgid "You will be redirected to %{ domain } to authenticate."
-msgstr "Seretz mandat a <strong>%{ url }</strong>"
+msgstr "Seretz mandat a <strong>%{ url }</strong>."
 
 #: front/src/components/auth/Authorize.vue:51
 msgctxt "Content/Auth/Paragraph"
@@ -7789,10 +7784,9 @@ msgid "Your avatar cannot be saved"
 msgstr "L’avatar pòt pas èsser enregistrat"
 
 #: front/src/components/auth/Settings.vue:269
-#, fuzzy
 msgctxt "Content/Settings/Paragraph'"
 msgid "Your current email address is %{ email }."
-msgstr "Sètz connectat coma %{ username }"
+msgstr "Sètz connectat coma %{ username }."
 
 #: front/src/components/auth/Settings.vue:545
 msgctxt "*/Auth/Message"
@@ -7808,6 +7802,8 @@ msgstr "La modificacion es estada corrèctament enviada."
 msgctxt "*/Auth/Message"
 msgid "Your email has been changed, please check your inbox for our confirmation message."
 msgstr ""
+"Vòstra adreça mail es estada cambiada, mercés de verificar vòstra bóstia de "
+"recepcion."
 
 #: front/src/components/favorites/List.vue:121
 msgctxt "Head/Favorites/Title"
@@ -7840,7 +7836,6 @@ msgid "Your settings can't be updated"
 msgstr "Impossible d’actualizar vòstres paramètres"
 
 #: front/src/components/auth/SubsonicTokenForm.vue:139
-#, fuzzy
 msgctxt "Content/Password/Input.label"
 msgid "Your subsonic API password"
 msgstr "Senhal de l’API Subsonic"
