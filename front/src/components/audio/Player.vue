@@ -670,7 +670,7 @@ export default {
     },
     labels() {
       let audioPlayer = this.$pgettext('Sidebar/Player/Hidden text', "Media player")
-      let previousTrack = this.$pgettext('Sidebar/Player/Icon.Tooltip', "Previous track")
+      let previous = this.$pgettext('Sidebar/Player/Icon.Tooltip', "Previous track")
       let play = this.$pgettext('Sidebar/Player/Icon.Tooltip/Verb', "Play track")
       let pause = this.$pgettext('Sidebar/Player/Icon.Tooltip/Verb', "Pause track")
       let next = this.$pgettext('Sidebar/Player/Icon.Tooltip', "Next track")
@@ -691,7 +691,7 @@ export default {
       let addArtistContentFilter = this.$pgettext('Sidebar/Player/Icon.Tooltip/Verb', 'Hide content from this artist…')
       return {
         audioPlayer,
-        previousTrack,
+        previous,
         play,
         pause,
         next,
