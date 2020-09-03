@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-23 15:17+0200\n"
 "PO-Revision-Date: 2020-09-03 14:04+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"Last-Translator: Ventura Pérez García <vetu@protonmail.com>\n"
 "Language-Team: none\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,6 @@ msgstr[0] "%{ count } episodio"
 msgstr[1] "%{ count } episodios"
 
 #: front/src/components/favorites/List.vue:10
-#, fuzzy
 msgctxt "Content/Favorites/Title"
 msgid "%{ count } favorite"
 msgid_plural "%{ count } favorites"
@@ -88,31 +87,28 @@ msgstr[0] "%{ count } favorito"
 msgstr[1] "%{ count } favoritos"
 
 #: front/src/components/channels/UploadModal.vue:98
-#, fuzzy
 msgctxt "*/*/*"
 msgid "%{ count } file"
 msgid_plural "%{ count } files"
-msgstr[0] "%{ count } favorito"
-msgstr[1] "%{ count } favoritos"
+msgstr[0] "%{ count } archivo"
+msgstr[1] "%{ count } archivos"
 
 #: front/src/components/About.vue:175 src/components/About.vue:8
 #: front/src/components/Home.vue:58 src/components/Home.vue:8
-#, fuzzy
 msgctxt "Content/Home/Stat"
 msgid "%{ count } hour of music"
 msgid_plural "%{ count } hours of music"
-msgstr[0] "%{ count } canción"
-msgstr[1] "%{ count } canciones"
+msgstr[0] "%{ count } hora de música"
+msgstr[1] "%{ count } horas de música"
 
 #: front/src/views/channels/DetailBase.vue:26
 #: src/views/channels/DetailBase.vue:21
 #: front/src/views/channels/DetailBase.vue:2
-#, fuzzy
 msgctxt "Content/Channel/Paragraph"
 msgid "%{ count } listening"
 msgid_plural "%{ count } listenings"
-msgstr[0] "%{ count } canción"
-msgstr[1] "%{ count } canciones"
+msgstr[0] "%{ count } reproducción"
+msgstr[1] "%{ count } reproducciones"
 
 #: front/src/components/About.vue:187 src/components/About.vue:20
 msgctxt "Content/Home/Stat"
