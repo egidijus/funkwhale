@@ -104,7 +104,9 @@ class ArtistFilter(
     has_albums = filters.BooleanFilter(field_name="_", method="filter_has_albums")
     tag = TAG_FILTER
     scope = common_filters.ActorScopeFilter(
-        actor_field="tracks__uploads__library__actor", distinct=True
+        actor_field="tracks__uploads__library__actor",
+        distinct=True,
+        library_field="tracks__uploads__library",
     )
     ordering = django_filters.OrderingFilter(
         fields=(
@@ -207,7 +209,9 @@ class UploadFilter(audio_filters.IncludeChannelsFilterSet):
     album_artist = filters.UUIDFilter("track__album__artist__uuid")
     library = filters.UUIDFilter("library__uuid")
     playable = filters.BooleanFilter(field_name="_", method="filter_playable")
-    scope = common_filters.ActorScopeFilter(actor_field="library__actor", distinct=True)
+    scope = common_filters.ActorScopeFilter(
+        actor_field="library__actor", distinct=True, library_field="library",
+    )
     import_status = common_filters.MultipleQueryFilter(coerce=str)
     q = fields.SmartSearchFilter(
         config=search.SearchConfig(
@@ -255,7 +259,9 @@ class AlbumFilter(
     )
     tag = TAG_FILTER
     scope = common_filters.ActorScopeFilter(
-        actor_field="tracks__uploads__library__actor", distinct=True
+        actor_field="tracks__uploads__library__actor",
+        distinct=True,
+        library_field="tracks__uploads__library",
     )
 
     ordering = django_filters.OrderingFilter(
@@ -284,7 +290,9 @@ class AlbumFilter(
 
 class LibraryFilter(filters.FilterSet):
     q = fields.SearchFilter(search_fields=["name"],)
-    scope = common_filters.ActorScopeFilter(actor_field="actor", distinct=True)
+    scope = common_filters.ActorScopeFilter(
+        actor_field="actor", distinct=True, library_field="pk",
+    )
 
     class Meta:
         model = models.Library
