@@ -10,8 +10,8 @@ This changelog is viewable on the web at https://docs.funkwhale.audio/changelog.
 
 .. towncrier
 
-1.0-rc1 (2020-23-08)
---------------------
+1.0 (2020-09-09)
+----------------
 
 Upgrade instructions are available at
 https://docs.funkwhale.audio/index.html
@@ -100,6 +100,10 @@ Enhancements:
 - Set proper lang attribute on HTML document (#1130)
 - Use semantic headers for accessibility (#1121)
 - Users can now update their email address (#292)
+- [plugin, scrobbler] Use last.fm API v2 for scrobbling if API key and secret are provided
+- Added a new, large thumbnail size for cover images (#1205
+- Enforce authentication when viewing remote channels, profiles and libraries (#1210)
+
 
 
 Bugfixes:
@@ -111,6 +115,11 @@ Bugfixes:
 - Fixed crash with negative track position in file tags (#1193)
 - Handle access errors scanning directories when importing files
 - Make channel card updated times more humanly readable, add internationalization (#1089)
+- Ensure search page reloads if another search is submitted in the sidebar (#1197)
+- Fixed "scope=subscribed" on albums, artists, uploads and libraries API (#1217)
+- Fixed broken federation with pods using allow-listing (#1999)
+- Fixed broken search when using (, " or & chars (#1196)
+- Fixed domains table hidden controls when no domains are found (#1198)
 
 
 Documentation:
