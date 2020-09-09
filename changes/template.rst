@@ -1,6 +1,6 @@
 
 Upgrade instructions are available at
-https://docs.funkwhale.audio/index.html
+https://docs.funkwhale.audio/admin/upgrading.html
 
 {% for section, _ in sections.items() %}
 {% if sections[section] %}
