@@ -1,9 +1,9 @@
 <template>
   <modal @update:show="$emit('update:show', $event); isError = false" :show="show">
-    <div class="header"><translate translate-context="Popup/Instance/Title">Choose your instance</translate></div>
+    <h3 class="header"><translate translate-context="Popup/Instance/Title">Choose your instance</translate></h3>
     <div class="scrolling content">
       <div v-if="isError" role="alert" class="ui negative message">
-        <div class="header"><translate translate-context="Popup/Instance/Error message.Title">It is not possible to connect to the given URL</translate></div>
+        <h4 class="header"><translate translate-context="Popup/Instance/Error message.Title">It is not possible to connect to the given URL</translate></h4>
         <ul class="list">
           <li><translate translate-context="Popup/Instance/Error message.List item">The server might be down</translate></li>
           <li><translate translate-context="Popup/Instance/Error message.List item">The given address is not a Funkwhale server</translate></li>
@@ -17,9 +17,9 @@
           <translate translate-context="Popup/Instance/Paragraph">To continue, please select the Funkwhale instance you want to connect to. Enter the address directly, or select one of the suggested choices.</translate>
         </p>
         <div class="field">
-          <label><translate translate-context="Popup/Instance/Input.Label/Noun">Instance URL</translate></label>
+          <label for="instance-picker"><translate translate-context="Popup/Instance/Input.Label/Noun">Instance URL</translate></label>
           <div class="ui action input">
-            <input type="text" v-model="instanceUrl" placeholder="https://funkwhale.server">
+            <input id ="instance-picker" type="text" v-model="instanceUrl" placeholder="https://funkwhale.server">
             <button type="submit" :class="['ui', 'icon', {loading: isLoading}, 'button']">
               <translate translate-context="*/*/Button.Label/Verb">Submit</translate>
             </button>
@@ -29,13 +29,13 @@
       <div class="ui hidden divider"></div>
       <form class="ui form" @submit.prevent="">
         <div class="field">
-          <label><translate translate-context="Popup/Instance/List.Label">Suggested choices</translate></label>
+          <h4><translate translate-context="Popup/Instance/List.Label">Suggested choices</translate></h4>
           <button v-for="url in suggestedInstances" @click="checkAndSwitch(url)" class="ui basic button">{{ url }}</button>
         </div>
       </form>
     </div>
     <div class="actions">
-      <div class="ui basic cancel button"><translate translate-context="*/*/Button.Label/Verb">Cancel</translate></div>
+      <button class="ui basic cancel button"><translate translate-context="*/*/Button.Label/Verb">Cancel</translate></button>
     </div>
   </modal>
 </template>
@@ -142,6 +142,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-</style>

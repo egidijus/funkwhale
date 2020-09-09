@@ -7,23 +7,23 @@
         </h2>
         <form class="ui form" @submit.prevent="submitSettings()">
           <div v-if="settings.success" class="ui positive message">
-            <div class="header">
+            <h4 class="header">
               <translate translate-context="Content/Settings/Message">Settings updated</translate>
-            </div>
+            </h4>
           </div>
           <div v-if="settings.errors.length > 0" role="alert" class="ui negative message">
-            <div class="header"><translate translate-context="Content/Settings/Error message.Title">Your settings can't be updated</translate></div>
+            <h4 class="header"><translate translate-context="Content/Settings/Error message.Title">Your settings can't be updated</translate></h4>
             <ul class="list">
               <li v-for="error in settings.errors">{{ error }}</li>
             </ul>
           </div>
           <div class="field" v-for="f in orderedSettingsFields">
-            <label>{{ sharedLabels.fields[f.id].label }}</label>
+            <label :for="f.id">{{ sharedLabels.fields[f.id].label }}</label>
             <p v-if="f.help">{{ sharedLabels.fields[f.id].help }}</p>
-            <select v-if="f.type === 'dropdown'" class="ui dropdown" v-model="f.value">
+            <select :id="f.id" v-if="f.type === 'dropdown'" class="ui dropdown" v-model="f.value">
               <option :value="c" v-for="c in f.choices">{{ sharedLabels.fields[f.id].choices[c] }}</option>
             </select>
-            <content-form v-if="f.type === 'content'" v-model="f.value.text"></content-form>
+            <content-form :field-id="f.id" v-if="f.type === 'content'" v-model="f.value.text"></content-form>
           </div>
           <button :class="['ui', {'loading': isLoading}, 'button']" type="submit">
             <translate translate-context="Content/Settings/Button.Label/Verb">Update settings</translate>
@@ -37,7 +37,7 @@
         </h2>
         <div class="ui form">
           <div v-if="avatarErrors.length > 0" role="alert" class="ui negative message">
-            <div class="header"><translate translate-context="Content/Settings/Error message.Title">Your avatar cannot be saved</translate></div>
+            <h4 class="header"><translate translate-context="Content/Settings/Error message.Title">Your avatar cannot be saved</translate></h4>
             <ul class="list">
               <li v-for="error in avatarErrors">{{ error }}</li>
             </ul>
@@ -64,24 +64,23 @@
         </div>
         <form class="ui form" @submit.prevent="submitPassword()">
           <div v-if="passwordError" role="alert" class="ui negative message">
-            <div class="header">
+            <h4 class="header">
               <translate translate-context="Content/Settings/Error message.Title">Your password cannot be changed</translate>
-            </div>
+            </h4>
             <ul class="list">
               <li v-if="passwordError == 'invalid_credentials'"><translate translate-context="Content/Settings/Error message.List item/Call to action">Please double-check your password is correct</translate></li>
             </ul>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Settings/Input.Label">Old password</translate></label>
-            <password-input required v-model="old_password" />
-
+            <label for="old-password-field"><translate translate-context="Content/Settings/Input.Label">Old password</translate></label>
+            <password-input field-id="old-password-field" required v-model="old_password" />
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Settings/Input.Label">New password</translate></label>
-            <password-input required v-model="new_password" />
+            <label for="new-password-field"><translate translate-context="Content/Settings/Input.Label">New password</translate></label>
+            <password-input field-id="new-password-field" required v-model="new_password" />
           </div>
           <dangerous-button
-            :class="['ui', {'loading': isLoading}, 'yellow', 'button']"
+            :class="['ui', {'loading': isLoading}, 'warning', 'button']"
             :action="submitPassword">
             <translate translate-context="Content/Settings/Button.Label">Change password</translate>
             <p slot="modal-header"><translate translate-context="Popup/Settings/Title">Change your password?</translate></p>
@@ -111,7 +110,7 @@
 
         <button
           @click="$store.dispatch('moderation/fetchContentFilters')"
-          class="ui basic icon button">
+          class="ui icon button">
           <i class="refresh icon"></i>&nbsp;
           <translate translate-context="Content/*/Button.Label/Short, Verb">Refresh</translate>
         </button>
@@ -156,7 +155,7 @@
         <p><translate translate-context="Content/Settings/Paragraph">This is the list of applications that have access to your account data.</translate></p>
         <button
           @click="fetchApps()"
-          class="ui basic icon button">
+          class="ui icon button">
           <i class="refresh icon"></i>&nbsp;
           <translate translate-context="Content/*/Button.Label/Short, Verb">Refresh</translate>
         </button>
@@ -178,7 +177,7 @@
               </td>
               <td>
                 <dangerous-button
-                  class="ui tiny basic red button"
+                  class="ui tiny danger button"
                   @confirm="revokeApp(app.client_id)">
                   <translate translate-context="*/*/*/Verb">Revoke</translate>
                   <p slot="modal-header" v-translate="{application: app.name}" translate-context="Popup/Settings/Title">Revoke access for application "%{ application }"?</p>
@@ -207,7 +206,7 @@
           </div>
         </h2>
         <p><translate translate-context="Content/Settings/Paragraph">This is the list of applications that you have created.</translate></p>
-        <router-link class="ui basic green button" :to="{name: 'settings.applications.new'}">
+        <router-link class="ui success button" :to="{name: 'settings.applications.new'}">
           <translate translate-context="Content/Settings/Button.Label">Create a new application</translate>
         </router-link>
         <table v-if="ownedApps.length > 0" class="ui compact very basic unstackable table">
@@ -233,11 +232,11 @@
                 <human-date :date="app.created" />
               </td>
               <td>
-                <router-link class="ui basic tiny green button" :to="{name: 'settings.applications.edit', params: {id: app.client_id}}">
+                <router-link class="ui tiny success button" :to="{name: 'settings.applications.edit', params: {id: app.client_id}}">
                   <translate translate-context="Content/*/Button.Label/Verb">Edit</translate>
                 </router-link>
                 <dangerous-button
-                  class="ui tiny basic red button"
+                  class="ui tiny danger button"
                   @confirm="deleteApp(app.client_id)">
                   <translate translate-context="*/*/*/Verb">Delete</translate>
                   <p slot="modal-header" v-translate="{application: app.name}" translate-context="Popup/Settings/Title">Delete application "%{ application }"?</p>
@@ -257,6 +256,52 @@
           </translate>
         </empty-state>
       </section>
+
+      <section class="ui text container" id="plugins">
+        <div class="ui hidden divider"></div>
+        <h2 class="ui header">
+          <i class="code icon"></i>
+          <div class="content">
+            <translate translate-context="Content/Settings/Title/Noun">Plugins</translate>
+          </div>
+        </h2>
+        <p><translate translate-context="Content/Settings/Paragraph">Use plugins to extend Funkwhale and get additional features.</translate></p>
+        <router-link class="ui success button" :to="{name: 'settings.plugins'}">
+          <translate translate-context="Content/Settings/Button.Label">Manage plugins</translate>
+        </router-link>
+      </section>
+      <section class="ui text container">
+        <div class="ui hidden divider"></div>
+        <h2 class="ui header">
+          <i class="comment icon"></i>
+          <div class="content">
+            <translate translate-context="*/*/Button.Label">Change my email address</translate>
+          </div>
+        </h2>
+        <p>
+          <translate translate-context="Content/Settings/Paragraph'">Change the email address associated with your account. We will send a confirmation to the new address.</translate>
+        </p>
+        <p>
+          <translate :translate-params="{email: $store.state.auth.profile.email}" translate-context="Content/Settings/Paragraph'">Your current email address is %{ email }.</translate>
+        </p>
+        <form class="ui form" @submit.prevent="changeEmail">
+          <div v-if="changeEmailErrors.length > 0" role="alert" class="ui negative message">
+            <h4 class="header"><translate translate-context="Content/Settings/Error message.Title">We cannot change your email address</translate></h4>
+            <ul class="list">
+              <li v-for="error in changeEmailErrors">{{ error }}</li>
+            </ul>
+          </div>
+          <div class="field">
+            <label for="new-email"><translate translate-context="*/*/*">New email</translate></label>
+            <input id="new-email" required v-model="newEmail" type="email" />
+          </div>
+          <div class="field">
+            <label for="current-password-field-email"><translate translate-context="*/*/*">Password</translate></label>
+            <password-input field-id="current-password-field-email" required v-model="emailPassword" />
+          </div>
+          <button type="submit" class="ui button"><translate translate-context="*/*/*">Update</translate></button>
+        </form>
+      </section>
       <section class="ui text container">
         <div class="ui hidden divider"></div>
         <h2 class="ui header">
@@ -273,17 +318,17 @@
         </div>
         <div class="ui form">
           <div v-if="accountDeleteErrors.length > 0" role="alert" class="ui negative message">
-            <div class="header"><translate translate-context="Content/Settings/Error message.Title">We cannot delete your account</translate></div>
+            <h4 class="header"><translate translate-context="Content/Settings/Error message.Title">We cannot delete your account</translate></h4>
             <ul class="list">
               <li v-for="error in accountDeleteErrors">{{ error }}</li>
             </ul>
           </div>
           <div class="field">
-            <label><translate translate-context="*/*/*">Password</translate></label>
-            <password-input required v-model="password" />
+            <label for="current-password-field"><translate translate-context="*/*/*">Password</translate></label>
+            <password-input field-id="current-password-field" required v-model="password" />
           </div>
           <dangerous-button
-            :class="['ui', {'loading': isDeletingAccount}, {disabled: !password}, 'red', 'button']"
+            :class="['ui', {'loading': isDeletingAccount}, {disabled: !password}, 'danger', 'button']"
             :action="deleteAccount">
             <translate translate-context="*/*/Button.Label">Delete my account…</translate>
             <p slot="modal-header"><translate translate-context="Popup/Settings/Title">Do you want to delete your account?</translate></p>
@@ -326,6 +371,10 @@ export default {
       isLoading: false,
       isLoadingAvatar: false,
       isDeletingAccount: false,
+      changeEmailErrors: [],
+      isChangingEmail: false,
+      newEmail: null,
+      emailPassword: null,
       accountDeleteErrors: [],
       avatarErrors: [],
       apps: [],
@@ -367,12 +416,12 @@ export default {
       this.settings.errors = []
       let self = this
       let payload = this.settingsValues
-      let url = `users/users/${this.$store.state.auth.username}/`
+      let url = `users/${this.$store.state.auth.username}/`
       return axios.patch(url, payload).then(
         response => {
           logger.default.info("Updated settings successfully")
           self.settings.success = true
-          return axios.get("users/users/me/").then(response => {
+          return axios.get("users/me/").then(response => {
             self.$store.dispatch("auth/updateProfile", response.data)
           })
         },
@@ -438,7 +487,7 @@ export default {
       this.avatarErrors = []
       let self = this
       axios
-        .patch(`users/users/${this.$store.state.auth.username}/`, {avatar: uuid})
+        .patch(`users/${this.$store.state.auth.username}/`, {avatar: uuid})
         .then(
           response => {
             this.isLoadingAvatar = false
@@ -489,7 +538,7 @@ export default {
         confirm: true,
         password: this.password,
       }
-      axios.delete(`users/users/me/`, {data: payload})
+      axios.delete(`users/me/`, {data: payload})
         .then(
           response => {
             self.isDeletingAccount = false
@@ -503,6 +552,33 @@ export default {
           error => {
             self.isDeletingAccount = false
             self.accountDeleteErrors = error.backendErrors
+          }
+        )
+    },
+
+    changeEmail() {
+      this.isChangingEmail = true
+      this.changeEmailErrors = []
+      let self = this
+      let payload = {
+        password: this.emailPassword,
+        email: this.newEmail,
+      }
+      axios.post(`users/users/change-email/`, payload)
+        .then(
+          response => {
+            self.isChangingEmail = false
+            self.newEmail = null
+            self.emailPassword = null
+            let msg = self.$pgettext('*/Auth/Message', 'Your email has been changed, please check your inbox for our confirmation message.')
+            self.$store.commit('ui/addMessage', {
+              content: msg,
+              date: new Date()
+            })
+          },
+          error => {
+            self.isChangingEmail = false
+            self.changeEmailErrors = error.backendErrors
           }
         )
     },
@@ -534,7 +610,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

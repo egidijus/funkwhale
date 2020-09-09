@@ -7,7 +7,7 @@
         <translate translate-context="*/Moderation/*/Noun">Reports</translate>
         <div
           v-if="$store.state.ui.notifications.pendingReviewReports > 0"
-          :class="['ui', 'circular', 'mini', 'right floated', 'teal', 'label']">{{ $store.state.ui.notifications.pendingReviewReports }}</div>
+          :class="['ui', 'circular', 'mini', 'right floated', 'accent', 'label']">{{ $store.state.ui.notifications.pendingReviewReports }}</div>
       </router-link>
       <router-link
         class="ui item"
@@ -15,7 +15,7 @@
         <translate translate-context="*/Moderation/*/Noun">User Requests</translate>
         <div
           v-if="$store.state.ui.notifications.pendingReviewRequests > 0"
-          :class="['ui', 'circular', 'mini', 'right floated', 'teal', 'label']">{{ $store.state.ui.notifications.pendingReviewRequests }}</div>
+          :class="['ui', 'circular', 'mini', 'right floated', 'accent', 'label']">{{ $store.state.ui.notifications.pendingReviewRequests }}</div>
       </router-link>
       <router-link
         class="ui item"

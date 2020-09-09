@@ -13,5 +13,6 @@ Reference
    architecture
    ../api
    ./authentication
+   ./plugins
    ../federation/index
    subsonic

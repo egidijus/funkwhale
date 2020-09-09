@@ -1,14 +1,14 @@
 <template>
     <div class="ui card">
       <div class="content">
-        <div class="header">
+        <h4 class="header">
           <router-link v-if="radio.id" class="discrete link" :to="{name: 'library.radios.detail', params: {id: radio.id}}">
             {{ radio.name }}
           </router-link>
           <template v-else>
             {{ radio.name }}
           </template>
-        </div>
+        </h4>
         <div class="description">
           {{ radio.description }}
         </div>
@@ -18,7 +18,7 @@
         <div class="ui hidden divider"></div>
         <radio-button class="right floated button" :type="type" :custom-radio-id="customRadioId" :object-id="objectId"></radio-button>
         <router-link
-          class="ui basic yellow button right floated"
+          class="ui success button right floated"
           v-if="$store.state.auth.authenticated && type === 'custom' && radio.user.id === $store.state.auth.profile.id"
           :to="{name: 'library.radios.edit', params: {id: customRadioId }}">
           <translate translate-context="Content/*/Button.Label/Verb">Edit</translate>
@@ -55,8 +55,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-
-</style>

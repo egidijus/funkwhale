@@ -23,6 +23,7 @@ from funkwhale_api.taskapp import celery
 
 from . import activity
 from . import actors
+from . import exceptions
 from . import jsonld
 from . import keys
 from . import models, signing
@@ -212,7 +213,11 @@ def update_domain_nodeinfo(domain):
             if service_actor_id
             else None
         )
-    except (serializers.serializers.ValidationError, RequestException) as e:
+    except (
+        serializers.serializers.ValidationError,
+        RequestException,
+        exceptions.BlockedActorOrDomain,
+    ) as e:
         logger.warning(
             "Cannot fetch system actor for domain %s: %s", domain.name, str(e)
         )
@@ -319,7 +324,6 @@ def fetch(fetch_obj):
         auth = signing.get_auth(actor.private_key, actor.private_key_id)
     else:
         auth = None
-    auth = None
     try:
         if url.startswith("webfinger://"):
             # we first grab the correpsonding webfinger representation
@@ -336,10 +340,14 @@ def fetch(fetch_obj):
         response = session.get_session().get(
             auth=auth, url=url, headers={"Accept": "application/activity+json"},
         )
-        logger.debug("Remote answered with %s", response.status_code)
+        logger.debug("Remote answered with %s: %s", response.status_code, response.text)
         response.raise_for_status()
     except requests.exceptions.HTTPError as e:
-        return error("http", status_code=e.response.status_code if e.response else None)
+        return error(
+            "http",
+            status_code=e.response.status_code if e.response else None,
+            message=response.text,
+        )
     except requests.exceptions.Timeout:
         return error("timeout")
     except requests.exceptions.ConnectionError as e:
@@ -391,7 +399,9 @@ def fetch(fetch_obj):
 
     serializer = None
     for serializer_class in serializer_classes:
-        serializer = serializer_class(existing, data=payload)
+        serializer = serializer_class(
+            existing, data=payload, context={"fetch_actor": actor}
+        )
         if not serializer.is_valid():
             continue
         else:
@@ -419,7 +429,7 @@ def fetch(fetch_obj):
                 )
             except Exception:
                 logger.exception(
-                    "Error while fetching actor outbox: %s", obj.actor.outbox.url
+                    "Error while fetching actor outbox: %s", obj.actor.outbox_url
                 )
             else:
                 if result.get("next_page"):

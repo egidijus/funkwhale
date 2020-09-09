@@ -14,7 +14,7 @@
                   {{ object.name | truncate(100) }}
                   <div class="sub header">
                     <template v-if="object.is_local">
-                      <span class="ui tiny teal label">
+                      <span class="ui tiny accent label">
                         <i class="home icon"></i>
                         <translate translate-context="Content/Moderation/*/Short, Noun">Local</translate>
                       </span>
@@ -34,7 +34,7 @@
                     <i class="wrench icon"></i>
                     <translate translate-context="Content/Moderation/Link/Verb">View in Django's admin</translate>&nbsp;
                   </a>
-                  <div class="ui floating dropdown icon button" v-dropdown>
+                  <button class="ui floating dropdown icon button" v-dropdown>
                     <i class="dropdown icon"></i>
                     <div class="menu">
                       <a
@@ -50,11 +50,11 @@
                         <translate translate-context="Content/Moderation/Link/Verb">Open remote profile</translate>&nbsp;
                       </a>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div class="ui buttons">
                   <dangerous-button
-                    :class="['ui', {loading: isLoading}, 'basic red button']"
+                    :class="['ui', {loading: isLoading}, 'basic danger button']"
                     :action="remove">
                     <translate translate-context="*/*/*/Verb">Delete</translate>
                     <p slot="modal-header"><translate translate-context="Popup/Library/Title">Delete this library?</translate></p>

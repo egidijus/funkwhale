@@ -218,7 +218,6 @@ def should_redirect_ap_to_html(accept_header, default=True):
         "text/html",
     ]
     no_redirect_headers = [
-        "*/*",  # XXX backward compat with older Funkwhale instances that don't send the Accept header
         "application/json",
         "application/activity+json",
         "application/ld+json",

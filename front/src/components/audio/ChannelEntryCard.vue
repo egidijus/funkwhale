@@ -1,30 +1,33 @@
 <template>
   <div :class="[{active: currentTrack && isPlaying && entry.id === currentTrack.id}, 'channel-entry-card']">
     <div class="controls">
-      <play-button class="basic circular icon" :discrete="true" :icon-only="true" :is-playable="true" :button-classes="['ui', 'circular', 'inverted orange', 'icon', 'button']" :track="entry"></play-button>
+      <play-button class="basic circular icon" :discrete="true" :icon-only="true" :is-playable="true" :button-classes="['ui', 'circular', 'inverted vibrant', 'icon', 'button']" :track="entry"></play-button>
     </div>
     <img
       @click="$router.push({name: 'library.tracks.detail', params: {id: entry.id}})"
+      alt=""
       class="channel-image image"
-      v-if="cover && cover.original"
-      v-lazy="$store.getters['instance/absoluteUrl'](cover.square_crop)">
+      v-if="cover && cover.urls.original"
+      v-lazy="$store.getters['instance/absoluteUrl'](cover.urls.medium_square_crop)">
     <span
       @click="$router.push({name: 'library.tracks.detail', params: {id: entry.id}})"
       class="channel-image image"
       v-else-if="entry.artist.content_category === 'podcast'">#{{ entry.position }}</span>
     <img
       @click="$router.push({name: 'library.tracks.detail', params: {id: entry.id}})"
+      alt=""
       class="channel-image image"
-      v-else-if="entry.album && entry.album.cover && entry.album.cover.original"
-      v-lazy="$store.getters['instance/absoluteUrl'](entry.album.cover.square_crop)">
+      v-else-if="entry.album && entry.album.cover && entry.album.cover.urls.original"
+      v-lazy="$store.getters['instance/absoluteUrl'](entry.album.cover.urls.medium_square_crop)">
     <img
       @click="$router.push({name: 'library.tracks.detail', params: {id: entry.id}})"
+      alt=""
       class="channel-image image"
       v-else
       src="../../assets/audio/default-cover.png">
     <div class="ellipsis content">
       <strong>
-        <router-link class="discrete link" :title="entry.title" :to="{name: 'library.tracks.detail', params: {id: entry.id}}">
+        <router-link class="discrete link" :to="{name: 'library.tracks.detail', params: {id: entry.id}}">
           {{ entry.title }}
         </router-link>
       </strong>
@@ -36,7 +39,9 @@
           <track-favorite-icon class="tiny" :track="entry"></track-favorite-icon>
         </template>
         <human-duration v-if="duration" :duration="duration"></human-duration>
-
+    </div>
+    <div class="controls">
+      <play-button class="play-button basic icon" :dropdown-only="true" :is-playable="entry.is_playable" :dropdown-icon-classes="['ellipsis', 'vertical', 'large really discrete']" :track="entry"></play-button>      
     </div>
   </div>
 </template>
@@ -62,16 +67,6 @@ export default {
     isPlaying () {
       return this.$store.state.player.playing
     },
-    imageUrl () {
-      let url = '../../assets/audio/default-cover.png'
-      let cover = this.cover
-      if (cover && cover.original) {
-        url = this.$store.getters['instance/absoluteUrl'](cover.medium_square_crop)
-      } else {
-        return null
-      }
-      return url
-    },
     cover () {
       if (this.entry.cover) {
         return this.entry.cover
@@ -88,7 +83,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

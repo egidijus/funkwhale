@@ -1,5 +1,8 @@
 <template>
-  <footer id="footer" role="contentinfo" class="ui vertical footer segment">
+  <footer id="footer" role="contentinfo" class="ui vertical footer segment" aria-labelledby="footer-label">
+    <h1 id="footer-label" class="visually-hidden">
+      <translate translate-context="*/*/*">Application footer</translate>      
+    </h1>
     <div class="ui container">
       <div class="ui stackable equal height stackable grid">
         <section class="four wide column">
@@ -9,21 +12,27 @@
           <h4 v-else class="ui header ellipsis">
             <span v-translate="{instanceUrl: instanceHostname}" translate-context="Footer/About/Title">About %{instanceUrl}</span>
           </h4>
-          <div class="ui link list">
-            <router-link class="item" to="/about">
+          <div class="ui list">
+            <router-link v-if="this.$route.path != '/about'" class="link item" to="/about">
               <translate translate-context="Footer/About/List item.Link">About page</translate>
             </router-link>
-              <a v-if="version" class="item" href="https://docs.funkwhale.audio/changelog.html" target="_blank">
+            <router-link v-else-if="this.$route.path == '/about' && $store.state.auth.authenticated" class="link item" to="/library">
+              <translate translate-context="Footer/*/List item.Link">Go to Library</translate>
+            </router-link>
+            <router-link v-else class="link item" to="/">
+              <translate translate-context="Footer/*/List item.Link">Home Page</translate>
+            </router-link>
+              <a v-if="version" class="link item" href="https://docs.funkwhale.audio/changelog.html" target="_blank">
                 <translate translate-context="Footer/*/List item" :translate-params="{version: version}" >Version %{version}</translate>
               </a>
-            <div role="button" class="item" @click="$emit('show:set-instance-modal')" >
+            <a role="button" href="" class="link item" @click.prevent="$emit('show:set-instance-modal')" >
               <translate translate-context="Footer/*/List item.Link">Use another instance</translate>
-            </div>
+            </a>
           </div>
           <div class="ui form">
             <div class="ui field">
-              <label><translate translate-context="Footer/Settings/Dropdown.Label/Short, Verb">Change language</translate></label>
-              <select class="ui dropdown" :value="$language.current" @change="$store.commit('ui/currentLanguage', $event.target.value)">
+              <label for="language-select"><translate translate-context="Footer/Settings/Dropdown.Label/Short, Verb">Change language</translate></label>
+              <select id="language-select" class="ui dropdown" :value="$language.current" @change="$store.dispatch('ui/currentLanguage', $event.target.value)">
                 <option v-for="(language, key) in $language.available" :key="key" :value="key">{{ language }}</option>
               </select>
             </div>
@@ -31,15 +40,15 @@
         </section>
         <section class="four wide column">
           <h4 v-translate class="ui header" translate-context="Footer/*/Title">Using Funkwhale</h4>
-          <div class="ui link list">
-            <a href="https://docs.funkwhale.audio" class="item" target="_blank"><translate translate-context="Footer/*/List item.Link/Short, Noun">Documentation</translate></a>
-            <a href="https://funkwhale.audio/apps" class="item" target="_blank"><translate translate-context="Footer/*/List item.Link">Mobile and desktop apps</translate></a>
-            <div role="button" class="item" @click="$emit('show:shortcuts-modal')"><translate translate-context="*/*/*/Noun">Keyboard shortcuts</translate></div>
+          <div class="ui list">
+            <a href="https://docs.funkwhale.audio" class="link item" target="_blank"><translate translate-context="Footer/*/List item.Link/Short, Noun">Documentation</translate></a>
+            <a href="https://funkwhale.audio/apps" class="link item" target="_blank"><translate translate-context="Footer/*/List item.Link">Mobile and desktop apps</translate></a>
+            <a hrelf="" class="link item" @click.prevent="$emit('show:shortcuts-modal')"><translate translate-context="*/*/*/Noun">Keyboard shortcuts</translate></a>
           </div>
           <div class="ui form">
             <div class="ui field">
-              <label><translate translate-context="Footer/Settings/Dropdown.Label/Short, Verb">Change theme</translate></label>
-              <select class="ui dropdown" :value="$store.state.ui.theme" @change="$store.commit('ui/theme', $event.target.value)">
+              <label for="theme-select"><translate translate-context="Footer/Settings/Dropdown.Label/Short, Verb">Change theme</translate></label>
+              <select id="theme-select" class="ui dropdown" :value="$store.state.ui.theme" @change="$store.dispatch('ui/theme', $event.target.value)">
                 <option v-for="theme in themes" :key="theme.key" :value="theme.key">{{ theme.name }}</option>
               </select>
             </div>
@@ -47,18 +56,18 @@
         </section>
         <section class="four wide column">
           <h4 v-translate translate-context="Footer/*/Link" class="ui header">Getting help</h4>
-          <div class="ui link list">
-            <a href="https://governance.funkwhale.audio/g/kQgxNq15/funkwhale" class="item" target="_blank"><translate translate-context="Footer/*/Listitem.Link">Support forum</translate></a>
-            <a href="https://riot.im/app/#/room/#funkwhale-troubleshooting:matrix.org" class="item" target="_blank"><translate translate-context="Footer/*/List item.Link">Chat room</translate></a>
-            <a href="https://dev.funkwhale.audio/funkwhale/funkwhale/issues" class="item" target="_blank"><translate translate-context="Footer/*/List item.Link">Issue tracker</translate></a>
+          <div class="ui list">
+            <a href="https://governance.funkwhale.audio/g/kQgxNq15/funkwhale" class="link item" target="_blank"><translate translate-context="Footer/*/Listitem.Link">Support forum</translate></a>
+            <a href="https://riot.im/app/#/room/#funkwhale-troubleshooting:matrix.org" class="link item" target="_blank"><translate translate-context="Footer/*/List item.Link">Chat room</translate></a>
+            <a href="https://dev.funkwhale.audio/funkwhale/funkwhale/issues" class="link item" target="_blank"><translate translate-context="Footer/*/List item.Link">Issue tracker</translate></a>
           </div>
         </section>
         <section class="four wide column">
           <h4 v-translate class="ui header" translate-context="Footer/*/Title/Short">About Funkwhale</h4>
-          <div class="ui link list">
-            <a href="https://funkwhale.audio" class="item" target="_blank"><translate translate-context="Footer/*/List item.Link">Official website</translate></a>
-            <a href="https://contribute.funkwhale.audio" class="item" target="_blank"><translate translate-context="Footer/*/List item.Link">Contribute</translate></a>
-            <a href="https://dev.funkwhale.audio/funkwhale/funkwhale" class="item" target="_blank"><translate translate-context="Footer/*/List item.Link">Source code</translate></a>
+          <div class="ui list">
+            <a href="https://funkwhale.audio" class="link item" target="_blank"><translate translate-context="Footer/*/List item.Link">Official website</translate></a>
+            <a href="https://contribute.funkwhale.audio" class="link item" target="_blank"><translate translate-context="Footer/*/List item.Link">Contribute</translate></a>
+            <a href="https://dev.funkwhale.audio/funkwhale/funkwhale" class="link item" target="_blank"><translate translate-context="Footer/*/List item.Link">Source code</translate></a>
           </div>
           <div class="ui hidden divider"></div>
           <p>

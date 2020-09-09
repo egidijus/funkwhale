@@ -1,7 +1,7 @@
 <template>
   <form class="ui form" @submit.prevent="submit()">
     <div v-if="error" role="alert" class="ui negative message">
-      <div class="header"><translate translate-context="Content/Login/Error message.Title">We cannot log you in</translate></div>
+      <h4 class="header"><translate translate-context="Content/Login/Error message.Title">We cannot log you in</translate></h4>
       <ul class="list">
         <li v-if="error == 'invalid_credentials' && $store.state.instance.settings.moderation.signup_approval_enabled.value">
           <translate translate-context="Content/Login/Error message.List item/Call to action">If you signed-up recently, you may need to wait before our moderation team review your account, or verify your email.</translate>
@@ -12,39 +12,46 @@
         <li v-else>{{ error }}</li>
       </ul>
     </div>
-    <div class="field">
-      <label>
-        <translate translate-context="Content/Login/Input.Label/Noun">Username or email</translate>
-        <template v-if="showSignup">
-          |
-          <router-link :to="{path: '/signup'}">
-            <translate translate-context="*/Signup/Link/Verb">Create an account</translate>
+    <template v-if="$store.getters['instance/appDomain'] === $store.getters['instance/domain']" >
+      <div class="field">
+        <label for="username-field">
+          <translate translate-context="Content/Login/Input.Label/Noun">Username or email</translate>
+          <template v-if="showSignup">
+            |
+            <router-link :to="{path: '/signup'}">
+              <translate translate-context="*/Signup/Link/Verb">Create an account</translate>
+            </router-link>
+          </template>
+        </label>
+        <input
+        ref="username"
+        required
+        name="username"
+        type="text"
+        id="username-field"
+        autofocus
+        :placeholder="labels.usernamePlaceholder"
+        v-model="credentials.username"
+        >
+      </div>
+      <div class="field">
+        <label for="password-field">
+          <translate translate-context="*/*/*">Password</translate> |
+          <router-link :to="{name: 'auth.password-reset', query: {email: credentials.username}}">
+            <translate translate-context="*/Login/*/Verb">Reset your password</translate>
           </router-link>
-        </template>
-      </label>
-      <input
-      ref="username"
-      tabindex="1"
-      required
-      name="username"
-      type="text"
-      autofocus
-      :placeholder="labels.usernamePlaceholder"
-      v-model="credentials.username"
-      >
-    </div>
-    <div class="field">
-      <label>
-        <translate translate-context="*/*/*">Password</translate> |
-        <router-link :to="{name: 'auth.password-reset', query: {email: credentials.username}}">
-          <translate translate-context="*/Login/*/Verb">Reset your password</translate>
-        </router-link>
-      </label>
-      <password-input :index="2" required v-model="credentials.password" />
+        </label>
+        <password-input field-id="password-field" required v-model="credentials.password" />
 
-    </div>
-    <button tabindex="3" :class="['ui', {'loading': isLoading}, 'right', 'floated', buttonClasses, 'button']" type="submit">
-        <translate translate-context="*/Login/*/Verb">Login</translate>
+      </div>
+    </template>
+    <template v-else>
+      <p>
+        <translate translate-context="Contant/Auth/Paragraph" :translate-params="{domain: $store.getters['instance/domain']}">You will be redirected to %{ domain } to authenticate.</translate>
+      </p>
+    </template>
+    <button :class="['ui', {'loading': isLoading}, 'right', 'floated', buttonClasses, 'button']" type="submit">
+      <translate translate-context="*/Login/*/Verb">Login</translate>
     </button>
   </form>
 </template>
@@ -55,7 +62,7 @@ import PasswordInput from "@/components/forms/PasswordInput"
 export default {
   props: {
     next: { type: String, default: "/library" },
-    buttonClasses: { type: String, default: "green" },
+    buttonClasses: { type: String, default: "success" },
     showSignup: { type: Boolean, default: true},
   },
   components: {
@@ -79,7 +86,9 @@ export default {
     }
   },
   mounted() {
-    this.$refs.username.focus()
+    if (this.$refs.username) {
+      this.$refs.username.focus()
+    }
   },
   computed: {
     labels() {
@@ -90,7 +99,15 @@ export default {
     }
   },
   methods: {
-    submit() {
+    async submit() {
+      if (this.$store.getters['instance/appDomain'] === this.$store.getters['instance/domain']) {
+        return await this.submitSession()
+      } else {
+        this.isLoading = true
+        await this.$store.dispatch('auth/oauthLogin', this.next)
+      }
+    },
+    async submitSession() {
       var self = this
       self.isLoading = true
       this.error = ""
@@ -117,7 +134,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

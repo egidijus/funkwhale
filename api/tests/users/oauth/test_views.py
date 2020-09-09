@@ -47,6 +47,8 @@ def test_apps_post_logged_in_user(logged_in_api_client, db):
     assert response.data == serializers.CreateApplicationSerializer(app).data
     assert app.scope == "read write:profile"
     assert app.user == logged_in_api_client.user
+    assert app.token is not None
+    assert response.data["token"] == app.token
 
 
 def test_apps_list_anonymous(api_client, db):
@@ -120,6 +122,31 @@ def test_apps_get_owner(preferences, logged_in_api_client, factories):
 
     assert response.status_code == 200
     assert response.data == serializers.CreateApplicationSerializer(app).data
+    assert response.data["token"] == app.token
+
+
+def test_apps_refresh_token(preferences, logged_in_api_client, factories):
+    app = factories["users.Application"](user=logged_in_api_client.user)
+    old_token = app.token
+    url = reverse(
+        "api:v1:oauth:apps-refresh_token", kwargs={"client_id": app.client_id}
+    )
+    response = logged_in_api_client.post(url)
+
+    app.refresh_from_db()
+    assert response.status_code == 200
+    assert response.data == serializers.CreateApplicationSerializer(app).data
+    assert app.token != old_token
+
+
+def test_apps_refresh_token_not_owner(preferences, logged_in_api_client, factories):
+    app = factories["users.Application"]()
+    url = reverse(
+        "api:v1:oauth:apps-refresh_token", kwargs={"client_id": app.client_id}
+    )
+    response = logged_in_api_client.post(url)
+
+    assert response.status_code == 404
 
 
 def test_authorize_view_post(logged_in_client, factories):

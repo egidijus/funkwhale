@@ -2,18 +2,21 @@ import base64
 import datetime
 import logging
 import urllib.parse
-
 from django.conf import settings
+from django.core.cache import cache
 from django.db import transaction
 from django.db.models import Count, Prefetch, Sum, F, Q
 import django.db.utils
 from django.utils import timezone
 
 from rest_framework import mixins
+from rest_framework import renderers
 from rest_framework import settings as rest_settings
 from rest_framework import views, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
+import requests.exceptions
 
 from funkwhale_api.common import decorators as common_decorators
 from funkwhale_api.common import permissions as common_permissions
@@ -151,8 +154,10 @@ class ArtistViewSet(
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        albums = models.Album.objects.with_tracks_count().select_related(
-            "attachment_cover"
+        albums = (
+            models.Album.objects.with_tracks_count()
+            .select_related("attachment_cover")
+            .prefetch_related("tracks")
         )
         albums = albums.annotate_playable_by_actor(
             utils.get_actor_from_request(self.request)
@@ -180,7 +185,9 @@ class AlbumViewSet(
     queryset = (
         models.Album.objects.all()
         .order_by("-creation_date")
-        .prefetch_related("artist__channel", "attributed_to", "attachment_cover")
+        .prefetch_related(
+            "artist__channel", "attributed_to", "attachment_cover", "tracks"
+        )
     )
     serializer_class = serializers.AlbumSerializer
     permission_classes = [oauth_permissions.ScopePermission]
@@ -216,14 +223,7 @@ class AlbumViewSet(
             queryset = queryset.exclude(artist__channel=None).filter(
                 artist__attributed_to=self.request.user.actor
             )
-        tracks = (
-            models.Track.objects.prefetch_related("artist")
-            .with_playable_uploads(utils.get_actor_from_request(self.request))
-            .order_for_album()
-        )
-        qs = queryset.prefetch_related(
-            Prefetch("tracks", queryset=tracks), TAG_PREFETCH
-        )
+        qs = queryset.prefetch_related(TAG_PREFETCH)
         return qs
 
     libraries = action(methods=["get"], detail=True)(
@@ -315,6 +315,64 @@ class LibraryViewSet(
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+    @action(
+        methods=["get", "post", "delete"],
+        detail=False,
+        url_name="fs-import",
+        url_path="fs-import",
+    )
+    @transaction.non_atomic_requests
+    def fs_import(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response({}, status=403)
+        if not request.user.all_permissions["library"]:
+            return Response({}, status=403)
+        if request.method == "GET":
+            path = request.GET.get("path", "")
+            data = {
+                "root": settings.MUSIC_DIRECTORY_PATH,
+                "path": path,
+                "import": None,
+            }
+            status = cache.get("fs-import:status", default=None)
+            if status:
+                data["import"] = {
+                    "status": status,
+                    "reference": cache.get("fs-import:reference"),
+                    "logs": cache.get("fs-import:logs", default=[]),
+                }
+            try:
+                data["content"] = utils.browse_dir(data["root"], data["path"])
+            except (NotADirectoryError, ValueError, FileNotFoundError) as e:
+                return Response({"detail": str(e)}, status=400)
+
+            return Response(data)
+        if request.method == "POST":
+            if cache.get("fs-import:status", default=None) in [
+                "pending",
+                "started",
+            ]:
+                return Response({"detail": "An import is already running"}, status=400)
+
+            data = request.data
+            serializer = serializers.FSImportSerializer(
+                data=data, context={"user": request.user}
+            )
+            serializer.is_valid(raise_exception=True)
+            cache.set("fs-import:status", "pending")
+            cache.set(
+                "fs-import:reference", serializer.validated_data["import_reference"]
+            )
+            tasks.fs_import.delay(
+                library_id=serializer.validated_data["library"].pk,
+                path=serializer.validated_data["path"],
+                import_reference=serializer.validated_data["import_reference"],
+            )
+            return Response(status=201)
+        if request.method == "DELETE":
+            cache.set("fs-import:status", "canceled")
+            return Response(status=204)
 
 
 class TrackViewSet(
@@ -514,7 +572,10 @@ def handle_serve(
                 actor = user.actor
             else:
                 actor = actors.get_service_actor()
-            f.download_audio_from_remote(actor=actor)
+            try:
+                f.download_audio_from_remote(actor=actor)
+            except requests.exceptions.RequestException:
+                return Response({"detail": "Remove track is unavailable"}, status=503)
         data = f.get_audio_data()
         if data:
             f.duration = data["duration"]
@@ -554,7 +615,7 @@ def handle_serve(
     return response
 
 
-class ListenViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class ListenMixin(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     queryset = models.Track.objects.all()
     serializer_class = serializers.TrackSerializer
     authentication_classes = (
@@ -567,39 +628,66 @@ class ListenViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     lookup_field = "uuid"
 
     def retrieve(self, request, *args, **kwargs):
+        config = {
+            "explicit_file": request.GET.get("upload"),
+            "download": request.GET.get("download", "true").lower() == "true",
+            "format": request.GET.get("to"),
+            "max_bitrate": request.GET.get("max_bitrate"),
+        }
         track = self.get_object()
-        actor = utils.get_actor_from_request(request)
-        queryset = track.uploads.prefetch_related(
-            "track__album__artist", "track__artist"
-        )
-        explicit_file = request.GET.get("upload")
-        download = request.GET.get("download", "true").lower() == "true"
-        if explicit_file:
-            queryset = queryset.filter(uuid=explicit_file)
-        queryset = queryset.playable_by(actor)
-        queryset = queryset.order_by(F("audio_file").desc(nulls_last=True))
-        upload = queryset.first()
-        if not upload:
-            return Response(status=404)
+        return handle_stream(track, request, **config)
 
-        format = request.GET.get("to")
-        max_bitrate = request.GET.get("max_bitrate")
-        try:
-            max_bitrate = min(max(int(max_bitrate), 0), 320) or None
-        except (TypeError, ValueError):
-            max_bitrate = None
 
-        if max_bitrate:
-            max_bitrate = max_bitrate * 1000
-        return handle_serve(
-            upload=upload,
-            user=request.user,
-            format=format,
-            max_bitrate=max_bitrate,
-            proxy_media=settings.PROXY_MEDIA,
-            download=download,
-            wsgi_request=request._request,
-        )
+def handle_stream(track, request, download, explicit_file, format, max_bitrate):
+    actor = utils.get_actor_from_request(request)
+    queryset = track.uploads.prefetch_related("track__album__artist", "track__artist")
+    if explicit_file:
+        queryset = queryset.filter(uuid=explicit_file)
+    queryset = queryset.playable_by(actor)
+    queryset = queryset.order_by(F("audio_file").desc(nulls_last=True))
+    upload = queryset.first()
+    if not upload:
+        return Response(status=404)
+
+    try:
+        max_bitrate = min(max(int(max_bitrate), 0), 320) or None
+    except (TypeError, ValueError):
+        max_bitrate = None
+
+    if max_bitrate:
+        max_bitrate = max_bitrate * 1000
+    return handle_serve(
+        upload=upload,
+        user=request.user,
+        format=format,
+        max_bitrate=max_bitrate,
+        proxy_media=settings.PROXY_MEDIA,
+        download=download,
+        wsgi_request=request._request,
+    )
+
+
+class ListenViewSet(ListenMixin):
+    pass
+
+
+class MP3Renderer(renderers.JSONRenderer):
+    format = "mp3"
+    media_type = "audio/mpeg"
+
+
+class StreamViewSet(ListenMixin):
+    renderer_classes = [MP3Renderer]
+
+    def retrieve(self, request, *args, **kwargs):
+        config = {
+            "explicit_file": None,
+            "download": False,
+            "format": "mp3",
+            "max_bitrate": None,
+        }
+        track = self.get_object()
+        return handle_stream(track, request, **config)
 
 
 class UploadViewSet(
@@ -737,20 +825,11 @@ class Search(views.APIView):
         return Response(results, status=200)
 
     def get_tracks(self, query):
-        search_fields = [
-            "mbid",
-            "title__unaccent",
-            "album__title__unaccent",
-            "artist__name__unaccent",
-        ]
-        if settings.USE_FULL_TEXT_SEARCH:
-            query_obj = utils.get_fts_query(
-                query,
-                fts_fields=["body_text", "album__body_text", "artist__body_text"],
-                model=models.Track,
-            )
-        else:
-            query_obj = utils.get_query(query, search_fields)
+        query_obj = utils.get_fts_query(
+            query,
+            fts_fields=["body_text", "album__body_text", "artist__body_text"],
+            model=models.Track,
+        )
         qs = (
             models.Track.objects.all()
             .filter(query_obj)
@@ -761,20 +840,16 @@ class Search(views.APIView):
                     "album",
                     queryset=models.Album.objects.select_related(
                         "artist", "attachment_cover", "attributed_to"
-                    ),
+                    ).prefetch_related("tracks"),
                 ),
             )
         )
         return common_utils.order_for_search(qs, "title")[: self.max_results]
 
     def get_albums(self, query):
-        search_fields = ["mbid", "title__unaccent", "artist__name__unaccent"]
-        if settings.USE_FULL_TEXT_SEARCH:
-            query_obj = utils.get_fts_query(
-                query, fts_fields=["body_text", "artist__body_text"], model=models.Album
-            )
-        else:
-            query_obj = utils.get_query(query, search_fields)
+        query_obj = utils.get_fts_query(
+            query, fts_fields=["body_text", "artist__body_text"], model=models.Album
+        )
         qs = (
             models.Album.objects.all()
             .filter(query_obj)
@@ -784,11 +859,7 @@ class Search(views.APIView):
         return common_utils.order_for_search(qs, "title")[: self.max_results]
 
     def get_artists(self, query):
-        search_fields = ["mbid", "name__unaccent"]
-        if settings.USE_FULL_TEXT_SEARCH:
-            query_obj = utils.get_fts_query(query, model=models.Artist)
-        else:
-            query_obj = utils.get_query(query, search_fields)
+        query_obj = utils.get_fts_query(query, model=models.Artist)
         qs = (
             models.Artist.objects.all()
             .filter(query_obj)

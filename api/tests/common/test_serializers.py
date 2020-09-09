@@ -200,16 +200,10 @@ def test_attachment_serializer_existing_file(factories, to_api_date):
             "medium_square_crop": federation_utils.full_url(
                 attachment.file.crop["200x200"].url
             ),
+            "large_square_crop": federation_utils.full_url(
+                attachment.file.crop["600x600"].url
+            ),
         },
-        # XXX: BACKWARD COMPATIBILITY
-        "original": federation_utils.full_url(attachment.file.url),
-        "medium_square_crop": federation_utils.full_url(
-            attachment.file.crop["200x200"].url
-        ),
-        "small_square_crop": federation_utils.full_url(
-            attachment.file.crop["200x200"].url
-        ),
-        "square_crop": federation_utils.full_url(attachment.file.crop["200x200"].url),
     }
 
     serializer = serializers.AttachmentSerializer(attachment)
@@ -236,18 +230,10 @@ def test_attachment_serializer_remote_file(factories, to_api_date):
             "medium_square_crop": federation_utils.full_url(
                 proxy_url + "?next=medium_square_crop"
             ),
+            "large_square_crop": federation_utils.full_url(
+                proxy_url + "?next=large_square_crop"
+            ),
         },
-        # XXX: BACKWARD COMPATIBILITY
-        "original": federation_utils.full_url(proxy_url + "?next=original"),
-        "medium_square_crop": federation_utils.full_url(
-            proxy_url + "?next=medium_square_crop"
-        ),
-        "square_crop": federation_utils.full_url(
-            proxy_url + "?next=medium_square_crop"
-        ),
-        "small_square_crop": federation_utils.full_url(
-            proxy_url + "?next=medium_square_crop"
-        ),
     }
 
     serializer = serializers.AttachmentSerializer(attachment)

@@ -17,33 +17,41 @@
               </h1>
             </div>
             <div class="eight wide right aligned column button-group">
-              <play-button class="orange" :track="track">
+              <play-button class="vibrant" :track="track">
                 <translate translate-context="*/Queue/Button.Label/Short, Verb">Play</translate>
               </play-button>
               &nbsp;
               <track-favorite-icon v-if="$store.state.auth.authenticated" :border="true" :track="track"></track-favorite-icon>
               <track-playlist-icon class="circular" v-if="$store.state.auth.authenticated" :border="true" :track="track"></track-playlist-icon>
-              <a v-if="upload" :href="downloadUrl" target="_blank" class="ui basic circular icon button" :title="labels.download">
+              <a role="button" :aria-label="labels.download" v-if="upload" :href="downloadUrl" target="_blank" class="ui basic circular icon button" :title="labels.download">
                 <i class="download icon"></i>
               </a>
               <modal v-if="publicLibraries.length > 0" :show.sync="showEmbedModal">
-                <div class="header">
+                <h4 class="header">
                   <translate translate-context="Popup/Track/Title">Embed this track on your website</translate>
-                </div>
+                </h4>
                 <div class="scrolling content">
                   <div class="description">
                     <embed-wizard type="track" :id="track.id" />
                   </div>
                 </div>
                 <div class="actions">
-                  <div class="ui basic deny button">
+                  <button class="ui basic deny button">
                     <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-                  </div>
+                  </button>
                 </div>
               </modal>
-              <div class="ui floating dropdown circular icon basic button" :title="labels.more" v-dropdown="{direction: 'downward'}">
+              <button class="ui floating dropdown circular icon basic button" :title="labels.more" v-dropdown="{direction: 'downward'}">
                 <i class="ellipsis vertical icon"></i>
                 <div class="menu" style="right: 0; left: auto">
+                  <a
+                    :href="track.fid"
+                    v-if="domain != $store.getters['instance/domain']"
+                    target="_blank"
+                    class="basic item">
+                    <i class="external icon"></i>
+                    <translate :translate-params="{domain: domain}" translate-context="Content/*/Button.Label/Verb">View on %{ domain }</translate>
+                  </a>
                   <div
                     role="button"
                     v-if="publicLibraries.length > 0"
@@ -102,7 +110,7 @@
                     <translate translate-context="Content/Moderation/Link/Verb">View in Django's admin</translate>&nbsp;
                   </a>
                 </div>
-              </div>
+              </button>
             </div>
           </div>
         </div>
@@ -116,6 +124,7 @@
 import time from "@/utils/time"
 import axios from "axios"
 import url from "@/utils/url"
+import {getDomain} from '@/utils'
 import logger from "@/logging"
 import PlayButton from "@/components/audio/PlayButton"
 import TrackFavoriteIcon from "@/components/favorites/TrackFavoriteIcon"
@@ -190,6 +199,11 @@ export default {
     }
   },
   computed: {
+    domain () {
+      if (this.track) {
+        return getDomain(this.track.fid)
+      }
+    },
     publicLibraries () {
       return this.libraries.filter(l => {
         return l.privacy_level === 'everyone'
@@ -264,12 +278,12 @@ export default {
       return route.href
     },
     headerStyle() {
-      if (!this.cover || !this.cover.original) {
+      if (!this.cover || !this.cover.urls.original) {
         return ""
       }
       return (
         "background-image: url(" +
-        this.$store.getters["instance/absoluteUrl"](this.cover.original) +
+        this.$store.getters["instance/absoluteUrl"](this.cover.urls.original) +
         ")"
       )
     },

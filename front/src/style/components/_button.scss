@@ -1,0 +1,101 @@
+:not(.active) button.title {
+  outline-color: white;
+}
+button, *[role="button"] {
+  * {
+    cursor: pointer;
+  }
+}
+
+.reset.button {
+  margin-top: 0.5em;
+}
+
+button.reset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+
+  background: transparent;
+
+  /* inherit font & color from ancestor */
+  color: inherit;
+  font: inherit;
+
+  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+  line-height: normal;
+
+  /* Corrects font smoothing for webkit */
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  /* Corrects inability to style clickable `input` types in iOS */
+  -webkit-appearance: none;
+  text-align: inherit;
+}
+
+.button.icon.tiny {
+  padding: 0.5em !important;
+}
+
+.floated.buttons .button ~ .dropdown {
+  border-left: none;
+}
+
+.header-buttons > .buttons {
+  display: inline-block;
+  padding: 0.2em;
+  margin: 0;
+  font-size: 1em;
+  .buttons {
+    margin: 0;
+  }
+
+}
+
+.ui.really.basic.button {
+  &:not(:focus) {
+    box-shadow: none !important;
+    background-color: none !important;
+  }
+}
+
+[role="button"] {
+  cursor: pointer;
+}
+
+
+.button-group {
+  > *:not(:first-child) {
+    margin-left: 0.5em;
+  }
+}
+
+.ui.borderless.button {
+  border: none !important;
+  box-shadow: none !important;
+  padding-left: 0;
+  padding-right: 0;
+}
+.ui.dropdown .menu > .item {
+  background: var(--dropdown-background);
+}
+
+.ui.circular.button {
+  padding: 0.78571429em;
+  > i {
+    margin-right: 0;
+  }
+}
+.icon.button > i {
+  margin-right: 0;
+}
+
+
+.ui.inverted.buttons .button:hover,
+.ui.inverted.button:hover,
+.ui.inverted.buttons .button:focus,
+.ui.inverted.button:focus {
+  color: white;
+}

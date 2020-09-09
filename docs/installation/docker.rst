@@ -55,9 +55,7 @@ Log in as the newly created user from now on:
 Create ``.env`` file
 ~~~~~~~~~~~~~~~~~~~~
 
-Export the `version you want <https://hub.docker.com/r/funkwhale/all-in-one/tags>`_ to deploy (e.g., ``0.21``):
-
-Create an env file to store a few important configuration options:
+Create a ``.env`` file to store a few important configuration options:
 
 .. code-block:: shell
 
@@ -83,7 +81,9 @@ Create an env file to store a few important configuration options:
 Create ``docker-compose.yml`` file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: yaml
+Create a ``docker-compose.yml`` file to set up the containers:
+
+.. parsed-literal::
 
     version: "3"
     services:
@@ -105,6 +105,7 @@ Create ``docker-compose.yml`` file
 
 .. note::
 
+    - The version can be changed (after ``funkwhale/all-in-one:``), `select the version <https://hub.docker.com/r/funkwhale/all-in-one/tags>`_ you want to deploy.
     - ``PUID`` and ``PGID`` are optional but useful to prevent permission issues with docker volumes
     - ``/path/to/your/music/dir`` should point to a path on your host where music you would like to import is located. You can safely remove the volume if you don't want to import music that way.
 
@@ -128,12 +129,6 @@ Useful commands:
 - To have a better idea of the resource usage of your instance (CPU, memory), run ``docker stats funkwhale``
 
 Now, you just need to configure your :ref:`reverse-proxy <reverse-proxy-setup>`. Don't worry, it's quite easy.
-
-.. note::
-
-    To upgrade your service, change the version number in ``docker-compose.yml`` and re-run ``docker-compose up -d``.
-
-    Don't forget you might have manual changes to do when upgrading to a newer version.
 
 .. _docker-multi-container:
 

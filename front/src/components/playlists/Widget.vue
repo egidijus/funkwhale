@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="ui header">
+    <h3 v-if="!!this.$slots.title" class="ui header">
       <slot name="title"></slot>
     </h3>
     <div v-if="isLoading" class="ui inverted active dimmer">
@@ -19,7 +19,7 @@
       <button
         v-if="$store.state.auth.authenticated"
         @click="$store.commit('playlists/chooseTrack', null)"
-        class="ui green icon labeled button"
+        class="ui success icon labeled button"
         >
         <i class="list icon"></i>
         <translate translate-context="Content/Home/CreatePlaylist">
@@ -105,8 +105,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.refresh.icon {
-  float: right;
-}
-</style>

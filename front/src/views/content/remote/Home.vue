@@ -13,7 +13,9 @@
       </div>
       <template v-if="existingFollows && existingFollows.count > 0">
         <h2><translate translate-context="Content/Library/Title">Known libraries</translate></h2>
-        <i @click="fetch()" :class="['ui', 'circular', 'refresh', 'icon']" /> <translate translate-context="Content/*/Button.Label/Short, Verb">Refresh</translate>
+        <a href="" class="discrete link" @click.prevent="fetch()" >
+          <i :class="['ui', 'circular', 'refresh', 'icon']" /> <translate translate-context="Content/*/Button.Label/Short, Verb">Refresh</translate>
+        </a>
         <div class="ui hidden divider"></div>
         <div class="ui two cards">
           <library-card
@@ -70,7 +72,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

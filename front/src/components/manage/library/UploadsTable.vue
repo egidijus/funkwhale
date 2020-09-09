@@ -3,14 +3,14 @@
     <div class="ui inline form">
       <div class="fields">
         <div class="ui six wide field">
-          <label><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
+          <label for="uploads-search"><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
           <form @submit.prevent="search.query = $refs.search.value">
-            <input name="search" ref="search" type="text" :value="search.query" :placeholder="labels.searchPlaceholder" />
+            <input id="uploads-search" name="search" ref="search" type="text" :value="search.query" :placeholder="labels.searchPlaceholder" />
           </form>
         </div>
         <div class="field">
-          <label><translate translate-context="*/*/*">Visibility</translate></label>
-          <select class="ui dropdown" @change="addSearchToken('privacy_level', $event.target.value)" :value="getTokenValue('privacy_level', '')">
+          <label for="uploads-visibility"><translate translate-context="*/*/*">Visibility</translate></label>
+          <select id="uploads-visibility" class="ui dropdown" @change="addSearchToken('privacy_level', $event.target.value)" :value="getTokenValue('privacy_level', '')">
             <option value=""><translate translate-context="Content/*/Dropdown">All</translate></option>
             <option value="me">{{ sharedLabels.fields.privacy_level.shortChoices.me }}</option>
             <option value="instance">{{ sharedLabels.fields.privacy_level.shortChoices.instance }}</option>
@@ -18,8 +18,8 @@
           </select>
         </div>
         <div class="field">
-          <label><translate translate-context="Content/*/*/Noun">Import status</translate></label>
-          <select class="ui dropdown" @change="addSearchToken('status', $event.target.value)" :value="getTokenValue('status', '')">
+          <label for="uploads-status"><translate translate-context="Content/*/*/Noun">Import status</translate></label>
+          <select id="uploads-status" class="ui dropdown" @change="addSearchToken('status', $event.target.value)" :value="getTokenValue('status', '')">
             <option value=""><translate translate-context="Content/*/Dropdown">All</translate></option>
             <option value="pending"><translate translate-context="Content/Library/*/Short">Pending</translate></option>
             <option value="skipped"><translate translate-context="Content/Library/*">Skipped</translate></option>
@@ -28,16 +28,16 @@
           </select>
         </div>
         <div class="field">
-          <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
-          <select class="ui dropdown" v-model="ordering">
+          <label for="uploads-ordering"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
+          <select id="uploads-ordering" class="ui dropdown" v-model="ordering">
             <option v-for="option in orderingOptions" :value="option[0]">
               {{ sharedLabels.filters[option[1]] }}
             </option>
           </select>
         </div>
         <div class="field">
-          <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
-          <select class="ui dropdown" v-model="orderingDirection">
+          <label for="uploads-ordering-direction"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
+          <select id="uploads-ordering-direction" class="ui dropdown" v-model="orderingDirection">
             <option value="+"><translate translate-context="Content/Search/Dropdown">Ascending</translate></option>
             <option value="-"><translate translate-context="Content/Search/Dropdown">Descending</translate></option>
           </select>
@@ -69,7 +69,7 @@
         </template>
         <template slot="row-cells" slot-scope="scope">
           <td>
-            <router-link :to="{name: 'manage.library.uploads.detail', params: {id: scope.obj.uuid }}" :title="displayName(scope.obj)">
+            <router-link :to="{name: 'manage.library.uploads.detail', params: {id: scope.obj.uuid }}">
               {{ displayName(scope.obj)|truncate(30, "…", true) }}
             </router-link>
           </td>
@@ -77,42 +77,42 @@
             <router-link :to="{name: 'manage.library.libraries.detail', params: {id: scope.obj.library.uuid }}">
               <i class="wrench icon"></i>
             </router-link>
-            <span role="button" class="discrete link"
-              @click="addSearchToken('library_id', scope.obj.library.id)"
+            <a href="" class="discrete link"
+              @click.prevent="addSearchToken('library_id', scope.obj.library.id)"
               :title="scope.obj.library.name">
               {{ scope.obj.library.name | truncate(20) }}
-            </span>
+            </a>
           </td>
           <td>
             <router-link :to="{name: 'manage.moderation.accounts.detail', params: {id: scope.obj.library.actor.full_username }}">
             </router-link>
-            <span role="button" class="discrete link" @click="addSearchToken('account', scope.obj.library.actor.full_username)" :title="scope.obj.library.actor.full_username">{{ scope.obj.library.actor.preferred_username }}</span>
+            <a href="" class="discrete link" @click.prevent="addSearchToken('account', scope.obj.library.actor.full_username)" :title="scope.obj.library.actor.full_username">{{ scope.obj.library.actor.preferred_username }}</a>
           </td>
           <td>
             <template v-if="!scope.obj.is_local">
               <router-link :to="{name: 'manage.moderation.domains.detail', params: {id: scope.obj.domain }}">
                 <i class="wrench icon"></i>
               </router-link>
-              <span role="button" class="discrete link" @click="addSearchToken('domain', scope.obj.domain)" :title="scope.obj.domain">{{ scope.obj.domain }}</span>
+              <a href="" class="discrete link" @click.prevent="addSearchToken('domain', scope.obj.domain)" :title="scope.obj.domain">{{ scope.obj.domain }}</a>
             </template>
-            <span role="button" v-else class="ui tiny teal icon link label" @click="addSearchToken('domain', scope.obj.domain)">
+            <a href="" v-else class="ui tiny accent icon link label" @click.prevent="addSearchToken('domain', scope.obj.domain)">
               <i class="home icon"></i>
               <translate translate-context="Content/Moderation/*/Short, Noun">Local</translate>
-            </span>
+            </a>
           </td>
           <td>
-            <span
-              role="button"
+            <a
+              href=""
               class="discrete link"
-              @click="addSearchToken('privacy_level', scope.obj.library.privacy_level)"
+              @click.prevent="addSearchToken('privacy_level', scope.obj.library.privacy_level)"
               :title="sharedLabels.fields.privacy_level.shortChoices[scope.obj.library.privacy_level]">
               {{ sharedLabels.fields.privacy_level.shortChoices[scope.obj.library.privacy_level] }}
-            </span>
+            </a>
           </td>
           <td>
-            <span class="discrete link" @click="addSearchToken('status', scope.obj.import_status)" :title="sharedLabels.fields.import_status.choices[scope.obj.import_status].help">
+            <a href="" class="discrete link" @click.prevent="addSearchToken('status', scope.obj.import_status)" :title="sharedLabels.fields.import_status.choices[scope.obj.import_status].help">
               {{ sharedLabels.fields.import_status.choices[scope.obj.import_status].label }}
-            </span>
+            </a>
             <button class="ui tiny basic icon button" :title="sharedLabels.fields.import_status.detailTitle" @click="detailedUpload = scope.obj; showUploadDetailModal = true">
               <i class="question circle outline icon"></i>
             </button>
@@ -261,7 +261,7 @@ export default {
           confirmationMessage: confirmationMessage,
           isDangerous: true,
           allowAll: false,
-          confirmColor: 'red',
+          confirmColor: 'danger',
         },
       ]
     }

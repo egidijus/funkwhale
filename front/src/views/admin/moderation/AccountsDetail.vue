@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="page-admin-account-detail">
     <div v-if="isLoading" class="ui vertical segment">
       <div :class="['ui', 'centered', 'active', 'inline', 'loader']"></div>
     </div>
@@ -14,7 +14,7 @@
                   {{ object.full_username }}
                   <div class="sub header">
                     <template v-if="object.user">
-                      <span class="ui tiny teal label">
+                      <span class="ui tiny accent label">
                         <i class="home icon"></i>
                         <translate translate-context="Content/Moderation/*/Short, Noun">Local account</translate>
                       </span>
@@ -45,7 +45,7 @@
                     <i class="wrench icon"></i>
                     <translate translate-context="Content/Moderation/Link/Verb">View in Django's admin</translate>&nbsp;
                   </a>
-                  <div class="ui floating dropdown icon button" v-dropdown>
+                  <button class="ui floating dropdown icon button" v-dropdown>
                     <i class="dropdown icon"></i>
                     <div class="menu">
                       <a class="basic item" :href="object.url || object.fid" target="_blank" rel="noopener noreferrer">
@@ -53,13 +53,13 @@
                         <translate translate-context="Content/Moderation/Link/Verb">Open remote profile</translate>&nbsp;
                       </a>
                     </div>
-                  </div>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
           <div class="ui column">
-            <div v-if="!object.user" class="ui compact clearing placeholder segment">
+            <div v-if="!object.user" class="ui compact clearing placeholder segment component-placeholder">
               <template v-if="isLoadingPolicy">
                 <div class="paragraph">
                   <div class="line"></div>
@@ -151,9 +151,10 @@
                     <td>
                       <div class="ui toggle checkbox" v-if="object.user.username != $store.state.auth.profile.username">
                         <input
+                          id="is-active"
                           @change="updateUser('is_active')"
                           v-model="object.user.is_active" type="checkbox">
-                        <label>
+                        <label for="is-active">
                           <translate v-if="object.user.is_active" key="1" translate-context="*/*/*/State of feature">Enabled</translate>
                           <translate v-else key="2" translate-context="*/*/*/State of feature">Disabled</translate>
                         </label>
@@ -556,13 +557,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.placeholder.segment {
-  width: 100%;
-}
-.ui.input input[name="quota"] {
-  max-width: 7em;
-}
-</style>

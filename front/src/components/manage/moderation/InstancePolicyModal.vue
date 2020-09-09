@@ -5,9 +5,9 @@
       <translate translate-context="Content/Moderation/Button.Label">Moderation rules…</translate>
     </slot>
     <modal :show.sync="show" @show="fetchData">
-      <div class="header">
+      <h4 class="header">
         <translate :translate-params="{obj: target}" translate-context="Popup/Moderation/Title/Verb">Manage moderation rules for %{ obj }</translate>
-      </div>
+      </h4>
       <div class="content">
         <div class="description">
           <div v-if="isLoading" class="ui active loader"></div>
@@ -31,9 +31,9 @@
         <div class="ui hidden divider"></div>
       </div>
       <div class="actions">
-        <div class="ui deny button">
+        <button class="ui deny button">
           <translate translate-context="*/*/Button.Label/Verb">Close</translate>
-        </div>
+        </button>
       </div>
     </modal>
 

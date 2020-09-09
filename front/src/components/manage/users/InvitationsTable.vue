@@ -3,20 +3,20 @@
     <div class="ui inline form">
       <div class="fields">
         <div class="ui field">
-          <label><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
-          <input name="search" type="text" v-model="search" :placeholder="labels.searchPlaceholder" />
+          <label for="invitations-search"><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
+          <input id="invitations-search" name="search" type="text" v-model="search" :placeholder="labels.searchPlaceholder" />
         </div>
         <div class="field">
-          <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
-          <select class="ui dropdown" v-model="ordering">
+          <label for="invitations-ordering"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
+          <select id="invitations-ordering" class="ui dropdown" v-model="ordering">
             <option v-for="option in orderingOptions" :value="option[0]">
               {{ sharedLabels.filters[option[1]] }}
             </option>
           </select>
         </div>
         <div class="field">
-          <label><translate translate-context="*/*/*">Status</translate></label>
-          <select class="ui dropdown" v-model="isOpen">
+          <label for="invitations-status"><translate translate-context="*/*/*">Status</translate></label>
+          <select id="invitations-status" class="ui dropdown" v-model="isOpen">
             <option :value="null"><translate translate-context="Content/*/Dropdown">All</translate></option>
             <option :value="true"><translate translate-context="Content/Admin/Dropdown/Adjective">Open</translate></option>
             <option :value="false"><translate translate-context="Content/Admin/Dropdown/Adjective">Expired/used</translate></option>
@@ -47,8 +47,8 @@
             <router-link :to="{name: 'manage.users.users.detail', params: {id: scope.obj.id }}">{{ scope.obj.owner.username }}</router-link>
           </td>
           <td>
-            <span v-if="scope.obj.users.length > 0" class="ui green basic label"><translate translate-context="Content/Admin/Table">Used</translate></span>
-            <span v-else-if="moment().isAfter(scope.obj.expiration_date)" class="ui red basic label"><translate translate-context="Content/Admin/Table">Expired</translate></span>
+            <span v-if="scope.obj.users.length > 0" class="ui success basic label"><translate translate-context="Content/Admin/Table">Used</translate></span>
+            <span v-else-if="moment().isAfter(scope.obj.expiration_date)" class="ui danger basic label"><translate translate-context="Content/Admin/Table">Expired</translate></span>
             <span v-else class="ui basic label"><translate translate-context="Content/Admin/Table">Not used</translate></span>
           </td>
           <td>

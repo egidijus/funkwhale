@@ -1,0 +1,14 @@
+
+[data-tooltip]::after {
+  white-space: normal;
+  width: 500px;
+  max-width: 500px;
+  z-index: 999;
+
+  background-color: var(--tooltip-background);
+  color: var(--tooltip-color);
+}
+
+label .tooltip {
+  margin-left: 1em;
+}

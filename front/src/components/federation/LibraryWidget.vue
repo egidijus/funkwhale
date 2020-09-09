@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <h3 class="ui header">
+    <h3 v-if="!!this.$slots.title" class="ui header">
       <slot name="title"></slot>
     </h3>
     <p v-if="!isLoading && libraries.length > 0" class="ui subtitle"><slot name="subtitle"></slot></p>

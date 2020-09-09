@@ -1,8 +1,11 @@
 <template>
-  <section v-if="currentTrack" class="player-wrapper ui bottom-player">
+  <section role="complementary" v-if="currentTrack" class="player-wrapper ui bottom-player component-player" aria-labelledby="player-label">
+    <h1 id="player-label" class="visually-hidden">
+      <translate translate-context="*/*/*">Audio player and controls</translate>
+    </h1>
     <div class="ui inverted segment fixed-controls" @click.prevent.stop="toggleMobilePlayer">
       <div
-        :class="['ui', 'top attached', 'small', 'orange', 'inverted', {'indicating': isLoadingAudio}, 'progress']">
+        :class="['ui', 'top attached', 'small', 'inverted', {'indicating': isLoadingAudio}, 'progress']">
         <div class="buffer bar" :data-percent="bufferProgress" :style="{ 'width': bufferProgress + '%' }"></div>
         <div class="position bar" :data-percent="progress" :style="{ 'width': progress + '%' }"></div>
       </div>
@@ -10,19 +13,19 @@
 
         <div class="controls track-controls queue-not-focused desktop-and-up">
           <div class="ui tiny image" @click.stop.prevent="$router.push({name: 'library.tracks.detail', params: {id: currentTrack.id }})">
-            <img ref="cover" v-if="currentTrack.cover && currentTrack.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.cover.medium_square_crop)">
-            <img ref="cover" v-else-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.medium_square_crop)">
-            <img v-else src="../../assets/audio/default-cover.png">
+            <img alt="" ref="cover" v-if="currentTrack.cover && currentTrack.cover.urls.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.cover.urls.medium_square_crop)">
+            <img alt="" ref="cover" v-else-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.urls && currentTrack.album.cover.urls.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.urls.medium_square_crop)">
+            <img alt="" v-else src="../../assets/audio/default-cover.png">
           </div>
           <div @click.stop.prevent="" class="middle aligned content ellipsis">
             <strong>
-              <router-link @click.stop.prevent="" class="small header discrete link track" :title="currentTrack.title" :to="{name: 'library.tracks.detail', params: {id: currentTrack.id }}">
+              <router-link @click.stop.prevent="" class="small header discrete link track" :to="{name: 'library.tracks.detail', params: {id: currentTrack.id }}">
                 {{ currentTrack.title }}
               </router-link>
             </strong>
             <div class="meta">
-              <router-link @click.stop.prevent="" class="discrete link" :title="currentTrack.artist.name" :to="{name: 'library.artists.detail', params: {id: currentTrack.artist.id }}">
-                {{ currentTrack.artist.name }}</router-link><template v-if="currentTrack.album"> /<router-link @click.stop.prevent="" class="discrete link" :title="currentTrack.album.title" :to="{name: 'library.albums.detail', params: {id: currentTrack.album.id }}">
+              <router-link @click.stop.prevent="" class="discrete link" :to="{name: 'library.artists.detail', params: {id: currentTrack.artist.id }}">
+                {{ currentTrack.artist.name }}</router-link><template v-if="currentTrack.album"> /<router-link @click.stop.prevent="" class="discrete link" :to="{name: 'library.albums.detail', params: {id: currentTrack.album.id }}">
                 {{ currentTrack.album.title }}
               </router-link></template>
             </div>
@@ -30,9 +33,9 @@
         </div>
         <div class="controls track-controls queue-not-focused tablet-and-below">
           <div class="ui tiny image">
-            <img ref="cover" v-if="currentTrack.cover && currentTrack.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.cover.medium_square_crop)">
-            <img ref="cover" v-else-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.medium_square_crop)">
-            <img v-else src="../../assets/audio/default-cover.png">
+            <img alt="" ref="cover" v-if="currentTrack.cover && currentTrack.cover.urls.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.cover.urls.medium_square_crop)">
+            <img alt="" ref="cover" v-else-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.urls.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.urls.medium_square_crop)">
+            <img alt="" v-else src="../../assets/audio/default-cover.png">
           </div>
           <div class="middle aligned content ellipsis">
             <strong>
@@ -59,48 +62,44 @@
           </button>
         </div>
         <div class="player-controls controls queue-not-focused">
-          <span
-            role="button"
+          <button
             :title="labels.previous"
             :aria-label="labels.previous"
-            class="control tablet-and-up"
+            class="circular button control tablet-and-up"
             @click.prevent.stop="$store.dispatch('queue/previous')"
             :disabled="!hasPrevious">
               <i :class="['ui', 'large', {'disabled': !hasPrevious}, 'backward step', 'icon']" ></i>
-          </span>
-          <span
-            role="button"
+          </button>
+          <button
             v-if="!playing"
             :title="labels.play"
             :aria-label="labels.play"
             @click.prevent.stop="togglePlay"
-            class="control">
+            class="circular button control">
               <i :class="['ui', 'big', 'play', {'disabled': !currentTrack}, 'icon']"></i>
-          </span>
-          <span
-            role="button"
+          </button>
+          <button
             v-else
             :title="labels.pause"
             :aria-label="labels.pause"
             @click.prevent.stop="togglePlay"
-            class="control">
+            class="circular button control">
               <i :class="['ui', 'big', 'pause', {'disabled': !currentTrack}, 'icon']"></i>
-          </span>
-          <span
-            role="button"
+          </button>
+          <button
             :title="labels.next"
             :aria-label="labels.next"
-            class="control"
+            class="circular button control"
             @click.prevent.stop="$store.dispatch('queue/next')"
             :disabled="!hasNext">
               <i :class="['ui', 'large', {'disabled': !hasNext}, 'forward step', 'icon']" ></i>
-          </span>
+          </button>
         </div>
 
         <div class="controls progress-controls queue-not-focused tablet-and-up small align-left">
           <div class="timer">
             <template v-if="!isLoadingAudio">
-              <span role="button" class="start" @click.stop.prevent="setCurrentTime(0)">{{currentTimeFormatted}}</span>
+              <span class="start" @click.stop.prevent="setCurrentTime(0)">{{currentTimeFormatted}}</span>
               | <span class="total">{{durationFormatted}}</span>
             </template>
             <template v-else>
@@ -111,102 +110,101 @@
         <div class="controls queue-controls when-queue-focused align-right">
           <div class="group">
             <volume-control class="expandable" />
-            <span
-              role="button"
+            <button
+              class="circular control button"
               v-if="looping === 0"
               :title="labels.loopingDisabled"
               :aria-label="labels.loopingDisabled"
               @click.prevent.stop="$store.commit('player/looping', 1)"
               :disabled="!currentTrack">
               <i :class="['ui', {'disabled': !currentTrack}, 'step', 'repeat', 'icon']"></i>
-            </span>
-            <span
-              role="button"
+            </button>
+            <button
+              class="looping circular control button"
               @click.prevent.stop="$store.commit('player/looping', 2)"
               :title="labels.loopingSingle"
               :aria-label="labels.loopingSingle"
               v-if="looping === 1"
-              class="looping"
               :disabled="!currentTrack">
               <i
                 class="repeat icon">
-                <span class="ui circular tiny orange label">1</span>
+                <span class="ui circular tiny vibrant label">1</span>
               </i>
-            </span>
-            <span
-              role="button"
+            </button>
+            <button
+              class="looping circular control button"
               :title="labels.loopingWhole"
               :aria-label="labels.loopingWhole"
               v-if="looping === 2"
               :disabled="!currentTrack"
-              class="looping"
               @click.prevent.stop="$store.commit('player/looping', 0)">
               <i
                 class="repeat icon">
-                <span class="ui circular tiny orange label">&infin;</span>
+                <span class="ui circular tiny vibrant label">&infin;</span>
               </i>
-            </span>
-            <span
-              role="button"
+            </button>
+            <button
+              class="circular control button"
               :disabled="queue.tracks.length === 0"
               :title="labels.shuffle"
               :aria-label="labels.shuffle"
               @click.prevent.stop="shuffle()">
               <div v-if="isShuffling" class="ui inline shuffling inverted tiny active loader"></div>
               <i v-else :class="['ui', 'random', {'disabled': queue.tracks.length === 0}, 'icon']" ></i>
-            </span>
+            </button>
           </div>
           <div class="group">
             <div class="fake-dropdown">
-              <span class="position control desktop-and-up" role="button" @click.stop="toggleMobilePlayer">
+              <button class="position circular control button desktop-and-up" @click.stop="toggleMobilePlayer" aria-expanded="true">
                 <i class="stream icon"></i>
                 <translate translate-context="Sidebar/Queue/Text" :translate-params="{index: queue.currentIndex + 1, length: queue.tracks.length}">
                   %{ index } of %{ length }
                 </translate>
-              </span>
-              <span class="position control tablet-and-below" role="button" @click.stop="switchTab">
+              </button>
+              <button class="position circular control button tablet-and-below" @click.stop="switchTab">
                 <i class="stream icon"></i>
                 <translate translate-context="Sidebar/Queue/Text" :translate-params="{index: queue.currentIndex + 1, length: queue.tracks.length}">
                   %{ index } of %{ length }
                 </translate>
-              </span>
+              </button>
 
-              <span
-                class="control close-control desktop-and-up"
+              <button
+                class="circular control button close-control desktop-and-up"
                 v-if="$store.state.ui.queueFocused"
                 @click.stop="toggleMobilePlayer">
                 <i class="large down angle icon"></i>
-              </span>
-              <span
-                class="control desktop-and-up"
+              </button>
+              <button
+                class="circular control button desktop-and-up"
                 v-else
                 @click.stop="toggleMobilePlayer">
                 <i class="large up angle icon"></i>
-              </span>
-              <span
-                class="control close-control tablet-and-below"
+              </button>
+              <button
+                class="circular control button close-control tablet-and-below"
                 v-if="$store.state.ui.queueFocused === 'player'"
                 @click.stop="switchTab">
                 <i class="large up angle icon"></i>
-              </span>
-              <span
-                class="control tablet-and-below"
+              </button>
+              <button
+                class="circular control button tablet-and-below"
                 v-if="$store.state.ui.queueFocused === 'queue'"
                 @click.stop="switchTab">
                 <i class="large down angle icon"></i>
-              </span>
+              </button>
             </div>
-            <span
-              class="control close-control tablet-and-below"
+            <button
+              class="circular control button close-control tablet-and-below"
               @click.stop="$store.commit('ui/queueFocused', null)">
               <i class="x icon"></i>
-            </span>
+            </button>
           </div>
         </div>
       </div>
     </div>
     <GlobalEvents
-      @keydown.space.prevent.exact="togglePlay"
+      @keydown.p.prevent.exact="togglePlay"
+      @keydown.esc.prevent.exact="$store.commit('ui/queueFocused', null)"
       @keydown.ctrl.shift.left.prevent.exact="previous"
       @keydown.ctrl.shift.right.prevent.exact="next"
       @keydown.shift.down.prevent.exact="$store.commit('player/incrementVolume', -0.1)"
@@ -408,12 +406,18 @@ export default {
       return sound
     },
     getSrcs: function (trackData) {
-      let sources = trackData.uploads.map(u => {
+      let a = document.createElement('audio')
+      let allowed = ['probably', 'maybe']
+      let sources = trackData.uploads.filter(u => {
+        let canPlay = a.canPlayType(u.mimetype)
+        return allowed.indexOf(canPlay) > -1
+      }).map(u => {
         return {
           type: u.extension,
           url: this.$store.getters['instance/absoluteUrl'](u.listen_url),
         }
       })
+      a.remove()
       // We always add a transcoded MP3 src at the end
       // because transcoding is expensive, but we want browsers that do
       // not support other codecs to be able to play it :)
@@ -438,7 +442,6 @@ export default {
           param = "token"
           value = this.$store.state.auth.scopedTokens.listen
         }
-        console.log('HELLO', param, value, this.$store.state.auth.scopedTokens)
         sources.forEach(e => {
           e.url = url.updateQueryString(e.url, param, value)
         })
@@ -490,7 +493,7 @@ export default {
           this.getSound(toPreload)
           this.nextTrackPreloaded = true
         }
-        if (t > this.listenDelay || d - t < 30) {
+        if (t > (d / 2)) {
           let onlyTrack = this.$store.state.queue.tracks.length === 1
           if (this.listeningRecorded != this.currentTrack) {
             this.listeningRecorded = this.currentTrack
@@ -667,7 +670,7 @@ export default {
     },
     labels() {
       let audioPlayer = this.$pgettext('Sidebar/Player/Hidden text', "Media player")
-      let previousTrack = this.$pgettext('Sidebar/Player/Icon.Tooltip', "Previous track")
+      let previous = this.$pgettext('Sidebar/Player/Icon.Tooltip', "Previous track")
       let play = this.$pgettext('Sidebar/Player/Icon.Tooltip/Verb', "Play track")
       let pause = this.$pgettext('Sidebar/Player/Icon.Tooltip/Verb', "Pause track")
       let next = this.$pgettext('Sidebar/Player/Icon.Tooltip', "Next track")
@@ -688,7 +691,7 @@ export default {
       let addArtistContentFilter = this.$pgettext('Sidebar/Player/Icon.Tooltip/Verb', 'Hide content from this artist…')
       return {
         audioPlayer,
-        previousTrack,
+        previous,
         play,
         pause,
         next,
@@ -722,20 +725,20 @@ export default {
         }, 500);
         // If the session is playing as a PWA, populate the notification
         // with details from the track
-        if ('mediaSession' in navigator) {
+        if (this.currentTrack && 'mediaSession' in navigator) {
           let metadata = {
             title: this.currentTrack.title,
             artist: this.currentTrack.artist.name,
           }
-          if (this.currentTrack.album) {
+          if (this.currentTrack.album && this.currentTrack.album.cover) {
             metadata.album = this.currentTrack.album.title
             metadata.artwork = [
-              { src: this.currentTrack.album.cover.original, sizes: '96x96',   type: 'image/png' },
-              { src: this.currentTrack.album.cover.original, sizes: '128x128', type: 'image/png' },
-              { src: this.currentTrack.album.cover.original, sizes: '192x192', type: 'image/png' },
-              { src: this.currentTrack.album.cover.original, sizes: '256x256', type: 'image/png' },
-              { src: this.currentTrack.album.cover.original, sizes: '384x384', type: 'image/png' },
-              { src: this.currentTrack.album.cover.original, sizes: '512x512', type: 'image/png' },
+              { src: this.currentTrack.album.cover.urls.original, sizes: '96x96',   type: 'image/png' },
+              { src: this.currentTrack.album.cover.urls.original, sizes: '128x128', type: 'image/png' },
+              { src: this.currentTrack.album.cover.urls.original, sizes: '192x192', type: 'image/png' },
+              { src: this.currentTrack.album.cover.urls.original, sizes: '256x256', type: 'image/png' },
+              { src: this.currentTrack.album.cover.urls.original, sizes: '384x384', type: 'image/png' },
+              { src: this.currentTrack.album.cover.urls.original, sizes: '512x512', type: 'image/png' },
             ]
           }
           navigator.mediaSession.metadata = new MediaMetadata(metadata);
@@ -779,77 +782,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-@import "../../style/vendor/media";
-.controls {
-  display: flex;
-  justify-content: space-between;
-}
-
-.controls .icon.big {
-  cursor: pointer;
-  font-size: 2em !important;
-}
-
-.controls .icon {
-  cursor: pointer;
-  vertical-align: middle;
-}
-.timer {
-  font-size: 1.2em;
-}
-.looping {
-  i {
-    position: relative;
-  }
-  .ui.circular.label {
-    font-family: sans-serif;
-    position: absolute;
-    font-size: 0.5em !important;
-    bottom: -0.7rem;
-    right: -0.7rem;
-    padding: 2px 0 !important;
-    width: 15px !important;
-    height: 15px !important;
-    min-width: 15px !important;
-    min-height: 15px !important;
-    @include media(">desktop") {
-      font-size: 0.6em !important;
-    }
-  }
-}
-.shuffling.loader.inline {
-  margin: 0;
-}
-.control.circular.button {
-  padding: 0;
-  border: none;
-  background-color: transparent;
-  color: inherit;
-  &:focus {
-    box-shadow: none;
-  }
-
-}
-.fake-dropdown {
-  border: 1px solid gray;
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-width: 10em;
-  > * {
-    padding: 0.5em;
-
-  }
-  .position.control {
-    padding-right: 1em;
-    flex-grow: 1;
-  }
-  .angle.icon {
-    margin-right: 0;
-  }
-}
-</style>

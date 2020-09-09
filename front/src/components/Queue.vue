@@ -1,31 +1,31 @@
 <template>
-  <section class="main with-background" :aria-label="labels.queue">
+  <section class="main with-background component-queue" :aria-label="labels.queue">
     <div :class="['ui vertical stripe queue segment', playerFocused ? 'player-focused' : '']">
       <div class="ui fluid container">
         <div class="ui stackable grid" id="queue-grid">
-                    <div class="ui six wide column current-track">
+          <div class="ui six wide column current-track">
             <div class="ui basic segment" id="player">
               <template v-if="currentTrack">
-                <img ref="cover" v-if="currentTrack.cover && currentTrack.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.cover.medium_square_crop)">
-                <img ref="cover" v-else-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.original" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.medium_square_crop)">
-                <img class="ui image" v-else src="../assets/audio/default-cover.png">
+                <img ref="cover" alt="" v-if="currentTrack.cover && currentTrack.cover.urls.large_square_crop" :src="$store.getters['instance/absoluteUrl'](currentTrack.cover.urls.large_square_crop)">
+                <img ref="cover" alt="" v-else-if="currentTrack.album && currentTrack.album.cover && currentTrack.album.cover.urls.large_square_crop" :src="$store.getters['instance/absoluteUrl'](currentTrack.album.cover.urls.large_square_crop)">
+                <img class="ui image" alt="" v-else src="../assets/audio/default-cover.png">
                 <h1 class="ui header">
-                  <div class="content">
-                    <router-link class="small header discrete link track" :title="currentTrack.title" :to="{name: 'library.tracks.detail', params: {id: currentTrack.id }}">
-                      {{ currentTrack.title | truncate(35) }}
+                  <div class="content ellipsis">
+                    <router-link class="small header discrete link track" :to="{name: 'library.tracks.detail', params: {id: currentTrack.id }}">
+                      {{ currentTrack.title }}
                     </router-link>
-                    <div class="sub header">
-                      <router-link class="discrete link artist" :title="currentTrack.artist.name" :to="{name: 'library.artists.detail', params: {id: currentTrack.artist.id }}">
-                        {{ currentTrack.artist.name | truncate(35) }}</router-link> <template v-if="currentTrack.album">/<router-link class="discrete link album" :title="currentTrack.album.title" :to="{name: 'library.albums.detail', params: {id: currentTrack.album.id }}">
-                        {{ currentTrack.album.title | truncate(35) }}
+                    <div class="sub header ellipsis">
+                      <router-link class="discrete link artist" :to="{name: 'library.artists.detail', params: {id: currentTrack.artist.id }}">
+                        {{ currentTrack.artist.name }}</router-link> <template v-if="currentTrack.album">/<router-link class="discrete link album" :to="{name: 'library.albums.detail', params: {id: currentTrack.album.id }}">
+                        {{ currentTrack.album.title }}
                       </router-link></template>
                     </div>
                   </div>
                 </h1>
                 <div class="ui small warning message" v-if="currentTrack && errored">
-                  <div class="header">
+                  <h3 class="header">
                     <translate translate-context="Sidebar/Player/Error message.Title">The track cannot be loaded</translate>
-                  </div>
+                  </h3>
                   <p v-if="hasNext && playing && $store.state.player.errorCount < $store.state.player.maxConsecutiveErrors">
                     <translate translate-context="Sidebar/Player/Error message.Paragraph">The next track will play automatically in a few seconds…</translate>
                     <i class="loading spinner icon"></i>
@@ -34,19 +34,17 @@
                     <translate translate-context="Sidebar/Player/Error message.Paragraph">You may have a connectivity issue.</translate>
                   </p>
                 </div>
-                <div class="additional-controls">
+                <div class="additional-controls tablet-and-below">
                   <track-favorite-icon
-                    class="tablet-and-below"
                     v-if="$store.state.auth.authenticated"
                     :track="currentTrack"></track-favorite-icon>
                   <track-playlist-icon
-                    class="tablet-and-below"
                     v-if="$store.state.auth.authenticated"
                     :track="currentTrack"></track-playlist-icon>
                   <button
                     v-if="$store.state.auth.authenticated"
                     @click="$store.dispatch('moderation/hide', {type: 'artist', target: currentTrack.artist})"
-                    :class="['ui', 'really', 'basic', 'circular', 'icon', 'button', 'tablet-and-below']"
+                    :class="['ui', 'really', 'basic', 'circular', 'icon', 'button']"
                     :aria-label="labels.addArtistContentFilter"
                     :title="labels.addArtistContentFilter">
                     <i :class="['eye slash outline', 'basic', 'icon']"></i>
@@ -56,7 +54,7 @@
                   <div class="progress-area" v-if="currentTrack && !errored">
                     <div
                       ref="progress"
-                      :class="['ui', 'small', 'orange', {'indicating': isLoadingAudio}, 'progress']"
+                      :class="['ui', 'small', 'vibrant', {'indicating': isLoadingAudio}, 'progress']"
                       @click="touchProgress">
                       <div class="buffer bar" :data-percent="bufferProgress" :style="{ 'width': bufferProgress + '%' }"></div>
                       <div class="position bar" :data-percent="progress" :style="{ 'width': progress + '%' }"></div>
@@ -65,14 +63,14 @@
                   <div class="progress-area" v-else>
                     <div
                       ref="progress"
-                      :class="['ui', 'small', 'orange', 'progress']">
+                      :class="['ui', 'small', 'vibrant', 'progress']">
                       <div class="buffer bar"></div>
                       <div class="position bar"></div>
                     </div>
                   </div>
                   <div class="progress">
                     <template v-if="!isLoadingAudio">
-                      <span role="button" class="left floated timer start" @click="setCurrentTime(0)">{{currentTimeFormatted}}</span>
+                      <a href="" :aria-label="labels.restart" class="left floated timer discrete start" @click.prevent="setCurrentTime(0)">{{currentTimeFormatted}}</a>
                       <span class="right floated timer total">{{durationFormatted}}</span>
                     </template>
                     <template v-else>
@@ -125,7 +123,7 @@
               </template>
             </div>
           </div>
-          <div class="ui sixteen wide mobile ten wide computer column queue-column">
+          <div class="ui ten wide column queue-column">
             <div class="ui basic clearing fixed-header segment">
               <h2 class="ui header">
                 <div class="content">
@@ -156,12 +154,12 @@
                   :key="index"
                   :class="['queue-item', {'active': index === queue.currentIndex}]">
                   <td class="handle">
-                    <i class="grip lines grey icon"></i>
+                    <i class="grip lines icon"></i>
                   </td>
                   <td class="image-cell" @click="$store.dispatch('queue/currentIndex', index)">
-                    <img class="ui mini image" v-if="track.cover && track.cover.original" :src="$store.getters['instance/absoluteUrl'](track.cover.medium_square_crop)">
-                    <img class="ui mini image" v-else-if="track.album && track.album.cover && track.album.cover.original" :src="$store.getters['instance/absoluteUrl'](track.album.cover.medium_square_crop)">
-                    <img class="ui mini image" v-else src="../assets/audio/default-cover.png">
+                    <img class="ui mini image" alt="" v-if="track.cover && track.cover.urls.original" :src="$store.getters['instance/absoluteUrl'](track.cover.urls.medium_square_crop)">
+                    <img class="ui mini image" alt="" v-else-if="track.album && track.album.cover && track.album.cover.urls.original" :src="$store.getters['instance/absoluteUrl'](track.album.cover.urls.medium_square_crop)">
+                    <img class="ui mini image" alt="" v-else src="../assets/audio/default-cover.png">
                   </td>
                   <td colspan="3" @click="$store.dispatch('queue/currentIndex', index)">
                     <button class="title reset ellipsis" :title="track.title" :aria-label="labels.selectTrack">
@@ -180,7 +178,7 @@
                     <template v-if="$store.getters['favorites/isFavorite'](track.id)">
                       <i class="pink heart icon"></i>
                     </template>
-                    <button :title="labels.removeFromQueue" @click.stop="cleanTrack(index)" :class="['ui', 'really', 'tiny', 'basic', 'circular', 'icon', 'button']">
+                    <button :aria-label="labels.removeFromQueue" :title="labels.removeFromQueue" @click.stop="cleanTrack(index)" :class="['ui', 'really', 'tiny', 'basic', 'circular', 'icon', 'button']">
                       <i class="x icon"></i>
                     </button>
                   </td>
@@ -190,11 +188,11 @@
 
             <div v-if="$store.state.radios.running" class="ui info message">
               <div class="content">
-                <div class="header">
+                <h3 class="header">
                   <i class="feed icon"></i> <translate translate-context="Sidebar/Player/Title">You have a radio playing</translate>
-                </div>
+                </h3>
                 <p><translate translate-context="Sidebar/Player/Paragraph">New tracks will be appended here automatically.</translate></p>
-                <div @click="$store.dispatch('radios/stop')" class="ui basic primary button"><translate translate-context="*/Player/Button.Label/Short, Verb">Stop radio</translate></div>
+                <button @click="$store.dispatch('radios/stop')" class="ui basic primary button"><translate translate-context="*/Player/Button.Label/Short, Verb">Stop radio</translate></button>
               </div>
             </div>
           </div>
@@ -209,7 +207,7 @@ import $ from 'jquery'
 import moment from "moment"
 import lodash from '@/lodash'
 import time from "@/utils/time"
-
+import createFocusTrap from 'focus-trap'
 import store from "@/store"
 
 export default {
@@ -224,11 +222,14 @@ export default {
       showVolume: false,
       isShuffling: false,
       tracksChangeBuffer: null,
+      focusTrap: null,
       time
     }
   },
   mounted () {
     let self = this
+    this.focusTrap = createFocusTrap(this.$el, {allowOutsideClick: () => { return true }})
+    this.focusTrap.activate()
     this.$nextTick(() => {
       setTimeout(() => {
         this.scrollToCurrent()
@@ -269,6 +270,8 @@ export default {
       return {
         queue: this.$pgettext('*/*/*', 'Queue'),
         duration: this.$pgettext('*/*/*', 'Duration'),
+        addArtistContentFilter: this.$pgettext('Sidebar/Player/Icon.Tooltip/Verb', 'Hide content from this artist…'),
+        restart: this.$pgettext('*/*/*', 'Restart track'),
       }
     },
     timeLeft () {
@@ -376,204 +379,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-@import "../style/vendor/media";
-
-.main {
-  position: absolute;
-  min-height: 100vh;
-  width: 100vw;
-  z-index: 1000;
-  padding-bottom: 3em;
-}
-.main > .button {
-  position: fixed;
-  top: 1em;
-  right: 1em;
-  z-index: 9999999;
-  @include media("<desktop") {
-    display: none;
-  }
-}
-.queue.segment:not(.player-focused) {
-  #player {
-    @include media("<desktop") {
-      height: 0;
-      display: none;
-    }
-  }
-}
-.queue.segment #player {
-  padding: 0em;
-  > * {
-    padding: 0.5em;
-  }
-}
-.player-focused .grid > .ui.queue-column {
-  @include media("<desktop") {
-    display: none;
-  }
-}
-.queue-column {
-  overflow-y: auto;
-}
-.queue-column .table {
-  margin-top: 4em !important;
-  margin-bottom: 4rem;
-}
-.ui.table > tbody > tr > td.controls {
-  text-align: right;
-}
-.ui.table > tbody > tr > td {
-  border: none;
-}
-td:first-child {
-  padding-left: 1em !important;
-}
-td:last-child {
-  padding-right: 1em !important;
-}
-.image-cell {
-  width: 4em;
-}
-.queue.segment {
-  @include media("<desktop") {
-    padding: 0;
-  }
-  > .container {
-    margin: 0 !important;
-  }
-}
-.handle {
-  @include media("<desktop") {
-    display: none;
-  }
-}
-.duration-cell {
-  @include media("<tablet") {
-    display: none;
-  }
-}
-.fixed-header {
-  position: fixed;
-  right: 0;
-  left: 0;
-  top: 0;
-  z-index: 9;
-  @include media("<desktop") {
-    padding: 1em;
-  }
-  @include media(">desktop") {
-    right: 1em;
-    left: 38%;
-  }
-  .header .content {
-    display: block;
-  }
-}
-.current-track #player {
-  font-size: 1.8em;
-  padding: 1em;
-  text-align: center;
-  display: flex;
-  position: fixed;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  bottom: 0;
-  top: 0;
-  width: 32%;
-  @include media("<desktop") {
-    padding: 0.5em;
-    font-size: 1.5em;
-    width: 100%;
-    width: 100vw;
-    left: 0;
-    right: 0;
-    > .image {
-      max-height: 50vh;
-    }
-  }
-  > *:not(.image) {
-    width: 100%;
-  }
-  h1 {
-    margin: 0;
-    min-height: auto;
-  }
-}
-.progress-area {
-  overflow: hidden;
-}
-.progress-wrapper, .warning.message {
-  max-width: 25em;
-  margin: 0 auto;
-}
-.ui.progress .buffer.bar {
-  position: absolute;
-  background-color: rgba(255, 255, 255, 0.15);
-}
-.ui.progress:not([data-percent]):not(.indeterminate)
-  .bar.position:not(.buffer) {
-  background: #ff851b;
-}
-
-.indicating.progress .bar {
-  left: -46px;
-  width: 200% !important;
-  color: grey;
-  background: repeating-linear-gradient(
-    -55deg,
-    grey 1px,
-    grey 10px,
-    transparent 10px,
-    transparent 20px
-  ) !important;
-
-  animation-name: MOVE-BG;
-  animation-duration: 2s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-.ui.progress {
-  margin: 0.5rem 0;
-}
-.timer {
-  font-size: 0.7em;
-}
-.progress {
-  cursor: pointer;
-  .bar {
-    min-width: 0 !important;
-  }
-}
-
-.player-controls {
-  .control:not(:first-child) {
-    margin-left: 1em;
-  }
-  .icon {
-    font-size: 1.1em;
-  }
-}
-
-.handle {
-  cursor: grab;
-}
-.sortable-chosen {
-  cursor: grabbing;
-}
-.queue-item.sortable-ghost {
-  td {
-    border-top: 3px dashed rgba(0, 0, 0, 0.15) !important;
-    border-bottom: 3px dashed rgba(0, 0, 0, 0.15) !important;
-    &:first-child {
-      border-left: 3px dashed rgba(0, 0, 0, 0.15) !important;
-    }
-    &:last-child {
-      border-right: 3px dashed rgba(0, 0, 0, 0.15) !important;
-    }
-  }
-}
-</style>

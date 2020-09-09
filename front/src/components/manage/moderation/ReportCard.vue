@@ -1,12 +1,12 @@
 <template>
   <div class="ui fluid report card">
     <div class="content">
-      <div class="header">
+      <h4 class="header">
         <router-link :to="{name: 'manage.moderation.reports.detail', params: {id: obj.uuid}}">
           <translate translate-context="Content/Moderation/Card/Short" :translate-params="{id: obj.uuid.substring(0, 8)}">Report %{ id }</translate>
         </router-link>
         <collapse-link class="right floated" v-model="isCollapsed"></collapse-link>
-      </div>
+      </h4>
       <div class="content">
         <div class="ui hidden divider"></div>
         <div class="ui stackable two column grid">
@@ -59,12 +59,12 @@
                   </td>
                   <td v-if="obj.is_handled">
                     <span v-if="obj.is_handled">
-                      <i class="green check icon"></i>
+                      <i class="success check icon"></i>
                       <translate translate-context="Content/*/*/Short">Resolved</translate>
                     </span>
                   </td>
                   <td v-else>
-                    <i class="red x icon"></i>
+                    <i class="danger x icon"></i>
                     <translate translate-context="Content/*/*/Short">Unresolved</translate>
                   </td>
                 </tr>
@@ -215,14 +215,14 @@
               v-if="obj.is_handled === false"
               @click="resolve(true)"
               :class="['ui', {loading: isLoading}, 'button']">
-              <i class="green check icon"></i>&nbsp;
+              <i class="success check icon"></i>&nbsp;
               <translate translate-context="Content/*/Button.Label/Verb">Resolve</translate>
             </button>
             <button
               v-if="obj.is_handled === true"
               @click="resolve(false)"
               :class="['ui', {loading: isLoading}, 'button']">
-              <i class="yellow redo icon"></i>&nbsp;
+              <i class="warning redo icon"></i>&nbsp;
               <translate translate-context="Content/*/Button.Label">Unresolve</translate>
             </button>
             <template v-for="action in actions">
@@ -357,7 +357,7 @@ export default {
           modalContent: this.$pgettext('Content/Moderation/Popup,Paragraph', 'This will delete the object associated with this report and mark the report as resolved. The deletion is irreversible.'),
           modalConfirmLabel: this.$pgettext('*/*/*/Verb', 'Delete'),
           icon: 'x',
-          iconColor: 'red',
+          iconColor: 'danger',
           show: (obj) => { return !!obj.target },
           dangerous: true,
           handler: () => {

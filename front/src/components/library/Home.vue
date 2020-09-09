@@ -75,7 +75,7 @@ export default {
   computed: {
     labels() {
       return {
-        title: this.$pgettext('Head/Home/Title', "Home")
+        title: this.$pgettext('Head/Home/Title', "Library")
       }
     }
   },
@@ -98,7 +98,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

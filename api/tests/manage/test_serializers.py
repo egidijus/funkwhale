@@ -373,7 +373,8 @@ def test_manage_nested_artist_serializer(factories, now, to_api_date):
 
 def test_manage_album_serializer(factories, now, to_api_date):
     album = factories["music.Album"](attributed=True, with_cover=True)
-    track = factories["music.Track"](album=album)
+    factories["music.Track"](album=album)
+    setattr(album, "_tracks_count", 42)
     expected = {
         "id": album.id,
         "domain": album.domain_name,
@@ -385,11 +386,11 @@ def test_manage_album_serializer(factories, now, to_api_date):
         "release_date": album.release_date.isoformat(),
         "cover": common_serializers.AttachmentSerializer(album.attachment_cover).data,
         "artist": serializers.ManageNestedArtistSerializer(album.artist).data,
-        "tracks": [serializers.ManageNestedTrackSerializer(track).data],
         "attributed_to": serializers.ManageBaseActorSerializer(
             album.attributed_to
         ).data,
         "tags": [],
+        "tracks_count": 1,
     }
     s = serializers.ManageAlbumSerializer(album)
 

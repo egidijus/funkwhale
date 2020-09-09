@@ -26,7 +26,7 @@
       <div class="content" aria-label="Track information">
         <header v-if="currentTrack">
           <h3><a :href="fullUrl('/library/tracks/' + currentTrack.id)" target="_blank" rel="noopener noreferrer">{{ currentTrack.title }}</a></h3>
-          By <a :href="fullUrl('/library/artists/' + currentTrack.artist.id)" target="_blank" rel="noopener noreferrer">{{ currentTrack.artist.name }}</a>
+          <a :href="fullUrl('/library/artists/' + currentTrack.artist.id)" target="_blank" rel="noopener noreferrer">{{ currentTrack.artist.name }}</a>
         </header>
         <section v-if="!isLoading" class="controls" aria-label="Audio player">
           <template v-if="currentTrack && currentTrack.sources.length > 0">
@@ -89,7 +89,6 @@
           <tr
             :id="'queue-item-' + index"
             role="button"
-            tabindex="0"
             v-if="track.sources.length > 0"
             :key="index"
             :class="[{active: index === currentIndex}]"
@@ -103,8 +102,8 @@
             </td>
             <td class="title" :title="track.title" ><div colspan="2" class="ellipsis">{{ track.title }}</div></td>
             <td class="artist" :title="track.artist.name" ><div class="ellipsis">{{ track.artist.name }}</div></td>
-            <td class="album" v-if="track.album">
-              <div class="ellipsis " v-if="track.album" :title="track.album.title">{{ track.album.title }}</div>
+            <td class="album">
+              <div class="ellipsis" v-if="track.album" :title="track.album.title">{{ track.album.title }}</div>
             </td>
             <td width="50">{{ time.durationFormatted(track.sources[0].duration) }}</td>
           </tr>
@@ -239,7 +238,7 @@ export default {
         this.fetchTracks({channel: id, playable: true, include_channels: 'true', ordering: "-creation_date"})
       }
       if (type === 'artist') {
-        this.fetchTracks({artist: id, playable: true, include_channels: 'true', ordering: "-release_date,disc_number,position"})
+        this.fetchTracks({artist: id, playable: true, include_channels: 'true', ordering: "-album__release_date,disc_number,position"})
       }
       if (type === 'playlist') {
         this.fetchTracks({}, `/api/v1/playlists/${id}/tracks/`)
@@ -338,18 +337,24 @@ export default {
     },
     getCover(albumCover) {
       if (albumCover) {
-        return albumCover.medium_square_crop
+        return albumCover.urls.medium_square_crop
       }
     },
     getSources (uploads) {
       let self = this;
-      let sources = uploads.map(u => {
+      let a = document.createElement('audio')
+      let allowed = ['probably', 'maybe']
+      let sources = uploads.filter(u => {
+        let canPlay = a.canPlayType(u.mimetype)
+        return allowed.indexOf(canPlay) > -1
+      }).map(u => {
         return {
           type: u.mimetype,
           src: self.fullUrl(u.listen_url),
           duration: u.duration
         }
       })
+      a.remove()
       if (sources.length > 0) {
         // We always add a transcoded MP3 src at the end
         // because transcoding is expensive, but we want browsers that do

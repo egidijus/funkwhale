@@ -2,34 +2,34 @@
   <form class="ui form" @submit.prevent="submit()">
     <h4 v-if="title" class="ui header"><translate translate-context="Popup/Playlist/Title/Verb">Create a new playlist</translate></h4>
     <div v-if="success" class="ui positive message">
-      <div class="header">
+      <h4 class="header">
         <template v-if="playlist">
           <translate translate-context="Content/Playlist/Message">Playlist updated</translate>
         </template>
         <template v-else>
           <translate translate-context="Content/Playlist/Message">Playlist created</translate>
         </template>
-      </div>
+      </h4>
     </div>
     <div v-if="errors.length > 0" role="alert" class="ui negative message">
-      <div class="header"><translate translate-context="Content/Playlist/Error message.Title">The playlist could not be created</translate></div>
+      <h4 class="header"><translate translate-context="Content/Playlist/Error message.Title">The playlist could not be created</translate></h4>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>
       </ul>
     </div>
     <div class="three fields">
       <div class="field">
-        <label><translate translate-context="Content/Playlist/Input.Label">Playlist name</translate></label>
-        <input name="name" v-model="name" required type="text" :placeholder="labels.placeholder" />
+        <label for="playlist-name"><translate translate-context="Content/Playlist/Input.Label">Playlist name</translate></label>
+        <input id ="playlist-name" name="name" v-model="name" required type="text" :placeholder="labels.placeholder" />
       </div>
       <div class="field">
-        <label><translate translate-context="Content/Playlist/Dropdown.Label">Playlist visibility</translate></label>
-        <select class="ui dropdown" v-model="privacyLevel">
+        <label for="playlist-visibility"><translate translate-context="Content/Playlist/Dropdown.Label">Playlist visibility</translate></label>
+        <select id="playlist-visibility" class="ui dropdown" v-model="privacyLevel">
           <option :value="c.value" v-for="c in privacyLevelChoices">{{ c.label }}</option>
         </select>
       </div>
       <div class="field">
-        <label>&nbsp;</label>
+        <span id="updatePlaylistLabel"></span>
         <button :class="['ui', 'fluid', {'loading': isLoading}, 'button']" type="submit">
           <template v-if="playlist"><translate translate-context="Content/Playlist/Button.Label/Verb">Update playlist</translate></template>
           <template v-else><translate translate-context="Content/Playlist/Button.Label/Verb">Create playlist</translate></template>
@@ -130,7 +130,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

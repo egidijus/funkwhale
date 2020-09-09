@@ -1,0 +1,16 @@
+.component-label {
+  &.huge.circular.label {
+    padding-left: 1em !important;
+    padding-right: 1em !important;
+  }
+  &.vertically-spaced.label.ui {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+}
+
+.ui.menu .item > .label {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: #fff;
+}

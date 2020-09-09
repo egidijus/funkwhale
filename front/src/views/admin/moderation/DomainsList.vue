@@ -4,23 +4,23 @@
       <h2 class="ui left floated header"><translate translate-context="*/Moderation/*/Noun">Domains</translate></h2>
       <form class="ui right floated form" @submit.prevent="createDomain">
         <div v-if="errors && errors.length > 0" role="alert" class="ui negative message">
-          <div class="header"><translate translate-context="Content/Moderation/Message.Title">Error while creating domain</translate></div>
+          <h4 class="header"><translate translate-context="Content/Moderation/Message.Title">Error while creating domain</translate></h4>
           <ul class="list">
             <li v-for="error in errors">{{ error }}</li>
           </ul>
         </div>
         <div class="inline fields">
           <div class="field">
-            <label for="domain"><translate translate-context="Content/Moderation/Form.Label/Verb">Add a domain</translate></label>
-            <input type="text" name="domain" id="domain" v-model="domainName">
+            <label for="add-domain"><translate translate-context="Content/Moderation/Form.Label/Verb">Add a domain</translate></label>
+            <input type="text" name="domain" id="add-domain" v-model="domainName">
           </div>
           <div class="field" v-if="allowListEnabled">
             <input type="checkbox" name="allowed" id="allowed" v-model="domainAllowed">
             <label for="allowed"><translate translate-context="Content/Moderation/Action/Verb">Add to allow-list</translate></label>
           </div>
           <div class="field">
-            <button :class="['ui', {'loading': isCreating}, 'green', 'button']" type="submit" :disabled="isCreating">
-              <label for="domain"><translate translate-context="Content/Moderation/Button/Verb">Add</translate></label>
+            <button :class="['ui', {'loading': isCreating}, 'success', 'button']" type="submit" :disabled="isCreating">
+              <translate translate-context="Content/Moderation/Button/Verb">Add</translate>
             </button>
           </div>
         </div>
@@ -74,7 +74,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

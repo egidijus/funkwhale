@@ -1,11 +1,11 @@
 <template>
   <div class="ui fluid card">
     <div class="content">
-      <div class="header">
+      <h4 class="header">
         <router-link :to="detailUrl">
           <translate translate-context="Content/Library/Card/Short" :translate-params="{id: obj.uuid.substring(0, 8)}">Modification %{ id }</translate>
         </router-link>
-      </div>
+      </h4>
       <div class="meta">
         <router-link
           v-if="obj.target && obj.target.type === 'track'"
@@ -18,19 +18,19 @@
 
         <span class="right floated">
           <span v-if="obj.is_approved && obj.is_applied">
-            <i class="green check icon"></i>
+            <i class="success check icon"></i>
             <translate translate-context="Content/Library/Card/Short">Approved and applied</translate>
           </span>
           <span v-else-if="obj.is_approved">
-            <i class="green check icon"></i>
+            <i class="success check icon"></i>
             <translate translate-context="Content/*/*/Short">Approved</translate>
           </span>
           <span v-else-if="obj.is_approved === null">
-            <i class="yellow hourglass icon"></i>
+            <i class="warning hourglass icon"></i>
             <translate translate-context="Content/Admin/*/Noun">Pending review</translate>
           </span>
           <span v-else-if="obj.is_approved === false">
-            <i class="red x icon"></i>
+            <i class="danger x icon"></i>
             <translate translate-context="Content/Library/*/Short">Rejected</translate>
           </span>
         </span>
@@ -54,7 +54,7 @@
 
             <td v-if="field.diff">
               <template v-if="field.config.type === 'attachment' && field.oldRepr">
-                <img class="ui image" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${field.oldRepr}/proxy?next=medium_square_crop`)" />
+                <img class="ui image" alt="" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${field.oldRepr}/proxy?next=medium_square_crop`)" />
               </template>
               <template v-else>
                 <span v-if="!part.added" v-for="part in field.diff" :class="['diff', {removed: part.removed}]">
@@ -68,7 +68,7 @@
 
             <td v-if="field.diff" :title="field.newRepr">
               <template v-if="field.config.type === 'attachment' && field.newRepr">
-                <img class="ui image" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${field.newRepr}/proxy?next=medium_square_crop`)" />
+                <img class="ui image" alt="" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${field.newRepr}/proxy?next=medium_square_crop`)" />
               </template>
               <template v-else>
                 <span v-if="!part.removed" v-for="part in field.diff" :class="['diff', {added: part.added}]">
@@ -78,7 +78,7 @@
             </td>
             <td v-else :title="field.newRepr">
               <template v-if="field.config.type === 'attachment' && field.newRepr">
-                <img class="ui image" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${field.newRepr}/proxy?next=medium_square_crop`)" />
+                <img class="ui image" alt="" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${field.newRepr}/proxy?next=medium_square_crop`)" />
               </template>
               <template v-else>
                 {{ field.newRepr }}
@@ -95,18 +95,18 @@
       <button
         v-if="canApprove && obj.is_approved !== true"
         @click="approve(true)"
-        :class="['ui', {loading: isLoading}, 'green', 'basic', 'button']">
+        :class="['ui', {loading: isLoading}, 'success', 'basic', 'button']">
         <translate translate-context="Content/*/Button.Label/Verb">Approve</translate>
       </button>
       <button
         v-if="canApprove && obj.is_approved === null"
         @click="approve(false)"
-        :class="['ui', {loading: isLoading}, 'yellow', 'basic', 'button']">
+        :class="['ui', {loading: isLoading}, 'warning', 'basic', 'button']">
         <translate translate-context="Content/Library/Button.Label">Reject</translate>
       </button>
       <dangerous-button
         v-if="canDelete"
-        :class="['ui', {loading: isLoading}, 'basic red button']"
+        :class="['ui', {loading: isLoading}, 'basic danger button']"
         :action="remove">
         <translate translate-context="*/*/*/Verb">Delete</translate>
         <p slot="modal-header"><translate translate-context="Popup/Library/Title">Delete this suggestion?</translate></p>

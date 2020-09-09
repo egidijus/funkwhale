@@ -1,7 +1,7 @@
 <template>
-  <form @submit.stop.prevent :class="['ui', {loading: isLoadingStep1}, 'form']">
+  <form @submit.stop.prevent :class="['ui', {loading: isLoadingStep1}, 'form component-file-upload']">
     <div v-if="errors.length > 0" role="alert" class="ui negative message">
-      <div class="header"><translate translate-context="Content/*/Error message.Title">Error while publishing</translate></div>
+      <h4 class="header"><translate translate-context="Content/*/Error message.Title">Error while publishing</translate></h4>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>
       </ul>
@@ -60,7 +60,7 @@
               <div
                 v-if="file.error"
                 @click.stop.prevent="selectedUploadId = file.response.uuid"
-                class="ui basic red icon label"
+                class="ui basic danger icon label"
                 :title="file.error">
                 <i class="warning sign icon"></i>
               </div>
@@ -347,7 +347,7 @@ export default {
     },
     fetchQuota () {
       let self = this
-      axios.get('users/users/me/').then((response) => {
+      axios.get('users/me/').then((response) => {
         self.quotaStatus = response.data.quota_status
       })
     },
@@ -391,8 +391,8 @@ export default {
             value: c.uuid,
             selected: self.channel && self.channel.uuid === c.uuid,
           }
-          if (c.artist.cover && c.artist.cover.small_square_crop) {
-            let coverUrl = self.$store.getters['instance/absoluteUrl'](c.artist.cover.small_square_crop)
+          if (c.artist.cover && c.artist.cover.urls.medium_square_crop) {
+            let coverUrl = self.$store.getters['instance/absoluteUrl'](c.artist.cover.urls.medium_square_crop)
             d.image = coverUrl
             if (c.artist.content_category === 'podcast') {
               d.imageClass = 'ui image'
@@ -402,9 +402,9 @@ export default {
           } else {
             d.icon = "user"
             if (c.artist.content_category === 'podcast') {
-              d.iconClass = "bordered grey icon"
+              d.iconClass = "bordered icon"
             } else {
-              d.iconClass = "circular grey icon"
+              d.iconClass = "circular icon"
 
             }
           }

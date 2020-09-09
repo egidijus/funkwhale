@@ -1,36 +1,35 @@
 <template>
   <div class="ui card">
     <div class="content">
-      <div class="header">
+      <h4 class="header">
         <router-link :to="{name: 'library.detail', params: {id: library.uuid}}">
           {{ library.name }}
         </router-link>
-        <div class="ui right floated dropdown">
-          <i class="ellipsis vertical grey large icon nomargin"></i>
+        <div class="ui right floated dropdown" v-dropdown>
+          <i class="ellipsis vertical large icon nomargin"></i>
           <div class="menu">
-            <div
-              role="button"
+            <button
               v-for="obj in getReportableObjs({library, account: library.actor})"
               :key="obj.target.type + obj.target.id"
               class="item basic"
               @click.stop.prevent="$store.dispatch('moderation/report', obj.target)">
               <i class="share icon" /> {{ obj.label }}
-            </div>
+            </button>
           </div>
         </div>
         <span
           v-if="library.privacy_level === 'me'"
           class="right floated"
           :data-tooltip="labels.tooltips.me">
-          <i class="small lock grey icon"></i>
+          <i class="small lock icon"></i>
         </span>
         <span
           v-else-if="library.privacy_level === 'everyone'"
           class="right floated"
           :data-tooltip="labels.tooltips.everyone">
-          <i class="small globe grey icon"></i>
+          <i class="small globe icon"></i>
         </span>
-      </div>
+      </h4>
       <div class="meta">
         <span>
           <i class="small outline clock icon" />
@@ -55,22 +54,22 @@
           <translate translate-context="Content/Library/Card.List item" :translate-params="{progress: scanProgress}">Scanning… (%{ progress }%)</translate>
         </template>
         <template v-else-if="latestScan.status === 'errored'">
-          <i class="red download icon"></i>
+          <i class="dangerdownload icon"></i>
           <translate translate-context="Content/Library/Card.List item">Problem during scanning</translate>
         </template>
         <template v-else-if="latestScan.status === 'finished' && latestScan.errored_files === 0">
-          <i class="green download icon"></i>
+          <i class="success download icon"></i>
           <translate translate-context="Content/Library/Card.List item">Scanned</translate>
         </template>
         <template v-else-if="latestScan.status === 'finished' && latestScan.errored_files > 0">
-          <i class="yellow download icon"></i>
+          <i class="warning download icon"></i>
           <translate translate-context="Content/Library/Card.List item">Scanned with errors</translate>
         </template>
-        <span class="link right floated" @click="showScan = !showScan">
+        <a href="" class="link right floated" @click.prevent="showScan = !showScan">
           <translate translate-context="Content/Library/Card.Button.Label/Noun">Details</translate>
           <i v-if="showScan" class="angle down icon" />
           <i v-else class="angle right icon" />
-        </span>
+        </a>
         <div v-if="showScan">
           <template v-if="latestScan.modification_date">
             <translate translate-context="Content/Library/Card.List item/Noun">Last update:</translate><human-date :date="latestScan.modification_date" /><br />
@@ -79,19 +78,19 @@
         </div>
       </div>
       <div v-if="displayScan && canLaunchScan" class="clearfix">
-        <span class="right floated link" @click="launchScan">
+        <a href="" class="right floated link" @click.prevent="launchScan">
           <translate translate-context="Content/Library/Card.Button.Label/Verb">Scan now</translate> <i class="paper plane icon" />
-        </span>
+        </a>
       </div>
     </div>
     <div class="extra content">
-      <actor-link :actor="library.actor" />
+      <actor-link style="color: var(--link-color)" :actor="library.actor" />
     </div>
     <div v-if="displayCopyFid" class="extra content">
       <div class="ui form">
         <div class="field">
-          <label><translate translate-context="Content/Library/Title">Sharing link</translate></label>
-          <copy-input :button-classes="'basic'" :value="library.fid" />
+          <label :for="library.fid"><translate translate-context="Content/Library/Title">Sharing link</translate></label>
+          <copy-input :id="library.fid" :button-classes="'basic'" :value="library.fid" />
         </div>
       </div>
     </div>
@@ -101,7 +100,7 @@
         <button
           v-if="!library.follow"
           @click="follow()"
-          :class="['ui', 'green', {'loading': isLoadingFollow}, 'button']">
+          :class="['ui', 'success', {'loading': isLoadingFollow}, 'button']">
           <translate translate-context="Content/Library/Card.Button.Label/Verb">Follow</translate>
         </button>
         <template v-else-if="!library.follow.approved">
@@ -155,18 +154,6 @@ export default {
       scanTimeout: null,
       latestScan: this.library.latest_scan,
     }
-  },
-  mounted () {
-    let self = this
-    jQuery(this.$el).find('.ui.dropdown').dropdown({
-      selectOnKeydown: false,
-      action: function (text, value, $el) {
-        // used ton ensure focusing the dropdown and clicking via keyboard
-        // works as expected
-        self.$refs[$el.data('ref')].click()
-        jQuery(self.$el).find('.ui.dropdown').dropdown('hide')
-      }
-    })
   },
   computed: {
     labels () {

@@ -2,12 +2,12 @@
   <div class="app-card card">
     <div
       @click="$router.push({name: 'library.artists.detail', params: {id: artist.id}})"
-      :class="['ui', 'head-image', 'circular', 'image', {'default-cover': !cover.original}]" v-lazy:background-image="imageUrl">
-      <play-button :icon-only="true" :is-playable="artist.is_playable" :button-classes="['ui', 'circular', 'large', 'orange', 'icon', 'button']" :artist="artist"></play-button>
+      :class="['ui', 'head-image', 'circular', 'image', {'default-cover': !cover || !cover.urls.original}]" v-lazy:background-image="imageUrl">
+      <play-button :icon-only="true" :is-playable="artist.is_playable" :button-classes="['ui', 'circular', 'large', 'vibrant', 'icon', 'button']" :artist="artist"></play-button>
     </div>
     <div class="content">
       <strong>
-        <router-link class="discrete link" :title="artist.name" :to="{name: 'library.artists.detail', params: {id: artist.id}}">
+        <router-link class="discrete link" :to="{name: 'library.artists.detail', params: {id: artist.id}}">
           {{ artist.name|truncate(30) }}
         </router-link>
       </strong>
@@ -16,7 +16,7 @@
     </div>
     <div class="extra content">
       <translate translate-context="*/*/*" :translate-params="{count: artist.tracks_count}" :translate-n="artist.tracks_count" translate-plural="%{ count } tracks">%{ count } track</translate>
-      <play-button class="right floated basic icon" :dropdown-only="true" :is-playable="artist.is_playable" :dropdown-icon-classes="['ellipsis', 'horizontal', 'large', 'grey']" :artist="artist"></play-button>
+      <play-button class="right floated basic icon" :dropdown-only="true" :is-playable="artist.is_playable" :dropdown-icon-classes="['ellipsis', 'horizontal', 'large really discrete']" :artist="artist"></play-button>
     </div>
   </div>
 </template>
@@ -39,32 +39,21 @@ export default {
   },
   computed: {
     imageUrl () {
-      let url = '../../../assets/audio/default-cover.png'
       let cover = this.cover
-      if (cover.original) {
-        url = this.$store.getters['instance/absoluteUrl'](cover.medium_square_crop)
-      } else {
-        return null
+      if (cover && cover.urls.original) {
+        return this.$store.getters['instance/absoluteUrl'](cover.urls.medium_square_crop)
       }
-      return url
     },
     cover () {
-      if (this.artist.cover && this.artist.cover.original) {
+      if (this.artist.cover && this.artist.cover.urls.original) {
         return this.artist.cover
       }
       return this.artist.albums.map((a) => {
         return a.cover
       }).filter((c) => {
-        return c && c.original
-      })[0] || {}
+        return c && c.urls.original
+      })[0]
     },
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.default-cover {
-  background-image: url("../../../assets/audio/default-cover.png") !important;
-}
-</style>

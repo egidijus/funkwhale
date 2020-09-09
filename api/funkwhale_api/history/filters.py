@@ -16,4 +16,4 @@ class ListeningFilter(moderation_filters.HiddenContentFilterSet):
         hidden_content_fields_mapping = moderation_filters.USER_FILTER_CONFIG[
             "LISTENING"
         ]
-        fields = ["hidden", "scope"]
+        fields = []

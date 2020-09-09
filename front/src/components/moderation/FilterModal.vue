@@ -1,17 +1,17 @@
 <template>
   <modal @update:show="update" :show="$store.state.moderation.showFilterModal">
-    <div class="header">
+    <h4 class="header">
       <translate
         v-if="type === 'artist'"
         key="1"
         translate-context="Popup/Moderation/Title/Verb"
         :translate-params="{name: target.name}">Do you want to hide content from artist "%{ name }"?</translate>
-    </div>
+    </h4>
     <div class="scrolling content">
       <div class="description">
 
         <div v-if="errors.length > 0" role="alert" class="ui negative message">
-          <div class="header"><translate translate-context="Popup/Moderation/Error message">Error while creating filter</translate></div>
+          <h4 class="header"><translate translate-context="Popup/Moderation/Error message">Error while creating filter</translate></h4>
           <ul class="list">
             <li v-for="error in errors">{{ error }}</li>
           </ul>
@@ -37,8 +37,8 @@
       </div>
     </div>
     <div class="actions">
-      <div class="ui basic cancel button"><translate translate-context="*/*/Button.Label/Verb">Cancel</translate></div>
-      <div :class="['ui', 'green', {loading: isLoading}, 'button']" @click="hide"><translate translate-context="Popup/*/Button.Label">Hide content</translate></div>
+      <button class="ui basic cancel button"><translate translate-context="*/*/Button.Label/Verb">Cancel</translate></button>
+      <button :class="['ui', 'success', {loading: isLoading}, 'button']" @click="hide"><translate translate-context="Popup/*/Button.Label">Hide content</translate></button>
     </div>
   </modal>
 </template>
@@ -102,7 +102,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

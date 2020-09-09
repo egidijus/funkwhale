@@ -3,6 +3,7 @@ import datetime
 import itertools
 import os
 import queue
+import sys
 import threading
 import time
 import urllib.parse
@@ -11,6 +12,7 @@ import watchdog.events
 import watchdog.observers
 
 from django.conf import settings
+from django.core.cache import cache
 from django.core.files import File
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
@@ -29,16 +31,27 @@ def crawl_dir(dir, extensions, recursive=True, ignored=[]):
         return
     try:
         scanner = os.scandir(dir)
+    except Exception as e:
+        m = "Error while reading {}: {} {}\n".format(dir, e.__class__.__name__, e)
+        sys.stderr.write(m)
+        return
+    try:
         for entry in scanner:
-            if entry.is_file():
-                for e in extensions:
-                    if entry.name.lower().endswith(".{}".format(e.lower())):
-                        if entry.path not in ignored:
-                            yield entry.path
-            elif recursive and entry.is_dir():
-                yield from crawl_dir(
-                    entry.path, extensions, recursive=recursive, ignored=ignored
+            try:
+                if entry.is_file():
+                    for e in extensions:
+                        if entry.name.lower().endswith(".{}".format(e.lower())):
+                            if entry.path not in ignored:
+                                yield entry.path
+                elif recursive and entry.is_dir():
+                    yield from crawl_dir(
+                        entry.path, extensions, recursive=recursive, ignored=ignored
+                    )
+            except Exception as e:
+                m = "Error while reading {}: {} {}\n".format(
+                    entry.name, e.__class__.__name__, e
                 )
+                sys.stderr.write(m)
     finally:
         if hasattr(scanner, "close"):
             scanner.close()
@@ -56,8 +69,34 @@ def batch(iterable, n=1):
         yield current
 
 
+class CacheWriter:
+    """
+    Output to cache instead of console
+    """
+
+    def __init__(self, key, stdout, buffer_size=10):
+        self.key = key
+        cache.set(self.key, [])
+        self.stdout = stdout
+        self.buffer_size = buffer_size
+        self.buffer = []
+
+    def write(self, message):
+        # we redispatch the message to the console, for debugging
+        self.stdout.write(message)
+
+        self.buffer.append(message)
+        if len(self.buffer) > self.buffer_size:
+            self.flush()
+
+    def flush(self):
+        current = cache.get(self.key)
+        cache.set(self.key, current + self.buffer)
+        self.buffer = []
+
+
 class Command(BaseCommand):
-    help = "Import audio files mathinc given glob pattern"
+    help = "Import audio files matching given glob pattern"
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -195,7 +234,22 @@ class Command(BaseCommand):
             help="Size of each batch, only used when crawling large collections",
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **kwargs):
+        cache.set("fs-import:status", "started")
+        if kwargs.get("update_cache", False):
+            self.stdout = CacheWriter("fs-import:logs", self.stdout)
+            self.stderr = self.stdout
+        try:
+            return self._handle(*args, **kwargs)
+        except CommandError as e:
+            self.stdout.write(str(e))
+            raise
+        finally:
+            if kwargs.get("update_cache", False):
+                cache.set("fs-import:status", "finished")
+                self.stdout.flush()
+
+    def _handle(self, *args, **options):
         # handle relative directories
         options["path"] = [os.path.abspath(path) for path in options["path"]]
         self.is_confirmed = False
@@ -300,6 +354,10 @@ class Command(BaseCommand):
         batch_duration = None
         self.stdout.write("Starting import of new files…")
         for i, entries in enumerate(batch(crawler, options["batch_size"])):
+            if options.get("update_cache", False) is True:
+                # check to see if the scan was cancelled
+                if cache.get("fs-import:status") == "canceled":
+                    raise CommandError("Import cancelled")
             total += len(entries)
             batch_start = time.time()
             time_stats = ""
@@ -643,9 +701,7 @@ def handle_modified(event, stdout, library, in_place, **kwargs):
                 and to_update.track.attributed_to != library.actor
             ):
                 stdout.write(
-                    "  Cannot update track metadata, track belongs to someone else".format(
-                        to_update.pk
-                    )
+                    "  Cannot update track metadata, track belongs to someone else"
                 )
                 return
             else:
@@ -748,7 +804,7 @@ def check_updates(stdout, library, extensions, paths, batch_size):
 def check_upload(stdout, upload):
     try:
         audio_file = upload.get_audio_file()
-    except FileNotFoundError:
+    except (FileNotFoundError, PermissionError):
         stdout.write(
             "  Removing file #{} missing from disk at {}".format(
                 upload.pk, upload.source
@@ -765,9 +821,7 @@ def check_upload(stdout, upload):
         )
         if upload.library.actor_id != upload.track.attributed_to_id:
             stdout.write(
-                "  Cannot update track metadata, track belongs to someone else".format(
-                    upload.pk
-                )
+                "  Cannot update track metadata, track belongs to someone else"
             )
         else:
             track = models.Track.objects.select_related("artist", "album__artist").get(

@@ -20,7 +20,7 @@ class TagFilter(filters.FilterSet):
 
     class Meta:
         model = models.Tag
-        fields = {"q": ["exact"], "name": ["exact", "startswith"]}
+        fields = {"name": ["exact", "startswith"]}
 
 
 def get_by_similar_tags(qs, tags):

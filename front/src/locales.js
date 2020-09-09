@@ -6,18 +6,6 @@ export default {
       "label": "العربية"
     },
     {
-      "code": "zh_Hant",
-      "label": "漢語"
-    },
-    {
-      "code": "en_US",
-      "label": "English (United-States)"
-    },
-    {
-      "code": "en_GB",
-      "label": "English (UK)"
-    },
-    {
       "code": "ca",
       "label": "Català"
     },
@@ -28,6 +16,14 @@ export default {
     {
       "code": "de",
       "label": "Deutsch"
+    },
+    {
+      "code": "en_GB",
+      "label": "English (UK)"
+    },
+    {
+      "code": "en_US",
+      "label": "English (United-States)"
     },
     {
       "code": "eo",
@@ -100,6 +96,22 @@ export default {
     {
       "code": "ru",
       "label": "Русский"
+    },
+    {
+      "code": "sq",
+      "label": "Shqip"
+    },
+    {
+      "code": "zh_Hans",
+      "label": "中文(简体)"
+    },
+    {
+      "code": "zh_Hant",
+      "label": "中文(繁體)"
+    },
+    {
+      "code": "fa_IR",
+      "label": "فارسی"
     }
   ]
 }

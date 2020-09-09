@@ -21,7 +21,7 @@
                     <i class="info icon"></i>
                     <translate translate-context="Content/Moderation/Link/Verb">Open local profile</translate>&nbsp;
                   </router-link>
-                  <div class="ui floating dropdown icon button" v-dropdown>
+                  <button class="ui floating dropdown icon button" v-dropdown>
                     <i class="dropdown icon"></i>
                     <div class="menu">
                       <a
@@ -33,11 +33,11 @@
                         <translate translate-context="Content/Moderation/Link/Verb">View in Django's admin</translate>&nbsp;
                       </a>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div class="ui buttons">
                   <dangerous-button
-                    :class="['ui', {loading: isLoading}, 'basic red button']"
+                    :class="['ui', {loading: isLoading}, 'basic danger button']"
                     :action="remove">
                     <translate translate-context="*/*/*/Verb">Delete</translate>
                     <p slot="modal-header"><translate translate-context="Popup/Library/Title">Delete this tag?</translate></p>

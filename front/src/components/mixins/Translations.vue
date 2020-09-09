@@ -131,6 +131,14 @@ export default {
           edits: {
             label: this.$pgettext('*/Admin/*/Noun', 'Edits'),
             description: this.$pgettext('Content/OAuth Scopes/Paragraph', 'Access to edits'),
+          },
+          security: {
+            label: this.$pgettext('*/Admin/*/Noun', 'Security'),
+            description: this.$pgettext('Content/OAuth Scopes/Paragraph', 'Access to security settings such as password and authorization'),
+          },
+          reports: {
+            label: this.$pgettext('*/Moderation/*/Noun', 'Reports'),
+            description: this.$pgettext('Content/OAuth Scopes/Paragraph', 'Access to moderation reports'),
           }
         }
       }

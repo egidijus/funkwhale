@@ -1,5 +1,6 @@
 <script>
 import FileUpload from 'vue-upload-component'
+import {setCsrf} from '@/utils'
 
 export default {
   extends: FileUpload,
@@ -32,13 +33,12 @@ export default {
       form.append(this.name, file.file, filename)
       let xhr = new XMLHttpRequest()
       xhr.open('POST', file.postAction)
-      xhr.setRequestHeader('Authorization', this.$store.getters['auth/header'])
+      setCsrf(xhr)
+      if (this.$store.state.auth.oauth.accessToken) {
+        xhr.setRequestHeader('Authorization', this.$store.getters['auth/header'])
+      }
       return this.uploadXhr(xhr, file, form)
     }
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

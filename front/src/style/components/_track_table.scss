@@ -1,0 +1,14 @@
+.component-track-table {
+  pre {
+    overflow-x: scroll;
+  }
+  &.table-wrapper {
+    overflow: visible;
+  }
+  tr:not(:hover) {
+    .favorite-icon:not(.favorited),
+    .playlist-icon {
+      visibility: hidden;
+    }
+  }
+}

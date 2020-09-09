@@ -66,6 +66,16 @@ export default new Router({
       })
     },
     {
+      path: "/auth/callback",
+      name: "auth.callback",
+      component: () =>
+        import(/* webpackChunkName: "auth-callback" */ "@/views/auth/Callback"),
+      props: route => ({
+        code: route.query.code,
+        state: route.query.state,
+      })
+    },
+    {
       path: "/auth/email/confirm",
       name: "auth.email-confirm",
       component: () =>
@@ -81,7 +91,9 @@ export default new Router({
         import(/* webpackChunkName: "core" */ "@/views/Search"),
       props: route => ({
         initialId: route.query.id,
-        type: route.query.type,
+        initialType: route.query.type || 'artists',
+        initialQuery: route.query.q,
+        initialPage: parseInt(route.query.page) || 1,
       })
     },
     {
@@ -142,6 +154,14 @@ export default new Router({
       component: () =>
         import(
           /* webpackChunkName: "settings" */ "@/components/auth/ApplicationNew"
+        )
+    },
+    {
+      path: "/settings/plugins",
+      name: "settings.plugins",
+      component: () =>
+        import(
+          /* webpackChunkName: "settings" */ "@/views/auth/Plugins"
         )
     },
     {

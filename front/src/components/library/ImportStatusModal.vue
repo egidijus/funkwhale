@@ -1,9 +1,9 @@
 <template>
 
   <modal :show.sync="showModal">
-    <div class="header">
+    <h4 class="header">
       <translate translate-context="Popup/Import/Title">Import detail</translate>
-    </div>
+    </h4>
     <div class="content" v-if="upload">
       <div class="description">
         <div class="ui message" v-if="upload.import_status === 'pending'">
@@ -77,9 +77,9 @@
       </div>
     </div>
     <div class="actions">
-      <div class="ui deny button">
+      <button class="ui deny button">
         <translate translate-context="*/*/Button.Label/Verb">Close</translate>
-      </div>
+      </button>
     </div>
   </modal>
 </template>

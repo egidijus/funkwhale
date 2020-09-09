@@ -16,6 +16,7 @@ import store from './store'
 import GetTextPlugin from 'vue-gettext'
 import { sync } from 'vuex-router-sync'
 import locales from '@/locales'
+import createAuthRefreshInterceptor from 'axios-auth-refresh';
 
 import filters from '@/filters' // eslint-disable-line
 import {parseAPIErrors} from '@/utils'
@@ -65,12 +66,22 @@ Vue.directive('title', function (el, binding) {
 Vue.directive('dropdown', function (el, binding) {
   jQuery(el).dropdown({
     selectOnKeydown: false,
+    action: function (text, value, $el) {
+      // used to ensure focusing the dropdown and clicking via keyboard
+      // works as expected
+      let button = $el[0]
+      button.click()
+      jQuery(el).find('.ui.dropdown').dropdown('hide')
+    },
     ...(binding.value || {})
   })
 })
+axios.defaults.xsrfCookieName = 'csrftoken'
+axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 axios.interceptors.request.use(function (config) {
+
   // Do something before request is sent
-  if (store.state.auth.token) {
+  if (store.state.auth.oauth.accessToken) {
     config.headers['Authorization'] = store.getters['auth/header']
   }
   return config
@@ -84,7 +95,7 @@ axios.interceptors.response.use(function (response) {
   return response
 }, function (error) {
   error.backendErrors = []
-  if (error.response.status === 401) {
+  if (store.state.auth.authenticated && !store.state.auth.oauth.accessToken && error.response.status === 401) {
     store.commit('auth/authenticated', false)
     logger.default.warn('Received 401 response from API, redirecting to login form', router.currentRoute.fullPath)
     router.push({name: 'login', query: {next: router.currentRoute.fullPath}})
@@ -136,6 +147,21 @@ axios.interceptors.response.use(function (response) {
   // Do something with response error
   return Promise.reject(error)
 })
+
+const refreshAuth = (failedRequest) => {
+  if (store.state.auth.oauth.accessToken) {
+    console.log('Failed request, refreshing auth…')
+    // maybe the token was expired, let's try to refresh it
+    return store.dispatch('auth/refreshOauthToken').then(() => {
+      failedRequest.response.config.headers['Authorization'] = store.getters["auth/header"];
+      return Promise.resolve();
+    })
+  } else {
+    return Promise.resolve();
+  }
+}
+
+createAuthRefreshInterceptor(axios, refreshAuth);
 
 store.dispatch('instance/fetchFrontSettings').finally(() => {
   /* eslint-disable no-new */

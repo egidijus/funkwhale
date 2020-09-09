@@ -1,12 +1,12 @@
 <template>
-  <div class="table-wrapper">
+  <div class="table-wrapper component-action-table">
     <table class="ui compact very basic unstackable table">
       <thead>
         <tr>
           <th colspan="1000">
             <div v-if="refreshable" class="right floated">
               <span v-if="needsRefresh">
-                <translate translate-context="Content/*/Button.Help text.Paragraph">Content have been updated, click refresh to see up-to-date content</translate>
+                <translate translate-context="Content/*/Button.Help text.Paragraph">Content has been updated, click refresh to see up-to-date content</translate>
               </span>
               <button
                 @click="$emit('refresh')"
@@ -20,8 +20,8 @@
             <div class="ui small left floated form" v-if="actionUrl && actions.length > 0">
               <div class="ui inline fields">
                 <div class="field">
-                  <label><translate translate-context="Content/*/*/Noun">Actions</translate></label>
-                  <select class="ui dropdown" v-model="currentActionName">
+                  <label for="actions-select"><translate translate-context="Content/*/*/Noun">Actions</translate></label>
+                  <select id="actions-select" class="ui dropdown" v-model="currentActionName">
                     <option v-for="action in actions" :value="action.name">
                       {{ action.label }}
                     </option>
@@ -30,8 +30,8 @@
                 <div class="field">
                   <dangerous-button
                     v-if="selectAll || currentAction.isDangerous" :class="['ui', {disabled: checked.length === 0}, {'loading': actionLoading}, 'button']"
-                    :confirm-color="currentAction.confirmColor || 'green'"
-                    @confirm="launchAction">
+                    :confirm-color="currentAction.confirmColor || 'success'"
+                    @confirm="launchAction" :aria-label="labels.performAction">
                     <translate translate-context="Content/*/Button.Label/Short, Verb">Go</translate>
                     <p slot="modal-header">
                       <translate translate-context="Modal/*/Title"
@@ -46,14 +46,15 @@
                       <template v-if="currentAction.confirmationMessage">{{ currentAction.confirmationMessage }}</template>
                       <translate v-else translate-context="Modal/*/Paragraph">This may affect a lot of elements or have irreversible consequences, please double check this is really what you want.</translate>
                     </p>
-                    <div slot="modal-confirm"><translate translate-context="Modal/*/Button.Label/Short, Verb">Launch</translate></div>
+                    <div :aria-label="labels.performAction" slot="modal-confirm"><translate translate-context="Modal/*/Button.Label/Short, Verb">Launch</translate></div>
                   </dangerous-button>
-                  <div
+                  <button
                     v-else
                     @click="launchAction"
                     :disabled="checked.length === 0"
+                    :aria-label="labels.performAction"
                     :class="['ui', {disabled: checked.length === 0}, {'loading': actionLoading}, 'button']">
-                    <translate translate-context="Content/*/Button.Label/Short, Verb">Go</translate></div>
+                    <translate translate-context="Content/*/Button.Label/Short, Verb">Go</translate></button>
                 </div>
                 <div class="count field">
                   <translate translate-context="Content/*/Paragraph"
@@ -75,7 +76,7 @@
                     %{ count } on %{ total } selected
                   </translate>
                   <template v-if="currentAction.allowAll && checkable.length > 0 && checkable.length === checked.length">
-                    <a @click="selectAll = true" v-if="!selectAll">
+                    <a @click.prevent="selectAll = true" v-if="!selectAll" href="">
                       <translate translate-context="Content/*/Link/Verb"
                         key="3"
                         :translate-n="objectsData.count"
@@ -84,14 +85,14 @@
                         Select all %{ total } elements
                       </translate>
                     </a>
-                    <a @click="selectAll = false" v-else>
+                    <a @click.prevent="selectAll = false" v-else href="">
                       <translate translate-context="Content/*/Link/Verb" key="4">Select only current page</translate>
                     </a>
                   </template>
                 </div>
               </div>
               <div v-if="actionErrors.length > 0" role="alert" class="ui negative message">
-                <div class="header"><translate translate-context="Content/*/Error message/Header">Error while applying action</translate></div>
+                <h4 class="header"><translate translate-context="Content/*/Error message/Header">Error while applying action</translate></h4>
                 <ul class="list">
                   <li v-for="error in actionErrors">{{ error }}</li>
                 </ul>
@@ -118,8 +119,9 @@
               <input
                 type="checkbox"
                 @change="toggleCheckAll"
+                :aria-label="labels.selectAllItems"
                 :disabled="checkable.length === 0"
-                :checked="checkable.length > 0 && checked.length === checkable.length"><label>&nbsp;</label>
+                :checked="checkable.length > 0 && checked.length === checkable.length">
             </div>
           </th>
           <slot name="header-cells"></slot>
@@ -130,9 +132,10 @@
           <td v-if="actions.length > 0" class="collapsing">
             <input
               type="checkbox"
+              :aria-label="labels.selectItem"
               :disabled="checkable.indexOf(getId(obj)) === -1"
               @click="toggleCheck($event, getId(obj), index)"
-              :checked="checked.indexOf(getId(obj)) > -1"><label>&nbsp;</label>
+              :checked="checked.indexOf(getId(obj)) > -1">
           </td>
           <slot name="row-cells" :obj="obj"></slot>
         </tr>
@@ -271,7 +274,10 @@ export default {
     },
     labels () {
       return {
-        refresh: this.$pgettext('Content/*/Button.Tooltip/Verb', 'Refresh table content')
+        refresh: this.$pgettext('Content/*/Button.Tooltip/Verb', 'Refresh table content'),
+        selectAllItems: this.$pgettext('Content/*/Select/Verb', 'Select all items'),
+        performAction: this.$pgettext('Content/*/Button.Label', 'Perform actions'),
+        selectItem: this.$pgettext('Content/*/Select/Verb', 'Select')
       }
     },
     affectedObjectsCount () {
@@ -300,11 +306,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.count.field {
-  font-weight: normal;
-}
-.ui.form .inline.fields {
-  margin: 0;
-}
-</style>

@@ -16,6 +16,7 @@ from funkwhale_api.moderation import serializers as moderation_serializers
     [
         ({"type": "Follow"}, routes.inbox_follow),
         ({"type": "Accept"}, routes.inbox_accept),
+        ({"type": "Reject"}, routes.inbox_reject_follow),
         ({"type": "Create", "object": {"type": "Audio"}}, routes.inbox_create_audio),
         (
             {"type": "Update", "object": {"type": "Library"}},
@@ -51,6 +52,7 @@ def test_inbox_routes(route, handler):
         ({"type": "Accept"}, routes.outbox_accept),
         ({"type": "Flag"}, routes.outbox_flag),
         ({"type": "Follow"}, routes.outbox_follow),
+        ({"type": "Reject"}, routes.outbox_reject_follow),
         ({"type": "Create", "object": {"type": "Audio"}}, routes.outbox_create_audio),
         (
             {"type": "Update", "object": {"type": "Library"}},
@@ -665,6 +667,46 @@ def test_outbox_delete_follow_library(factories):
 
     assert activity["payload"] == expected
     assert activity["actor"] == follow.actor
+    assert activity["object"] == follow
+    assert activity["related_object"] == follow.target
+
+
+def test_inbox_reject_follow_library(factories):
+    local_actor = factories["users.User"]().create_actor()
+    remote_actor = factories["federation.Actor"]()
+    follow = factories["federation.LibraryFollow"](
+        actor=local_actor, target__actor=remote_actor, approved=True
+    )
+    assert follow.approved is True
+    serializer = serializers.RejectFollowSerializer(
+        follow, context={"actor": remote_actor}
+    )
+    ii = factories["federation.InboxItem"](actor=local_actor)
+    routes.inbox_reject_follow(
+        serializer.data,
+        context={"actor": remote_actor, "inbox_items": [ii], "raise_exception": True},
+    )
+    follow.refresh_from_db()
+    assert follow.approved is False
+
+
+def test_outbox_reject_follow_library(factories):
+    remote_actor = factories["federation.Actor"]()
+    local_actor = factories["federation.Actor"](local=True)
+    follow = factories["federation.LibraryFollow"](
+        actor=remote_actor, target__actor=local_actor
+    )
+
+    activity = list(routes.outbox_reject_follow({"follow": follow}))[0]
+
+    serializer = serializers.RejectFollowSerializer(
+        follow, context={"actor": local_actor}
+    )
+    expected = serializer.data
+    expected["to"] = [remote_actor]
+
+    assert activity["payload"] == expected
+    assert activity["actor"] == local_actor
     assert activity["object"] == follow
     assert activity["related_object"] == follow.target
 

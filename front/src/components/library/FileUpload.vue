@@ -1,28 +1,28 @@
   <template>
-  <div>
+  <div class="component-file-upload">
     <div class="ui top attached tabular menu">
-      <a :class="['item', {active: currentTab === 'summary'}]" @click="currentTab = 'summary'"><translate translate-context="Content/Library/Tab.Title/Short">Summary</translate></a>
-      <a :class="['item', {active: currentTab === 'uploads'}]" @click="currentTab = 'uploads'">
+      <a href="" :class="['item', {active: currentTab === 'summary'}]" @click.prevent="currentTab = 'summary'"><translate translate-context="Content/Library/Tab.Title/Short">Summary</translate></a>
+      <a href="" :class="['item', {active: currentTab === 'uploads'}]" @click.prevent="currentTab = 'uploads'">
         <translate translate-context="Content/Library/Tab.Title/Short">Uploading</translate>
         <div v-if="files.length === 0" class="ui label">
           0
         </div>
-        <div v-else-if="files.length > uploadedFilesCount + erroredFilesCount" class="ui yellow label">
+        <div v-else-if="files.length > uploadedFilesCount + erroredFilesCount" class="ui warning label">
           {{ uploadedFilesCount + erroredFilesCount }}/{{ files.length }}
         </div>
-        <div v-else :class="['ui', {'green': erroredFilesCount === 0}, {'red': erroredFilesCount > 0}, 'label']">
+        <div v-else :class="['ui', {'success': erroredFilesCount === 0}, {'danger': erroredFilesCount > 0}, 'label']">
           {{ uploadedFilesCount + erroredFilesCount }}/{{ files.length }}
         </div>
       </a>
-      <a :class="['item', {active: currentTab === 'processing'}]" @click="currentTab = 'processing'">
+      <a href="" :class="['item', {active: currentTab === 'processing'}]" @click.prevent="currentTab = 'processing'">
         <translate translate-context="Content/Library/Tab.Title/Short">Processing</translate>
         <div v-if="processableFiles === 0" class="ui label">
           0
         </div>
-        <div v-else-if="processableFiles > processedFilesCount" class="ui yellow label">
+        <div v-else-if="processableFiles > processedFilesCount" class="ui warning label">
           {{ processedFilesCount }}/{{ processableFiles }}
         </div>
-        <div v-else :class="['ui', {'green': uploads.errored === 0}, {'red': uploads.errored > 0}, 'label']">
+        <div v-else :class="['ui', {'success': uploads.errored === 0}, {'danger': uploads.errored > 0}, 'label']">
           {{ processedFilesCount }}/{{ processableFiles }}
         </div>
       </a>
@@ -48,18 +48,52 @@
       <form class="ui form" @submit.prevent="currentTab = 'uploads'">
         <div class="fields">
           <div class="ui field">
-            <label><translate translate-context="Content/Library/Input.Label/Noun">Import reference</translate></label>
+            <label for="import-reference"><translate translate-context="Content/Library/Input.Label/Noun">Import reference</translate></label>
             <p><translate translate-context="Content/Library/Paragraph">This reference will be used to group imported files together.</translate></p>
-            <input name="import-ref" type="text" v-model="importReference" />
+            <input id="import-reference" name="import-ref" type="text" v-model="importReference" />
           </div>
         </div>
 
-        <button type="submit" class="ui green button"><translate translate-context="Content/Library/Button.Label">Proceed</translate></button>
+        <button type="submit" class="ui success button"><translate translate-context="Content/Library/Button.Label">Proceed</translate></button>
       </form>
+
+      <template v-if="$store.state.auth.availablePermissions['library']">
+        <div class="ui divider"></div>
+        <h2 class="ui header"><translate translate-context="Content/Library/Title/Verb">Import music from your server</translate></h2>
+        <div v-if="fsErrors.length > 0" role="alert" class="ui negative message">
+          <h3 class="header"><translate translate-context="Content/*/Error message.Title">Error while launching import</translate></h3>
+          <ul class="list">
+            <li v-for="error in fsErrors">{{ error }}</li>
+          </ul>
+        </div>
+        <fs-browser
+          v-if="fsStatus"
+          v-model="fsPath"
+          @import="importFs"
+          :loading="isLoadingFs"
+          :data="fsStatus"></fs-browser>
+        
+        <template v-if="fsStatus && fsStatus.import">
+          <h3 class="ui header"><translate translate-context="Content/Library/Title/Verb">Import status</translate></h3>
+          <p v-if="fsStatus.import.reference != importReference">
+            <translate translate-context="Content/Library/Paragraph">Results of your previous import:</translate>
+          </p>
+          <p v-else>
+            <translate translate-context="Content/Library/Paragraph">Results of your import:</translate>
+          </p>
+          <button
+            class="ui button"
+            @click="cancelFsScan"
+            v-if="fsStatus.import.status === 'started' || fsStatus.import.status === 'pending'">
+            <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
+          </button>
+          <fs-logs :data="fsStatus.import"></fs-logs>
+        </template>
+      </template>
     </div>
     <div :class="['ui', 'bottom', 'attached', 'segment', {hidden: currentTab != 'uploads'}]">
       <div :class="['ui', {loading: isLoadingQuota}, 'container']">
-        <div :class="['ui', {red: remainingSpace === 0}, {yellow: remainingSpace > 0 && remainingSpace <= 50}, 'small', 'statistic']">
+        <div :class="['ui', {red: remainingSpace === 0}, {warning: remainingSpace > 0 && remainingSpace <= 50}, 'small', 'statistic']">
           <div class="label">
             <translate translate-context="Content/Library/Paragraph">Remaining storage space</translate>
           </div>
@@ -113,14 +147,14 @@
               <td>{{ file.size | humanSize }}</td>
               <td>
                 <span v-if="file.error" class="ui tooltip" :data-tooltip="labels.tooltips[file.error]">
-                  <span class="ui red icon label">
+                  <span class="ui danger icon label">
                     <i class="question circle outline icon" /> {{ file.error }}
                   </span>
                 </span>
-                <span v-else-if="file.success" class="ui green label">
+                <span v-else-if="file.success" class="ui success label">
                   <translate translate-context="Content/Library/Table" key="1">Uploaded</translate>
                 </span>
-                <span v-else-if="file.active" class="ui yellow label">
+                <span v-else-if="file.active" class="ui warning label">
                   <translate translate-context="Content/Library/Table" key="2">Uploading…</translate>
                   ({{ parseInt(file.progress) }}%)
                 </span>
@@ -137,7 +171,7 @@
                   </button>
                 </template>
                 <template v-else-if="!file.success">
-                  <button class="ui tiny basic red icon right floated button" @click.prevent="$refs.upload.remove(file)"><i class="delete icon"></i></button>
+                  <button class="ui tiny basic danger icon right floated button" @click.prevent="$refs.upload.remove(file)"><i class="delete icon"></i></button>
                 </template>
               </td>
             </tr>
@@ -163,6 +197,8 @@ import $ from "jquery";
 import axios from "axios";
 import logger from "@/logging";
 import FileUploadWidget from "./FileUploadWidget";
+import FsBrowser from "./FsBrowser";
+import FsLogs from "./FsLogs";
 import LibraryFilesTable from "@/views/content/libraries/FilesTable";
 import moment from "moment";
 
@@ -170,7 +206,9 @@ export default {
   props: ["library", "defaultImportReference"],
   components: {
     FileUploadWidget,
-    LibraryFilesTable
+    LibraryFilesTable,
+    FsBrowser,
+    FsLogs,
   },
   data() {
     let importReference = this.defaultImportReference || moment().format();
@@ -190,11 +228,22 @@ export default {
         errored: 0,
         objects: {}
       },
-      processTimestamp: new Date()
+      processTimestamp: new Date(),
+      fsStatus: null,
+      fsPath: [],
+      isLoadingFs: false,
+      fsInterval: null,
+      fsErrors: []
     };
   },
   created() {
     this.fetchStatus();
+    if (this.$store.state.auth.availablePermissions['library']) {
+      this.fetchFs(true)
+      this.fsInterval = setInterval(() => {
+        this.fetchFs(false)
+      }, 5000);
+    }
     this.fetchQuota();
     this.$store.commit("ui/addWebsocketEventHandler", {
       eventName: "import.status_updated",
@@ -209,6 +258,9 @@ export default {
       id: "fileUpload"
     });
     window.onbeforeunload = null;
+    if (this.fsInterval) {
+      clearInterval(this.fsInterval)
+    }
   },
   methods: {
     onBeforeUnload(e = {}) {
@@ -222,10 +274,42 @@ export default {
     fetchQuota () {
       let self = this
       self.isLoadingQuota = true
-      axios.get('users/users/me/').then((response) => {
+      axios.get('users/me/').then((response) => {
         self.quotaStatus = response.data.quota_status
         self.isLoadingQuota = false
       })
+    },
+    fetchFs (updateLoading) {
+      let self = this
+      if (updateLoading) {
+        self.isLoadingFs = true
+      }
+      axios.get('libraries/fs-import', {params: {path: this.fsPath.join('/')}}).then((response) => {
+        self.fsStatus = response.data
+        if (updateLoading) {
+          self.isLoadingFs = false
+        }
+      })
+    },
+    importFs () {
+      let self = this
+      self.isLoadingFs = true
+      let payload = {
+        path: this.fsPath.join('/'),
+        library: this.library.uuid,
+        import_reference: this.importReference,
+      }
+      axios.post('libraries/fs-import', payload).then((response) => {
+        self.fsStatus = response.data
+        self.isLoadingFs = false
+      }, error => {
+        self.isLoadingFs = false
+        self.fsErrors = error.backendErrors
+      })
+    },
+    async cancelFsScan () {
+      await axios.delete('libraries/fs-import')
+      this.fetchFs()
     },
     inputFile(newFile, oldFile) {
       if (!newFile) {
@@ -392,20 +476,10 @@ export default {
       if (v > o) {
         this.$emit('uploads-finished', v - o)
       }
+    },
+    "fsPath" () {
+      this.fetchFs(true)
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.file-uploads.ui.button {
-  display: block;
-  padding: 2em 1em;
-  width: 100%;
-  box-shadow: none;
-  border-style: dashed !important;
-  border: 3px solid rgba(50, 50, 50, 0.5);
-  font-size: 1.5em;
-}
-</style>

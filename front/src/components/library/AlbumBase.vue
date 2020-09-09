@@ -11,10 +11,10 @@
               <div class="ui two column grid" v-if="isSerie">
                 <div class="column">
                   <div class="large two-images">
-                    <img class="channel-image" v-if="object.cover && object.cover.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.square_crop)">
-                    <img class="channel-image" v-else src="../../assets/audio/default-cover.png">
-                    <img class="channel-image" v-if="object.cover && object.cover.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.square_crop)">
-                    <img class="channel-image" v-else src="../../assets/audio/default-cover.png">
+                    <img alt="" class="channel-image" v-if="object.cover && object.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.urls.medium_square_crop)">
+                    <img alt="" class="channel-image" v-else src="../../assets/audio/default-cover.png">
+                    <img alt="" class="channel-image" v-if="object.cover && object.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.urls.medium_square_crop)">
+                    <img alt="" class="channel-image" v-else src="../../assets/audio/default-cover.png">
                   </div>
                 </div>
                 <div class="ui column right aligned">
@@ -32,7 +32,7 @@
                     <translate v-else translate-context="*/*/*" :translate-params="{count: totalTracks}" :translate-n="totalTracks" translate-plural="%{ count } tracks">%{ count } track</translate>
                   </template>
                   <div class="ui small hidden divider"></div>
-                  <play-button class="orange" :tracks="object.tracks"></play-button>
+                  <play-button class="vibrant" :tracks="object.tracks"></play-button>
                   <div class="ui hidden horizontal divider"></div>
                   <album-dropdown
                     :object="object"
@@ -53,8 +53,8 @@
               </header>
             </div>
             <div v-else class="ui center aligned text padded basic segment">
-              <img class="channel-image" v-if="object.cover && object.cover.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.square_crop)">
-              <img class="channel-image" v-else src="../../assets/audio/default-cover.png">
+              <img alt="" class="channel-image" v-if="object.cover && object.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.urls.medium_square_crop)">
+              <img alt="" class="channel-image" v-else src="../../assets/audio/default-cover.png">
               <div class="ui hidden divider"></div>
               <header>
                 <h2 class="ui header" :title="object.title">
@@ -75,7 +75,7 @@
               </template>
               <human-duration v-if="totalDuration > 0" :duration="totalDuration"></human-duration>
               <div class="ui small hidden divider"></div>
-              <play-button class="orange" :tracks="object.tracks"></play-button>
+              <play-button class="vibrant" :album="object"></play-button>
               <div class="ui horizontal hidden divider"></div>
               <album-dropdown
                 :object="object"
@@ -117,7 +117,7 @@
             </template>
           </div>
           <div class="nine wide column">
-            <router-view v-if="object" :is-serie="isSerie" :artist="artist" :discs="discs" @libraries-loaded="libraries = $event" :object="object" object-type="album" :key="$route.fullPath"></router-view>
+            <router-view v-if="object" :paginate-by="paginateBy" :page="page" :total-tracks="totalTracks" :is-serie="isSerie" :artist="artist" :discs="discs" @libraries-loaded="libraries = $event" :object="object" object-type="album" :key="$route.fullPath" @page-changed="page = $event"></router-view>
           </div>
         </div>
       </section>
@@ -133,7 +133,6 @@ import PlayButton from "@/components/audio/PlayButton"
 import TagsList from "@/components/tags/List"
 import ArtistLabel from '@/components/audio/ArtistLabel'
 import AlbumDropdown from './AlbumDropdown'
-
 
 function groupByDisc(acc, track) {
   var dn = track.disc_number - 1
@@ -152,7 +151,7 @@ export default {
     PlayButton,
     TagsList,
     ArtistLabel,
-    AlbumDropdown,
+    AlbumDropdown
   },
   data() {
     return {
@@ -161,6 +160,8 @@ export default {
       artist: null,
       discs: [],
       libraries: [],
+      page: 1,
+      paginateBy: 50,
     }
   },
   async created() {
@@ -169,16 +170,18 @@ export default {
   methods: {
     async fetchData() {
       this.isLoading = true
+      let tracksResponse = axios.get(`tracks/`, {params: {ordering: 'disc_number,position', album: this.id, page_size: this.paginateBy, page:this.page, include_channels: 'true'}})
       let albumResponse = await axios.get(`albums/${this.id}/`, {params: {refresh: 'true'}})
       let artistResponse = await axios.get(`artists/${albumResponse.data.artist.id}/`)
       this.artist = artistResponse.data
       if (this.artist.channel) {
         this.artist.channel.artist = this.artist
       }
-      this.object = backend.Album.clean(albumResponse.data)
+      tracksResponse = await tracksResponse
+      this.object = albumResponse.data
+      this.object.tracks = tracksResponse.data.results
       this.discs = this.object.tracks.reduce(groupByDisc, [])
       this.isLoading = false
-
     },
     remove () {
       let self = this
@@ -195,7 +198,7 @@ export default {
   },
   computed: {
     totalTracks () {
-      return this.object.tracks.length
+      return this.object.tracks_count
     },
     isChannel () {
       return this.object.artist.channel
@@ -228,6 +231,9 @@ export default {
   },
   watch: {
     id() {
+      this.fetchData()
+    },
+    page() {
       this.fetchData()
     }
   }

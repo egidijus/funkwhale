@@ -10,6 +10,149 @@ This changelog is viewable on the web at https://docs.funkwhale.audio/changelog.
 
 .. towncrier
 
+1.0 (2020-09-09)
+----------------
+
+Upgrade instructions are available at
+https://docs.funkwhale.audio/index.html
+
+
+Dropped python 3.5 support [manual action required, non-docker only]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+With Funkwhale 1.0, we're dropping support for Python 3.5. Before upgrading,
+ensure ``python3 --version`` returns ``3.6`` or higher.
+
+If it returns ``3.6`` or higher, you have nothing to do.
+
+If it returns ``3.5``, you will need to upgrade your Python version/Host, then recreate your virtual environment::
+
+    rm -rf /srv/funkwhale/virtualenv
+    python3 -m venv /srv/funkwhale/virtualenv
+
+
+Increased quality of JPEG thumbnails [manual action required]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Default quality for JPEG thumbnails was increased from 70 to 95, as 70 was producing visible artifacts in resized images.
+
+Because of this change, existing thumbnails will not load, and you will need to:
+
+1. delete the ``__sized__`` directory in your ``MEDIA_ROOT`` directory
+2. run ``python manage.py fw media generate-thumbnails`` to regenerate thumbnails with the enhanced quality
+
+If you don't want to regenerate thumbnails, you can keep the old ones by adding ``THUMBNAIL_JPEG_RESIZE_QUALITY=70`` to your .env file.
+
+Small API breaking change in ``/api/v1/libraries``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To allow easier crawling of public libraries on a pod,we had to make a slight breaking change
+to the behaviour of ``GET /api/v1/libraries``.
+
+Before, it returned only libraries owned by the current user.
+
+Now, it returns all the accessible libraries (including ones from other users and pods).
+
+If you are consuming the API via a third-party client and need to retrieve your libraries,
+use the ``scope`` parameter, like this: ``GET /api/v1/libraries?scope=me``
+
+API breaking change in ``/api/v1/albums``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To increase performance, querying ``/api/v1/albums`` doesn't return album tracks anymore. This caused
+some performance issues, especially as some albums and series have dozens or even hundreds of tracks.
+
+If you want to retrieve tracks for an album, you can query ``/api/v1/tracks/?album=<albumid>``.
+
+JWT deprecation
+^^^^^^^^^^^^^^^
+
+API Authentication using JWT is deprecated and will be removed in Funkwhale 1.0. Please use OAuth or application tokens
+and refer to our API documentation at https://docs.funkwhale.audio/swagger/ for guidance.
+
+Full list of changes
+^^^^^^^^^^^^^^^^^^^^
+
+Features:
+
+- Allow users to hide compilation artists on the artist search page (#1053)
+- Can now launch server import from the UI (#1105)
+- Dedicated, advanced search page (#370)
+- Persist theme and language settings accross sessions (#996)
+
+
+Enhancements:
+
+- Add support for unauthenticated users hitting the logout page
+- Added support for Licence Art Libre (#1088)
+- Broadcast/handle rejected follows (#858)
+- Confirm email without requiring the user to validate the form manually (#407)
+- Display channel and track downloads count (#1178)
+- Do not include tracks in album API representation (#1102)
+- Dropped python 3.5 support. Python 3.6 is the minimum required version (#1099)
+- Improved keyboard accessibility (#1125)
+- Improved naming of pages for accessibility (#1127)
+- Improved shuffle behaviour (#1190)
+- Increased quality of JPEG thumbnails
+- Lock focus in modals to improve accessibility (#1128)
+- More consistent search UX on /albums, /artists, /radios and /playlists (#1131)
+- Play button now replace current queue instead of appending to it (#1083)
+- Set proper lang attribute on HTML document (#1130)
+- Use semantic headers for accessibility (#1121)
+- Users can now update their email address (#292)
+- [plugin, scrobbler] Use last.fm API v2 for scrobbling if API key and secret are provided
+- Added a new, large thumbnail size for cover images (#1205
+- Enforce authentication when viewing remote channels, profiles and libraries (#1210)
+
+
+
+Bugfixes:
+
+- Fix broken media support detection (#1180)
+- Fix layout issue with playbar on landscape tablets (#1144)
+- Fix random radio so that podcast content is not picked up (#1140)
+- Fixed an issue with search pages where results would not appear after navigating to another page
+- Fixed crash with negative track position in file tags (#1193)
+- Handle access errors scanning directories when importing files
+- Make channel card updated times more humanly readable, add internationalization (#1089)
+- Ensure search page reloads if another search is submitted in the sidebar (#1197)
+- Fixed "scope=subscribed" on albums, artists, uploads and libraries API (#1217)
+- Fixed broken federation with pods using allow-listing (#1999)
+- Fixed broken search when using (, " or & chars (#1196)
+- Fixed domains table hidden controls when no domains are found (#1198)
+
+
+Documentation:
+
+- Simplify Docker mono-container installation and upgrade documentation
+
+
+Contributors to this release (translation, development, documentation, reviews, design, testing, third-party projects):
+
+- Agate
+- Andy Craze
+- anonymous
+- appzer0
+- Arne
+- Bheesham Persaud
+- Ciarán Ainsworth
+- Creak
+- Daniele Lira Mereb
+- dulz
+- Francesc Galí
+- ghose
+- mekind
+- Puri
+- Quentin PAGÈS
+- Raphaël Ventura
+- Simon Arlott
+- Slimane Selyan Amiri
+- Stefano Pigozzi
+- Sébastien de Melo
+- vicdorke
+- Xosé M
+
+
 0.21.2 (2020-07-27)
 -------------------
 
@@ -223,7 +366,8 @@ All user-related commands are available under the ``python manage.py fw users`` 
 Please refer to the `Admin documentation <https://docs.funkwhale.audio/admin/commands.html#user-management>`_ for
 more information and instructions.
 
-Progressive web app [Manual action suggested, non-docker only]
+Progressive web app [Manual action sugFull list of changes
+^^^^^^^^^^^^^^^^^^^^gested, non-docker only]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 We've made Funkwhale's Web UI a Progressive Web Application (PWA), in order to improve the user experience

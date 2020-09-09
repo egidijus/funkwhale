@@ -1,0 +1,48 @@
+
+.ui.checkbox label {
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+input + .help {
+  margin-top: 0.5em;
+}
+
+.component-form {
+  .parent.checkbox {
+    margin: 1em 0;
+  }
+  .child.checkbox {
+    margin-left: 1em;
+  }
+}
+
+.ui.labeled.input {
+  input,
+  .label {
+    background-color: var(--input-background);
+    &::placeholder {
+      color: var(--input-placeholder-color);
+    }
+  }
+}
+.ui.icon.input > .icon {
+  color: var(--input-color);
+}
+
+#updatePlaylistLabel {
+  display: block;
+  margin: 0 0 0.28571429rem 0;
+  color: var(--form-label-color);
+  font-size: 0.92857143em;
+  font-weight: bold;
+  text-transform: none;
+}
+
+#updatePlaylistLabel:before {
+  content: "\200b";
+}
+
+.ui.toggle.checkbox label::before {
+  background-color: var(--input-selection-background);
+}

@@ -1,9 +1,9 @@
 <template>
-  <form :id="group.id" class="ui form" @submit.prevent="save">
+  <form :id="group.id" class="ui form component-settings-group" @submit.prevent="save">
     <div class="ui divider" />
     <h3 class="ui header">{{ group.label }}</h3>
     <div v-if="errors.length > 0" role="alert" class="ui negative message">
-      <div class="header"><translate translate-context="Content/*/Error message.Title">Error while saving settings</translate></div>
+      <h4 class="header"><translate translate-context="Content/*/Error message.Title">Error while saving settings</translate></h4>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>
       </ul>
@@ -61,6 +61,7 @@
         <p v-if="setting.help_text">{{ setting.help_text }}</p>
       </div>
       <select
+        :id="setting.identifier"
         v-else-if="setting.field.class === 'MultipleChoiceField'"
         v-model="values[setting.identifier]"
         multiple
@@ -68,17 +69,17 @@
         <option v-for="v in setting.additional_data.choices" :value="v[0]">{{ v[1] }}</option>
       </select>
       <div v-else-if="setting.field.widget.class === 'ImageWidget'">
-        <input type="file" :ref="setting.identifier">
+        <input :id="setting.identifier" type="file" :ref="setting.identifier">
         <div v-if="values[setting.identifier]">
           <div class="ui hidden divider"></div>
           <h3 class="ui header"><translate translate-context="Content/Settings/Title/Noun">Current image</translate></h3>
-          <img class="ui image" v-if="values[setting.identifier]" :src="$store.getters['instance/absoluteUrl'](values[setting.identifier])" />
+          <img class="ui image" alt="" v-if="values[setting.identifier]" :src="$store.getters['instance/absoluteUrl'](values[setting.identifier])" />
         </div>
       </div>
     </div>
     <button
       type="submit"
-      :class="['ui', {'loading': isLoading}, 'right', 'floated', 'green', 'button']">
+      :class="['ui', {'loading': isLoading}, 'right', 'floated', 'success', 'button']">
         <translate translate-context="Content/*/Button.Label/Verb">Save</translate>
     </button>
   </form>
@@ -176,10 +177,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.ui.checkbox p {
-  margin-top: 1rem;
-}
-</style>

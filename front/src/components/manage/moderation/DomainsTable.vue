@@ -1,30 +1,30 @@
 <template>
-  <div v-if="result.count > 0">
+  <div>
     <div class="ui inline form">
       <div class="fields">
         <div class="ui field">
-          <label><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
-          <input name="search" type="text" v-model="search" :placeholder="labels.searchPlaceholder" />
+          <label for="domains-search"><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
+          <input id="domains-search" name="search" type="text" v-model="search" :placeholder="labels.searchPlaceholder" />
         </div>
         <div class="field" v-if="allowListEnabled">
-          <label><translate translate-context="Content/Moderation/*/Adjective">Is present on allow-list</translate></label>
-          <select class="ui dropdown" v-model="allowed">
+          <label for="domains-allow-list"><translate translate-context="Content/Moderation/*/Adjective">Is present on allow-list</translate></label>
+          <select id="domains-allow-list" class="ui dropdown" v-model="allowed">
             <option :value="null"><translate translate-context="Content/*/Dropdown">All</translate></option>
             <option :value="true"><translate translate-context="*/*/*">Yes</translate></option>
             <option :value="false"><translate translate-context="*/*/*">No</translate></option>
           </select>
         </div>
         <div class="field">
-          <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
-          <select class="ui dropdown" v-model="ordering">
+          <label for="domains-ordering"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
+          <select id="domains-ordering" class="ui dropdown" v-model="ordering">
             <option v-for="option in orderingOptions" :value="option[0]">
               {{ sharedLabels.filters[option[1]] }}
             </option>
           </select>
         </div>
         <div class="field">
-          <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
-          <select class="ui dropdown" v-model="orderingDirection">
+          <label for="domains-ordering-direction"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
+          <select id="domains-ordering-direction" class="ui dropdown" v-model="orderingDirection">
             <option value="+"><translate translate-context="Content/Search/Dropdown">Ascending</translate></option>
             <option value="-"><translate translate-context="Content/Search/Dropdown">Descending</translate></option>
           </select>
@@ -33,10 +33,10 @@
       </div>
     <div class="dimmable">
       <div v-if="isLoading" class="ui active inverted dimmer">
-          <div class="ui loader"></div>
+        <div class="ui loader"></div>
       </div>
       <action-table
-        v-if="result"
+        v-if="result && result.results.length > 0"
         @action-launched="fetchData"
         :objects-data="result"
         :actions="actions"
@@ -54,7 +54,7 @@
           <td>
             <router-link :to="{name: 'manage.moderation.domains.detail', params: {id: scope.obj.name }}">
               {{ scope.obj.name }}
-              <i v-if="allowListEnabled && scope.obj.allowed" class="green check icon" :title="labels.allowListTitle"></i>
+              <i v-if="allowListEnabled && scope.obj.allowed" class="success check icon" :title="labels.allowListTitle"></i>
             </router-link>
           </td>
           <td>
@@ -71,6 +71,12 @@
           </td>
         </template>
       </action-table>
+      <div v-else class="ui placeholder segment">
+        <div class="ui icon header">
+          <i class="server icon"></i>
+          <translate translate-context="Content/Home/Placeholder">No other pods found</translate>
+        </div>
+      </div>
     </div>
     <div>
       <pagination
@@ -88,12 +94,6 @@
           Showing results %{ start }-%{ end } on %{ total }
         </translate>
       </span>
-    </div>
-  </div>
-  <div v-else class="ui placeholder segment">
-    <div class="ui icon header">
-      <i class="server icon"></i>
-      <translate translate-context="Content/Home/Placeholder">No interactions with other pods yet</translate>
     </div>
   </div>
 </template>

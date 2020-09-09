@@ -1,15 +1,15 @@
 <template>
-  <span :title="title" :class="['ui', {'tiny': discrete}, {'icon': !discrete}, {'buttons': !dropdownOnly && !iconOnly}, 'play-button']">
+  <span :title="title" :class="['ui', {'tiny': discrete}, {'icon': !discrete}, {'buttons': !dropdownOnly && !iconOnly}, 'play-button component-play-button']">
     <button
       v-if="!dropdownOnly"
-      :title="labels.playNow"
-      @click.stop.prevent="addNext(true)"
+      @click.stop.prevent="replacePlay"
       :disabled="!playable"
+      :aria-label="labels.replacePlay"
       :class="buttonClasses.concat(['ui', {loading: isLoading}, {'mini': discrete}, {disabled: !playable}])">
       <i :class="[playIconClass, 'icon']"></i>
       <template v-if="!discrete && !iconOnly">&nbsp;<slot><translate translate-context="*/Queue/Button.Label/Short, Verb">Play</translate></slot></template>
     </button>
-    <div
+    <button
       v-if="!discrete && !iconOnly"
       @click.prevent="clicked = true"
       :class="['ui', {disabled: !playable && !filterableArtist}, 'floating', 'dropdown', {'icon': !dropdownOnly}, {'button': !dropdownOnly}]">
@@ -24,25 +24,23 @@
         <button class="item basic" ref="playNow" data-ref="playNow" :disabled="!playable" @click.stop.prevent="addNext(true)" :title="labels.playNow">
           <i class="play icon"></i>{{ labels.playNow }}
         </button>
-        <button class="item basic" ref="replacePlay" data-ref="replacePlay" :disabled="!playable" @click.stop.prevent="replacePlay()" :title="labels.replacePlay">
-          <i class="list icon"></i>{{ labels.replacePlay }}
-        </button>
         <button v-if="track" class="item basic" :disabled="!playable" @click.stop.prevent="$store.dispatch('radios/start', {type: 'similar', objectId: track.id})" :title="labels.startRadio">
           <i class="feed icon"></i><translate translate-context="*/Queue/Button.Label/Short, Verb">Start radio</translate>
         </button>
         <div class="divider"></div>
-        <button v-if="filterableArtist" class="item basic" :disabled="!filterableArtist" @click.stop.prevent="filterArtist" :title="labels.hideArtist">
+        <button v-if="filterableArtist" ref="filterArtist" data-ref="filterArtist" class="item basic" :disabled="!filterableArtist" @click.stop.prevent="filterArtist" :title="labels.hideArtist">
           <i class="eye slash outline icon"></i><translate translate-context="*/Queue/Dropdown/Button/Label/Short">Hide content from this artist</translate>
         </button>
         <button
           v-for="obj in getReportableObjs({track, album, artist, playlist, account, channel})"
           :key="obj.target.type + obj.target.id"
           class="item basic"
+          :ref="`report${obj.target.type}${obj.target.id}`" :data-ref="`report${obj.target.type}${obj.target.id}`" 
           @click.stop.prevent="$store.dispatch('moderation/report', obj.target)">
           <i class="share icon" /> {{ obj.label }}
         </button>
       </div>
-    </div>
+    </button>
   </span>
 </template>
 
@@ -80,13 +78,26 @@ export default {
   },
   computed: {
     labels () {
+      let replacePlay
+      if (this.track) {
+        replacePlay = this.$pgettext('*/Queue/Dropdown/Button/Title', 'Play track')
+      } else if (this.album) {
+        replacePlay = this.$pgettext('*/Queue/Dropdown/Button/Title', 'Play album')
+      } else if (this.artist) {
+        replacePlay = this.$pgettext('*/Queue/Dropdown/Button/Title', 'Play artist')
+      } else if (this.playlist) {
+        replacePlay = this.$pgettext('*/Queue/Dropdown/Button/Title', 'Play playlist')
+      } else {
+        replacePlay = this.$pgettext('*/Queue/Dropdown/Button/Title', 'Play tracks')
+      }
+      
       return {
         playNow: this.$pgettext('*/Queue/Dropdown/Button/Title', 'Play now'),
         addToQueue: this.$pgettext('*/Queue/Dropdown/Button/Title', 'Add to current queue'),
         playNext: this.$pgettext('*/Queue/Dropdown/Button/Title', 'Play next'),
         startRadio: this.$pgettext('*/Queue/Dropdown/Button/Title', 'Play similar songs'),
-        replacePlay: this.$pgettext('*/Queue/Dropdown/Button/Title', 'Replace current queue'),
         report: this.$pgettext('*/Moderation/*/Button/Label,Verb', 'Report…'),
+        replacePlay,
       }
     },
     title () {
@@ -106,10 +117,12 @@ export default {
         return this.track.uploads && this.track.uploads.length > 0
       } else if (this.artist && this.artist.tracks_count) {
         return this.artist.tracks_count > 0
-      }  else if (this.artist && this.artist.albums) {
+      } else if (this.artist && this.artist.albums) {
         return this.artist.albums.filter((a) => {
           return a.is_playable === true
         }).length > 0
+      } else if (this.album) {
+        return true
       } else if (this.tracks) {
         return this.tracks.filter((t) => {
           return t.uploads && t.uploads.length > 0
@@ -252,15 +265,19 @@ export default {
   },
   watch: {
     clicked () {
-
       let self = this
       this.$nextTick(() => {
         jQuery(this.$el).find('.ui.dropdown').dropdown({
           selectOnKeydown: false,
           action: function (text, value, $el) {
-            // used ton ensure focusing the dropdown and clicking via keyboard
+            // used to ensure focusing the dropdown and clicking via keyboard
             // works as expected
-            self.$refs[$el.data('ref')].click()
+            let button = self.$refs[$el.data('ref')]
+            if (Array.isArray(button)) {
+              button[0].click()
+            } else {
+              button.click()
+            }
             jQuery(self.$el).find('.ui.dropdown').dropdown('hide')
           },
         })
@@ -288,14 +305,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-i {
-  cursor: pointer;
-}
-button.item {
-  background-color: white;
-  width: 100%;
-}
-</style>

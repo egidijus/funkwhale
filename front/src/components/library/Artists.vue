@@ -4,43 +4,55 @@
       <h2 class="ui header">
         <translate translate-context="Content/Artist/Title">Browsing artists</translate>
       </h2>
-      <div :class="['ui', {'loading': isLoading}, 'form']">
+      <form :class="['ui', {'loading': isLoading}, 'form']" @submit.prevent="updatePage();updateQueryString();fetchData()">
         <div class="fields">
           <div class="field">
-            <label>
+            <label for="artist-search">
               <translate translate-context="Content/Search/Input.Label/Noun">Search</translate>
             </label>
-            <input type="text" name="search" v-model="query" :placeholder="labels.searchPlaceholder"/>
+            <div class="ui action input">
+              <input id="artist-search" type="text" name="search" v-model="query" :placeholder="labels.searchPlaceholder"/>
+              <button class="ui icon button" type="submit" :aria-label="$pgettext('Content/Search/Input.Label/Noun', 'Search')">
+                <i class="search icon"></i>
+              </button>
+            </div>
           </div>
           <div class="field">
-            <label><translate translate-context="*/*/*/Noun">Tags</translate></label>
+            <label for="tags-search"><translate translate-context="*/*/*/Noun">Tags</translate></label>
             <tags-selector v-model="tags"></tags-selector>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
-            <select class="ui dropdown" v-model="ordering">
+            <label for="artist-ordering"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
+            <select id="artist-ordering" class="ui dropdown" v-model="ordering">
               <option v-for="option in orderingOptions" :value="option[0]">
                 {{ sharedLabels.filters[option[1]] }}
               </option>
             </select>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
-            <select class="ui dropdown" v-model="orderingDirection">
+            <label for="artist-ordering-direction"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
+            <select id="artist-ordering-direction" class="ui dropdown" v-model="orderingDirection">
               <option value="+"><translate translate-context="Content/Search/Dropdown">Ascending</translate></option>
               <option value="-"><translate translate-context="Content/Search/Dropdown">Descending</translate></option>
             </select>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Results per page</translate></label>
-            <select class="ui dropdown" v-model="paginateBy">
+            <label for="artist-results"><translate translate-context="Content/Search/Dropdown.Label/Noun">Results per page</translate></label>
+            <select id="artist-results" class="ui dropdown" v-model="paginateBy">
               <option :value="parseInt(12)">12</option>
               <option :value="parseInt(30)">30</option>
               <option :value="parseInt(50)">50</option>
             </select>
           </div>
+          <div class="field">
+            <span id="excludeHeader">Exclude Compilation Artists</span>
+              <div id="excludeCompilation" class="ui toggle checkbox">
+              <input id="exclude-compilation" v-model="excludeCompilation" true-value="true" false-value="null" type="checkbox">
+              <label for="exclude-compilation" class="visually-hidden"><translate translate-context="Content/Search/Checkbox/Noun">Exclude Compilation Artists</translate></label>
+            </div>
+          </div>
         </div>
-      </div>
+      </form>
       <div class="ui hidden divider"></div>
       <div v-if="result && result.results.length > 0" class="ui five app-cards cards">
         <div v-if="isLoading" class="ui inverted active dimmer">
@@ -58,7 +70,7 @@
         <router-link
           v-if="$store.state.auth.authenticated"
           :to="{name: 'content.index'}"
-          class="ui green button labeled icon">
+          class="ui success button labeled icon">
           <i class="upload icon"></i>
           <translate translate-context="Content/*/Verb">
               Add some music
@@ -111,6 +123,7 @@ export default {
     return {
       isLoading: true,
       result: null,
+      excludeCompilation: true,
       page: parseInt(this.defaultPage),
       query: this.defaultQuery,
       tags: (this.defaultTags || []).filter((t) => { return t.length > 0 }),
@@ -134,7 +147,7 @@ export default {
     }
   },
   methods: {
-    updateQueryString: _.debounce(function() {
+    updateQueryString: function() {
       history.pushState(
         {},
         null,
@@ -147,8 +160,8 @@ export default {
           ordering: this.getOrderingAsString()
         }).toString()
       )
-    }, 500),
-    fetchData: _.debounce(function() {
+    },
+    fetchData: function() {
       var self = this
       this.isLoading = true
       let url = FETCH_URL
@@ -156,6 +169,7 @@ export default {
         scope: this.scope,
         page: this.page,
         page_size: this.paginateBy,
+        has_albums: this.excludeCompilation,
         q: this.query,
         ordering: this.getOrderingAsString(),
         playable: "true",
@@ -178,9 +192,12 @@ export default {
         self.result = null
         self.isLoading = false
       })
-    }, 500),
+    },
     selectPage: function(page) {
       this.page = page
+    },
+    updatePage() {
+      this.page = this.defaultPage
     }
   },
   watch: {
@@ -188,50 +205,12 @@ export default {
       this.updateQueryString()
       this.fetchData()
     },
-    paginateBy() {
-      this.updateQueryString()
-      this.fetchData()
-    },
-    ordering() {
-      this.updateQueryString()
-      this.fetchData()
-    },
-    orderingDirection() {
-      this.updateQueryString()
-      this.fetchData()
-    },
-    query() {
-      this.updateQueryString()
-      this.fetchData()
-    },
-    tags() {
-      this.updateQueryString()
-      this.fetchData()
-    },
     "$store.state.moderation.lastUpdate": function () {
+      this.fetchData()
+    },
+    excludeCompilation() {
       this.fetchData()
     }
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-@import "../../style/vendor/media";
-
-.wrapper {
-  width: 100%;
-}
-.ui.cards {
-  justify-content: flex-start;
-}
-
-.ui.three.cards .card {
-  width: 100%;
-}
-@include media(">tablet") {
-  .ui.three.cards .card {
-    width: 25em;
-  }
-}
-</style>

@@ -32,10 +32,7 @@ COVER_WRITE_FIELD = common_serializers.RelatedField(
 from funkwhale_api.audio import serializers as audio_serializers  # NOQA
 
 
-class CoverField(
-    common_serializers.NullToEmptDict, common_serializers.AttachmentSerializer
-):
-    # XXX: BACKWARD COMPATIBILITY
+class CoverField(common_serializers.AttachmentSerializer):
     pass
 
 
@@ -101,7 +98,7 @@ class ArtistAlbumSerializer(serializers.Serializer):
         return o.artist_id
 
     def get_tracks_count(self, o):
-        return o._tracks_count
+        return len(o.tracks.all())
 
     def get_is_playable(self, obj):
         try:
@@ -189,35 +186,12 @@ def serialize_artist_simple(artist):
     return data
 
 
-def serialize_album_track(track):
-    return {
-        "id": track.id,
-        "fid": track.fid,
-        "mbid": str(track.mbid),
-        "title": track.title,
-        "artist": serialize_artist_simple(track.artist),
-        "album": track.album_id,
-        "creation_date": DATETIME_FIELD.to_representation(track.creation_date),
-        "position": track.position,
-        "disc_number": track.disc_number,
-        "uploads": [
-            serialize_upload(u) for u in getattr(track, "playable_uploads", [])
-        ],
-        "listen_url": track.listen_url,
-        "duration": getattr(track, "duration", None),
-        "copyright": track.copyright,
-        "license": track.license_id,
-        "is_local": track.is_local,
-    }
-
-
 class AlbumSerializer(OptionalDescriptionMixin, serializers.Serializer):
-    # XXX: remove in 1.0, it's expensive and can work with a filter/api call
-    tracks = serializers.SerializerMethodField()
     artist = serializers.SerializerMethodField()
     cover = cover_field
     is_playable = serializers.SerializerMethodField()
     tags = serializers.SerializerMethodField()
+    tracks_count = serializers.SerializerMethodField()
     attributed_to = serializers.SerializerMethodField()
     id = serializers.IntegerField()
     fid = serializers.URLField()
@@ -234,9 +208,8 @@ class AlbumSerializer(OptionalDescriptionMixin, serializers.Serializer):
     def get_artist(self, o):
         return serialize_artist_simple(o.artist)
 
-    def get_tracks(self, o):
-        ordered_tracks = o.tracks.all()
-        return [serialize_album_track(track) for track in ordered_tracks]
+    def get_tracks_count(self, o):
+        return len(o.tracks.all())
 
     def get_is_playable(self, obj):
         try:
@@ -282,6 +255,7 @@ def serialize_upload(upload):
         "bitrate": upload.bitrate,
         "mimetype": upload.mimetype,
         "extension": upload.extension,
+        "is_local": federation_utils.is_local(upload.fid),
     }
 
 
@@ -318,6 +292,7 @@ class TrackSerializer(OptionalDescriptionMixin, serializers.Serializer):
     is_local = serializers.BooleanField()
     position = serializers.IntegerField()
     disc_number = serializers.IntegerField()
+    downloads_count = serializers.IntegerField()
     copyright = serializers.CharField()
     license = serializers.SerializerMethodField()
     cover = cover_field
@@ -331,7 +306,10 @@ class TrackSerializer(OptionalDescriptionMixin, serializers.Serializer):
 
     def get_uploads(self, obj):
         uploads = getattr(obj, "playable_uploads", [])
-        return [serialize_upload(u) for u in sort_uploads_for_listen(uploads)]
+        # we put local uploads first
+        uploads = [serialize_upload(u) for u in sort_uploads_for_listen(uploads)]
+        uploads = sorted(uploads, key=lambda u: u["is_local"], reverse=True)
+        return list(uploads)
 
     def get_tags(self, obj):
         tagged_items = getattr(obj, "_prefetched_tagged_items", [])
@@ -861,3 +839,23 @@ class AlbumCreateSerializer(serializers.Serializer):
         tag_models.set_tags(instance, *(validated_data.get("tags", []) or []))
         instance.artist.get_channel()
         return instance
+
+
+class FSImportSerializer(serializers.Serializer):
+    path = serializers.CharField(allow_blank=True)
+    library = serializers.UUIDField()
+    import_reference = serializers.CharField()
+
+    def validate_path(self, value):
+        try:
+            utils.browse_dir(settings.MUSIC_DIRECTORY_PATH, value)
+        except (NotADirectoryError, FileNotFoundError, ValueError):
+            raise serializers.ValidationError("Invalid path")
+
+        return value
+
+    def validate_library(self, value):
+        try:
+            return self.context["user"].actor.libraries.get(uuid=value)
+        except models.Library.DoesNotExist:
+            raise serializers.ValidationError("Invalid library")

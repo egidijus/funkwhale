@@ -1,12 +1,20 @@
+import json
+
+from django import http
+from django.contrib import auth
+from django.middleware import csrf
+
 from allauth.account.adapter import get_adapter
 from rest_auth import views as rest_auth_views
 from rest_auth.registration import views as registration_views
-from rest_framework import mixins, viewsets
+from rest_framework import mixins
+from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from funkwhale_api.common import authentication
 from funkwhale_api.common import preferences
+from funkwhale_api.common import throttling
 
 from . import models, serializers, tasks
 
@@ -72,6 +80,13 @@ class UserViewSet(mixins.UpdateModelMixin, viewsets.GenericViewSet):
         serializer = serializers.MeSerializer(request.user)
         return Response(serializer.data)
 
+    @action(methods=["post"], detail=False, url_name="settings", url_path="settings")
+    def set_settings(self, request, *args, **kwargs):
+        """Return information about the current user or delete it"""
+        new_settings = request.data
+        request.user.set_settings(**new_settings)
+        return Response(request.user.settings)
+
     @action(
         methods=["get", "post", "delete"],
         required_scope="security",
@@ -96,6 +111,22 @@ class UserViewSet(mixins.UpdateModelMixin, viewsets.GenericViewSet):
         data = {"subsonic_api_token": self.request.user.subsonic_api_token}
         return Response(data)
 
+    @action(
+        methods=["post"],
+        required_scope="security",
+        url_path="change-email",
+        detail=False,
+    )
+    def change_email(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return Response(status=403)
+        serializer = serializers.UserChangeEmailSerializer(
+            request.user, data=request.data, context={"user": request.user}
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save(request)
+        return Response(status=204)
+
     def update(self, request, *args, **kwargs):
         if not self.request.user.username == kwargs.get("username"):
             return Response(status=403)
@@ -105,3 +136,32 @@ class UserViewSet(mixins.UpdateModelMixin, viewsets.GenericViewSet):
         if not self.request.user.username == kwargs.get("username"):
             return Response(status=403)
         return super().partial_update(request, *args, **kwargs)
+
+
+def login(request):
+    throttling.check_request(request, "login")
+    if request.method != "POST":
+        return http.HttpResponse(status=405)
+    serializer = serializers.LoginSerializer(
+        data=request.POST, context={"request": request}
+    )
+    if not serializer.is_valid():
+        return http.HttpResponse(
+            json.dumps(serializer.errors), status=400, content_type="application/json"
+        )
+    serializer.save(request)
+    csrf.rotate_token(request)
+    token = csrf.get_token(request)
+    response = http.HttpResponse(status=200)
+    response.set_cookie("csrftoken", token, max_age=None)
+    return response
+
+
+def logout(request):
+    if request.method != "POST":
+        return http.HttpResponse(status=405)
+    auth.logout(request)
+    token = csrf.get_token(request)
+    response = http.HttpResponse(status=200)
+    response.set_cookie("csrftoken", token, max_age=None)
+    return response

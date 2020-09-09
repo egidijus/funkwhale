@@ -1,12 +1,12 @@
 <template>
   <div class="ui fluid user-request card">
     <div class="content">
-      <div class="header">
+      <h4 class="header">
         <router-link :to="{name: 'manage.moderation.requests.detail', params: {id: obj.uuid}}">
           <translate translate-context="Content/Moderation/Card/Short" :translate-params="{id: obj.uuid.substring(0, 8)}">Request %{ id }</translate>
         </router-link>
         <collapse-link class="right floated" v-model="isCollapsed"></collapse-link>
-      </div>
+      </h4>
       <div class="content">
         <div class="ui hidden divider"></div>
         <div class="ui stackable two column grid">
@@ -41,15 +41,15 @@
                   </td>
                   <td>
                     <template v-if="obj.status === 'pending'">
-                      <i class="yellow hourglass icon"></i>
+                      <i class="warning hourglass icon"></i>
                       <translate translate-context="Content/Library/*/Short">Pending</translate>
                     </template>
                     <template v-else-if="obj.status === 'refused'">
-                      <i class="red x icon"></i>
+                      <i class="danger x icon"></i>
                       <translate translate-context="Content/*/*/Short">Refused</translate>
                     </template>
                     <template v-else-if="obj.status === 'approved'">
-                      <i class="green check icon"></i>
+                      <i class="success check icon"></i>
                       <translate translate-context="Content/*/*/Short">Approved</translate>
                     </template>
                   </td>
@@ -118,14 +118,14 @@
                 v-if="obj.status === 'pending' || obj.status === 'refused'"
                 @click="approve(true)"
                 :class="['ui', {loading: isLoading}, 'button']">
-                <i class="green check icon"></i>&nbsp;
+                <i class="success check icon"></i>&nbsp;
                 <translate translate-context="Content/*/Button.Label/Verb">Approve</translate>
               </button>
               <button
                 v-if="obj.status === 'pending'"
                 @click="approve(false)"
                 :class="['ui', {loading: isLoading}, 'button']">
-                <i class="red x icon"></i>&nbsp;
+                <i class="danger x icon"></i>&nbsp;
                 <translate translate-context="Content/*/Button.Label">Refuse</translate>
               </button>
             </div>

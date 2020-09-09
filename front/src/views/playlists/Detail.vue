@@ -6,7 +6,7 @@
     <section v-if="!isLoading && playlist" class="ui head vertical center aligned stripe segment" v-title="playlist.name">
       <div class="segment-content">
         <h2 class="ui center aligned icon header">
-          <i class="circular inverted list yellow icon"></i>
+          <i class="circular inverted list warning icon"></i>
           <div class="content">
             {{ playlist.name }}
             <div class="sub header">
@@ -22,7 +22,7 @@
           </div>
         </h2>
         <div class="ui hidden divider"></div>
-        <play-button class="orange" :is-playable="playlist.is_playable" :tracks="tracks"><translate translate-context="Content/Queue/Button.Label/Short, Verb">Play all</translate></play-button>
+        <play-button class="vibrant" :is-playable="playlist.is_playable" :tracks="tracks"><translate translate-context="Content/Queue/Button.Label/Short, Verb">Play all</translate></play-button>
         <button
           class="ui icon labeled button"
           v-if="$store.state.auth.profile && playlist.user.id === $store.state.auth.profile.id"
@@ -39,7 +39,7 @@
           <translate translate-context="Content/*/Button.Label/Verb">Embed</translate>
         </button>
 
-        <dangerous-button v-if="$store.state.auth.profile && playlist.user.id === $store.state.auth.profile.id" class="ui labeled red icon button" :action="deletePlaylist">
+        <dangerous-button v-if="$store.state.auth.profile && playlist.user.id === $store.state.auth.profile.id" class="ui labeled danger icon button" :action="deletePlaylist">
           <i class="trash icon"></i> <translate translate-context="*/*/*/Verb">Delete</translate>
           <p slot="modal-header" v-translate="{playlist: playlist.name}" translate-context="Popup/Playlist/Title/Call to action" :translate-params="{playlist: playlist.name}">
             Do you want to delete the playlist "%{ playlist }"?
@@ -49,18 +49,18 @@
         </dangerous-button>
       </div>
       <modal v-if="playlist.privacy_level === 'everyone' && playlist.is_playable" :show.sync="showEmbedModal">
-        <div class="header">
+        <h4 class="header">
           <translate translate-context="Popup/Album/Title/Verb">Embed this playlist on your website</translate>
-        </div>
+        </h4>
         <div class="scrolling content">
           <div class="description">
             <embed-wizard type="playlist" :id="playlist.id" />
           </div>
         </div>
         <div class="actions">
-          <div class="ui basic deny button">
+          <button class="ui basic deny button">
             <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-          </div>
+          </button>
         </div>
       </modal>
     </section>
@@ -80,7 +80,7 @@
           <i class="list icon"></i>
           <translate translate-context="Content/Home/Placeholder">There are no tracks in this playlist yet</translate>
         </div>
-        <button @click="edit = !edit" class="ui green icon labeled button">
+        <button @click="edit = !edit" class="ui success icon labeled button">
           <i class="pencil icon"></i>
           <translate translate-context="Content/Home/CreatePlaylist">Edit</translate>
         </button>

@@ -1,0 +1,17 @@
+.component-pagination {
+  .ui.pagination.menu .item {
+    cursor: pointer;
+  }
+}
+
+.ui.pagination.menu {
+  margin-top: 1em;
+  + span {
+    margin-left: 1em;
+  }
+  color: var(--text-color);
+  background-color: var(--light-background-color);
+  .active.item {
+    color: var(--discrete-background-color);
+  }
+}

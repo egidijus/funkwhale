@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <h3 class="ui header">
+    <h3 v-if="!!this.$slots.title" class="ui header">
       <slot name="title"></slot>
       <span v-if="showCount" class="ui tiny circular label">{{ count }}</span>
     </h3>
@@ -91,18 +91,3 @@ export default {
   }
 }
 </script>
-<style scoped lang="scss">
-
-
-.wrapper {
-  width: 100%;
-}
-.ui.cards {
-  justify-content: flex-start;
-}
-</style>
-<style>
-.ui.cards .ui.button {
-  margin-right: 0px;
-}
-</style>

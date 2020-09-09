@@ -1,0 +1,73 @@
+/*
+
+███████╗███████╗███╗   ███╗ █████╗ ███╗   ██╗████████╗██╗ ██████╗    ██╗   ██╗██╗
+██╔════╝██╔════╝████╗ ████║██╔══██╗████╗  ██║╚══██╔══╝██║██╔════╝    ██║   ██║██║
+███████╗█████╗  ██╔████╔██║███████║██╔██╗ ██║   ██║   ██║██║         ██║   ██║██║
+╚════██║██╔══╝  ██║╚██╔╝██║██╔══██║██║╚██╗██║   ██║   ██║██║         ██║   ██║██║
+███████║███████╗██║ ╚═╝ ██║██║  ██║██║ ╚████║   ██║   ██║╚██████╗    ╚██████╔╝██║
+╚══════╝╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝ ╚═════╝     ╚═════╝ ╚═╝
+
+  Import this file into your LESS project to use Semantic UI without build tools
+*/
+
+// Those fomantic-ui-css/*.scss don't exist in the package, but we create them
+// via scripts/link-scss-files.sh on postinstall, so we can include theme
+// under a class namespace
+
+/* Global */
+@import "~fomantic-ui-css/tweaked/reset.css";
+@import "~fomantic-ui-css/tweaked/site.css";
+
+/* Elements */
+@import "~fomantic-ui-css/tweaked/button.css";
+@import "~fomantic-ui-css/tweaked/container.css";
+@import "~fomantic-ui-css/tweaked/divider.css";
+// @import "~fomantic-ui-css/tweaked/flag.css";
+@import "~fomantic-ui-css/tweaked/header.css";
+@import "~fomantic-ui-css/tweaked/icon.css";
+@import "~fomantic-ui-css/tweaked/image.css";
+@import "~fomantic-ui-css/tweaked/input.css";
+@import "~fomantic-ui-css/tweaked/label.css";
+@import "~fomantic-ui-css/tweaked/list.css";
+@import "~fomantic-ui-css/tweaked/loader.css";
+@import "~fomantic-ui-css/tweaked/placeholder.css";
+// @import "~fomantic-ui-css/tweaked/rail.css";
+// @import "~fomantic-ui-css/tweaked/reveal.css";
+@import "~fomantic-ui-css/tweaked/segment.css";
+@import "~fomantic-ui-css/tweaked/step.css";
+
+/* Collections */
+// @import "~fomantic-ui-css/tweaked/breadcrumb.css";
+@import "~fomantic-ui-css/tweaked/form.css";
+@import "~fomantic-ui-css/tweaked/grid.css";
+@import "~fomantic-ui-css/tweaked/menu.css";
+@import "~fomantic-ui-css/tweaked/message.css";
+@import "~fomantic-ui-css/tweaked/table.css";
+
+/* Views */
+// @import "~fomantic-ui-css/tweaked/ad.css";
+@import "~fomantic-ui-css/tweaked/card.css";
+// @import "~fomantic-ui-css/tweaked/comment.css";
+@import "~fomantic-ui-css/tweaked/feed.css";
+@import "~fomantic-ui-css/tweaked/item.css";
+@import "~fomantic-ui-css/tweaked/statistic.css";
+
+/* Modules */
+// @import "~fomantic-ui-css/tweaked/accordion.css";
+@import "~fomantic-ui-css/tweaked/checkbox.css";
+@import "~fomantic-ui-css/tweaked/dimmer.css";
+@import "~fomantic-ui-css/tweaked/dropdown.css";
+// @import "~fomantic-ui-css/tweaked/embed.css";
+@import "~fomantic-ui-css/tweaked/modal.css";
+// @import "~fomantic-ui-css/tweaked/nag.css";
+@import "~fomantic-ui-css/tweaked/popup.css";
+@import "~fomantic-ui-css/tweaked/progress.css";
+// @import "~fomantic-ui-css/tweaked/rating.css";
+@import "~fomantic-ui-css/tweaked/search.css";
+// @import "~fomantic-ui-css/tweaked/shape.css";
+@import "~fomantic-ui-css/tweaked/sidebar.css";
+@import "~fomantic-ui-css/tweaked/sticky.css";
+@import "~fomantic-ui-css/tweaked/tab.css";
+@import "~fomantic-ui-css/tweaked/text.css";
+@import "~fomantic-ui-css/tweaked/toast.css";
+@import "~fomantic-ui-css/tweaked/transition.css";

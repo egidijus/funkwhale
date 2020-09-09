@@ -3,22 +3,22 @@
     <div class="ui inline form">
       <div class="fields">
         <div class="ui six wide field">
-          <label><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
+          <label for="tags-search"><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
           <form @submit.prevent="search.query = $refs.search.value">
-            <input name="search" ref="search" type="text" :value="search.query" :placeholder="labels.searchPlaceholder" />
+            <input id="tags-search" name="search" ref="search" type="text" :value="search.query" :placeholder="labels.searchPlaceholder" />
           </form>
         </div>
         <div class="field">
-          <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
-          <select class="ui dropdown" v-model="ordering">
+          <label for="tags-ordering"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
+          <select id="tags-ordering" class="ui dropdown" v-model="ordering">
             <option v-for="option in orderingOptions" :value="option[0]">
               {{ sharedLabels.filters[option[1]] }}
             </option>
           </select>
         </div>
         <div class="field">
-          <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
-          <select class="ui dropdown" v-model="orderingDirection">
+          <label for="tags-ordering-direction"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
+          <select id="tags-ordering-direction" class="ui dropdown" v-model="orderingDirection">
             <option value="+"><translate translate-context="Content/Search/Dropdown">Ascending</translate></option>
             <option value="-"><translate translate-context="Content/Search/Dropdown">Descending</translate></option>
           </select>
@@ -47,7 +47,7 @@
         </template>
         <template slot="row-cells" slot-scope="scope">
           <td>
-            <router-link :to="{name: 'manage.library.tags.detail', params: {id: scope.obj.name }}" :title="scope.obj.name">
+            <router-link :to="{name: 'manage.library.tags.detail', params: {id: scope.obj.name }}">
               {{ scope.obj.name|truncate(30, "…", true) }}
             </router-link>
           </td>
@@ -185,7 +185,7 @@ export default {
           confirmationMessage: confirmationMessage,
           isDangerous: true,
           allowAll: false,
-          confirmColor: 'red',
+          confirmColor: 'danger',
         },
       ]
     }

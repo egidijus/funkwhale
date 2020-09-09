@@ -9,13 +9,13 @@
           <div class="ui column">
             <div class="segment-content">
               <h2 class="ui header">
-                <img v-if="object.cover.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.square_crop)">
-                <img v-else src="../../../assets/audio/default-cover.png">
+                <img alt="" v-if="object.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](object.cover.urls.medium_square_crop)">
+                <img alt="" v-else src="../../../assets/audio/default-cover.png">
                 <div class="content">
                   {{ object.title | truncate(100) }}
                   <div class="sub header">
                     <template v-if="object.is_local">
-                      <span class="ui tiny teal label">
+                      <span class="ui tiny accent label">
                         <i class="home icon"></i>
                         <translate translate-context="Content/Moderation/*/Short, Noun">Local</translate>
                       </span>
@@ -37,7 +37,7 @@
                     <i class="info icon"></i>
                     <translate translate-context="Content/Moderation/Link/Verb">Open local profile</translate>&nbsp;
                   </router-link>
-                  <div class="ui floating dropdown icon button" v-dropdown>
+                  <button class="ui floating dropdown icon button" v-dropdown>
                     <i class="dropdown icon"></i>
                     <div class="menu">
                       <a
@@ -61,7 +61,7 @@
                         <translate translate-context="Content/Moderation/Link/Verb">Open remote profile</translate>&nbsp;
                       </a>
                     </div>
-                  </div>
+                  </button>
                 </div>
                 <div class="ui buttons">
                   <router-link
@@ -74,7 +74,7 @@
                 </div>
                 <div class="ui buttons">
                   <dangerous-button
-                    :class="['ui', {loading: isLoading}, 'basic red button']"
+                    :class="['ui', {loading: isLoading}, 'basic danger button']"
                     :action="remove">
                     <translate translate-context="*/*/*/Verb">Delete</translate>
                     <p slot="modal-header"><translate translate-context="Popup/Library/Title">Delete this album?</translate></p>
@@ -276,7 +276,7 @@
                       </router-link>
                     </td>
                     <td>
-                      {{ object.tracks.length }}
+                      {{ object.tracks_count }}
                     </td>
                   </tr>
                 </tbody>

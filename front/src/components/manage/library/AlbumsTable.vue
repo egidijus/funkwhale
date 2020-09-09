@@ -3,21 +3,21 @@
     <div class="ui inline form">
       <div class="fields">
         <div class="ui six wide field">
-          <label><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
+          <label for="albums-search"><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
           <form @submit.prevent="search.query = $refs.search.value">
-            <input name="search" ref="search" type="text" :value="search.query" :placeholder="labels.searchPlaceholder" />
+            <input id="albums-search" name="search" ref="search" type="text" :value="search.query" :placeholder="labels.searchPlaceholder" />
           </form>
         </div>
         <div class="field">
-          <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
-          <select class="ui dropdown" v-model="ordering">
+          <label for="albums-ordering"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
+          <select id="albums-ordering" class="ui dropdown" v-model="ordering">
             <option v-for="option in orderingOptions" :value="option[0]">
               {{ sharedLabels.filters[option[1]] }}
             </option>
           </select>
         </div>
         <div class="field">
-          <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
+          <label for="albums-ordering-direction"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
           <select class="ui dropdown" v-model="orderingDirection">
             <option value="+"><translate translate-context="Content/Search/Dropdown">Ascending</translate></option>
             <option value="-"><translate translate-context="Content/Search/Dropdown">Descending</translate></option>
@@ -51,23 +51,25 @@
           <td>
             <router-link :to="{name: 'manage.library.artists.detail', params: {id: scope.obj.artist.id }}">
               <i class="wrench icon"></i>
+              <span class="visually-hidden">{{ labels.openModeration }}</span>
             </router-link>
-            <span role="button" class="discrete link" @click="addSearchToken('artist', scope.obj.artist.name)" :title="scope.obj.artist.name">{{ scope.obj.artist.name }}</span>
+            <a href="" class="discrete link" @click.prevent="addSearchToken('artist', scope.obj.artist.name)" :title="scope.obj.artist.name">{{ scope.obj.artist.name }}</a>
           </td>
           <td>
             <template v-if="!scope.obj.is_local">
               <router-link :to="{name: 'manage.moderation.domains.detail', params: {id: scope.obj.domain }}">
                 <i class="wrench icon"></i>
+                <span class="visually-hidden">{{ labels.openModeration }}</span>
               </router-link>
-              <span role="button" class="discrete link" @click="addSearchToken('domain', scope.obj.domain)" :title="scope.obj.domain">{{ scope.obj.domain }}</span>
+              <a href="" class="discrete link" @click.prevent="addSearchToken('domain', scope.obj.domain)">{{ scope.obj.domain }}</a>
             </template>
-            <span role="button" v-else class="ui tiny teal icon link label" @click="addSearchToken('domain', scope.obj.domain)">
+            <a href="" v-else class="ui tiny accent icon link label" @click.prevent="addSearchToken('domain', scope.obj.domain)">
               <i class="home icon"></i>
               <translate translate-context="Content/Moderation/*/Short, Noun">Local</translate>
-            </span>
+            </a>
           </td>
           <td>
-            {{ scope.obj.tracks.length }}
+            {{ scope.obj.tracks_count }}
           </td>
           <td>
             <human-date v-if="scope.obj.release_date" :date="scope.obj.release_date"></human-date>
@@ -171,7 +173,8 @@ export default {
   computed: {
     labels () {
       return {
-        searchPlaceholder: this.$pgettext('Content/Search/Input.Placeholder', 'Search by domain, title, artist, MusicBrainz ID…')
+        searchPlaceholder: this.$pgettext('Content/Search/Input.Placeholder', 'Search by domain, title, artist, MusicBrainz ID…'),
+        openModeration: this.$pgettext('Content/Moderation/Verb', 'Open in moderation interface')
       }
     },
     actionFilters () {
@@ -194,7 +197,7 @@ export default {
           confirmationMessage: confirmationMessage,
           isDangerous: true,
           allowAll: false,
-          confirmColor: 'red',
+          confirmColor: 'danger',
         },
       ]
     }

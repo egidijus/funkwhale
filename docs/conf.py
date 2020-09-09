@@ -23,6 +23,7 @@ import datetime
 from shutil import copyfile
 
 sys.path.insert(0, os.path.abspath("../api"))
+sys.path.insert(0, os.path.abspath("../api/config"))
 
 import funkwhale_api  # NOQA
 
@@ -46,7 +47,7 @@ for key, value in FUNKWHALE_CONFIG.items():
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ["sphinx.ext.graphviz", "sphinx.ext.autodoc"]
-autodoc_mock_imports = ["celery", "django_auth_ldap", "ldap"]
+autodoc_mock_imports = ["celery", "django_auth_ldap", "ldap", "persisting_theory", "rest_framework"]
 add_module_names = False
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

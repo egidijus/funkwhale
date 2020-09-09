@@ -1,16 +1,16 @@
 <template>
   <form class="ui form" @submit.prevent.stop="submit">
     <div v-if="errors.length > 0" role="alert" class="ui negative message">
-      <div class="header"><translate translate-context="Content/*/Error message.Title">Error while saving channel</translate></div>
+      <h4 class="header"><translate translate-context="Content/*/Error message.Title">Error while saving channel</translate></h4>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>
       </ul>
     </div>
     <template v-if="metadataChoices">
-      <div v-if="creating && step === 1" class="ui grouped channel-type required field">
-        <label>
+      <fieldset v-if="creating && step === 1" class="ui grouped channel-type required field">
+        <legend>
           <translate translate-context="Content/Channel/Paragraph">What this channel will be used for?</translate>
-        </label>
+        </legend>
         <div class="ui hidden divider"></div>
         <div class="field">
           <div :class="['ui', 'radio', 'checkbox', {selected: choice.value == newValues.content_category}]" v-for="choice in categoryChoices">
@@ -23,7 +23,7 @@
             </label>
           </div>
         </div>
-      </div>
+      </fieldset>
       <template v-if="!creating || step === 2">
         <div class="ui required field">
           <label for="channel-name">

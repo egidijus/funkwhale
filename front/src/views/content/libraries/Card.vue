@@ -1,7 +1,7 @@
 <template>
   <div class="ui card">
     <div class="content">
-      <div class="header">
+      <h4 class="header">
         {{ library.name }}
         <span
           v-if="library.privacy_level === 'me'"
@@ -21,7 +21,7 @@
           :data-tooltip="privacy_tooltips('everyone')">
           <i class="small globe icon"></i>
         </span>
-      </div>
+      </h4>
       <div class="meta">
         <span>
           <i class="small outline clock icon" />
@@ -46,7 +46,7 @@
         <translate translate-context="Content/Library/Card.Button.Label/Verb">Upload</translate>
       </router-link>
       <router-link :to="{name: 'library.detail', params: {id: library.uuid}}" exact class="ui button">
-        <translate translate-context="Content/Library/Card.Button.Label/Noun">Details</translate>
+        <translate translate-context="Content/Library/Card.Button.Label/Noun">Library Details</translate>
       </router-link>
     </div>
   </div>

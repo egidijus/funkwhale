@@ -1,30 +1,30 @@
 <template>
-  <div @click="showModal = true" :class="[{disabled: disabled}]" role="button" :disabled="disabled">
+  <button @click="showModal = true" :class="[{disabled: disabled}]" :disabled="disabled">
     <slot></slot>
 
     <modal class="small" :show.sync="showModal">
-      <div class="header">
+      <h4 class="header">
         <slot name="modal-header">
           <translate translate-context="Modal/*/Title">Do you want to confirm this action?</translate>
         </slot>
-      </div>
+      </h4>
       <div class="scrolling content">
         <div class="description">
           <slot name="modal-content"></slot>
         </div>
       </div>
       <div class="actions">
-        <div class="ui basic cancel button">
+        <button class="ui basic cancel button">
           <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-        </div>
-        <div :class="['ui', 'confirm', confirmButtonColor, 'button']" @click="confirm">
+        </button>
+        <button :class="['ui', 'confirm', confirmButtonColor, 'button']" @click="confirm">
           <slot name="modal-confirm">
             <translate translate-context="Modal/*/Button.Label/Short, Verb">Confirm</translate>
           </slot>
-        </div>
+        </button>
       </div>
     </modal>
-  </div>
+  </button>
 
 </template>
 <script>
@@ -34,7 +34,7 @@ export default {
   props: {
     action: {type: Function, required: false},
     disabled: {type: Boolean, default: false},
-    confirmColor: {type: String, default: "red", required: false}
+    confirmColor: {type: String, default: "danger", required: false}
   },
   components: {
     Modal

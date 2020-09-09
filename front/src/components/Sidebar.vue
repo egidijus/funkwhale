@@ -1,13 +1,14 @@
 <template>
-<aside :class="['ui', 'vertical', 'left', 'visible', 'wide', {'collapsed': isCollapsed}, 'sidebar',]">
+<aside :class="['ui', 'vertical', 'left', 'visible', 'wide', {'collapsed': isCollapsed}, 'sidebar', 'component-sidebar']">
   <header class="ui basic segment header-wrapper">
     <router-link :title="'Funkwhale'" :to="{name: logoUrl}">
-      <i class="logo bordered inverted orange big icon">
+      <i class="logo bordered inverted vibrant big icon">
         <logo class="logo"></logo>
+        <span class="visually-hidden">Home</span>
       </i>
     </router-link>
-    <router-link v-if="!$store.state.auth.authenticated" class="logo-wrapper" :to="{name: logoUrl}">
-      <img src="../assets/logo/text-white.svg" />
+    <router-link v-if="!$store.state.auth.authenticated" class="logo-wrapper" :to="{name: logoUrl}" :title="'Funkwhale'">
+      <img src="../assets/logo/text-white.svg" alt="" />
     </router-link>
     <nav class="top ui compact right aligned inverted text menu">
       <template v-if="$store.state.auth.authenticated">
@@ -18,11 +19,11 @@
               <i class="wrench icon"></i>
               <div
                 v-if="moderationNotifications > 0"
-                :class="['ui', 'teal', 'mini', 'bottom floating', 'circular', 'label']">{{ moderationNotifications }}</div>
+                :class="['ui', 'accent', 'mini', 'bottom floating', 'circular', 'label']">{{ moderationNotifications }}</div>
               <div class="menu">
-                <div class="header">
+                <h3 class="header">
                   <translate translate-context="Sidebar/Admin/Title/Noun">Administration</translate>
-                </div>
+                </h3>
                 <div class="divider"></div>
                 <router-link
                   v-if="$store.state.auth.availablePermissions['library']"
@@ -31,7 +32,7 @@
                   <div
                     v-if="$store.state.ui.notifications.pendingReviewEdits > 0"
                     :title="labels.pendingReviewEdits"
-                    :class="['ui', 'circular', 'mini', 'right floated', 'teal', 'label']">
+                    :class="['ui', 'circular', 'mini', 'right floated', 'accent', 'label']">
                     {{ $store.state.ui.notifications.pendingReviewEdits }}</div>
                   <translate translate-context="*/*/*/Noun">Library</translate>
                 </router-link>
@@ -42,7 +43,7 @@
                   <div
                     v-if="$store.state.ui.notifications.pendingReviewReports + $store.state.ui.notifications.pendingReviewRequests> 0"
                     :title="labels.pendingReviewReports"
-                    :class="['ui', 'circular', 'mini', 'right floated', 'teal', 'label']">{{ $store.state.ui.notifications.pendingReviewReports + $store.state.ui.notifications.pendingReviewRequests }}</div>
+                    :class="['ui', 'circular', 'mini', 'right floated', 'accent', 'label']">{{ $store.state.ui.notifications.pendingReviewReports + $store.state.ui.notifications.pendingReviewRequests }}</div>
                   <translate translate-context="*/Moderation/*">Moderation</translate>
                 </router-link>
                 <router-link
@@ -64,17 +65,20 @@
         <router-link
           class="item"
           v-if="$store.state.auth.authenticated"
-          :title="labels.addContent"
-          :to="{name: 'content.index'}"><i class="upload icon"></i></router-link>
-
-        <router-link class="item" v-if="$store.state.auth.authenticated" :title="labels.notifications" :to="{name: 'notifications'}">
-          <i class="bell icon"></i><div
-            v-if="$store.state.ui.notifications.inbox + additionalNotifications > 0"
-            :class="['ui', 'teal', 'mini', 'bottom floating', 'circular', 'label']">{{ $store.state.ui.notifications.inbox + additionalNotifications }}</div>
+          :to="{name: 'content.index'}">
+        <i class="upload icon"></i>
+        <span class="visually-hidden">{{ labels.addContent }}</span>
+        </router-link>
+        <router-link class="item" v-if="$store.state.auth.authenticated" :to="{name: 'notifications'}">
+          <i class="bell icon"></i>
+          <div v-if="$store.state.ui.notifications.inbox + additionalNotifications > 0" :class="['ui', 'accent', 'mini', 'bottom floating', 'circular', 'label']">
+            {{ $store.state.ui.notifications.inbox + additionalNotifications }}
+          </div>
+          <span v-else class="visually-hidden">{{ labels.notifications }}</span>
         </router-link>
         <div class="item">
           <div class="ui user-dropdown dropdown" >
-            <img class="ui avatar image" v-if="$store.state.auth.profile.avatar && $store.state.auth.profile.avatar.square_crop" :src="$store.getters['instance/absoluteUrl']($store.state.auth.profile.avatar.square_crop)" />
+            <img class="ui avatar image" alt="" v-if="$store.state.auth.profile.avatar && $store.state.auth.profile.avatar.urls.medium_square_crop" :src="$store.getters['instance/absoluteUrl']($store.state.auth.profile.avatar.urls.medium_square_crop)" />
             <actor-avatar v-else :actor="{preferred_username: $store.state.auth.username, full_username: $store.state.auth.username}" />
             <div class="menu">
               <router-link class="item" :to="{name: 'profile.overview', params: {username: $store.state.auth.username}}"><translate translate-context="*/*/*/Noun">Profile</translate></router-link>
@@ -86,10 +90,10 @@
       </template>
       <div class="item collapse-button-wrapper">
 
-        <span
+        <button
           @click="isCollapsed = !isCollapsed"
-          :class="['ui', 'basic', 'big', {'orange': !isCollapsed}, 'inverted icon', 'collapse', 'button']">
-            <i class="sidebar icon"></i></span>
+          :class="['ui', 'basic', 'big', {'vibrant': !isCollapsed}, 'inverted icon', 'collapse', 'button']">
+            <i class="sidebar icon"></i></button>
       </div>
     </nav>
   </header>
@@ -103,15 +107,18 @@
       <translate translate-context="*/Signup/Link/Verb">Create an account</translate>
     </router-link>
   </div>
-  <nav class="secondary" role="navigation">
+  <nav class="secondary" role="navigation" aria-labelledby="navigation-label">
+    <h1 id="navigation-label" class="visually-hidden">
+      <translate translate-context="*/*/*">Main navigation</translate>
+    </h1>
     <div class="ui small hidden divider"></div>
     <section :class="['ui', 'bottom', 'attached', {active: selectedTab === 'library'}, 'tab']" :aria-label="labels.mainMenu">
       <nav class="ui vertical large fluid inverted menu" role="navigation" :aria-label="labels.mainMenu">
         <div :class="[{collapsed: !exploreExpanded}, 'collaspable item']">
-          <header class="header" @click="exploreExpanded = true" tabindex="0" @focus="exploreExpanded = true">
+          <h2 class="header" role="button" @click="exploreExpanded = true" tabindex="0" @focus="exploreExpanded = true">
             <translate translate-context="*/*/*/Verb">Explore</translate>
             <i class="angle right icon" v-if="!exploreExpanded"></i>
-          </header>
+          </h2>
           <div class="menu">
             <router-link class="item" :exact="true" :to="{name: 'library.index'}"><i class="music icon"></i><translate translate-context="Sidebar/Navigation/List item.Link/Verb">Browse</translate></router-link>
             <router-link class="item" :to="{name: 'library.albums.browse'}"><i class="compact disc icon"></i><translate translate-context="*/*/*">Albums</translate></router-link>
@@ -121,10 +128,10 @@
           </div>
         </div>
         <div :class="[{collapsed: !myLibraryExpanded}, 'collaspable item']" v-if="$store.state.auth.authenticated">
-          <header class="header" @click="myLibraryExpanded = true" tabindex="0" @focus="myLibraryExpanded = true">
+          <h3 class="header" role="button" @click="myLibraryExpanded = true" tabindex="0" @focus="myLibraryExpanded = true">
             <translate translate-context="*/*/*/Noun">My Library</translate>
             <i class="angle right icon" v-if="!myLibraryExpanded"></i>
-          </header>
+          </h3>
           <div class="menu">
             <router-link class="item" :exact="true" :to="{name: 'library.me'}"><i class="music icon"></i><translate translate-context="Sidebar/Navigation/List item.Link/Verb">Browse</translate></router-link>
             <router-link class="item" :to="{name: 'library.albums.me'}"><i class="compact disc icon"></i><translate translate-context="*/*/*">Albums</translate></router-link>
@@ -138,9 +145,9 @@
           <translate translate-context="*/*/*">Channels</translate>
         </router-link>
         <div class="item">
-          <header class="header">
+          <h3 class="header">
             <translate translate-context="Footer/About/List item.Link">More</translate>
-          </header>
+          </h3>
           <div class="menu">
             <router-link class="item" to="/about">
               <i class="info icon"></i><translate translate-context="Sidebar/*/List item.Link">About this pod</translate>
@@ -343,239 +350,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-@import "../style/vendor/media";
-
-$sidebar-color: #2D2F33;
-
-.sidebar {
-  background: $sidebar-color;
-  z-index: 1;
-  @include media(">desktop") {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-bottom: 4em;
-  }
-  > nav {
-    flex-grow: 1;
-    overflow-y: auto;
-  }
-  @include media(">desktop") {
-    .menu .item.collapse-button-wrapper {
-      padding: 0;
-    }
-    .collapse.button {
-      display: none !important;
-    }
-  }
-  @include media("<=desktop") {
-    position: static !important;
-    width: 100% !important;
-    &.collapsed {
-      .player-wrapper,
-      .search,
-      .signup.segment,
-      nav.secondary {
-        display: none;
-      }
-    }
-  }
-
-  > div {
-    margin: 0;
-    background-color: $sidebar-color;
-  }
-  .menu.vertical {
-    background: $sidebar-color;
-  }
-}
-
-.ui.vertical.menu {
-  .item .item {
-    font-size: 1em;
-    > i.icon {
-      float: none;
-      margin: 0 0.5em 0 0;
-    }
-    &:not(.active) {
-      // color: rgba(255, 255, 255, 0.75);
-    }
-  }
-  .item.active {
-    border-right: 5px solid #F2711C;
-    border-radius: 0 !important;
-    background-color: rgba(255, 255, 255, 0.15) !important;
-  }
-  .item.collapsed {
-    &:not(:focus) > .menu {
-      display: none;
-    }
-    .header {
-      margin-bottom: 0;
-    }
-  }
-  .collaspable.item .header {
-    cursor: pointer;
-  }
-}
-.ui.secondary.menu {
-  margin-left: 0;
-  margin-right: 0;
-}
-.tabs {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  justify-content: space-between;
-  @include media("<=desktop") {
-    max-height: 500px;
-  }
-}
-.ui.tab.active {
-  display: flex;
-}
-.tab[data-tab="queue"] {
-  flex-direction: column;
-  tr {
-    cursor: pointer;
-  }
-  td:nth-child(2) {
-    width: 55px;
-  }
-}
-.item .header .angle.icon {
-  float: right;
-  margin: 0;
-}
-.tab[data-tab="library"] {
-  flex-direction: column;
-  flex: 1 1 auto;
-  > .menu {
-    flex: 1;
-    flex-grow: 1;
-  }
-  > .player-wrapper {
-    width: 100%;
-  }
-}
-.sidebar .segment {
-  margin: 0;
-  border-radius: 0;
-}
-
-.ui.menu .item.inline.admin-dropdown.dropdown > .menu {
-  left: 0;
-  right: auto;
-}
-.ui.segment.header-wrapper {
-  padding: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 4em;
-  nav {
-    > .item, > .menu > .item > .item {
-      &:hover {
-        background-color: transparent;
-      }
-    }
-  }
-}
-
-nav.top.title-menu {
-  flex-grow: 1;
-  .item {
-    font-size: 1.5em;
-  }
-}
-
-.logo {
-  cursor: pointer;
-  display: inline-block;
-  margin: 0px;
-}
-
-.collapsed .search-wrapper {
-  @include media("<desktop") {
-    padding: 0;
-  }
-}
-.ui.search {
-  display: flex;
-}
-.ui.message.black {
-  background: $sidebar-color;
-}
-
-.ui.mini.image {
-  width: 100%;
-}
-nav.top {
-  align-items: self-end;
-  padding: 0.5em 0;
-  > .item, > .right.menu > .item {
-    // color: rgba(255, 255, 255, 0.9) !important;
-    font-size: 1.2em;
-    &:hover, > .dropdown > .icon {
-      // color: rgba(255, 255, 255, 0.9) !important;
-    }
-    > .label, > .dropdown > .label {
-      font-size: 0.5em;
-      right: 1.7em;
-      bottom: -0.5em;
-      z-index: 0 !important;
-    }
-  }
-}
-.ui.user-dropdown > .text > .label {
-  margin-right: 0;
-}
-.logo-wrapper {
-  display: inline-block;
-  margin: 0 auto;
-  @include media("<desktop") {
-    margin: 0;
-  }
-  img {
-    height: 1em;
-    display: inline-block;
-    margin: 0 auto;
-  }
-  @include media(">tablet") {
-    img {
-      height: 1.5em;
-    }
-  }
-}
-</style>
-
-<style lang="scss">
-aside.ui.sidebar {
-  overflow-y: visible !important;
-  .ui.search .input {
-    flex: 1;
-    .prompt {
-      border-radius: 0;
-    }
-  }
-  .ui.search .results {
-    vertical-align: middle;
-  }
-  .ui.search .name {
-    vertical-align: middle;
-  }
-}
-.ui.tiny.avatar.image {
-  position: relative;
-  top: -0.5em;
-  width: 3em;
-}
-
-:not(.active) button.title {
-  outline-color: white;
-}
-</style>

@@ -22,23 +22,23 @@
       <div :class="['ui', {'loading': isLoading}, 'form']">
         <div class="fields">
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
-            <select class="ui dropdown" v-model="ordering">
+            <label for="favorites-ordering"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
+            <select id="favorites-ordering" class="ui dropdown" v-model="ordering">
               <option v-for="option in orderingOptions" :value="option[0]">
                 {{ sharedLabels.filters[option[1]] }}
               </option>
             </select>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Order</translate></label>
-            <select class="ui dropdown" v-model="orderingDirection">
+            <label for="favorites-ordering-direction"><translate translate-context="Content/Search/Dropdown.Label/Noun">Order</translate></label>
+            <select id="favorites-ordering-direction" class="ui dropdown" v-model="orderingDirection">
               <option value="+"><translate translate-context="Content/Search/Dropdown">Ascending</translate></option>
               <option value="-"><translate translate-context="Content/Search/Dropdown">Descending</translate></option>
             </select>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Results per page</translate></label>
-            <select class="ui dropdown" v-model="paginateBy">
+            <label for="favorites-results"><translate translate-context="Content/Search/Dropdown.Label/Noun">Results per page</translate></label>
+            <select id="favorites-results" class="ui dropdown" v-model="paginateBy">
               <option :value="parseInt(12)">12</option>
               <option :value="parseInt(25)">25</option>
               <option :value="parseInt(50)">50</option>
@@ -64,7 +64,7 @@
           translate-context="Content/Home/Placeholder"
         >No tracks have been added to your favorites yet</translate>
       </div>
-      <router-link :to="'/library'" class="ui green labeled icon button">
+      <router-link :to="'/library'" class="ui success labeled icon button">
       <i class="headphones icon"></i>
         <translate translate-context="Content/*/Verb">Browse the library</translate>
       </router-link>
@@ -82,6 +82,7 @@ import Pagination from "@/components/Pagination"
 import OrderingMixin from "@/components/mixins/Ordering"
 import PaginationMixin from "@/components/mixins/Pagination"
 import TranslationsMixin from "@/components/mixins/Translations"
+import {checkRedirectToLogin} from '@/utils'
 const FAVORITES_URL = "tracks/"
 
 export default {
@@ -107,9 +108,7 @@ export default {
     }
   },
   created() {
-    if (!this.$store.state.auth.authenticated) {
-      this.$router.push({name: 'login', query: {next: this.$router.currentRoute.fullPath}})
-    }
+    checkRedirectToLogin(this.$store, this.$router)
     this.fetchFavorites(FAVORITES_URL)
 
   },
@@ -178,7 +177,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

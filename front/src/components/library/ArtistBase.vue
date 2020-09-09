@@ -29,15 +29,15 @@
 
             </div>
             <div class="ui buttons">
-              <play-button :is-playable="isPlayable" class="orange" :artist="object">
+              <play-button :is-playable="isPlayable" class="vibrant" :artist="object">
                 <translate translate-context="Content/Artist/Button.Label/Verb">Play all albums</translate>
               </play-button>
             </div>
 
             <modal :show.sync="showEmbedModal" v-if="publicLibraries.length > 0">
-              <div class="header">
+              <h4 class="header">
                 <translate translate-context="Popup/Artist/Title/Verb">Embed this artist work on your website</translate>
-              </div>
+              </h4>
               <div class="scrolling content">
                 <div class="description">
                   <embed-wizard type="artist" :id="object.id" />
@@ -45,26 +45,35 @@
                 </div>
               </div>
               <div class="actions">
-                <div class="ui deny button">
+                <button class="ui deny button">
                   <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-                </div>
+                </button>
               </div>
             </modal>
             <div class="ui buttons">
               <button class="ui button" @click="$refs.dropdown.click()">
                 <translate translate-context="*/*/Button.Label/Noun">More…</translate>
               </button>
-              <div class="ui floating dropdown icon button" ref="dropdown" v-dropdown>
+              <button class="ui floating dropdown icon button" ref="dropdown" v-dropdown>
                 <i class="dropdown icon"></i>
                 <div class="menu">
-                  <div
+                  <a
+                    :href="object.fid"
+                    v-if="domain != $store.getters['instance/domain']"
+                    target="_blank"
+                    class="basic item">
+                    <i class="external icon"></i>
+                    <translate :translate-params="{domain: domain}" translate-context="Content/*/Button.Label/Verb">View on %{ domain }</translate>
+                  </a>
+
+                  <button
                     role="button"
                     v-if="publicLibraries.length > 0"
-                    @click="showEmbedModal = !showEmbedModal"
+                    @click.prevent="showEmbedModal = !showEmbedModal"
                     class="basic item">
                     <i class="code icon"></i>
                     <translate translate-context="Content/*/Button.Label/Verb">Embed</translate>
-                  </div>
+                  </button>
                   <a :href="wikipediaUrl" target="_blank" rel="noreferrer noopener" class="basic item">
                     <i class="wikipedia w icon"></i>
                     <translate translate-context="Content/*/Button.Label/Verb">Search on Wikipedia</translate>
@@ -108,7 +117,7 @@
                     <translate translate-context="Content/Moderation/Link/Verb">View in Django's admin</translate>&nbsp;
                   </a>
                 </div>
-              </div>
+              </button>
             </div>
           </div>
         </div>
@@ -136,6 +145,8 @@ import Modal from '@/components/semantic/Modal'
 import RadioButton from "@/components/radios/Button"
 import TagsList from "@/components/tags/List"
 import ReportMixin from '@/components/mixins/Report'
+
+import {getDomain} from '@/utils'
 
 const FETCH_URL = "albums/"
 
@@ -195,9 +206,7 @@ export default {
         self.nextAlbumsUrl = response.data.next
         self.totalAlbums = response.data.count
         let parsed = JSON.parse(JSON.stringify(response.data.results))
-        self.albums = parsed.map(album => {
-          return backend.Album.clean(album)
-        })
+        self.albums = parsed
 
       })
       await trackPromise
@@ -207,6 +216,11 @@ export default {
     }
   },
   computed: {
+    domain () {
+      if (this.object) {
+        return getDomain(this.object.fid)
+      }
+    },
     isPlayable() {
       return (
         this.object.albums.filter(a => {
@@ -237,12 +251,12 @@ export default {
       )
     },
     cover() {
-      if (this.object.cover && this.object.cover.original) {
+      if (this.object.cover && this.object.cover.urls.original) {
         return this.object.cover
       }
       return this.object.albums
         .filter(album => {
-          return album.cover && album.cover.original
+          return album.cover && album.cover.urls.original
         })
         .map(album => {
           return album.cover
@@ -255,12 +269,12 @@ export default {
       })
     },
     headerStyle() {
-      if (!this.cover || !this.cover.original) {
+      if (!this.cover || !this.cover.urls.original) {
         return ""
       }
       return (
         "background-image: url(" +
-        this.$store.getters["instance/absoluteUrl"](this.cover.original) +
+        this.$store.getters["instance/absoluteUrl"](this.cover.urls.original) +
         ")"
       )
     },

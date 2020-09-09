@@ -1,0 +1,10 @@
+.component-play-button {
+  button.item {
+    width: 100%;
+  }
+  > .floating.dropdown:not(.button) {
+    background: transparent;
+    padding: 0;
+    border: none;
+  }
+}

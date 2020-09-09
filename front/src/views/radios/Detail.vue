@@ -6,7 +6,7 @@
     <section v-if="!isLoading && radio" class="ui head vertical center aligned stripe segment" v-title="radio.name">
       <div class="segment-content">
         <h2 class="ui center aligned icon header">
-          <i class="circular inverted feed blue icon"></i>
+          <i class="circular inverted feed primary icon"></i>
           <div class="content">
             {{ radio.name }}
             <div class="sub header">
@@ -22,7 +22,7 @@
             <i class="pencil icon"></i>
             Edit…
           </router-link>
-          <dangerous-button class="ui labeled red icon button" :action="deleteRadio">
+          <dangerous-button class="ui labeled danger icon button" :action="deleteRadio">
             <i class="trash icon"></i> Delete
             <p slot="modal-header" v-translate="{radio: radio.name}"  translate-context="Popup/Radio/Title" :translate-params="{radio: radio.name}">Do you want to delete the radio "%{ radio }"?</p>
             <p slot="modal-content"><translate translate-context="Popup/Radio/Paragraph">This will completely delete this radio and cannot be undone.</translate></p>
@@ -53,7 +53,7 @@
       </div>
       <router-link
       v-if="$store.state.auth.username === radio.user.username"
-      class="ui green icon labeled button"
+      class="ui success icon labeled button"
       :to="{name: 'library.radios.edit', params: {id: radio.id}}" exact>
       <i class="pencil icon"></i>
         Edit…

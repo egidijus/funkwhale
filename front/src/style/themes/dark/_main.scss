@@ -1,0 +1,7 @@
+@use "sass:meta";
+@use "./_vars.scss" as vars;
+
+.theme-dark {
+  $fwVars: meta.module-variables("vars");
+  @import "../../_css_vars.scss";
+}

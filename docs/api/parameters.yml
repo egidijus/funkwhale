@@ -19,6 +19,14 @@ External:
     type: "boolean"
 
 
+Library:
+  name: library
+  in: query
+  description: Restrict to results contained in the given library
+  schema:
+    type: string
+    format: uuid
+  
 ObjectId:
   name: id
   in: path
@@ -59,6 +67,14 @@ Playable:
   schema:
     required: false
     type: "boolean"
+HasAlbums:
+  name: "has_albums"
+  in: "query"
+  default: null
+  description: "Filter/exclude artists with no associated albums"
+  schema:
+    required: false
+    type: "boolean"
 Refresh:
   name: "refresh"
   in: "query"
@@ -68,6 +84,16 @@ Refresh:
     required: false
     type: "boolean"
 
+
+Related:
+  name: related
+  in: query
+  description: Restrict to results similar to the given object (based on tags)
+  schema:
+    type: integer
+    format: int64
+
+    
 Scope:
   name: "scope"
   in: "query"

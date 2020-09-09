@@ -1,5 +1,5 @@
 <template>
-   <span :class="['volume-control', {'expanded': expanded}]" @click.prevent.stop="" @mouseover="handleOver" @mouseleave="handleLeave">
+   <button class="circular control button" :class="['component-volume-control', {'expanded': expanded}]" @click.prevent.stop="" @mouseover="handleOver" @mouseleave="handleLeave">
     <span
       role="button"
       v-if="sliderVolume === 0"
@@ -25,14 +25,16 @@
       <i class="volume up icon"></i>
     </span>
     <div class="popup">
+      <label for="volume-slider" class="visually-hidden">{{ labels.slider }}</label>
       <input
+        id="volume-slider"
         type="range"
         step="0.05"
         min="0"
         max="1"
         v-model="sliderVolume" />
     </div>
-  </span>
+  </button class="circular control">
 </template>
 <script>
 import { mapState, mapGetters, mapActions } from "vuex"
@@ -57,7 +59,7 @@ export default {
       return {
         unmute: this.$pgettext('Sidebar/Player/Icon.Tooltip/Verb', "Unmute"),
         mute: this.$pgettext('Sidebar/Player/Icon.Tooltip/Verb', "Mute"),
-
+        slider: this.$pgettext('Sidebar/Player/Icon.Tooltip/Verb', "Adjust volume")
       }
     }
   },
@@ -82,37 +84,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-
-.volume-control {
-  display: flex;
-  line-height: inherit;
-  align-items: center;
-  position: relative;
-  overflow: visible;
-  input {
-    max-width: 5.5em;
-    height: 4px;
-  }
-  &.expandable {
-    .popup {
-      background-color: #1B1C1D;
-      position: absolute;
-      left: -4em;
-      top: -7em;
-      transform: rotate(-90deg);
-      display: flex;
-      align-items: center;
-      height: 2.5em;
-      padding: 0 0.5em;
-      box-shadow: 1px 1px 3px rgba(125, 125, 125, 0.5);
-    }
-    input {
-      max-width: 8.5em;
-    }
-    &:not(:hover):not(.expanded) .popup {
-      display: none;
-    }
-  }
-}
-</style>

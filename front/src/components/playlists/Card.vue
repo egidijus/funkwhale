@@ -3,12 +3,12 @@
     <div
       @click="$router.push({name: 'library.playlists.detail', params: {id: playlist.id }})"
       :class="['ui', 'head-image', 'squares']">
-      <img v-lazy="url" v-for="(url, idx) in images" :key="idx" />
-      <play-button :icon-only="true" :is-playable="playlist.is_playable" :button-classes="['ui', 'circular', 'large', 'orange', 'icon', 'button']" :playlist="playlist"></play-button>
+      <img alt="" v-lazy="url" v-for="(url, idx) in images" :key="idx" />
+      <play-button :icon-only="true" :is-playable="playlist.is_playable" :button-classes="['ui', 'circular', 'large', 'vibrant', 'icon', 'button']" :playlist="playlist"></play-button>
     </div>
     <div class="content">
       <strong>
-        <router-link class="discrete link" :title="playlist.name" :to="{name: 'library.playlists.detail', params: {id: playlist.id }}">
+        <router-link class="discrete link" :to="{name: 'library.playlists.detail', params: {id: playlist.id }}">
           {{ playlist.name }}
         </router-link>
       </strong>
@@ -18,7 +18,7 @@
     </div>
     <div class="extra content">
       <translate translate-context="*/*/*" :translate-params="{count: playlist.tracks_count}" :translate-n="playlist.tracks_count" translate-plural="%{ count } tracks">%{ count } track</translate>
-      <play-button class="right floated basic icon" :dropdown-only="true" :is-playable="playlist.is_playable" :dropdown-icon-classes="['ellipsis', 'horizontal', 'large', 'grey']" :playlist="playlist"></play-button>
+      <play-button class="right floated basic icon" :dropdown-only="true" :is-playable="playlist.is_playable" :dropdown-icon-classes="['ellipsis', 'horizontal', 'large really discrete']" :playlist="playlist"></play-button>
     </div>
   </div>
 </template>

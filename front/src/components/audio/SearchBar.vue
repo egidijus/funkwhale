@@ -1,7 +1,7 @@
 <template>
   <div class="ui fluid category search">
     <slot></slot><div class="ui icon input">
-      <input ref="search" type="search" class="prompt" name="search" :placeholder="labels.placeholder" @keydown.esc="$event.target.blur()">
+      <input :aria-label="labels.searchContent" ref="search" type="search" class="prompt" name="search" :placeholder="labels.placeholder" @keydown.esc="$event.target.blur()">
       <i class="search icon"></i>
     </div>
     <div class="results"></div>
@@ -25,7 +25,8 @@ export default {
   computed: {
     labels () {
       return {
-        placeholder: this.$pgettext('Sidebar/Search/Input.Placeholder', 'Search for artists, albums, tracks…')
+        placeholder: this.$pgettext('Sidebar/Search/Input.Placeholder', 'Search for artists, albums, tracks…'),
+        searchContent: this.$pgettext('Sidebar/Search/Input.Label', 'Search for content')
       }
     }
   },
@@ -42,7 +43,7 @@ export default {
         // Cancel any API search request to backend…
         jQuery(this.$el).search('cancel query');
         // Go direct to the artist page…
-        router.push("/library/artists?query=" + searchQuery + "&page=1&paginateBy=25&ordering=name");
+        router.push(`/search?q=${searchQuery}&type=artists`);
 	}
     });
 
@@ -70,7 +71,10 @@ export default {
           if (!self.$store.state.auth.authenticated) {
             return xhrObject
           }
-          xhrObject.setRequestHeader('Authorization', self.$store.getters['auth/header'])
+
+          if (self.$store.state.auth.oauth.accessToken) {
+            xhrObject.setRequestHeader('Authorization', self.$store.getters['auth/header'])
+          }
           return xhrObject
         },
         onResponse: function (initialResponse) {
@@ -144,8 +148,12 @@ export default {
               },
               getId (t) {
                 return t.name
-              }
-            }
+              },
+            },
+            {
+              code: 'more',
+              name: '',
+            },
           ]
           categories.forEach(category => {
             results[category.code] = {
@@ -188,6 +196,22 @@ export default {
                     }
                   }]
                 }
+              }
+            }
+            else if (category.code === 'more') {
+              let searchMessage = self.$pgettext('Search/*/*', 'More results 🡒')
+              results['more'] = {
+                name: '',
+                results: [{
+                  title: searchMessage,
+                  routerUrl: {
+                    name: 'search',
+                    query: {
+                      type: "artists",
+                      q: searchQuery
+                    }
+                  }
+                }]
               }
             }
             else {
@@ -236,7 +260,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

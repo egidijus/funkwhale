@@ -5,20 +5,20 @@
         <h2>{{ labels.changePassword }}</h2>
         <form v-if="!success" class="ui form" @submit.prevent="submit()">
           <div v-if="errors.length > 0" role="alert" class="ui negative message">
-            <div class="header"><translate translate-context="Content/Signup/Card.Title">Error while changing your password</translate></div>
+            <h4 class="header"><translate translate-context="Content/Signup/Card.Title">Error while changing your password</translate></h4>
             <ul class="list">
               <li v-for="error in errors">{{ error }}</li>
             </ul>
           </div>
           <template v-if="token && uid">
             <div class="field">
-              <label><translate translate-context="Content/Settings/Input.Label">New password</translate></label>
-              <password-input v-model="newPassword" />
+              <label for="password-field"><translate translate-context="Content/Settings/Input.Label">New password</translate></label>
+              <password-input field-id="password-field" v-model="newPassword" />
             </div>
             <router-link :to="{path: '/login'}">
               <translate translate-context="Content/Signup/Link">Back to login</translate>
             </router-link>
-            <button :class="['ui', {'loading': isLoading}, 'right', 'floated', 'green', 'button']" type="submit">
+            <button :class="['ui', {'loading': isLoading}, 'right', 'floated', 'success', 'button']" type="submit">
               <translate translate-context="Content/Signup/Button.Label">Update your password</translate></button>
           </template>
           <template v-else>
@@ -26,7 +26,7 @@
           </template>
         </form>
         <div v-else class="ui positive message">
-          <div class="header"><translate translate-context="Content/Signup/Card.Title">Password updated successfully</translate></div>
+          <h4 class="header"><translate translate-context="Content/Signup/Card.Title">Password updated successfully</translate></h4>
           <p><translate translate-context="Content/Signup/Card.Paragraph">Your password has been updated successfully.</translate></p>
           <router-link :to="{name: 'login'}">
             <translate translate-context="Content/Signup/Link/Verb">Proceed to login</translate>
@@ -88,7 +88,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

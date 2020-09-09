@@ -1,5 +1,5 @@
 <template>
-  <div class="table-wrapper">
+  <div class="table-wrapper component-track-table">
     <inline-search-bar v-model="query" v-if="search" @search="additionalTracks = []; loadMore()"></inline-search-bar>
     <slot v-if="!isLoading && allTracks.length === 0" name="empty-state">
       <empty-state @refresh="fetchData" :refresh="true"></empty-state>
@@ -7,13 +7,13 @@
     <table v-else :class="['ui', 'compact', 'very', 'basic', {loading: isLoading}, 'unstackable', 'table']">
       <thead>
         <tr>
-          <th></th>
-          <th></th>
+          <th><span class="visually-hidden"><translate translate-context="*/*/*/Noun">Play</translate></span></th>
+          <th><span class="visually-hidden"><translate translate-context="*/*/*/Noun">Track Art</translate></span></th>
           <th colspan="6"><translate translate-context="*/*/*/Noun">Title</translate></th>
           <th colspan="4"><translate translate-context="*/*/*/Noun">Artist</translate></th>
           <th colspan="4"><translate translate-context="*/*/*">Album</translate></th>
           <th colspan="4"><translate translate-context="Content/*/*">Duration</translate></th>
-          <th colspan="2" v-if="displayActions"></th>
+          <th colspan="2" v-if="displayActions"><span class="visually hidden"><translate translate-context="*/*/*/Noun">Actions</translate></span></th>
         </tr>
       </thead>
       <tbody>
@@ -90,16 +90,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-tr:not(:hover) .favorite-icon:not(.favorited) {
-  display: none;
-}
-pre {
-  overflow-x: scroll;
-}
-.table-wrapper {
-  overflow: visible;
-}
-</style>

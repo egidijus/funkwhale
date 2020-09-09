@@ -4,8 +4,8 @@
       <div class="ui small text container">
         <h2><i class="lock open icon"></i><translate translate-context="Content/Auth/Title/Verb">Authorize third-party app</translate></h2>
         <div v-if="errors.length > 0" role="alert" class="ui negative message">
-          <div v-if="application" class="header"><translate translate-context="Popup/Moderation/Error message">Error while authorizing application</translate></div>
-          <div v-else class="header"><translate translate-context="Popup/Moderation/Error message">Error while fetching application data</translate></div>
+          <h4 v-if="application" class="header"><translate translate-context="Popup/Moderation/Error message">Error while authorizing application</translate></h4>
+          <h4 v-else class="header"><translate translate-context="Popup/Moderation/Error message">Error while fetching application data</translate></h4>
           <ul class="list">
             <li v-for="error in errors">{{ error }}</li>
           </ul>
@@ -16,15 +16,15 @@
         <form v-else-if="application && !code" :class="['ui', {loading: isLoading}, 'form']" @submit.prevent="submit">
           <h3><translate translate-context="Content/Auth/Title" :translate-params="{app: application.name}">%{ app } wants to access your Funkwhale account</translate></h3>
 
-          <h4 v-for="topic in topicScopes" class="ui header">
-            <span v-if="topic.write && !topic.read" :class="['ui', 'basic', 'right floated', 'tiny', 'label']">
+          <h4 v-for="topic in topicScopes" class="ui header vertical-align">
+            <span v-if="topic.write && !topic.read" :class="['ui', 'basic', 'right floated', 'tiny', 'vertically-spaced component-label label']">
               <i class="pencil icon"></i>
               <translate translate-context="Content/Auth/Label/Noun">Write-only</translate>
             </span>
-            <span v-else-if="!topic.write && topic.read" :class="['ui', 'basic', 'right floated', 'tiny', 'label']">
+            <span v-else-if="!topic.write && topic.read" :class="['ui', 'basic', 'right floated', 'tiny', 'vertically-spaced component-label label']">
               <translate translate-context="Content/Auth/Label/Noun">Read-only</translate>
             </span>
-            <span v-else-if="topic.write && topic.read" :class="['ui', 'basic', 'right floated', 'tiny', 'label']">
+            <span v-else-if="topic.write && topic.read" :class="['ui', 'basic', 'right floated', 'tiny', 'vertically-spaced component-label label']">
               <i class="pencil icon"></i>
               <translate translate-context="Content/Auth/Label/Noun">Full access</translate>
             </span>
@@ -43,7 +43,7 @@
             </ul>
 
           </div>
-          <button class="ui green labeled icon button" type="submit">
+          <button class="ui success labeled icon button" type="submit">
             <i class="lock open icon"></i>
             <translate translate-context="Content/Signup/Button.Label/Verb" :translate-params="{app: application.name}">Authorize %{ app }</translate>
           </button>
@@ -66,6 +66,7 @@ import TranslationsMixin from "@/components/mixins/Translations"
 
 import axios from 'axios'
 
+import {checkRedirectToLogin} from '@/utils'
 export default {
   mixins: [TranslationsMixin],
   props: [
@@ -93,10 +94,13 @@ export default {
         {id: "filters", icon: 'eye slash'},
         {id: "notifications", icon: 'bell'},
         {id: "edits", icon: 'pencil alternate'},
+        {id: "security", icon: 'lock'},
+        {id: "reports", icon: 'warning sign'},
       ]
     }
   },
   created () {
+    checkRedirectToLogin(this.$store, this.$router)
     if (this.clientId) {
       this.fetchApplication()
     }
@@ -189,13 +193,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.ui.header .content {
-  text-align: left;
-}
-.ui.header > .ui.label {
-  margin-top: 0.3em;
-}
-</style>

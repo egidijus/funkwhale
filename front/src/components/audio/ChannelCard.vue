@@ -3,11 +3,11 @@
     <div
       @click="$router.push({name: 'channels.detail', params: {id: urlId}})"
       :class="['ui', 'head-image', {'circular': object.artist.content_category != 'podcast'}, {'padded': object.artist.content_category === 'podcast'}, 'image', {'default-cover': !object.artist.cover}]" v-lazy:background-image="imageUrl">
-      <play-button :icon-only="true" :is-playable="true" :button-classes="['ui', 'circular', 'large', 'orange', 'icon', 'button']" :artist="object.artist"></play-button>
+      <play-button :icon-only="true" :is-playable="true" :button-classes="['ui', 'circular', 'large', 'vibrant', 'icon', 'button']" :artist="object.artist"></play-button>
     </div>
     <div class="content">
       <strong>
-        <router-link class="discrete link" :title="object.artist.name" :to="{name: 'channels.detail', params: {id: urlId}}">
+        <router-link class="discrete link" :to="{name: 'channels.detail', params: {id: urlId}}">
           {{ object.artist.name }}
         </router-link>
       </strong>
@@ -37,7 +37,7 @@
         class="right floated basic icon"
         :dropdown-only="true"
         :is-playable="true"
-        :dropdown-icon-classes="['ellipsis', 'horizontal', 'large', 'grey']" :artist="object.artist" :channel="object" :account="object.attributed_to"></play-button>
+        :dropdown-icon-classes="['ellipsis', 'horizontal', 'large really discrete']" :artist="object.artist" :channel="object" :account="object.attributed_to"></play-button>
     </div>
   </div>
 </template>
@@ -59,14 +59,9 @@ export default {
   },
   computed: {
     imageUrl () {
-      let url = '../../assets/audio/default-cover.png'
-
       if (this.object.artist.cover) {
-        url = this.$store.getters['instance/absoluteUrl'](this.object.artist.cover.medium_square_crop)
-      } else {
-        return null
+        return this.$store.getters['instance/absoluteUrl'](this.object.artist.cover.urls.medium_square_crop)
       }
-      return url
     },
     urlId () {
       if (this.object.actor && this.object.actor.is_local) {

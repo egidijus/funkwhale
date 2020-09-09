@@ -1,0 +1,222 @@
+
+.ui.bottom-player {
+  z-index: 999999;
+  width: 100%;
+  width: 100vw;
+  .ui.top.attached.progress {
+    top: 0;
+  }
+}
+.ui.bottom-player > .segment.fixed-controls {
+  color: var(--player-color);
+  background: var(--player-background);
+  width: 100%;
+  width: 100vw;
+  border-radius: 0;
+  padding: 0em;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  z-index: 1001;
+  height: $bottom-player-height;
+  .controls-row {
+    height: $bottom-player-height;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include media(">desktop") {
+      padding: 0 1em;
+      justify-content: space-around;
+    }
+  }
+  cursor: pointer;
+  .indicating.progress {
+    overflow: hidden;
+  }
+
+  .ui.progress .bar {
+    transition: none;
+  }
+
+  .ui.progress .buffer.bar {
+    position: absolute;
+  }
+
+  @keyframes MOVE-BG {
+    from {
+      transform: translateX(0px);
+    }
+    to {
+      transform: translateX(46px);
+    }
+  }
+  .discrete.link {
+    color: inherit;
+  }
+  .indicating.progress .bar {
+    left: -46px;
+    width: 200% !important;
+    color: grey;
+    background: repeating-linear-gradient(
+      -55deg,
+      grey 1px,
+      grey 10px,
+      transparent 10px,
+      transparent 20px
+    ) !important;
+
+    animation-name: MOVE-BG;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  .ui.progress:not([data-percent]):not(.indeterminate)
+    .bar.position:not(.buffer) {
+    background: var(--vibrant-color);
+    min-width: 0;
+  }
+
+  .track-controls {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-grow: 1;
+    .image {
+      padding: 0.5em;
+      width: auto;
+      margin-right: 0.5em;
+      > img {
+        max-height: 3.7em;
+        max-width: 4.7em;
+      }
+    }
+  }
+  .controls {
+    min-width: 8em;
+    font-size: 1.1em;
+    @include media(">desktop") {
+      &:not(.fluid) {
+        width: 20%;
+      }
+      &.queue-controls {
+        width: 32.5%;
+      }
+      &.progress-controls {
+        width: 10%;
+      }
+      &.player-controls {
+        width: 15%;
+      }
+    }
+    &.small, .small {
+      @include media(">desktop") {
+        font-size: 0.9em;
+      }
+    }
+    .icon {
+      font-size: 1.1em;
+    }
+    .icon.large {
+      font-size: 1.4em;
+    }
+    &:not(.track-controls) {
+      @include media(">desktop") {
+        line-height: 1em;
+      }
+      justify-content: center;
+      align-items: center;
+      &.align-right {
+        justify-content: flex-end;
+      }
+      &.align-left {
+        justify-content: flex-start;
+      }
+      > * {
+        padding: 0.5em;
+      }
+    }
+    &.player-controls {
+      .icon {
+        margin: 0;
+      }
+    }
+
+  }
+}
+
+.component-player {
+  .controls {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .controls .icon.big {
+    cursor: pointer;
+    font-size: 2em !important;
+  }
+
+  .controls .icon {
+    cursor: pointer;
+    vertical-align: middle;
+  }
+  .timer {
+    font-size: 1.2em;
+  }
+  .looping {
+    i {
+      position: relative;
+    }
+    .ui.circular.label {
+      font-family: sans-serif;
+      position: absolute;
+      font-size: 0.5em !important;
+      bottom: -0.7rem;
+      right: -0.7rem;
+      padding: 2px 0 !important;
+      width: 15px !important;
+      height: 15px !important;
+      min-width: 15px !important;
+      min-height: 15px !important;
+      @include media(">desktop") {
+        font-size: 0.6em !important;
+      }
+    }
+  }
+  .shuffling.loader.inline {
+    margin: 0;
+  }
+  .control.circular.button {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    color: inherit;
+
+  }
+  .fake-dropdown {
+    border: 1px solid gray;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 10em;
+    > .control.button {
+      padding: 0.5em;
+
+    }
+    .position.control {
+      padding-right: 1em;
+      flex-grow: 1;
+      padding-left: 0;
+      i.stream.icon {
+        position: relative;
+        top: -2px;
+        left: -2px;
+      }
+    }
+    .angle.icon {
+      margin-right: 0;
+    }
+  }
+}

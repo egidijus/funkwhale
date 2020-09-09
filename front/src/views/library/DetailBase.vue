@@ -4,9 +4,17 @@
       <div v-if="isLoading" class="ui centered active inline loader"></div>
       <div class="ui stackable grid" v-else-if="object">
         <div class="ui five wide column">
-          <div class="ui pointing dropdown icon small basic right floated button" ref="dropdown" v-dropdown="{direction: 'downward'}" style="position: absolute; right: 1em; top: 1em;">
+          <button class="ui pointing dropdown icon small basic right floated button" ref="dropdown" v-dropdown="{direction: 'downward'}" style="position: absolute; right: 1em; top: 1em;">
             <i class="ellipsis vertical icon"></i>
             <div class="menu">
+              <a
+                :href="object.fid"
+                v-if="object.actor.domain != $store.getters['instance/domain']"
+                target="_blank"
+                class="basic item">
+                <i class="external icon"></i>
+                <translate :translate-params="{domain: object.actor.domain}" translate-context="Content/*/Button.Label/Verb">View on %{ domain }</translate>
+              </a>
               <div
                 role="button"
                 class="basic item"
@@ -22,12 +30,12 @@
                 <translate translate-context="Content/Moderation/Link">Open in moderation interface</translate>
               </router-link>
             </div>
-          </div>
+          </button>
           <h1 class="ui header">
             <div class="ui hidden divider"></div>
             <div class="ellipsis content">
               <i class="layer group small icon"></i>
-              <span :title="object.name">{{ object.name }}</span>
+              <span>{{ object.name }}</span>
               <div class="ui very small hidden divider"></div>
               <div class="sub header ellipsis" :title="object.full_username">
                 <actor-link :avatar="false" :actor="object.actor" :truncate-length="0">
@@ -74,13 +82,15 @@
               :can-update="false"></rendered-description>
               <div class="ui hidden divider"></div>
           </template>
-          <h5 class="ui header">
-            <label for="copy-input">
-              <translate translate-context="Content/Library/Title">Sharing link</translate>
-            </label>
-          </h5>
-          <p><translate translate-context="Content/Library/Paragraph">Share this link with other users so they can request access to this library by copy-pasting it in their pod search bar.</translate></p>
-          <copy-input :value="object.fid" />
+          <div class="ui form">
+            <div class="field">
+              <label for="copy-input">
+                <translate translate-context="Content/Library/Title">Sharing link</translate>
+              </label>
+              <p><translate translate-context="Content/Library/Paragraph">Share this link with other users so they can request access to this library by copy-pasting it in their pod search bar.</translate></p>
+              <copy-input :value="object.fid" />
+            </div>
+          </div>
         </div>
         <div class="ui eleven wide column">
           <div class="ui head vertical stripe segment">
@@ -146,6 +156,10 @@ export default {
   },
   async created() {
     await this.fetchData()
+    let authenticated = this.$store.state.auth.authenticated
+    if (!authenticated && this.$store.getters['instance/domain'] != this.object.actor.domain) {
+      this.$router.push({name: 'login', query: {next: this.$route.fullPath}})
+    }
   },
   methods: {
     async fetchData() {

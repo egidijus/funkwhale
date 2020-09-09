@@ -1,6 +1,6 @@
 <template>
   <router-link class="artist-label ui image label" :to="route">
-    <img :class="[{circular: artist.content_category != 'podcast'}]" v-if="artist.cover && artist.cover.original" v-lazy="$store.getters['instance/absoluteUrl'](artist.cover.small_square_crop)" />
+    <img alt="" :class="[{circular: artist.content_category != 'podcast'}]" v-if="artist.cover && artist.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](artist.cover.urls.medium_square_crop)" />
     <i :class="[artist.content_category != 'podcast' ? 'circular' : 'bordered', 'inverted violet users icon']" v-else />
     {{ artist.name }}
   </router-link>

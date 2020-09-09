@@ -688,11 +688,10 @@ class APIFollowSerializer(serializers.ModelSerializer):
         ]
 
 
-class AcceptFollowSerializer(serializers.Serializer):
+class FollowActionSerializer(serializers.Serializer):
     id = serializers.URLField(max_length=500, required=False)
     actor = serializers.URLField(max_length=500)
     object = FollowSerializer()
-    type = serializers.ChoiceField(choices=["Accept"])
 
     def validate_actor(self, v):
         expected = self.context.get("actor")
@@ -720,12 +719,13 @@ class AcceptFollowSerializer(serializers.Serializer):
                 follow_class.objects.filter(
                     target=target, actor=validated_data["object"]["actor"]
                 )
-                .exclude(approved=True)
                 .select_related()
                 .get()
             )
         except follow_class.DoesNotExist:
-            raise serializers.ValidationError("No follow to accept")
+            raise serializers.ValidationError(
+                "No follow to {}".format(self.action_type)
+            )
         return validated_data
 
     def to_representation(self, instance):
@@ -736,11 +736,17 @@ class AcceptFollowSerializer(serializers.Serializer):
 
         return {
             "@context": jsonld.get_default_context(),
-            "id": instance.get_federation_id() + "/accept",
-            "type": "Accept",
+            "id": instance.get_federation_id() + "/{}".format(self.action_type),
+            "type": self.action_type.title(),
             "actor": actor.fid,
             "object": FollowSerializer(instance).data,
         }
+
+
+class AcceptFollowSerializer(FollowActionSerializer):
+
+    type = serializers.ChoiceField(choices=["Accept"])
+    action_type = "accept"
 
     def save(self):
         follow = self.validated_data["follow"]
@@ -748,6 +754,18 @@ class AcceptFollowSerializer(serializers.Serializer):
         follow.save()
         if follow.target._meta.label == "music.Library":
             follow.target.schedule_scan(actor=follow.actor)
+        return follow
+
+
+class RejectFollowSerializer(FollowActionSerializer):
+
+    type = serializers.ChoiceField(choices=["Reject"])
+    action_type = "reject"
+
+    def save(self):
+        follow = self.validated_data["follow"]
+        follow.approved = False
+        follow.save()
         return follow
 
 
@@ -938,8 +956,6 @@ class PaginatedCollectionSerializer(jsonld.JsonLdSerializer):
         last = common_utils.set_query_parameter(conf["id"], page=paginator.num_pages)
         d = {
             "id": conf["id"],
-            # XXX Stable release: remove the obsolete actor field
-            "actor": conf["actor"].fid,
             "attributedTo": conf["actor"].fid,
             "totalItems": paginator.count,
             "type": conf.get("type", "Collection"),
@@ -1004,9 +1020,8 @@ class LibrarySerializer(PaginatedCollectionSerializer):
             "name": library.name,
             "summary": library.description,
             "page_size": 100,
-            # XXX Stable release: remove the obsolete actor field
-            "actor": library.actor,
             "attributedTo": library.actor,
+            "actor": library.actor,
             "items": library.uploads.for_federation(),
             "type": "Library",
         }
@@ -1096,9 +1111,6 @@ class CollectionPageSerializer(jsonld.JsonLdSerializer):
         d = {
             "id": id,
             "partOf": conf["id"],
-            # XXX Stable release: remove the obsolete actor field
-            "actor": conf["actor"].fid,
-            "attributedTo": conf["actor"].fid,
             "totalItems": page.paginator.count,
             "type": "CollectionPage",
             "first": first,
@@ -1110,6 +1122,8 @@ class CollectionPageSerializer(jsonld.JsonLdSerializer):
                 for i in page.object_list
             ],
         }
+        if conf["actor"]:
+            d["attributedTo"] = conf["actor"].fid
 
         if page.has_previous():
             d["prev"] = common_utils.set_query_parameter(
@@ -1296,8 +1310,7 @@ class AlbumSerializer(MusicEntitySerializer):
         child=MultipleSerializer(allowed=[BasicActorSerializer, ArtistSerializer]),
         min_length=1,
     )
-    # XXX: 1.0 rename to image
-    cover = ImageSerializer(
+    image = ImageSerializer(
         allowed_mimetypes=["image/*"],
         allow_null=True,
         required=False,
@@ -1305,7 +1318,7 @@ class AlbumSerializer(MusicEntitySerializer):
     )
     updateable_fields = [
         ("name", "title"),
-        ("cover", "attachment_cover"),
+        ("image", "attachment_cover"),
         ("musicbrainzId", "mbid"),
         ("attributedTo", "attributed_to"),
         ("released", "release_date"),
@@ -1319,7 +1332,7 @@ class AlbumSerializer(MusicEntitySerializer):
             {
                 "released": jsonld.first_val(contexts.FW.released),
                 "artists": jsonld.first_attr(contexts.FW.artists, "@list"),
-                "cover": jsonld.first_obj(contexts.FW.cover),
+                "image": jsonld.first_obj(contexts.AS.image),
             },
         )
 
@@ -1353,11 +1366,6 @@ class AlbumSerializer(MusicEntitySerializer):
             ]
         include_content(d, instance.description)
         if instance.attachment_cover:
-            d["cover"] = {
-                "type": "Link",
-                "href": instance.attachment_cover.download_url_original,
-                "mediaType": instance.attachment_cover.mimetype or "image/jpeg",
-            }
             include_image(d, instance.attachment_cover)
 
         if self.context.get("include_ap_context", self.parent is None):
@@ -2030,3 +2038,33 @@ class DeleteSerializer(jsonld.JsonLdSerializer):
         ):
             raise serializers.ValidationError("You cannot delete this object")
         return validated_data
+
+
+class IndexSerializer(jsonld.JsonLdSerializer):
+    type = serializers.ChoiceField(
+        choices=[contexts.AS.Collection, contexts.AS.OrderedCollection]
+    )
+    totalItems = serializers.IntegerField(min_value=0)
+    id = serializers.URLField(max_length=500)
+    first = serializers.URLField(max_length=500)
+    last = serializers.URLField(max_length=500)
+
+    class Meta:
+        jsonld_mapping = PAGINATED_COLLECTION_JSONLD_MAPPING
+
+    def to_representation(self, conf):
+        paginator = Paginator(conf["items"], conf["page_size"])
+        first = common_utils.set_query_parameter(conf["id"], page=1)
+        current = first
+        last = common_utils.set_query_parameter(conf["id"], page=paginator.num_pages)
+        d = {
+            "id": conf["id"],
+            "totalItems": paginator.count,
+            "type": "OrderedCollection",
+            "current": current,
+            "first": first,
+            "last": last,
+        }
+        if self.context.get("include_ap_context", True):
+            d["@context"] = jsonld.get_default_context()
+        return d

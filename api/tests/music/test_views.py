@@ -2,6 +2,7 @@ import datetime
 import io
 import magic
 import os
+import pathlib
 import urllib.parse
 import uuid
 
@@ -57,7 +58,7 @@ def test_album_list_serializer(api_request, factories, logged_in_api_client):
     ).track
     album = track.album
     request = api_request.get("/")
-    qs = album.__class__.objects.with_prefetched_tracks_and_playable_uploads(None)
+    qs = album.__class__.objects.with_tracks_count()
     serializer = serializers.AlbumSerializer(
         qs, many=True, context={"request": request}
     )
@@ -440,6 +441,30 @@ def test_listen_explicit_file(factories, logged_in_api_client, mocker, settings)
         max_bitrate=None,
         proxy_media=settings.PROXY_MEDIA,
         download=True,
+        wsgi_request=response.wsgi_request,
+    )
+
+
+def test_stream(factories, logged_in_api_client, mocker, settings):
+    mocked_serve = mocker.spy(views, "handle_serve")
+    upload = factories["music.Upload"](
+        library__privacy_level="everyone", import_status="finished"
+    )
+    url = (
+        reverse("api:v1:stream-detail", kwargs={"uuid": str(upload.track.uuid)})
+        + ".mp3"
+    )
+    assert url.endswith("/{}.mp3".format(upload.track.uuid))
+    response = logged_in_api_client.get(url)
+
+    assert response.status_code == 200
+    mocked_serve.assert_called_once_with(
+        upload=upload,
+        user=logged_in_api_client.user,
+        format="mp3",
+        download=False,
+        max_bitrate=None,
+        proxy_media=True,
         wsgi_request=response.wsgi_request,
     )
 
@@ -1306,9 +1331,7 @@ def test_get_upload_audio_metadata(logged_in_api_client, factories):
     assert response.data == serializer.validated_data
 
 
-@pytest.mark.parametrize("use_fts", [True, False])
-def test_search_get(use_fts, settings, logged_in_api_client, factories):
-    settings.USE_FULL_TEXT_SEARCH = use_fts
+def test_search_get(logged_in_api_client, factories):
     artist = factories["music.Artist"](name="Foo Fighters")
     album = factories["music.Album"](title="Foo Bar")
     track = factories["music.Track"](title="Foo Baz")
@@ -1331,8 +1354,7 @@ def test_search_get(use_fts, settings, logged_in_api_client, factories):
     assert response.data == expected
 
 
-def test_search_get_fts_advanced(settings, logged_in_api_client, factories):
-    settings.USE_FULL_TEXT_SEARCH = True
+def test_search_get_fts_advanced(logged_in_api_client, factories):
     artist1 = factories["music.Artist"](name="Foo Bighters")
     artist2 = factories["music.Artist"](name="Bar Fighter")
     factories["music.Artist"]()
@@ -1347,24 +1369,6 @@ def test_search_get_fts_advanced(settings, logged_in_api_client, factories):
         "tags": [],
     }
     response = logged_in_api_client.get(url, {"q": '"foo | bar"'})
-
-    assert response.status_code == 200
-    assert response.data == expected
-
-
-def test_search_get_fts_stop_words(settings, logged_in_api_client, factories):
-    settings.USE_FULL_TEXT_SEARCH = True
-    artist = factories["music.Artist"](name="she")
-    factories["music.Artist"]()
-
-    url = reverse("api:v1:search")
-    expected = {
-        "artists": [serializers.ArtistWithAlbumsSerializer(artist).data],
-        "albums": [],
-        "tracks": [],
-        "tags": [],
-    }
-    response = logged_in_api_client.get(url, {"q": "sh"})
 
     assert response.status_code == 200
     assert response.data == expected
@@ -1514,3 +1518,68 @@ def test_listen_to_track_with_scoped_token(factories, api_client):
     response = api_client.get(url, {"token": token})
 
     assert response.status_code == 200
+
+
+def test_fs_import_get(factories, superuser_api_client, mocker, settings):
+    browse_dir = mocker.patch.object(
+        views.utils, "browse_dir", return_value={"hello": "world"}
+    )
+    url = reverse("api:v1:libraries-fs-import")
+
+    expected = {
+        "root": settings.MUSIC_DIRECTORY_PATH,
+        "path": "",
+        "content": {"hello": "world"},
+        "import": None,
+    }
+    response = superuser_api_client.get(url, {"path": ""})
+
+    assert response.status_code == 200
+    assert response.data == expected
+    browse_dir.assert_called_once_with(expected["root"], expected["path"])
+
+
+def test_fs_import_post(
+    factories, superuser_api_client, cache, mocker, settings, tmpdir
+):
+    actor = superuser_api_client.user.create_actor()
+    library = factories["music.Library"](actor=actor)
+    settings.MUSIC_DIRECTORY_PATH = tmpdir
+    (pathlib.Path(tmpdir) / "test").mkdir()
+    fs_import = mocker.patch(
+        "funkwhale_api.music.tasks.fs_import.delay", return_value={"hello": "world"}
+    )
+    url = reverse("api:v1:libraries-fs-import")
+
+    response = superuser_api_client.post(
+        url, {"path": "test", "library": library.uuid, "import_reference": "test"}
+    )
+
+    assert response.status_code == 201
+    fs_import.assert_called_once_with(
+        path="test", library_id=library.pk, import_reference="test"
+    )
+    assert cache.get("fs-import:status") == "pending"
+
+
+def test_fs_import_post_already_running(
+    factories, superuser_api_client, cache, mocker, settings, tmpdir
+):
+    url = reverse("api:v1:libraries-fs-import")
+    cache.set("fs-import:status", "pending")
+
+    response = superuser_api_client.post(url, {"path": "test"})
+
+    assert response.status_code == 400
+
+
+def test_fs_import_cancel_already_running(
+    factories, superuser_api_client, cache, mocker, settings, tmpdir
+):
+    url = reverse("api:v1:libraries-fs-import")
+    cache.set("fs-import:status", "pending")
+
+    response = superuser_api_client.delete(url)
+
+    assert response.status_code == 204
+    assert cache.get("fs-import:status") == "canceled"

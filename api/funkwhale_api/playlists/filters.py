@@ -31,11 +31,7 @@ class PlaylistFilter(filters.FilterSet):
     class Meta:
         model = models.Playlist
         fields = {
-            "user": ["exact"],
             "name": ["exact", "icontains"],
-            "q": "exact",
-            "playable": "exact",
-            "scope": "exact",
         }
 
     def filter_playable(self, queryset, name, value):

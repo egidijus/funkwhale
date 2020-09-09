@@ -1,5 +1,5 @@
 <template>
-  <main class="main pusher" v-title="labels.title">
+  <main class="main pusher page-home" v-title="labels.title">
     <section :class="['ui', 'head', {'with-background': banner}, 'vertical', 'center', 'aligned', 'stripe', 'segment']" :style="headerStyle">
       <div class="segment-content">
         <h1 class="ui center aligned large header">
@@ -18,9 +18,9 @@
     <section class="ui vertical stripe segment">
       <div class="ui stackable grid">
         <div class="ten wide column">
-          <h3 class="header">
+          <h2 class="header">
             <translate translate-context="Content/Home/Header">About this Funkwhale pod</translate>
-          </h3>
+          </h2>
           <div class="ui raised segment" id="pod">
             <div class="ui stackable grid">
               <div class="eight wide column">
@@ -32,7 +32,7 @@
                   <div v-if="truncatedDescription" class="ui hidden divider"></div>
                   <div class="ui relaxed list">
                     <div class="item" v-if="truncatedDescription">
-                      <i class="arrow right grey icon"></i>
+                      <i class="arrow right icon"></i>
                       <div class="content">
                         <router-link class="ui link" :to="{name: 'about'}">
                           <translate translate-context="Content/Home/Link">Learn more</translate>
@@ -40,7 +40,7 @@
                       </div>
                     </div>
                     <div class="item" v-if="rules">
-                      <i class="book open grey icon"></i>
+                      <i class="book open icon"></i>
                       <div class="content">
                         <router-link class="ui link" v-if="rules" :to="{name: 'about', hash: '#rules'}">
                           <translate translate-context="Content/Home/Link">Server rules</translate>
@@ -56,10 +56,10 @@
                     <translate translate-context="Content/Home/Header">Statistics</translate>
                   </h3>
                   <p>
-                    <i class="user grey icon"></i><translate translate-context="Content/Home/Stat" :translate-params="{count: stats.users.toLocaleString($store.state.ui.momentLocale) }" :translate-n="stats.users" translate-plural="%{ count } active users">%{ count } active user</translate>
+                    <i class="user icon"></i><translate translate-context="Content/Home/Stat" :translate-params="{count: stats.users.toLocaleString($store.state.ui.momentLocale) }" :translate-n="stats.users" translate-plural="%{ count } active users">%{ count } active user</translate>
                   </p>
                   <p>
-                    <i class="music grey icon"></i><translate translate-context="Content/Home/Stat" :translate-params="{count: parseInt(stats.hours).toLocaleString($store.state.ui.momentLocale)}" :translate-n="parseInt(stats.hours)" translate-plural="%{ count } hours of music">%{ count } hour of music</translate>
+                    <i class="music icon"></i><translate translate-context="Content/Home/Stat" :translate-params="{count: parseInt(stats.hours).toLocaleString($store.state.ui.momentLocale)}" :translate-n="parseInt(stats.hours)" translate-plural="%{ count } hours of music">%{ count } hour of music</translate>
                   </p>
 
                 </template>
@@ -67,7 +67,7 @@
                   <h3 class="sub header">
                     <translate translate-context="Content/Home/Header/Name">Contact</translate>
                   </h3>
-                  <i class="at grey icon"></i>
+                  <i class="at icon"></i>
                   <a :href="`mailto:${contactEmail}`">{{ contactEmail }}</a>
                 </template>
 
@@ -77,7 +77,7 @@
         </div>
 
         <div class="six wide column">
-          <img class="ui image" src="../assets/network.png" />
+          <img class="ui image" src="../assets/network.png" alt=""/>
         </div>
       </div>
       <div class="ui hidden divider"></div>
@@ -98,7 +98,7 @@
           <h3 class="header">
             <translate translate-context="Head/Login/Title">Log In</translate>
           </h3>
-          <login-form button-classes="basic green" :show-signup="false"></login-form>
+          <login-form button-classes="success" :show-signup="false"></login-form>
           <div class="ui hidden clearing divider"></div>
         </div>
         <div class="four wide column">
@@ -112,7 +112,7 @@
             <p v-if="defaultUploadQuota">
               <translate translate-context="Content/Home/Paragraph" :translate-params="{quota: humanSize(defaultUploadQuota * 1000 * 1000)}">Users on this pod also get %{ quota } of free storage to upload their own content!</translate>
             </p>
-            <signup-form button-classes="basic green" :show-login="false"></signup-form>
+            <signup-form button-classes="success" :show-login="false"></signup-form>
           </template>
           <div v-else>
             <p translate-context="Content/Home/Paragraph">Registrations are closed on this pod. You can signup on another pod using the link below.</p>
@@ -214,7 +214,7 @@ export default {
     }),
     labels() {
       return {
-        title: this.$pgettext('Head/Home/Title', "Welcome")
+        title: this.$pgettext('Head/Home/Title', "Home")
       }
     },
     podName() {
@@ -296,39 +296,3 @@ export default {
 
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-@import "../style/vendor/media";
-
-.ui.list .list.icon {
-  padding: 0;
-}
-
-h1.header, h1 .sub.header {
-  text-shadow: 1px 1px 2px rgba(0,0,0,.8);
-  color: #fff !important;
-}
-h1.ui.header {
-  @include media(">tablet") {
-    font-size: 3em;
-  }
-}
-h1.ui.header .sub.header {
-  font-size: 0.8em;
-}
-.main.pusher {
-  margin-top: 0;
-  min-height: 10em;
-}
-section.segment.head {
-  padding: 8em 3em;
-  background: linear-gradient(90deg, rgba(40,88,125,1) 0%, rgba(64,130,180,1) 100%);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-#pod {
-  font-size: 110%;
-  display: block;
-}
-</style>

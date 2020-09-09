@@ -9,24 +9,24 @@
       </router-link>
       <template v-else v-html="notificationData.message"></template>
       <template v-if="notificationData.acceptFollow">&nbsp;
-        <div @click="handleAction(notificationData.acceptFollow.handler)" :class="['ui', 'basic', 'tiny', notificationData.acceptFollow.buttonClass || '', 'button']">
+        <button @click="handleAction(notificationData.acceptFollow.handler)" :class="['ui', 'basic', 'tiny', notificationData.acceptFollow.buttonClass || '', 'button']">
           <i v-if="notificationData.acceptFollow.icon" :class="[notificationData.acceptFollow.icon, 'icon']" />
           {{ notificationData.acceptFollow.label }}
-        </div>
-        <div @click="handleAction(notificationData.rejectFollow.handler)" :class="['ui', 'basic', 'tiny', notificationData.rejectFollow.buttonClass || '', 'button']">
+        </button>
+        <button @click="handleAction(notificationData.rejectFollow.handler)" :class="['ui', 'basic', 'tiny', notificationData.rejectFollow.buttonClass || '', 'button']">
           <i v-if="notificationData.rejectFollow.icon" :class="[notificationData.rejectFollow.icon, 'icon']" />
           {{ notificationData.rejectFollow.label }}
-        </div>
+        </button>
       </template>
     </td>
     <td><human-date :date="item.activity.creation_date" /></td>
     <td class="read collapsing">
-      <span @click="markRead(false)" v-if="item.is_read" :title="labels.markUnread">
+      <a href="" :aria-label="labels.markUnread" @click.prevent="markRead(false)" class="discrete link" v-if="item.is_read" :title="labels.markUnread">
         <i class="redo icon" />
-      </span>
-      <span @click="markRead(true)" v-else :title="labels.markRead">
+      </a>
+      <a href="" :aria-label="labels.markRead" @click.prevent="markRead(true)" class="discrete link" v-else :title="labels.markRead">
         <i class="check icon" />
-      </span>
+      </a>
     </td>
   </tr>
 </template>
@@ -68,13 +68,13 @@ export default {
           if (a.related_object.approved === null) {
             message = this.labels.libraryPendingFollowMessage
             acceptFollow = {
-              buttonClass: 'green',
+              buttonClass: 'success',
               icon: 'check',
               label: this.$pgettext('Content/*/Button.Label/Verb', 'Approve'),
               handler: () => { self.approveLibraryFollow(a.related_object) }
             },
             rejectFollow = {
-              buttonClass: 'red',
+              buttonClass: 'danger',
               icon: 'x',
               label: this.$pgettext('Content/*/Button.Label/Verb', 'Reject'),
               handler: () => { self.rejectLibraryFollow(a.related_object) }
@@ -146,8 +146,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.read > span {
-  cursor: pointer;
-}
-</style>

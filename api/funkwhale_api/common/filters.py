@@ -120,7 +120,6 @@ class MultipleQueryFilter(filters.TypedMultipleChoiceFilter):
     def __init__(self, *args, **kwargs):
         kwargs["widget"] = QueryArrayWidget()
         super().__init__(*args, **kwargs)
-        self.lookup_expr = "in"
 
 
 def filter_target(value):
@@ -228,7 +227,7 @@ class ActorScopeFilter(filters.CharFilter):
             username, domain = full_username.split("@")
             try:
                 actor = federation_models.Actor.objects.get(
-                    preferred_username=username, domain_id=domain,
+                    preferred_username__iexact=username, domain_id=domain,
                 )
             except federation_models.Actor.DoesNotExist:
                 raise EmptyQuerySet()

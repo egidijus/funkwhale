@@ -93,9 +93,17 @@ def test_nodeinfo_dump(preferences, mocker, avatar):
                 "instance__funkwhale_support_message_enabled"
             ],
             "instanceSupportMessage": preferences["instance__support_message"],
-            "knownNodesListUrl": federation_utils.full_url(
-                reverse("api:v1:federation:domains-list")
-            ),
+            "endpoints": {
+                "knownNodes": federation_utils.full_url(
+                    reverse("api:v1:federation:domains-list")
+                ),
+                "libraries": federation_utils.full_url(
+                    reverse("federation:index:index-libraries")
+                ),
+                "channels": federation_utils.full_url(
+                    reverse("federation:index:index-channels")
+                ),
+            },
         },
     }
     assert nodeinfo.get() == expected
@@ -103,6 +111,7 @@ def test_nodeinfo_dump(preferences, mocker, avatar):
 
 def test_nodeinfo_dump_stats_disabled(preferences, mocker):
     preferences["instance__nodeinfo_stats_enabled"] = False
+    preferences["federation__public_index"] = False
     preferences["moderation__unauthenticated_report_types"] = [
         "takedown_request",
         "other",
@@ -161,7 +170,7 @@ def test_nodeinfo_dump_stats_disabled(preferences, mocker):
                 "instance__funkwhale_support_message_enabled"
             ],
             "instanceSupportMessage": preferences["instance__support_message"],
-            "knownNodesListUrl": None,
+            "endpoints": {"knownNodes": None, "libraries": None, "channels": None},
         },
     }
     assert nodeinfo.get() == expected

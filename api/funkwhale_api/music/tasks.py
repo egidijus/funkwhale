@@ -3,10 +3,12 @@ import datetime
 import logging
 import os
 
-from django.utils import timezone
+from django.conf import settings
+from django.core.cache import cache
 from django.db import transaction
 from django.db.models import F, Q
 from django.dispatch import receiver
+from django.utils import timezone
 
 from musicbrainzngs import ResponseError
 from requests.exceptions import RequestException
@@ -17,6 +19,7 @@ from funkwhale_api.common import utils as common_utils
 from funkwhale_api.federation import routes
 from funkwhale_api.federation import library as lb
 from funkwhale_api.federation import utils as federation_utils
+from funkwhale_api.music.management.commands import import_files
 from funkwhale_api.tags import models as tags_models
 from funkwhale_api.tags import tasks as tags_tasks
 from funkwhale_api.taskapp import celery
@@ -248,6 +251,10 @@ def process_upload(upload, update_denormalization=True):
         fail_import(upload, "unknown_error")
         raise
 
+    broadcast = getter(
+        internal_config, "funkwhale", "config", "broadcast", default=True
+    )
+
     # under some situations, we want to skip the import (
     # for instance if the user already owns the files)
     owned_duplicates = get_owned_duplicates(upload, track)
@@ -263,12 +270,13 @@ def process_upload(upload, update_denormalization=True):
         upload.save(
             update_fields=["import_details", "import_status", "import_date", "track"]
         )
-        signals.upload_import_status_updated.send(
-            old_status=old_status,
-            new_status=upload.import_status,
-            upload=upload,
-            sender=None,
-        )
+        if broadcast:
+            signals.upload_import_status_updated.send(
+                old_status=old_status,
+                new_status=upload.import_status,
+                upload=upload,
+                sender=None,
+            )
         return
 
     # all is good, let's finalize the import
@@ -305,9 +313,6 @@ def process_upload(upload, update_denormalization=True):
             track.album, source=final_metadata.get("upload_source"),
         )
 
-    broadcast = getter(
-        internal_config, "funkwhale", "config", "broadcast", default=True
-    )
     if broadcast:
         signals.upload_import_status_updated.send(
             old_status=old_status,
@@ -361,7 +366,7 @@ def federation_audio_track_to_metadata(payload, references):
             "mbid": str(payload["album"]["musicbrainzId"])
             if payload["album"].get("musicbrainzId")
             else None,
-            "cover_data": get_cover(payload["album"], "cover"),
+            "cover_data": get_cover(payload["album"], "image"),
             "release_date": payload["album"].get("released"),
             "tags": [t["name"] for t in payload["album"].get("tags", []) or []],
             "artists": [
@@ -893,8 +898,6 @@ UPDATE_CONFIG = {
 
 @transaction.atomic
 def update_track_metadata(audio_metadata, track):
-    # XXX: implement this to support updating metadata when an imported files
-    # is updated by an outside tool (e.g beets).
     serializer = metadata.TrackMetadataSerializer(data=audio_metadata)
     serializer.is_valid(raise_exception=True)
     new_data = serializer.validated_data
@@ -938,3 +941,32 @@ def update_track_metadata(audio_metadata, track):
         common_utils.attach_file(
             track.album, "attachment_cover", new_data["album"].get("cover_data")
         )
+
+
+@celery.app.task(name="music.fs_import")
+@celery.require_instance(models.Library.objects.all(), "library")
+def fs_import(library, path, import_reference):
+    if cache.get("fs-import:status") != "pending":
+        raise ValueError("Invalid import status")
+
+    command = import_files.Command()
+
+    options = {
+        "recursive": True,
+        "library_id": str(library.uuid),
+        "path": [os.path.join(settings.MUSIC_DIRECTORY_PATH, path)],
+        "update_cache": True,
+        "in_place": True,
+        "reference": import_reference,
+        "watch": False,
+        "interactive": False,
+        "batch_size": 1000,
+        "async_": False,
+        "prune": True,
+        "replace": False,
+        "verbosity": 1,
+        "exit_on_failure": False,
+        "outbox": False,
+        "broadcast": False,
+    }
+    command.handle(**options)

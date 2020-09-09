@@ -10,6 +10,8 @@ import xml.sax.saxutils
 from django import http
 from django.conf import settings
 from django.core.cache import caches
+from django.middleware import csrf
+from django.contrib import auth
 from django import urls
 from rest_framework import views
 
@@ -81,7 +83,12 @@ def serve_spa(request):
         body, tail = tail.split("</body>", 1)
         css = "<style>{}</style>".format(css)
         tail = body + "\n" + css + "\n</body>" + tail
-    return http.HttpResponse(head + tail)
+
+    # set a csrf token so that visitor can login / query API if needed
+    token = csrf.get_token(request)
+    response = http.HttpResponse(head + tail)
+    response.set_cookie("csrftoken", token, max_age=None)
+    return response
 
 
 MANIFEST_LINK_REGEX = re.compile(r"<link [^>]*rel=(?:'|\")?manifest(?:'|\")?[^>]*>")
@@ -106,7 +113,7 @@ def get_spa_html(spa_url):
 
 def get_spa_file(spa_url, name):
     if spa_url.startswith("/"):
-        # XXX: spa_url is an absolute path to index.html, on the local disk.
+        # spa_url is an absolute path to index.html, on the local disk.
         # However, we may want to access manifest.json or other files as well, so we
         # strip the filename
         path = os.path.join(os.path.dirname(spa_url), name)
@@ -274,6 +281,25 @@ def monkey_patch_rest_initialize_request():
 
 
 monkey_patch_rest_initialize_request()
+
+
+def monkey_patch_auth_get_user():
+    """
+    We need an actor on our users for many endpoints, so we monkey patch
+    auth.get_user to create it if it's missing
+    """
+    original = auth.get_user
+
+    def replacement(request):
+        r = original(request)
+        if not r.is_anonymous and not r.actor:
+            r.create_actor()
+        return r
+
+    setattr(auth, "get_user", replacement)
+
+
+monkey_patch_auth_get_user()
 
 
 class ThrottleStatusMiddleware:

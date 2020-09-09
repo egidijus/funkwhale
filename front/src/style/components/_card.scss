@@ -1,0 +1,125 @@
+
+
+.card .description {
+  word-wrap: break-word;
+}
+
+.ui.cards > .card,
+.ui.card {
+  color: var(--card-text-color);
+  background: var(--card-background);
+  &:not(.flat) {
+    box-shadow: var(--card-box-shadow);
+  }
+  .content,
+  .header,
+  .content .header,
+  .content .description,
+  .description {
+    color: var(--card-text-color);
+  }
+  .extra,
+  .meta {
+    color: var(--discrete-text-color);
+  }
+}
+
+
+.ui.cards.app-cards {
+  $card-width: 14em;
+  $card-height: 23em;
+  $small-card-width: 11em;
+  $small-card-height: 20em;
+  .app-card {
+    display: flex;
+    width: $small-card-width;
+    height: $small-card-height;
+    font-size: 95%;
+    @include media(">tablet") {
+      font-size: 100%;
+      width: $card-width;
+      height: $card-height;
+    }
+    .content:not(.extra) {
+      padding: 0.25em 0.5em 0;
+      @include media(">tablet") {
+        padding: 0.5em 1em 0;
+      }
+    }
+    .content.extra {
+      padding: 0.25em 0.5em;
+      @include media(">tablet") {
+        padding: 0.5em 1em;
+      }
+    }
+    .head-image {
+      height: $small-card-width;
+      @include media(">tablet") {
+        height: $card-width;
+      }
+      background-size: cover !important;
+      background-position: center !important;
+      display: flex !important;
+      justify-content: flex-end !important;
+      align-items: flex-end !important;
+      .button {
+        margin: 0;
+      }
+      &.circular {
+        overflow: visible;
+        border-radius: 50% !important;
+        width: $small-card-width - 0.5em;
+        height: $small-card-width - 0.5em;
+        margin: 0.25em;
+        @include media(">tablet") {
+          width: $card-width - 1em;
+          height: $card-width - 1em;
+          margin: 0.5em;
+        }
+
+      }
+      &.padded {
+        margin: 0.5em;
+        border-radius: 0.25em !important;
+      }
+      &.squares {
+        display: block !important;
+        position: relative;
+        margin-bottom: -1px;
+        .button {
+          position: absolute !important;
+          bottom: 0.5em;
+          right: 0.5em;
+        }
+        img {
+          display: inline-block;
+          width: 50%;
+          height: 50%;
+          margin: 0;
+          border-radius: 0;
+          margin-bottom: -4px;
+        }
+        img:nth-child(1) {
+          border-top-left-radius: 3px;
+        }
+        img:nth-child(2) {
+          border-top-right-radius: 3px;
+        }
+      }
+    }
+    .extra {
+      border-top: 0 !important;
+    }
+    .content:not(.extra) {
+      &, & * {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-bottom: 0;
+      }
+    }
+    .floating.dropdown > .icon {
+      margin-right: 0;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 <template>
-  <div class="ui text container">
+  <div class="ui text container component-playlist-editor">
     <playlist-form @updated="$emit('playlist-updated', $event)" :title="false" :playlist="playlist"></playlist-form>
     <h3 class="ui top attached header">
       <translate translate-context="Content/Playlist/Title">Playlist editor</translate>
@@ -10,7 +10,7 @@
         <translate translate-context="Content/Playlist/Paragraph">Syncing changes to server…</translate>
       </template>
       <template v-else-if="status === 'errored'">
-        <i class="red close icon"></i>
+        <i class="dangerclose icon"></i>
         <translate translate-context="Content/Playlist/Error message.Title">An error occurred while saving your changes</translate>
         <div v-if="errors.length > 0" role="alert" class="ui negative message">
           <ul class="list">
@@ -21,19 +21,19 @@
       <div v-else-if="status === 'confirmDuplicateAdd'" role="alert" class="ui warning message">
         <p translate-context="Content/Playlist/Paragraph"
             v-translate="{playlist: playlist.name}">Some tracks in your queue are already in this playlist:</p>
-        <ul id="duplicateTrackList" class="ui relaxed divided list">
+        <ul class="ui relaxed divided list duplicate-tracks-list">
           <li v-for="track in duplicateTrackAddInfo.tracks" class="ui item">{{ track }}</li>
         </ul>
         <button
-          class="ui small green button"
+          class="ui small success button"
           @click="insertMany(queueTracks, true)"><translate translate-context="*/Playlist/Button.Label/Verb">Add anyways</translate></button>
       </div>
       <template v-else-if="status === 'saved'">
-        <i class="green check icon"></i> <translate translate-context="Content/Playlist/Paragraph">Changes synced with server</translate>
+        <i class="success check icon"></i> <translate translate-context="Content/Playlist/Paragraph">Changes synced with server</translate>
       </template>
     </div>
     <div class="ui bottom attached segment">
-      <div
+      <button
         @click="insertMany(queueTracks, false)"
         :disabled="queueTracks.length === 0"
         :class="['ui', {disabled: queueTracks.length === 0}, 'labeled', 'icon', 'button']"
@@ -45,9 +45,9 @@
             :translate-params="{count: queueTracks.length}">
             Insert from queue (%{ count } track)
           </translate>
-        </div>
+        </button>
 
-      <dangerous-button :disabled="plts.length === 0" class="ui labeled right floated yellow icon button" :action="clearPlaylist">
+      <dangerous-button :disabled="plts.length === 0" class="ui labeled right floated danger icon button" :action="clearPlaylist">
         <i class="eraser icon"></i> <translate translate-context="*/Playlist/Button.Label/Verb">Clear playlist</translate>
         <p slot="modal-header" v-translate="{playlist: playlist.name}" translate-context="Popup/Playlist/Title"  :translate-params="{playlist: playlist.name}">
           Do you want to clear the playlist "%{ playlist }"?
@@ -61,18 +61,20 @@
         <div class="table-wrapper">
           <table class="ui compact very basic unstackable table">
             <draggable v-model="plts" tag="tbody" @update="reorder">
-              <tr v-for="(plt, index) in plts" :key="plt.id">
+              <tr v-for="(plt, index) in plts" :key="`${index}-${plt.track.id}`">
                 <td class="left aligned">{{ plt.index + 1}}</td>
                 <td class="center aligned">
-                  <img class="ui mini image" v-if="plt.track.album && plt.track.album.cover.original" v-lazy="$store.getters['instance/absoluteUrl'](plt.track.album.cover.small_square_crop)">
-                  <img class="ui mini image" v-else src="../../assets/audio/default-cover.png">
+                  <img alt="" class="ui mini image" v-if="plt.track.album && plt.track.album.cover && plt.track.album.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](plt.track.album.cover.urls.medium_square_crop)">
+                  <img alt="" class="ui mini image" v-else src="../../assets/audio/default-cover.png">
                 </td>
                 <td colspan="4">
                   <strong>{{ plt.track.title }}</strong><br />
                     {{ plt.track.artist.name }}
                 </td>
                 <td class="right aligned">
-                  <i @click.stop="removePlt(index)" class="circular red trash icon"></i>
+                  <button class="ui circular danger basic icon button">
+                    <i @click.stop="removePlt(index)" class="trash icon"></i>                
+                  </button>
                 </td>
               </tr>
             </draggable>
@@ -125,20 +127,19 @@ export default {
       let self = this
       self.isLoading = true
       let plt = this.plts[newIndex]
-      let url = 'playlist-tracks/' + plt.id + '/'
-      axios.patch(url, {index: newIndex}).then((response) => {
+      let url = `playlists/${this.playlist.id}/move`
+      axios.post(url, {from: oldIndex, to: newIndex}).then((response) => {
         self.success()
       }, error => {
         self.errored(error.backendErrors)
       })
     },
     removePlt (index) {
-      let plt = this.plts[index]
       this.plts.splice(index, 1)
       let self = this
       self.isLoading = true
-      let url = 'playlist-tracks/' + plt.id + '/'
-      axios.delete(url).then((response) => {
+      let url = `playlists/${this.playlist.id}/remove`
+      axios.post(url, {index}).then((response) => {
         self.success()
         self.$store.dispatch('playlists/fetchOwn')
       }, error => {
@@ -220,11 +221,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-#duplicateTrackList {
-  max-height: 10em;
-  overflow-y: auto;
-}
-</style>

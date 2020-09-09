@@ -9,7 +9,7 @@
       <p v-if="libraries.length == 0">
         <translate translate-context="Content/Library/Paragraph">Looks like you don't have a library, it's time to create one.</translate>
       </p>
-      <a @click="hiddenForm = !hiddenForm">
+      <a :aria-expanded="!hiddenForm" @click.prevent="hiddenForm = !hiddenForm" href="">
         <i class="plus icon" v-if="hiddenForm" />
         <i class="minus icon" v-else />
         <translate translate-context="Content/Library/Link/Verb">Create a new library</translate>
@@ -67,7 +67,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

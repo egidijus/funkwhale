@@ -435,3 +435,18 @@ def test_refresh_channel_when_param_is_true(
     assert response.status_code == 200
     assert refetch_obj.call_count == 1
     assert refetch_obj.call_args[0][0] == obj
+
+
+def test_can_filter_channels_through_api_scope(factories, logged_in_api_client):
+    channel = factories["audio.Channel"](
+        attributed_to__preferred_username="PauseLecturePod"
+    )
+    factories["audio.Channel"]()
+    url = reverse("api:v1:channels-list")
+    response = logged_in_api_client.get(
+        url, {"scope": "actor:{}".format(channel.attributed_to.full_username)}
+    )
+
+    assert response.status_code == 200
+    assert len(response.data["results"]) == 1
+    assert response.data["results"][0]["uuid"] == channel.uuid

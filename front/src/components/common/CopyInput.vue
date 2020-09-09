@@ -1,5 +1,5 @@
 <template>
-  <div class="ui fluid action input">
+  <div class="ui fluid action input component-copy-input">
     <p class="message" v-if="copied">
       <translate translate-context="Content/*/Paragraph">Text copied to clipboard!</translate>
     </p>
@@ -14,7 +14,7 @@
 export default {
   props: {
     value: {type: String},
-    buttonClasses: {type: String, default: 'teal'},
+    buttonClasses: {type: String, default: 'accent'},
     id: {type: String, default: 'copy-input'},
   },
   data () {
@@ -39,14 +39,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.message {
-  position: absolute;
-  right: 0;
-  bottom: -3em;
-  padding: 0.3em;
-  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
-  background-color: white;
-  z-index: 999;
-}
-</style>

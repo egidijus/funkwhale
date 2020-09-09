@@ -57,3 +57,10 @@ def test_me_serializer_includes_tokens(factories, mocker):
     generate_scoped_token.assert_called_once_with(
         user_id=user.pk, user_secret=user.secret_key, scopes=["read:libraries"]
     )
+
+
+def test_me_serializer_includes_settings(factories):
+    user = factories["users.User"](settings={"foo": "bar"})
+    serializer = serializers.MeSerializer(user)
+
+    assert serializer.data["settings"] == {"foo": "bar"}

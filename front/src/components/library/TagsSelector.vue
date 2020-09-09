@@ -2,7 +2,7 @@
   <div ref="dropdown" class="ui multiple search selection dropdown">
     <input type="hidden">
     <i class="dropdown icon"></i>
-    <input type="text" class="search">
+    <input id="tags-search" type="text" class="search">
     <div class="default text">
       <translate translate-context="*/Dropdown/Placeholder/Verb">Search for tags…</translate>
     </div>
@@ -39,7 +39,10 @@ export default {
         apiSettings: {
           url: this.$store.getters['instance/absoluteUrl']('/api/v1/tags/?name__startswith={query}&ordering=length&page_size=5'),
           beforeXHR: function (xhrObject) {
-            xhrObject.setRequestHeader('Authorization', self.$store.getters['auth/header'])
+
+            if (self.$store.state.auth.oauth.accessToken) {
+              xhrObject.setRequestHeader('Authorization', self.$store.getters['auth/header'])
+            }
             return xhrObject
           },
           onResponse(response) {
@@ -82,11 +85,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-.ui.form .field > .selection.dropdown {
-  min-width: 200px;
-}
-
-</style>

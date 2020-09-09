@@ -9,6 +9,7 @@
 
 <script>
 import $ from 'jquery'
+import createFocusTrap from 'focus-trap'
 
 export default {
   props: {
@@ -17,8 +18,12 @@ export default {
   },
   data () {
     return {
-      control: null
+      control: null,
+      focusTrap: null,
     }
+  },
+  mounted () {
+    this.focusTrap = createFocusTrap(this.$el)
   },
   beforeDestroy () {
     if (this.control) {
@@ -38,6 +43,10 @@ export default {
         }.bind(this),
         onHidden: function () {
           this.$emit('update:show', false)
+        }.bind(this),
+        onVisible: function () {
+          this.focusTrap.activate()
+          this.focusTrap.unpause()
         }.bind(this)
       })
     }
@@ -49,11 +58,15 @@ export default {
           this.initModal()
           this.$emit('show')
           this.control.modal('show')
+          this.focusTrap.activate()
+          this.focusTrap.unpause()
         } else {
           if (this.control) {
             this.$emit('hide')
             this.control.modal('hide')
             this.control.remove()
+            this.focusTrap.deactivate()
+            this.focusTrap.pause()
           }
         }
       }
@@ -62,7 +75,3 @@ export default {
 
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-</style>

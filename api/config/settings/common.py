@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
+from collections import OrderedDict
 import datetime
 import logging.config
-import os
 import sys
 
 from urllib.parse import urlsplit
@@ -18,7 +18,7 @@ ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
 APPS_DIR = ROOT_DIR.path("funkwhale_api")
 
 env = environ.Env()
-
+ENV = env
 LOGLEVEL = env("LOGLEVEL", default="info").upper()
 """
 Default logging level for the Funkwhale processes"""  # pylint: disable=W0105
@@ -41,6 +41,12 @@ logging.config.dictConfig(
         },
         "loggers": {
             "funkwhale_api": {
+                "level": LOGLEVEL,
+                "handlers": ["console"],
+                # required to avoid double logging with root logger
+                "propagate": False,
+            },
+            "plugins": {
                 "level": LOGLEVEL,
                 "handlers": ["console"],
                 # required to avoid double logging with root logger
@@ -86,7 +92,31 @@ FUNKWHALE_PLUGINS_PATH = env(
 Path to a directory containing Funkwhale plugins. These will be imported at runtime.
 """
 sys.path.append(FUNKWHALE_PLUGINS_PATH)
+CORE_PLUGINS = [
+    "funkwhale_api.contrib.scrobbler",
+]
 
+LOAD_CORE_PLUGINS = env.bool("FUNKWHALE_LOAD_CORE_PLUGINS", default=True)
+PLUGINS = [p for p in env.list("FUNKWHALE_PLUGINS", default=[]) if p]
+"""
+List of Funkwhale plugins to load.
+"""
+if LOAD_CORE_PLUGINS:
+    PLUGINS = CORE_PLUGINS + PLUGINS
+
+# Remove duplicates
+PLUGINS = list(OrderedDict.fromkeys(PLUGINS))
+
+if PLUGINS:
+    logger.info("Running with the following plugins enabled: %s", ", ".join(PLUGINS))
+else:
+    logger.info("Running with no plugins")
+
+from .. import plugins  # noqa
+
+plugins.startup.autodiscover([p + ".funkwhale_startup" for p in PLUGINS])
+DEPENDENCIES = plugins.trigger_filter(plugins.PLUGINS_DEPENDENCIES, [], enabled=True)
+plugins.install_dependencies(DEPENDENCIES)
 FUNKWHALE_HOSTNAME = None
 FUNKWHALE_HOSTNAME_SUFFIX = env("FUNKWHALE_HOSTNAME_SUFFIX", default=None)
 FUNKWHALE_HOSTNAME_PREFIX = env("FUNKWHALE_HOSTNAME_PREFIX", default=None)
@@ -144,22 +174,7 @@ FUNKWHALE_SPA_REWRITE_MANIFEST_URL = env.bool(
 
 APP_NAME = "Funkwhale"
 
-# XXX: for backward compat with django 2.2, remove this when django 2.2 support is dropped
-os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = env.bool(
-    "DJANGO_ALLOW_ASYNC_UNSAFE", default="true"
-)
-
-# XXX: deprecated, see #186
-FEDERATION_ENABLED = env.bool("FEDERATION_ENABLED", default=True)
 FEDERATION_HOSTNAME = env("FEDERATION_HOSTNAME", default=FUNKWHALE_HOSTNAME).lower()
-# XXX: deprecated, see #186
-FEDERATION_COLLECTION_PAGE_SIZE = env.int("FEDERATION_COLLECTION_PAGE_SIZE", default=50)
-# XXX: deprecated, see #186
-FEDERATION_MUSIC_NEEDS_APPROVAL = env.bool(
-    "FEDERATION_MUSIC_NEEDS_APPROVAL", default=True
-)
-# XXX: deprecated, see #186
-FEDERATION_ACTOR_FETCH_DELAY = env.int("FEDERATION_ACTOR_FETCH_DELAY", default=60 * 12)
 FEDERATION_SERVICE_ACTOR_USERNAME = env(
     "FEDERATION_SERVICE_ACTOR_USERNAME", default="service"
 )
@@ -247,16 +262,6 @@ LOCAL_APPS = (
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 
-
-PLUGINS = [p for p in env.list("FUNKWHALE_PLUGINS", default=[]) if p]
-"""
-List of Funkwhale plugins to load.
-"""
-if PLUGINS:
-    logger.info("Running with the following plugins enabled: %s", ", ".join(PLUGINS))
-else:
-    logger.info("Running with no plugins")
-
 ADDITIONAL_APPS = env.list("ADDITIONAL_APPS", default=[])
 """
 List of Django apps to load in addition to Funkwhale plugins and apps.
@@ -265,25 +270,32 @@ INSTALLED_APPS = (
     DJANGO_APPS
     + THIRD_PARTY_APPS
     + LOCAL_APPS
-    + tuple(["{}.apps.Plugin".format(p) for p in PLUGINS])
     + tuple(ADDITIONAL_APPS)
+    + tuple(plugins.trigger_filter(plugins.PLUGINS_APPS, [], enabled=True))
 )
 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
 ADDITIONAL_MIDDLEWARES_BEFORE = env.list("ADDITIONAL_MIDDLEWARES_BEFORE", default=[])
-MIDDLEWARE = tuple(ADDITIONAL_MIDDLEWARES_BEFORE) + (
-    "django.middleware.security.SecurityMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
-    "funkwhale_api.common.middleware.SPAFallbackMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "funkwhale_api.users.middleware.RecordActivityMiddleware",
-    "funkwhale_api.common.middleware.ThrottleStatusMiddleware",
+MIDDLEWARE = (
+    tuple(plugins.trigger_filter(plugins.MIDDLEWARES_BEFORE, [], enabled=True))
+    + tuple(ADDITIONAL_MIDDLEWARES_BEFORE)
+    + (
+        "django.middleware.security.SecurityMiddleware",
+        "django.middleware.clickjacking.XFrameOptionsMiddleware",
+        "corsheaders.middleware.CorsMiddleware",
+        # needs to be before SPA middleware
+        "django.contrib.sessions.middleware.SessionMiddleware",
+        "django.middleware.common.CommonMiddleware",
+        "django.middleware.csrf.CsrfViewMiddleware",
+        # /end
+        "funkwhale_api.common.middleware.SPAFallbackMiddleware",
+        "django.contrib.auth.middleware.AuthenticationMiddleware",
+        "django.contrib.messages.middleware.MessageMiddleware",
+        "funkwhale_api.users.middleware.RecordActivityMiddleware",
+        "funkwhale_api.common.middleware.ThrottleStatusMiddleware",
+    )
+    + tuple(plugins.trigger_filter(plugins.MIDDLEWARES_AFTER, [], enabled=True))
 )
 
 # DEBUG
@@ -567,6 +579,8 @@ AUTHENTICATION_BACKENDS = (
     "funkwhale_api.users.auth_backends.AllAuthBackend",
 )
 SESSION_COOKIE_HTTPONLY = False
+SESSION_COOKIE_AGE = env.int("SESSION_COOKIE_AGE", default=3600 * 25 * 60)
+
 # Some really nice defaults
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
@@ -861,6 +875,7 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "funkwhale_api.common.authentication.OAuth2Authentication",
+        "funkwhale_api.common.authentication.ApplicationTokenAuthentication",
         "funkwhale_api.common.authentication.JSONWebTokenAuthenticationQS",
         "funkwhale_api.common.authentication.BearerTokenHeaderAuth",
         "funkwhale_api.common.authentication.JSONWebTokenAuthentication",
@@ -998,6 +1013,10 @@ THROTTLING_RATES = {
         "rate": THROTTLING_USER_RATES.get("oauth-revoke-token", "100/hour"),
         "description": "OAuth token deletion",
     },
+    "login": {
+        "rate": THROTTLING_USER_RATES.get("login", "30/hour"),
+        "description": "Login",
+    },
     "jwt-login": {
         "rate": THROTTLING_USER_RATES.get("jwt-login", "30/hour"),
         "description": "JWT token creation",
@@ -1106,11 +1125,6 @@ Exemples:
 CSRF_USE_SESSIONS = True
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
-# Playlist settings
-# XXX: deprecated, see #186
-PLAYLISTS_MAX_TRACKS = env.int("PLAYLISTS_MAX_TRACKS", default=250)
-
-
 ACCOUNT_USERNAME_BLACKLIST = [
     "funkwhale",
     "library",
@@ -1147,8 +1161,6 @@ EXTERNAL_REQUESTS_TIMEOUT = env.int("EXTERNAL_REQUESTS_TIMEOUT", default=10)
 """
 Default timeout for external requests.
 """
-# XXX: deprecated, see #186
-API_AUTHENTICATION_REQUIRED = env.bool("API_AUTHENTICATION_REQUIRED", True)
 
 MUSIC_DIRECTORY_PATH = env("MUSIC_DIRECTORY_PATH", default=None)
 """
@@ -1192,7 +1204,7 @@ On non-docker setup, you don't need to configure this setting.
 """
 # When this is set to default=True, we need to reenable migration music/0042
 # to ensure data is populated correctly on existing pods
-MUSIC_USE_DENORMALIZATION = env.bool("MUSIC_USE_DENORMALIZATION", default=False)
+MUSIC_USE_DENORMALIZATION = env.bool("MUSIC_USE_DENORMALIZATION", default=True)
 
 USERS_INVITATION_EXPIRATION_DAYS = env.int(
     "USERS_INVITATION_EXPIRATION_DAYS", default=14
@@ -1211,9 +1223,13 @@ VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
     "attachment_square": [
         ("original", "url"),
         ("medium_square_crop", "crop__200x200"),
+        ("large_square_crop", "crop__600x600"),
     ],
 }
-VERSATILEIMAGEFIELD_SETTINGS = {"create_images_on_demand": False}
+VERSATILEIMAGEFIELD_SETTINGS = {
+    "create_images_on_demand": False,
+    "jpeg_resize_quality": env.int("THUMBNAIL_JPEG_RESIZE_QUALITY", default=95),
+}
 RSA_KEY_SIZE = 2048
 # for performance gain in tests, since we don't need to actually create the
 # thumbnails
@@ -1259,8 +1275,6 @@ FUNKWHALE_SUPPORT_MESSAGE_DELAY = env.int("FUNKWHALE_SUPPORT_MESSAGE_DELAY", def
 """
 Delay in days after signup before we show the "support Funkwhale" message
 """
-# XXX Stable release: remove
-USE_FULL_TEXT_SEARCH = env.bool("USE_FULL_TEXT_SEARCH", default=True)
 
 MIN_DELAY_BETWEEN_DOWNLOADS_COUNT = env.int(
     "MIN_DELAY_BETWEEN_DOWNLOADS_COUNT", default=60 * 60 * 6

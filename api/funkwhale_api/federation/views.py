@@ -9,6 +9,7 @@ from rest_framework.decorators import action
 
 from funkwhale_api.common import preferences
 from funkwhale_api.common import utils as common_utils
+from funkwhale_api.federation import utils as federation_utils
 from funkwhale_api.moderation import models as moderation_models
 from funkwhale_api.music import models as music_models
 from funkwhale_api.music import utils as music_utils
@@ -29,6 +30,34 @@ def redirect_to_html(public_url):
     response = HttpResponse(status=302)
     response["Location"] = common_utils.join_url(settings.FUNKWHALE_URL, public_url)
     return response
+
+
+def get_collection_response(
+    conf, querystring, collection_serializer, page_access_check=None
+):
+    page = querystring.get("page")
+    if page is None:
+        data = collection_serializer.data
+    else:
+        if page_access_check and not page_access_check():
+            raise exceptions.AuthenticationFailed(
+                "You do not have access to this resource"
+            )
+        try:
+            page_number = int(page)
+        except Exception:
+            return response.Response({"page": ["Invalid page number"]}, status=400)
+        conf["page_size"] = preferences.get("federation__collection_page_size")
+        p = paginator.Paginator(conf["items"], conf["page_size"])
+        try:
+            page = p.page(page_number)
+            conf["page"] = page
+            serializer = serializers.CollectionPageSerializer(conf)
+            data = serializer.data
+        except paginator.EmptyPage:
+            return response.Response(status=404)
+
+    return response.Response(data)
 
 
 class AuthenticatedIfAllowListEnabled(permissions.BasePermission):
@@ -82,6 +111,13 @@ class ActorViewSet(FederationMixin, mixins.RetrieveModelMixin, viewsets.GenericV
         queryset = super().get_queryset()
         return queryset.exclude(channel__attributed_to=actors.get_service_actor())
 
+    def get_permissions(self):
+        # cf #1999 it must be possible to fetch actors without being authenticated
+        # otherwise we end up in a loop
+        if self.action == "retrieve":
+            return []
+        return super().get_permissions()
+
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         if utils.should_redirect_ap_to_html(request.headers.get("accept")):
@@ -128,26 +164,11 @@ class ActorViewSet(FederationMixin, mixins.RetrieveModelMixin, viewsets.GenericV
             .prefetch_related("library__channel__actor", "track__artist"),
             "item_serializer": serializers.ChannelCreateUploadSerializer,
         }
-        page = request.GET.get("page")
-        if page is None:
-            serializer = serializers.ChannelOutboxSerializer(channel)
-            data = serializer.data
-        else:
-            try:
-                page_number = int(page)
-            except Exception:
-                return response.Response({"page": ["Invalid page number"]}, status=400)
-            conf["page_size"] = preferences.get("federation__collection_page_size")
-            p = paginator.Paginator(conf["items"], conf["page_size"])
-            try:
-                page = p.page(page_number)
-                conf["page"] = page
-                serializer = serializers.CollectionPageSerializer(conf)
-                data = serializer.data
-            except paginator.EmptyPage:
-                return response.Response(status=404)
-
-        return response.Response(data)
+        return get_collection_response(
+            conf=conf,
+            querystring=request.GET,
+            collection_serializer=serializers.ChannelOutboxSerializer(channel),
+        )
 
     @action(methods=["get"], detail=True)
     def followers(self, request, *args, **kwargs):
@@ -290,32 +311,13 @@ class MusicLibraryViewSet(
             ),
             "item_serializer": serializers.UploadSerializer,
         }
-        page = request.GET.get("page")
-        if page is None:
-            serializer = serializers.LibrarySerializer(lb)
-            data = serializer.data
-        else:
-            # if actor is requesting a specific page, we ensure library is public
-            # or readable by the actor
-            if not has_library_access(request, lb):
-                raise exceptions.AuthenticationFailed(
-                    "You do not have access to this library"
-                )
-            try:
-                page_number = int(page)
-            except Exception:
-                return response.Response({"page": ["Invalid page number"]}, status=400)
-            conf["page_size"] = preferences.get("federation__collection_page_size")
-            p = paginator.Paginator(conf["items"], conf["page_size"])
-            try:
-                page = p.page(page_number)
-                conf["page"] = page
-                serializer = serializers.CollectionPageSerializer(conf)
-                data = serializer.data
-            except paginator.EmptyPage:
-                return response.Response(status=404)
 
-        return response.Response(data)
+        return get_collection_response(
+            conf=conf,
+            querystring=request.GET,
+            collection_serializer=serializers.LibrarySerializer(lb),
+            page_access_check=lambda: has_library_access(request, lb),
+        )
 
     @action(methods=["get"], detail=True)
     def followers(self, request, *args, **kwargs):
@@ -436,3 +438,90 @@ class MusicTrackViewSet(
 
         serializer = self.get_serializer(instance)
         return response.Response(serializer.data)
+
+
+class ChannelViewSet(
+    FederationMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
+):
+    authentication_classes = [authentication.SignatureAuthentication]
+    renderer_classes = renderers.get_ap_renderers()
+    queryset = music_models.Artist.objects.local().select_related(
+        "description", "attachment_cover"
+    )
+    serializer_class = serializers.ArtistSerializer
+    lookup_field = "uuid"
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if utils.should_redirect_ap_to_html(request.headers.get("accept")):
+            return redirect_to_html(instance.get_absolute_url())
+
+        serializer = self.get_serializer(instance)
+        return response.Response(serializer.data)
+
+
+class IndexViewSet(FederationMixin, viewsets.GenericViewSet):
+    authentication_classes = [authentication.SignatureAuthentication]
+    renderer_classes = renderers.get_ap_renderers()
+
+    def dispatch(self, request, *args, **kwargs):
+        if not preferences.get("federation__public_index"):
+            return HttpResponse(status=405)
+        return super().dispatch(request, *args, **kwargs)
+
+    @action(
+        methods=["get"], detail=False,
+    )
+    def libraries(self, request, *args, **kwargs):
+        libraries = (
+            music_models.Library.objects.local()
+            .filter(channel=None, privacy_level="everyone")
+            .prefetch_related("actor")
+            .order_by("creation_date")
+        )
+        conf = {
+            "id": federation_utils.full_url(
+                reverse("federation:index:index-libraries")
+            ),
+            "items": libraries,
+            "item_serializer": serializers.LibrarySerializer,
+            "page_size": 100,
+            "actor": None,
+        }
+        return get_collection_response(
+            conf=conf,
+            querystring=request.GET,
+            collection_serializer=serializers.IndexSerializer(conf),
+        )
+
+        return response.Response({}, status=200)
+
+    @action(
+        methods=["get"], detail=False,
+    )
+    def channels(self, request, *args, **kwargs):
+        actors = (
+            models.Actor.objects.local()
+            .exclude(channel=None)
+            .order_by("channel__creation_date")
+            .prefetch_related(
+                "channel__attributed_to",
+                "channel__artist",
+                "channel__artist__description",
+                "channel__artist__attachment_cover",
+            )
+        )
+        conf = {
+            "id": federation_utils.full_url(reverse("federation:index:index-channels")),
+            "items": actors,
+            "item_serializer": serializers.ActorSerializer,
+            "page_size": 100,
+            "actor": None,
+        }
+        return get_collection_response(
+            conf=conf,
+            querystring=request.GET,
+            collection_serializer=serializers.IndexSerializer(conf),
+        )
+
+        return response.Response({}, status=200)

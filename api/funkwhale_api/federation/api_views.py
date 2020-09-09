@@ -34,6 +34,8 @@ def update_follow(follow, approved):
     follow.save(update_fields=["approved"])
     if approved:
         routes.outbox.dispatch({"type": "Accept"}, context={"follow": follow})
+    else:
+        routes.outbox.dispatch({"type": "Reject"}, context={"follow": follow})
 
 
 class LibraryFollowViewSet(
@@ -57,7 +59,7 @@ class LibraryFollowViewSet(
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.filter(actor=self.request.user.actor)
+        return qs.filter(actor=self.request.user.actor).exclude(approved=False)
 
     def perform_create(self, serializer):
         follow = serializer.save(actor=self.request.user.actor)

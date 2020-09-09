@@ -158,16 +158,15 @@ export default {
       // so we replay automatically on next track append
       commit('ended', true)
     },
-    shuffle ({dispatch, commit, state}, callback) {
-      let toKeep = state.tracks.slice(0, state.currentIndex + 1)
-      let toShuffle = state.tracks.slice(state.currentIndex + 1)
-      let shuffled = toKeep.concat(_.shuffle(toShuffle))
+    async shuffle ({dispatch, commit, state}, callback) {
+      let shuffled = _.shuffle(state.tracks)
       commit('tracks', [])
       let params = {tracks: shuffled}
       if (callback) {
         params.callback = callback
       }
-      dispatch('appendMany', params)
+      await dispatch('appendMany', params)
+      await dispatch('currentIndex', 0)
     }
   }
 }

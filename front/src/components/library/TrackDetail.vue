@@ -4,7 +4,6 @@
     <section class="ui vertical stripe segment">
       <div class="ui stackable grid row container">
         <div class="six wide column">
-          <img class="image" v-if="cover && cover.original" v-lazy="$store.getters['instance/absoluteUrl'](cover.square_crop)">
           <template v-if="upload">
             <h3 class="ui header">
               <translate key="1" v-if="track.artist.content_category === 'music'" translate-context="Content/*/*">Track Details</translate>
@@ -46,6 +45,14 @@
                   <td class="right aligned">
                     <template v-if="upload.bitrate">{{ upload.bitrate | humanSize }}/s</template>
                     <translate v-else translate-context="*/*/*">N/A</translate>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <translate translate-context="Content/*/*">Downloads</translate>
+                  </td>
+                  <td class="right aligned">
+                    {{ track.downloads_count }}
                   </td>
                 </tr>
               </tbody>
@@ -117,7 +124,7 @@
                   <translate translate-context="Content/*/*/Noun">License</translate>
                 </td>
                 <td class="right aligned">
-                  <a v-if="license" :title="license.name" :href="license.url" target="_blank" rel="noopener noreferrer">{{ license.name }}</a>
+                  <a v-if="license" :href="license.url" target="_blank" rel="noopener noreferrer">{{ license.name }}</a>
                   <translate v-else translate-context="*/*/*">N/A</translate>
                 </td>
               </tr>
@@ -215,7 +222,7 @@ export default {
       return this.licenseData
     },
     cover () {
-      if (this.track.cover && this.track.cover.original) {
+      if (this.track.cover && this.track.cover.urls.original) {
         return this.track.cover
       }
       if (this.track.album && this.track.album.cover) {
@@ -232,11 +239,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-.table.center.aligned {
-  margin-left: auto;
-  margin-right: auto;
-}
-</style>

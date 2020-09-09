@@ -9,7 +9,7 @@
           <div class="seven wide column">
             <div class="ui two column grid">
               <div class="column">
-                <img class="huge channel-image" v-if="object.artist.cover" :src="$store.getters['instance/absoluteUrl'](object.artist.cover.medium_square_crop)">
+                <img alt="" class="huge channel-image" v-if="object.artist.cover" :src="$store.getters['instance/absoluteUrl'](object.artist.cover.urls.medium_square_crop)">
                 <i v-else class="huge circular inverted users violet icon"></i>
               </div>
               <div class="ui column right aligned">
@@ -28,16 +28,17 @@
                   <translate key="2" v-else translate-context="*/*/*" :translate-params="{count: totalTracks}" :translate-n="totalTracks" translate-plural="%{ count } tracks">%{ count } track</translate>
                 </template>
                 <template v-if="object.attributed_to.full_username === $store.state.auth.fullUsername || $store.getters['channels/isSubscribed'](object.uuid)">
-                  · <translate translate-context="Content/Channel/Paragraph" translate-plural="%{ count } subscribers" :translate-n="object.subscriptions_count" :translate-params="{count: object.subscriptions_count}">%{ count } subscriber</translate>
+                  <br><translate translate-context="Content/Channel/Paragraph" translate-plural="%{ count } subscribers" :translate-n="object.subscriptions_count" :translate-params="{count: object.subscriptions_count}">%{ count } subscriber</translate>
+                  <br><translate translate-context="Content/Channel/Paragraph" translate-plural="%{ count } listenings" :translate-n="object.downloads_count" :translate-params="{count: object.downloads_count}">%{ count } listening</translate>
                 </template>
                 <div class="ui hidden small divider"></div>
                 <a @click.stop.prevent="showSubscribeModal = true" class="ui icon small basic button">
                   <i class="feed icon"></i>
                 </a>
                 <modal class="tiny" :show.sync="showSubscribeModal">
-                  <div class="header">
+                  <h4 class="header">
                     <translate translate-context="Popup/Channel/Title/Verb">Subscribe to this channel</translate>
-                  </div>
+                  </h4>
                   <div class="scrollable content">
                     <div class="description">
 
@@ -67,40 +68,48 @@
                     </div>
                   </div>
                   <div class="actions">
-                    <div class="ui basic deny button">
+                    <button class="ui basic deny button">
                       <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-                    </div>
+                    </button>
                   </div>
                 </modal>
-                <div class="ui right floated pointing dropdown icon small basic button" ref="dropdown" v-dropdown="{direction: 'downward'}">
+                <button class="ui right floated pointing dropdown icon small basic button" ref="dropdown" v-dropdown="{direction: 'downward'}">
                   <i class="ellipsis vertical icon"></i>
                   <div class="menu">
-                    <div
-                      role="button"
+                    <a
+                      href=""
                       v-if="totalTracks > 0"
-                      @click="showEmbedModal = !showEmbedModal"
+                      @click.prevent="showEmbedModal = !showEmbedModal"
                       class="basic item">
                       <i class="code icon"></i>
                       <translate translate-context="Content/*/Button.Label/Verb">Embed</translate>
-                    </div>
+                    </a>
+                    <a
+                      :href="object.url"
+                      v-if="object.actor && object.actor.domain != $store.getters['instance/domain']"
+                      target="_blank"
+                      class="basic item">
+                      <i class="external icon"></i>
+                      <translate :translate-params="{domain: object.actor.domain}" translate-context="Content/*/Button.Label/Verb">View on %{ domain }</translate>
+                    </a>
                     <div class="divider"></div>
-                    <div
-                      role="button"
+                    <a
+                      href=""
                       class="basic item"
                       v-for="obj in getReportableObjs({account: object.attributed_to, channel: object})"
                       :key="obj.target.type + obj.target.id"
                       @click.stop.prevent="$store.dispatch('moderation/report', obj.target)">
                       <i class="share icon" /> {{ obj.label }}
-                    </div>
+                    </a>
 
                     <template v-if="isOwner">
                       <div class="divider"></div>
-                      <div
+                      <a
                         class="item"
-                        role="button"
-                        @click.stop="showEditModal = true">
+                        href=""
+                        @click.stop.prevent="showEditModal = true">
                         <translate translate-context="*/*/*/Verb">Edit…</translate>
-                      </div>
+                      </a>
                       <dangerous-button
                         :class="['ui', {loading: isLoading}, 'item']"
                         v-if="object"
@@ -121,7 +130,7 @@
                       </router-link>
                     </template>
                   </div>
-                </div>
+                </button>
               </div>
             </div>
             <h1 class="ui header">
@@ -147,7 +156,7 @@
                 </button>
               </div>
               <div class="ui buttons">
-                <play-button :is-playable="isPlayable" class="orange" :artist="object.artist">
+                <play-button :is-playable="isPlayable" class="vibrant" :artist="object.artist">
                   <translate translate-context="Content/Channels/Button.Label/Verb">Play</translate>
                 </play-button>
               </div>
@@ -156,26 +165,26 @@
               </div>
 
               <modal :show.sync="showEmbedModal" v-if="totalTracks > 0">
-                <div class="header">
+                <h4 class="header">
                   <translate translate-context="Popup/Artist/Title/Verb">Embed this artist work on your website</translate>
-                </div>
+                </h4>
                 <div class="scrolling content">
                   <div class="description">
                     <embed-wizard type="artist" :id="object.artist.id" />
                   </div>
                 </div>
                 <div class="actions">
-                  <div class="ui basic deny button">
+                  <button class="ui basic deny button">
                     <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-                  </div>
+                  </button>
                 </div>
               </modal>
               <modal :show.sync="showEditModal" v-if="isOwner">
-                <div class="header">
+                <h4 class="header">
                   <translate v-if="object.artist.content_category === 'podcast'" key="1" translate-context="Content/Channel/*">Podcast channel</translate>
                   <translate v-else key="2" translate-context="Content/Channel/*">Artist channel</translate>
 
-                </div>
+                </h4>
                 <div class="scrolling content">
                   <channel-form
                     ref="editForm"
@@ -186,9 +195,9 @@
                     <div class="ui hidden divider"></div>
                 </div>
                 <div class="actions">
-                  <div class="ui left floated basic deny button">
+                  <button class="ui left floated basic deny button">
                     <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-                  </div>
+                  </button>
                   <button @click.stop="$refs.editForm.submit" :class="['ui', 'primary', 'confirm', {loading: edit.isLoading}, 'button']" :disabled="!edit.submittable">
                     <translate translate-context="*/Channels/Button.Label">Update channel</translate>
                   </button>
@@ -209,7 +218,7 @@
                 <translate translate-context="Content/Channels/Link">Overview</translate>
               </router-link>
               <router-link class="item" :exact="true" :to="{name: 'channels.detail.episodes', params: {id: id}}">
-                <translate key="1" v-if="isPodcast" translate-context="Content/Channels/*">Episodes</translate>
+                <translate key="1" v-if="isPodcast" translate-context="Content/Channels/*">All Episodes</translate>
                 <translate key="2" v-else translate-context="*/*/*">Tracks</translate>
               </router-link>
             </div>
@@ -269,6 +278,10 @@ export default {
   },
   async created() {
     await this.fetchData()
+    let authenticated = this.$store.state.auth.authenticated
+    if (!authenticated && this.$store.getters['instance/domain'] != this.object.actor.domain) {
+      this.$router.push({name: 'login', query: {next: this.$route.fullPath}})
+    }
   },
   methods: {
     async fetchData() {

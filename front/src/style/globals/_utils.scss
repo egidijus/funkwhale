@@ -1,0 +1,106 @@
+
+.center.aligned.menu {
+  justify-content: center;
+}
+.text.center.aligned {
+  text-align: center;
+}
+.ellipsis:not(.icon) {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.link {
+  cursor: pointer;
+}
+
+.ui.icon.header .circular.icon {
+  display: flex;
+  justify-content: center;
+}
+
+
+a {
+  cursor: pointer;
+}
+.segment.hidden {
+  display: none;
+}
+.hidden:not(.divider) {
+  display: none !important;
+}
+
+.nomargin {
+  margin: 0 !important;
+}
+
+.text.align.left {
+  text-align: left;
+}
+
+.left.floated {
+  float: left;
+}
+
+.right.floated {
+  float: right;
+}
+
+
+.desktop-and-up {
+  @include media("<desktop") {
+    display: none !important;
+  }
+}
+.tablet-and-up {
+  @include media("<tablet") {
+    display: none !important;
+  }
+}
+.tablet-and-below {
+  @include media(">=desktop") {
+    display: none !important;
+  }
+}
+.mobile-only {
+  @include media(">tablet") {
+    display: none !important;
+  }
+}
+
+.expandable {
+  &:not(.expanded) {
+    overflow: hidden;
+    max-height: 15vh;
+    background: linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 90%, rgba(0, 0, 0, 0.3) 100%);
+  }
+}
+
+.ui.list .list.icon {
+  padding-left: 0;
+}
+
+.ui.dropdown .item[disabled] {
+  display: none;
+}
+
+span.diff.added {
+  background-color:rgba(0, 255, 0, 0.25);
+}
+
+
+span.diff.removed {
+  background-color: rgba(255, 0, 0, 0.25);
+}
+
+.default-cover {
+  background-image: url("./assets/audio/default-cover.png") !important;
+}
+
+.discrete {
+  color: var(--discrete-text-color);
+}
+.really.discrete {
+  color: var(--really-discrete-text-color);
+}

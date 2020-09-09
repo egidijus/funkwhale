@@ -9,7 +9,7 @@
     <div class="scrolling content">
       <div class="description">
         <div v-if="errors.length > 0" role="alert" class="ui negative message">
-          <div class="header"><translate translate-context="Popup/Moderation/Error message">Error while submitting report</translate></div>
+          <h4 class="header"><translate translate-context="Popup/Moderation/Error message">Error while submitting report</translate></h4>
           <ul class="list">
             <li v-for="error in errors">{{ error }}</li>
           </ul>
@@ -65,16 +65,16 @@
 
       </div>
       <div v-else role="alert" class="ui warning message">
-        <div class="header">
+        <h4 class="header">
           <translate translate-context="Popup/Moderation/Error message">Anonymous reports are disabled, please sign-in to submit a report.</translate>
-        </div>
+        </h4>
       </div>
     </div>
     <div class="actions">
-      <div class="ui basic cancel button"><translate translate-context="*/*/Button.Label/Verb">Cancel</translate></div>
+      <button class="ui basic cancel button"><translate translate-context="*/*/Button.Label/Verb">Cancel</translate></button>
       <button
         v-if="canSubmit"
-        :class="['ui', 'green', {loading: isLoading}, 'button']"
+        :class="['ui', 'success', {loading: isLoading}, 'button']"
         type="submit" form="report-form">
         <translate translate-context="Popup/*/Button.Label">Submit report</translate>
       </button>
@@ -204,7 +204,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

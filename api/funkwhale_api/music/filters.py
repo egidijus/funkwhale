@@ -101,9 +101,12 @@ class ArtistFilter(
 
     q = fields.SearchFilter(search_fields=["name"], fts_search_fields=["body_text"])
     playable = filters.BooleanFilter(field_name="_", method="filter_playable")
+    has_albums = filters.BooleanFilter(field_name="_", method="filter_has_albums")
     tag = TAG_FILTER
     scope = common_filters.ActorScopeFilter(
-        actor_field="tracks__uploads__library__actor", distinct=True
+        actor_field="tracks__uploads__library__actor",
+        distinct=True,
+        library_field="tracks__uploads__library",
     )
     ordering = django_filters.OrderingFilter(
         fields=(
@@ -120,8 +123,6 @@ class ArtistFilter(
         model = models.Artist
         fields = {
             "name": ["exact", "iexact", "startswith", "icontains"],
-            "playable": ["exact"],
-            "scope": ["exact"],
             "mbid": ["exact"],
         }
         hidden_content_fields_mapping = moderation_filters.USER_FILTER_CONFIG["ARTIST"]
@@ -131,6 +132,12 @@ class ArtistFilter(
     def filter_playable(self, queryset, name, value):
         actor = utils.get_actor_from_request(self.request)
         return queryset.playable_by(actor, value).distinct()
+
+    def filter_has_albums(self, queryset, name, value):
+        if value is True:
+            return queryset.filter(albums__isnull=False)
+        else:
+            return queryset.filter(albums__isnull=True)
 
 
 class TrackFilter(
@@ -176,11 +183,9 @@ class TrackFilter(
         model = models.Track
         fields = {
             "title": ["exact", "iexact", "startswith", "icontains"],
-            "playable": ["exact"],
             "id": ["exact"],
             "album": ["exact"],
             "license": ["exact"],
-            "scope": ["exact"],
             "mbid": ["exact"],
         }
         hidden_content_fields_mapping = moderation_filters.USER_FILTER_CONFIG["TRACK"]
@@ -204,7 +209,9 @@ class UploadFilter(audio_filters.IncludeChannelsFilterSet):
     album_artist = filters.UUIDFilter("track__album__artist__uuid")
     library = filters.UUIDFilter("library__uuid")
     playable = filters.BooleanFilter(field_name="_", method="filter_playable")
-    scope = common_filters.ActorScopeFilter(actor_field="library__actor", distinct=True)
+    scope = common_filters.ActorScopeFilter(
+        actor_field="library__actor", distinct=True, library_field="library",
+    )
     import_status = common_filters.MultipleQueryFilter(coerce=str)
     q = fields.SmartSearchFilter(
         config=search.SearchConfig(
@@ -227,16 +234,9 @@ class UploadFilter(audio_filters.IncludeChannelsFilterSet):
     class Meta:
         model = models.Upload
         fields = [
-            "playable",
             "import_status",
             "mimetype",
-            "track",
-            "track_artist",
-            "album_artist",
-            "library",
             "import_reference",
-            "scope",
-            "channel",
         ]
         include_channels_field = "track__artist__channel"
 
@@ -259,7 +259,9 @@ class AlbumFilter(
     )
     tag = TAG_FILTER
     scope = common_filters.ActorScopeFilter(
-        actor_field="tracks__uploads__library__actor", distinct=True
+        actor_field="tracks__uploads__library__actor",
+        distinct=True,
+        library_field="tracks__uploads__library",
     )
 
     ordering = django_filters.OrderingFilter(
@@ -275,7 +277,7 @@ class AlbumFilter(
 
     class Meta:
         model = models.Album
-        fields = ["playable", "q", "artist", "scope", "mbid"]
+        fields = ["artist", "mbid"]
         hidden_content_fields_mapping = moderation_filters.USER_FILTER_CONFIG["ALBUM"]
         include_channels_field = "artist__channel"
         channel_filter_field = "track__album"
@@ -288,8 +290,10 @@ class AlbumFilter(
 
 class LibraryFilter(filters.FilterSet):
     q = fields.SearchFilter(search_fields=["name"],)
-    scope = common_filters.ActorScopeFilter(actor_field="actor", distinct=True)
+    scope = common_filters.ActorScopeFilter(
+        actor_field="actor", distinct=True, library_field="pk",
+    )
 
     class Meta:
         model = models.Library
-        fields = ["privacy_level", "q", "scope"]
+        fields = ["privacy_level"]

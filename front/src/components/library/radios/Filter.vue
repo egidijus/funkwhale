@@ -3,8 +3,10 @@
     <td>{{ filter.label }}</td>
     <td>
       <div class="ui toggle checkbox">
-        <input name="public" type="checkbox" v-model="exclude" @change="$emit('update-config', index, 'not', exclude)">
-        <label></label>
+        <input id="exclude-filter" name="public" type="checkbox" v-model="exclude" @change="$emit('update-config', index, 'not', exclude)">
+        <label for="exclude-filter" class="visually-hidden">
+          <translate translate-context="Popup/Radio/Title/Noun">Exclude</translate>
+        </label>
       </div>
     </td>
     <td>
@@ -16,7 +18,7 @@
         <div :class="['ui', 'search', 'selection', 'dropdown', {'autocomplete': f.autocomplete}, {'multiple': f.type === 'list'}]">
           <i class="dropdown icon"></i>
           <div class="default text">{{ f.placeholder }}</div>
-          <input v-if="f.type === 'list' && config[f.name]" :value="config[f.name].join(',')" type="hidden">
+          <input :id="f.name" v-if="f.type === 'list' && config[f.name]" :value="config[f.name].join(',')" type="hidden">
           <div v-if="config[f.name]" class="ui menu">
             <div
               v-if="f.type === 'list'"
@@ -33,30 +35,31 @@
       </div>
     </td>
     <td>
-      <span
-        @click="showCandidadesModal = !showCandidadesModal"
+      <a
+        href=""
+        @click.prevent="showCandidadesModal = !showCandidadesModal"
         v-if="checkResult"
-        :class="['ui', {'green': checkResult.candidates.count > 10}, 'label']">
+        :class="['ui', {'success': checkResult.candidates.count > 10}, 'label']">
         {{ checkResult.candidates.count }} tracks matching filter
-      </span>
+      </a>
       <modal v-if="checkResult" :show.sync="showCandidadesModal">
-        <div class="header">
+        <h4 class="header">
           <translate translate-context="Popup/Radio/Title/Noun">Tracks matching filter</translate>
-        </div>
+        </h4>
         <div class="content">
           <div class="description">
             <track-table v-if="checkResult.candidates.count > 0" :tracks="checkResult.candidates.sample"></track-table>
           </div>
         </div>
         <div class="actions">
-          <div class="ui basic black deny button">
+          <button class="ui deny button">
             <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-          </div>
+          </button>
         </div>
       </modal>
     </td>
     <td>
-      <button @click="$emit('delete', index)" class="ui basic red button"><translate translate-context="Content/Radio/Button.Label/Verb">Remove</translate></button>
+      <button @click="$emit('delete', index)" class="ui danger button"><translate translate-context="Content/Radio/Button.Label/Verb">Remove</translate></button>
     </td>
   </tr>
 </template>
@@ -114,7 +117,9 @@ export default {
         settings.apiSettings = {
           url: self.$store.getters['instance/absoluteUrl'](f.autocomplete + '?' + f.autocomplete_qs),
           beforeXHR: function (xhrObject) {
-            xhrObject.setRequestHeader('Authorization', self.$store.getters['auth/header'])
+            if (self.$store.state.auth.oauth.accessToken) {
+              xhrObject.setRequestHeader('Authorization', self.$store.getters['auth/header'])
+            }
             return xhrObject
           },
           onResponse: function (initialResponse) {

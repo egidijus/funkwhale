@@ -277,6 +277,17 @@ LICENSES = [
             "http://creativecommons.org/publicdomain/zero/1.0/"
         ],
     },
+    {
+        "code": "LAL-1.3",
+        "name": "Licence Art Libre 1.3",
+        "redistribute": True,
+        "derivative": True,
+        "commercial": True,
+        "attribution": True,
+        "copyleft": True,
+        "url": "https://artlibre.org/licence/lal",
+        "identifiers": ["http://artlibre.org/licence/lal"],
+    },
     # Creative commons version 4.0
     get_cc_license(version="4.0", perks=["by"]),
     get_cc_license(version="4.0", perks=["by", "sa"]),

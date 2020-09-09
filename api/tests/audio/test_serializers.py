@@ -6,6 +6,7 @@ import pytest
 import pytz
 
 from django.templatetags.static import static
+from django.urls import reverse
 
 from funkwhale_api.audio import serializers
 from funkwhale_api.common import serializers as common_serializers
@@ -213,7 +214,7 @@ def test_channel_serializer_update_podcast(factories):
 def test_channel_serializer_representation(factories, to_api_date):
     content = factories["common.Content"]()
     channel = factories["audio.Channel"](artist__description=content)
-
+    setattr(channel, "_downloads_count", 12)
     expected = {
         "artist": music_serializers.serialize_artist_simple(channel.artist),
         "uuid": str(channel.uuid),
@@ -225,6 +226,7 @@ def test_channel_serializer_representation(factories, to_api_date):
         "metadata": {},
         "rss_url": channel.get_rss_url(),
         "url": channel.actor.url,
+        "downloads_count": 12,
     }
     expected["artist"]["description"] = common_serializers.ContentSerializer(
         content
@@ -248,6 +250,7 @@ def test_channel_serializer_external_representation(factories, to_api_date):
         "metadata": {},
         "rss_url": channel.get_rss_url(),
         "url": channel.actor.url,
+        "downloads_count": None,
     }
     expected["artist"]["description"] = common_serializers.ContentSerializer(
         content
@@ -312,7 +315,12 @@ def test_rss_item_serializer(factories):
         "link": [{"value": federation_utils.full_url(upload.track.get_absolute_url())}],
         "enclosure": [
             {
-                "url": federation_utils.full_url(upload.get_listen_url("mp3")),
+                "url": federation_utils.full_url(
+                    reverse(
+                        "api:v1:stream-detail", kwargs={"uuid": str(upload.track.uuid)}
+                    )
+                    + ".mp3"
+                ),
                 "length": upload.size,
                 "type": "audio/mpeg",
             }

@@ -2,23 +2,23 @@
   <form class="ui form" @submit.prevent="submit">
     <p v-if="!library"><translate translate-context="Content/Library/Paragraph">Libraries help you organize and share your music collections. You can upload your own music collection to Funkwhale and share it with your friends and family.</translate></p>
     <div v-if="errors.length > 0" role="alert" class="ui negative message">
-      <div class="header"><translate translate-context="Content/*/Error message.Title">Error</translate></div>
+      <h4 class="header"><translate translate-context="Content/*/Error message.Title">Error</translate></h4>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>
       </ul>
     </div>
     <div class="required field">
-      <label><translate translate-context="*/*/*/Noun">Name</translate></label>
-      <input name="name" v-model="currentName" :placeholder="labels.namePlaceholder" required maxlength="100">
+      <label for="current-name"><translate translate-context="*/*/*/Noun">Name</translate></label>
+      <input id="current-name" name="name" v-model="currentName" :placeholder="labels.namePlaceholder" required maxlength="100">
     </div>
     <div class="field">
-      <label><translate translate-context="*/*/*/Noun">Description</translate></label>
-      <textarea v-model="currentDescription" :placeholder="labels.descriptionPlaceholder" maxlength="2000"></textarea>
+      <label for="current-description"><translate translate-context="*/*/*/Noun">Description</translate></label>
+      <textarea id="current-description" v-model="currentDescription" :placeholder="labels.descriptionPlaceholder" maxlength="2000"></textarea>
     </div>
     <div class="field">
-      <label><translate translate-context="*/*/*">Visibility</translate></label>
+      <label for="visibility-level"><translate translate-context="*/*/*">Visibility</translate></label>
       <p><translate translate-context="Content/Library/Paragraph">You are able to share your library with other people, regardless of its visibility.</translate></p>
-      <select class="ui dropdown" v-model="currentVisibilityLevel">
+      <select id="visibility-level" class="ui dropdown" v-model="currentVisibilityLevel">
         <option :value="c" v-for="c in ['me', 'instance', 'everyone']">{{ sharedLabels.fields.privacy_level.choices[c] }}</option>
       </select>
     </div>
@@ -26,7 +26,7 @@
       <translate translate-context="Content/Library/Button.Label/Verb" v-if="library">Update library</translate>
       <translate translate-context="Content/Library/Button.Label/Verb" v-else>Create library</translate>
     </button>
-    <dangerous-button v-if="library" class="ui right floated basic red button" @confirm="remove()">
+    <dangerous-button v-if="library" class="ui right floated basic danger button" @confirm="remove()">
       <translate translate-context="*/*/*/Verb">Delete</translate>
       <p slot="modal-header">
         <translate translate-context="Popup/Library/Title">Delete this library?</translate>
@@ -134,6 +134,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-</style>

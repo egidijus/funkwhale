@@ -10,7 +10,7 @@ export default {
     momentLocale: 'en',
     lastDate: new Date(),
     maxMessages: 100,
-    messageDisplayDuration: 5 * 10000,
+    messageDisplayDuration: 5 * 1000,
     supportedExtensions: ["flac", "ogg", "mp3", "opus", "aac", "m4a"],
     messages: [],
     theme: 'light',
@@ -277,6 +277,30 @@ export default {
       axios.get('manage/moderation/requests/', {params: {status: 'pending', page_size: 1}}).then((response) => {
         commit('notifications', {type: 'pendingReviewRequests', count: response.data.count})
       })
+    },
+
+    async currentLanguage ({state, commit, rootState}, value) {
+      commit("currentLanguage", value)
+      if (rootState.auth.authenticated) {
+        await axios.post("users/settings", {"language": value})
+      }
+    },
+
+    async theme ({state, commit, rootState}, value) {
+      commit("theme", value)
+      if (rootState.auth.authenticated) {
+        await axios.post("users/settings", {"theme": value})
+      }
+    },
+
+    async initSettings ({commit}, settings) {
+      settings = settings || {}
+      if (settings.language) {
+        commit("currentLanguage", settings.language)
+      }
+      if (settings.theme) {
+        commit("theme", settings.theme)
+      }
     },
     websocketEvent ({state}, event) {
       let handlers = state.websocketEventsHandlers[event.type]

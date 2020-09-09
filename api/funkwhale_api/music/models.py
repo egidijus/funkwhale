@@ -20,7 +20,6 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-from versatileimagefield.fields import VersatileImageField
 
 from funkwhale_api import musicbrainz
 from funkwhale_api.common import fields
@@ -319,20 +318,12 @@ class AlbumQuerySet(common_models.LocalFromFidQuerySet, models.QuerySet):
         else:
             return self.exclude(pk__in=matches)
 
-    def with_prefetched_tracks_and_playable_uploads(self, actor):
-        tracks = Track.objects.with_playable_uploads(actor)
-        return self.prefetch_related(models.Prefetch("tracks", queryset=tracks))
-
 
 class Album(APIModelMixin):
     title = models.CharField(max_length=MAX_LENGTHS["ALBUM_TITLE"])
     artist = models.ForeignKey(Artist, related_name="albums", on_delete=models.CASCADE)
     release_date = models.DateField(null=True, blank=True, db_index=True)
     release_group_id = models.UUIDField(null=True, blank=True)
-    # XXX: 1.0 clean this uneeded field in favor of attachment_cover
-    cover = VersatileImageField(
-        upload_to="albums/covers/%Y/%m/%d", null=True, blank=True
-    )
     attachment_cover = models.ForeignKey(
         "common.Attachment",
         null=True,
@@ -899,10 +890,13 @@ class Upload(models.Model):
     def listen_url(self):
         return self.track.listen_url + "?upload={}".format(self.uuid)
 
-    def get_listen_url(self, to=None):
+    def get_listen_url(self, to=None, download=True):
         url = self.listen_url
         if to:
             url += "&to={}".format(to)
+        if not download:
+            url += "&download=false"
+
         return url
 
     @property

@@ -1,7 +1,9 @@
 <template>
-  <div v-if='maxPage > 1' class="ui pagination menu" role="navigation" :aria-label="labels.pagination">
+  <div v-if='maxPage > 1' class="ui pagination menu component-pagination" role="navigation" :aria-label="labels.pagination">
     <a href
       :disabled="current - 1 < 1"
+      role="button"
+      :aria-label="labels.previousPage"
       @click.prevent.stop="selectPage(current - 1)"
       :class="[{'disabled': current - 1 < 1}, 'item']"><i class="angle left icon"></i></a>
     <template v-if="!compact">
@@ -18,6 +20,8 @@
     </template>
     <a href
       :disabled="current + 1 > maxPage"
+      role="button"
+      :aria-label="labels.nextPage"
       @click.prevent.stop="selectPage(current + 1)"
       :class="[{'disabled': current + 1 > maxPage}, 'item']"><i class="angle right icon"></i></a>
   </div>
@@ -36,7 +40,9 @@ export default {
   computed: {
     labels() {
       return {
-        pagination: this.$pgettext('Content/*/Hidden text/Noun', "Pagination")
+        pagination: this.$pgettext('Content/*/Hidden text/Noun', "Pagination"),
+        previousPage: this.$pgettext('Content/*/Link', "Previous Page"),
+        nextPage: this.$pgettext('Content/*/Link', "Next Page")
       }
     },
     pages: function() {
@@ -95,10 +101,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.ui.pagination.menu .item {
-  cursor: pointer;
-}
-</style>

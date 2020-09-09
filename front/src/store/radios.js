@@ -12,7 +12,7 @@ export default {
   getters: {
     types: state => {
       return {
-        actor_content: {
+        'actor-content': {
           name: 'Your content',
           description: "Picks from your own libraries"
         },

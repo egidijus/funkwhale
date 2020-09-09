@@ -10,15 +10,15 @@
       <div class="scrolling content">
         <template v-if="fetch && fetch.status != 'pending'">
           <div v-if="fetch.status === 'skipped'" class="ui message">
-            <div class="header"><translate translate-context="Popup/*/Message.Title">Refresh was skipped</translate></div>
+            <h4 class="header"><translate translate-context="Popup/*/Message.Title">Refresh was skipped</translate></h4>
             <p><translate translate-context="Popup/*/Message.Content">The remote server answered, but returned data was unsupported by Funkwhale.</translate></p>
           </div>
           <div v-else-if="fetch.status === 'finished'" class="ui success message">
-            <div class="header"><translate translate-context="Popup/*/Message.Title">Refresh successful</translate></div>
+            <h4 class="header"><translate translate-context="Popup/*/Message.Title">Refresh successful</translate></h4>
             <p><translate translate-context="Popup/*/Message.Content">Data was refreshed successfully from remote server.</translate></p>
           </div>
           <div v-else-if="fetch.status === 'errored'" class="ui error message">
-            <div class="header"><translate translate-context="Popup/*/Message.Title">Refresh error</translate></div>
+            <h4 class="header"><translate translate-context="Popup/*/Message.Title">Refresh error</translate></h4>
             <p><translate translate-context="Popup/*/Message.Content">An error occurred while trying to refresh data:</translate></p>
             <table class="ui very basic collapsing celled table">
               <tbody>
@@ -71,23 +71,22 @@
           </div>
         </div>
         <div v-if="errors.length > 0" role="alert" class="ui negative message">
-          <div class="header"><translate translate-context="Content/*/Error message.Title">Error while saving settings</translate></div>
+          <h4 class="header"><translate translate-context="Content/*/Error message.Title">Error while saving settings</translate></h4>
           <ul class="list">
             <li v-for="error in errors">{{ error }}</li>
           </ul>
         </div>
         <div v-else-if="fetch && fetch.status === 'pending' && pollsCount >= maxPolls" role="alert" class="ui warning message">
-          <div class="header"><translate translate-context="Popup/*/Message.Title">Refresh pending</translate></div>
+          <h4 class="header"><translate translate-context="Popup/*/Message.Title">Refresh pending</translate></h4>
           <p><translate translate-context="Popup/*/Message.Content">Refresh request wasn't proceed in time by our server. It will be processed later.</translate></p>
         </div>
       </div>
       <div class="actions">
-        <div role="button" class="ui basic cancel button">
+        <button class="ui basic cancel button">
           <translate translate-context="*/*/Button.Label/Verb">Close</translate>
-        </div>
-        <div role="button" @click="showModal = false; $emit('refresh')" class="ui confirm green button" v-if="fetch && fetch.status === 'finished'">
+        </button @click.prevent="showModal = false; $emit('refresh')" class="ui confirm success button" v-if="fetch && fetch.status === 'finished'">
           <translate translate-context="*/*/Button.Label/Verb">Close and reload page</translate>
-        </div>
+        </button>
       </div>
     </modal>
   </div>

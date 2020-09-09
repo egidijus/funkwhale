@@ -203,6 +203,15 @@ class PlaylistTrackQuerySet(models.QuerySet):
         else:
             return self.exclude(track__pk__in=tracks).distinct()
 
+    def by_index(self, index):
+        plts = self.order_by("index").values_list("id", flat=True)
+        try:
+            plt_id = plts[index]
+        except IndexError:
+            raise PlaylistTrack.DoesNotExist
+
+        return PlaylistTrack.objects.get(pk=plt_id)
+
 
 class PlaylistTrack(models.Model):
     track = models.ForeignKey(
@@ -218,7 +227,6 @@ class PlaylistTrack(models.Model):
 
     class Meta:
         ordering = ("-playlist", "index")
-        unique_together = ("playlist", "index")
 
     def delete(self, *args, **kwargs):
         playlist = self.playlist

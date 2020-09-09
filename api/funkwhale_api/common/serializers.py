@@ -297,21 +297,8 @@ class AttachmentSerializer(serializers.Serializer):
         urls["source"] = o.url
         urls["original"] = o.download_url_original
         urls["medium_square_crop"] = o.download_url_medium_square_crop
+        urls["large_square_crop"] = o.download_url_large_square_crop
         return urls
-
-    def to_representation(self, o):
-        repr = super().to_representation(o)
-        # XXX: BACKWARD COMPATIBILITY
-        # having the attachment urls in a nested JSON obj is better,
-        # but we can't do this without breaking clients
-        # So we extract the urls and include these in the parent payload
-        repr.update({k: v for k, v in repr["urls"].items() if k != "source"})
-        # also, our legacy images had lots of variations (400x400, 200x200, 50x50)
-        # but we removed some of these, so we emulate these by hand (by redirecting)
-        # to actual, existing attachment variations
-        repr["square_crop"] = repr["medium_square_crop"]
-        repr["small_square_crop"] = repr["medium_square_crop"]
-        return repr
 
     def create(self, validated_data):
         return models.Attachment.objects.create(

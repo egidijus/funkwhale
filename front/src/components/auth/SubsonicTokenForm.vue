@@ -14,17 +14,19 @@
       <translate translate-context="Content/Settings/Link">Discover how to use Funkwhale from other apps</translate>
     </a></p>
     <div v-if="success" class="ui positive message">
-      <div class="header">{{ successMessage }}</div>
+      <h4 class="header">{{ successMessage }}</h4>
     </div>
     <div v-if="subsonicEnabled && errors.length > 0" role="alert" class="ui negative message">
-      <div class="header"><translate translate-context="Content/*/Error message.Title">Error</translate></div>
+      <h4 class="header"><translate translate-context="Content/*/Error message.Title">Error</translate></h4>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>
       </ul>
     </div>
     <template v-if="subsonicEnabled">
       <div v-if="token" class="field">
+        <label for="subsonic-password" class="visually-hidden">{{ labels.subsonicField }}</label>
         <password-input
+          field-id="subsonic-password"
           ref="passwordInput"
           v-model="token"
           :key="token"
@@ -33,7 +35,7 @@
       </div>
       <dangerous-button
         v-if="token"
-        :class="['ui', {'loading': isLoading}, 'grey', 'button']"
+        :class="['ui', {'loading': isLoading}, 'button']"
         :action="requestNewToken">
         <translate translate-context="*/Settings/Button.Label/Verb">Request a new password</translate>
         <p slot="modal-header"><translate translate-context="Popup/Settings/Title">Request a new Subsonic API password?</translate></p>
@@ -42,12 +44,12 @@
       </dangerous-button>
       <button
         v-else
-        color="grey"
+        color=""
         :class="['ui', {'loading': isLoading}, 'button']"
         @click="requestNewToken"><translate translate-context="Content/Settings/Button.Label/Verb">Request a password</translate></button>
         <dangerous-button
           v-if="token"
-          :class="['ui', {'loading': isLoading}, 'yellow', 'button']"
+          :class="['ui', {'loading': isLoading}, 'warning', 'button']"
           :action="disable">
           <translate translate-context="Content/Settings/Button.Label/Verb">Disable Subsonic access</translate>
           <p slot="modal-header"><translate translate-context="Popup/Settings/Title">Disable Subsonic API access?</translate></p>
@@ -85,7 +87,7 @@ export default {
       this.errors = []
       this.isLoading = true
       let self = this
-      let url = `users/users/${this.$store.state.auth.username}/subsonic-token/`
+      let url = `users/${this.$store.state.auth.username}/subsonic-token/`
       return axios.get(url).then(response => {
         self.token = response.data['subsonic_api_token']
         self.isLoading = false
@@ -100,7 +102,7 @@ export default {
       this.errors = []
       this.isLoading = true
       let self = this
-      let url = `users/users/${this.$store.state.auth.username}/subsonic-token/`
+      let url = `users/${this.$store.state.auth.username}/subsonic-token/`
       return axios.post(url, {}).then(response => {
         self.showToken = true
         self.token = response.data['subsonic_api_token']
@@ -117,7 +119,7 @@ export default {
       this.errors = []
       this.isLoading = true
       let self = this
-      let url = `users/users/${this.$store.state.auth.username}/subsonic-token/`
+      let url = `users/${this.$store.state.auth.username}/subsonic-token/`
       return axios.delete(url).then(response => {
         self.isLoading = false
         self.token = null
@@ -131,11 +133,12 @@ export default {
   computed: {
     subsonicEnabled () {
       return this.$store.state.instance.settings.subsonic.enabled.value
+    },
+    labels () {
+      return {
+        subsonicField: this.$pgettext("Content/Password/Input.label", "Your subsonic API password")
+      }
     }
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

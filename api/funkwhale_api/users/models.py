@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 
-import binascii
 import datetime
-import os
 import random
 import string
 import uuid
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, UserManager as BaseUserManager
-from django.db import models
+from django.contrib.postgres.fields import JSONField
+from django.db import models, transaction
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
@@ -30,8 +29,9 @@ from funkwhale_api.federation import models as federation_models
 from funkwhale_api.federation import utils as federation_utils
 
 
-def get_token():
-    return binascii.b2a_hex(os.urandom(15)).decode("utf-8")
+def get_token(length=30):
+    choices = string.ascii_lowercase + string.ascii_uppercase + "0123456789"
+    return "".join(random.choice(choices) for i in range(length))
 
 
 PERMISSIONS_CONFIGURATION = {
@@ -103,7 +103,9 @@ class UserQuerySet(models.QuerySet):
             user=models.OuterRef("id"), primary=True
         ).values("verified")[:1]
         subquery = models.Subquery(verified_emails)
-        return qs.annotate(has_verified_primary_email=subquery)
+        return qs.annotate(has_verified_primary_email=subquery).prefetch_related(
+            "plugins"
+        )
 
 
 class UserManager(BaseUserManager):
@@ -189,6 +191,7 @@ class User(AbstractUser):
         null=True,
         blank=True,
     )
+    settings = JSONField(default=None, null=True, blank=True, max_length=50000)
 
     objects = UserManager()
 
@@ -210,6 +213,16 @@ class User(AbstractUser):
     @property
     def all_permissions(self):
         return self.get_permissions()
+
+    @transaction.atomic
+    def set_settings(self, **settings):
+        u = self.__class__.objects.select_for_update().get(pk=self.pk)
+        if not u.settings:
+            u.settings = {}
+        for key, value in settings.items():
+            u.settings[key] = value
+        u.save(update_fields=["settings"])
+        self.settings = u.settings
 
     def has_permissions(self, *perms, **kwargs):
         operator = kwargs.pop("operator", "and")
@@ -336,6 +349,7 @@ class Invitation(models.Model):
 
 class Application(oauth2_models.AbstractApplication):
     scope = models.TextField(blank=True)
+    token = models.CharField(max_length=50, blank=True, null=True, unique=True)
 
     @property
     def normalized_scopes(self):

@@ -1,0 +1,33 @@
+/* purgecss start ignore */
+
+$site-background: rgb(43, 58, 66);
+$light-background-color: rgb(51, 71, 82);
+$input-background: rgb(65, 86, 97);
+$dimmer-background: rgba(43, 58, 66, 0.9);
+$text-color: rgb(223, 235, 240);
+$discrete-text-color: rgba(223, 235, 240, 0.904);
+$really-discrete-text-color: rgba(223, 235, 240, 0.804);
+$border-color: rgba(104, 136, 155, 0.5);
+$light-shadow-color: rgba(223, 235, 240, 0.15);
+$shadow-color: rgba(63, 102, 97, 0.95);
+$box-shadow: 0px 1px 3px 0px rgba(63, 88, 102, 0.95),
+  0px 0px 0px 1px rgba(63, 88, 102, 0.98);
+$link-color: rgb(255, 144, 0);
+$link-hover-color: $link-color;
+
+$button-basic-box-shadow: 0px 0px 0px 1px $light-shadow-color inset;
+$button-basic-color: $text-color;
+$button-basic-hover-box-shadow: 0px 0px 0px 1px $text-color inset;
+$dropdown-item-hover-background: $light-background-color;
+$input-selection-background: $text-color;
+
+$divider-color: $border-color;
+
+$secondary-meny-box-shadow: inset 0px -2px 0px 0px $light-background-color;
+$secondary-menu-active-item-box-shadow: inset 0px -2px 0px 0px $shadow-color;
+$secondary-menu-active-item-color: $text-color;
+
+$segment-background: $light-background-color;
+$table-background: $input-background;
+
+@import "../../_vars";

@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: front 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-07-17 19:29+0200\n"
-"PO-Revision-Date: 2020-01-26 19:56+0000\n"
-"Last-Translator: Peter Wickenberg <peter@wickenberg.nu>\n"
+"PO-Revision-Date: 2020-09-04 02:53+0000\n"
+"Last-Translator: Kalle Anka <d-4n9zk6a@flashbox.5july.org>\n"
 "Language-Team: none\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.9\n"
+"X-Generator: Weblate 3.11.3\n"
 
 #: front/src/components/playlists/PlaylistModal.vue:9
 msgid "\"%{ title }\", by %{ artist }"
@@ -1289,47 +1289,47 @@ msgstr "Logga ut"
 
 #: front/src/components/audio/Player.vue:266
 msgid "Looping disabled. Click to switch to single-track looping."
-msgstr ""
+msgstr "Looping inaktiverad. Klicka för att växla till enkel spår looping."
 
 #: front/src/components/audio/Player.vue:267
 msgid "Looping on a single track. Click to switch to whole queue looping."
-msgstr ""
+msgstr "Looping inaktiverad. Klicka för att växla till enkel spår looping."
 
 #: front/src/components/audio/Player.vue:268
 msgid "Looping on whole queue. Click to disable looping."
-msgstr ""
+msgstr "Loopa hela kön. Klicka för att inaktivera looping."
 
 #: front/src/components/library/Track.vue:94
 msgid "Lyrics"
-msgstr ""
+msgstr "Sångtext"
 
 #: front/src/views/admin/library/Base.vue:25
 msgid "Manage library"
-msgstr ""
+msgstr "Hantera mediabiblioteket"
 
 #: front/src/components/playlists/PlaylistModal.vue:3
 msgid "Manage playlists"
-msgstr ""
+msgstr "Hantera spellista"
 
 #: front/src/views/admin/users/Base.vue:20
 msgid "Manage users"
-msgstr ""
+msgstr "Hantera användare"
 
 #: front/src/views/playlists/List.vue:8
 msgid "Manage your playlists"
-msgstr ""
+msgstr "Hantera din spellista"
 
 #: front/src/components/manage/library/RequestsTable.vue:197
 msgid "Mark as closed"
-msgstr ""
+msgstr "Markera som stängd"
 
 #: front/src/components/manage/library/RequestsTable.vue:196
 msgid "Mark as imported"
-msgstr ""
+msgstr "Markera som importerat"
 
 #: front/src/components/library/import/Main.vue:12
 msgid "Metadata"
-msgstr ""
+msgstr "Metadata"
 
 #: front/src/components/library/import/Main.vue:115
 msgid ""
@@ -1339,30 +1339,37 @@ msgid ""
 "            </a>\n"
 "            project, which you can think about as the Wikipedia of music."
 msgstr ""
+"Metadata är data relaterade till musiken du vill importera. Detta inkluderar "
+"all information om artister, album och spår. För högkvalitativt bibliotek "
+"rekommenderas det att hämta data från\n"
+"<a href=\"https://musicbrainz.org\" target=\"_blank\">\n"
+"MusicBrainz\n"
+"</a>\n"
+"projekt, som du kan tänka på som Wikipedia för musik."
 
 #: front/src/components/Sidebar.vue:48 src/components/library/import/Main.vue:18
 msgid "Music"
-msgstr ""
+msgstr "Musik"
 
 #: front/src/components/library/import/Main.vue:147
 msgid "Music request"
-msgstr ""
+msgstr "Musikförfrågan"
 
 #: front/src/components/audio/Player.vue:265
 msgid "Mute"
-msgstr ""
+msgstr "Tyst"
 
 #: front/src/components/Sidebar.vue:34
 msgid "My account"
-msgstr ""
+msgstr "Mitt konto"
 
 #: front/src/components/playlists/Form.vue:74
 msgid "My awesome playlist"
-msgstr ""
+msgstr "Min fantastiska spellista"
 
 #: front/src/components/library/radios/Builder.vue:206
 msgid "My awesome radio"
-msgstr ""
+msgstr "Mitt fantastiska radio"
 
 #: front/src/components/library/Track.vue:64 src/components/library/Track.vue:75
 #: front/src/components/library/Track.vue:86
@@ -1376,83 +1383,85 @@ msgstr ""
 #: front/src/components/manage/users/UsersTable.vue:61
 #: front/src/views/admin/users/UsersDetail.vue:49
 msgid "N/A"
-msgstr ""
+msgstr "N/A"
 
 #: front/src/components/playlists/PlaylistModal.vue:31
 #: front/src/views/admin/users/UsersDetail.vue:21
 msgid "Name"
-msgstr ""
+msgstr "Namn"
 
 #: front/src/components/auth/Settings.vue:88
 #: front/src/views/auth/PasswordResetConfirm.vue:14
 msgid "New password"
-msgstr ""
+msgstr "Nytt lösenord"
 
 #: front/src/components/Sidebar.vue:158
 msgid "New tracks will be appended here automatically."
-msgstr ""
+msgstr "Nya spår läggs till här automatiskt."
 
 #: front/src/components/library/import/Main.vue:29
 msgid "Next step"
-msgstr ""
+msgstr "Nästa steg"
 
 #: front/src/components/audio/Player.vue:263
 msgid "Next track"
-msgstr ""
+msgstr "Nästa spår"
 
 #: front/src/components/Sidebar.vue:125
 msgid "No"
-msgstr ""
+msgstr "Nej"
 
 #: front/src/components/Home.vue:103
 msgid "No add-ons, no plugins : you only need a web library"
-msgstr ""
+msgstr "Inga tillägg, inga plugins: krävs endast ett webb-bibliotek"
 
 #: front/src/components/library/Track.vue:102
 msgid "No lyrics available for this track."
-msgstr ""
+msgstr "Inga sångtexter tillgängliga för detta spår."
 
 #: front/src/components/playlists/Form.vue:81
 msgid "Nobody except me"
-msgstr ""
+msgstr "Ingen utom jag"
 
 #: front/src/views/federation/LibraryDetail.vue:32
 msgid "Not following"
-msgstr ""
+msgstr "Följer ej"
 
 #: front/src/components/federation/LibraryTrackTable.vue:13
 #: front/src/components/federation/LibraryTrackTable.vue:67
 msgid "Not imported"
-msgstr ""
+msgstr "Ej importerad"
 
 #: front/src/components/manage/users/InvitationsTable.vue:51
 msgid "Not used"
-msgstr ""
+msgstr "Ej använd"
 
 #: front/src/App.vue:37
 msgid "Official website"
-msgstr ""
+msgstr "Officiell hemsida"
 
 #: front/src/components/auth/Settings.vue:83
 msgid "Old password"
-msgstr ""
+msgstr "Gammalt lösenord"
 
 #: front/src/components/library/import/FileUpload.vue:36
 msgid "Once all your files are uploaded, simply click the following button to check the import status."
 msgstr ""
+"När alla dina filer har laddats upp klickar bara på nästa knapp för att "
+"kontrollera importstatus."
 
 #: front/src/components/federation/LibraryCard.vue:21
 #: front/src/components/manage/users/InvitationsTable.vue:20
 msgid "Open"
-msgstr ""
+msgstr "Öppna"
 
 #: front/src/App.vue:63
 msgid "Options"
-msgstr ""
+msgstr "Alternativ"
 
 #: front/src/components/library/import/Main.vue:93
 msgid "Or"
-msgstr ""
+msgstr "Eller"
 
 #: front/src/components/favorites/List.vue:23
 #: front/src/components/federation/LibraryTrackTable.vue:18
@@ -1463,7 +1472,7 @@ msgstr ""
 #: front/src/components/manage/users/UsersTable.vue:9
 #: front/src/views/federation/LibraryList.vue:18 src/views/playlists/List.vue:17
 msgid "Ordering"
-msgstr ""
+msgstr "Order"
 
 #: front/src/components/favorites/List.vue:31
 #: front/src/components/federation/LibraryTrackTable.vue:26
@@ -1473,35 +1482,35 @@ msgstr ""
 #: front/src/components/manage/users/UsersTable.vue:17
 #: front/src/views/federation/LibraryList.vue:26 src/views/playlists/List.vue:25
 msgid "Ordering direction"
-msgstr ""
+msgstr "Order riktning"
 
 #: front/src/components/manage/users/InvitationsTable.vue:38
 msgid "Owner"
-msgstr ""
+msgstr "Ägare"
 
 #: front/src/components/PageNotFound.vue:33
 msgid "Page Not Found"
-msgstr ""
+msgstr "Sidan hittas inte"
 
 #: front/src/components/PageNotFound.vue:7
 msgid "Page not found!"
-msgstr ""
+msgstr "Sidan hittas inte!"
 
 #: front/src/components/auth/Login.vue:32 src/components/auth/Signup.vue:38
 msgid "Password"
-msgstr ""
+msgstr "Lösenord"
 
 #: front/src/components/auth/SubsonicTokenForm.vue:95
 msgid "Password updated"
-msgstr ""
+msgstr "Lösenord uppdaterat"
 
 #: front/src/views/auth/PasswordResetConfirm.vue:28
 msgid "Password updated successfully"
-msgstr ""
+msgstr "Lösenordet har uppdaterats"
 
 #: front/src/components/audio/Player.vue:262
 msgid "Pause track"
-msgstr ""
+msgstr "Pausa spår"
 
 #: front/src/components/federation/LibraryFollowTable.vue:46
 #: front/src/components/library/import/BatchDetail.vue:33
@@ -1511,226 +1520,228 @@ msgstr ""
 #: front/src/components/manage/library/RequestsTable.vue:27
 #: front/src/components/manage/library/RequestsTable.vue:63
 msgid "Pending"
-msgstr ""
+msgstr "Väntar"
 
 #: front/src/components/federation/LibraryFollowTable.vue:11
 #: front/src/views/federation/LibraryDetail.vue:26
 msgid "Pending approval"
-msgstr ""
+msgstr "Inväntar godkännande"
 
 #: front/src/components/Sidebar.vue:217
 msgid "Pending follow requests"
-msgstr ""
+msgstr "Pågående följförfrågningar"
 
 #: front/src/components/Sidebar.vue:216 src/views/admin/library/Base.vue:26
 msgid "Pending import requests"
-msgstr ""
+msgstr "Pågående import förfrågningar"
 
 #: front/src/components/requests/Form.vue:26 src/views/federation/Base.vue:36
 msgid "Pending requests"
-msgstr ""
+msgstr "Pågående förfrågningar"
 
 #: front/src/components/manage/users/UsersTable.vue:42
 #: front/src/views/admin/users/UsersDetail.vue:68
 msgid "Permissions"
-msgstr ""
+msgstr "Behörigheter"
 
 #: front/src/components/audio/PlayButton.vue:9 src/components/library/Track.vue:30
 msgid "Play"
-msgstr ""
+msgstr "Spela"
 
 #: front/src/components/audio/album/Card.vue:50
 #: front/src/components/audio/artist/Card.vue:44 src/components/library/Album.vue:28
 #: front/src/views/playlists/Detail.vue:23
 msgid "Play all"
-msgstr ""
+msgstr "Spela alla"
 
 #: front/src/components/library/Artist.vue:26
 msgid "Play all albums"
-msgstr ""
+msgstr "Spela alla album"
 
 #: front/src/components/audio/PlayButton.vue:58
 msgid "Play immediatly"
-msgstr ""
+msgstr "Spela upp direkt"
 
 #: front/src/components/audio/PlayButton.vue:15
 msgid "Play next"
-msgstr ""
+msgstr "Spela upp nästa"
 
 #: front/src/components/audio/PlayButton.vue:16
 msgid "Play now"
-msgstr ""
+msgstr "Spela upp nu"
 
 #: front/src/components/audio/Player.vue:261
 msgid "Play track"
-msgstr ""
+msgstr "Spela upp spår"
 
 #: front/src/views/playlists/Detail.vue:90
 msgid "Playlist"
-msgstr ""
+msgstr "Spellista"
 
 #: front/src/views/playlists/Detail.vue:12
 msgid "Playlist containing %{ count } track, by %{ username }"
 msgid_plural "Playlist containing %{ count } tracks, by %{ username }"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Spellista som innehåller % { count } spår, av % { username }"
+msgstr[1] "Spellista som innehåller % { count } spår, av % { username }"
 
 #: front/src/components/playlists/Form.vue:9
 msgid "Playlist created"
-msgstr ""
+msgstr "Spellista skapad"
 
 #: front/src/components/playlists/Editor.vue:4
 msgid "Playlist editor"
-msgstr ""
+msgstr "Spellistredigerare"
 
 #: front/src/components/playlists/Form.vue:21
 msgid "Playlist name"
-msgstr ""
+msgstr "Spellista titel"
 
 #: front/src/components/playlists/Form.vue:6
 msgid "Playlist updated"
-msgstr ""
+msgstr "Spellistan uppdaterad"
 
 #: front/src/components/playlists/Form.vue:25
 msgid "Playlist visibility"
-msgstr ""
+msgstr "Visa spellista"
 
 #: front/src/components/Sidebar.vue:56 src/components/library/Home.vue:16
 #: front/src/components/library/Library.vue:13 src/views/admin/Settings.vue:83
 #: front/src/views/playlists/List.vue:103
 msgid "Playlists"
-msgstr ""
+msgstr "Spellistor"
 
 #: front/src/components/Home.vue:56
 msgid "Playlists? We got them"
-msgstr ""
+msgstr "Spellistor? Vi har dem"
 
 #: front/src/components/auth/Settings.vue:79
 msgid "Please double-check your password is correct"
-msgstr ""
+msgstr "Kontrollera att ditt lösenord är korrekt"
 
 #: front/src/components/auth/Login.vue:9
 msgid "Please double-check your username/password couple is correct"
-msgstr ""
+msgstr "Kontrollera att ditt användarnamn/lösenordspar är korrekt"
 
 #: front/src/components/auth/Settings.vue:46
 msgid "PNG, GIF or JPG. At most 2MB. Will be downscaled to 400x400px."
-msgstr ""
+msgstr "PNG, GIF eller JPG. Högst 2MB. Kommer att nedskalas till 400x400px."
 
 #: front/src/components/library/import/Main.vue:26
 msgid "Previous step"
-msgstr ""
+msgstr "Föregående steg"
 
 #: front/src/components/audio/Player.vue:260
 msgid "Previous track"
-msgstr ""
+msgstr "Föregående spår"
 
 #: front/src/views/auth/EmailConfirm.vue:26
 #: front/src/views/auth/PasswordResetConfirm.vue:31
 msgid "Proceed to login"
-msgstr ""
+msgstr "Fortsätt till inloggning"
 
 #: front/src/components/federation/LibraryTrackTable.vue:50
 msgid "Published date"
-msgstr ""
+msgstr "Publicerat datum"
 
 #: front/src/components/library/import/ArtistImport.vue:17
 msgid "Query template"
-msgstr ""
+msgstr "Mall förfråga"
 
 #: front/src/components/Sidebar.vue:20
 msgid "Queue"
-msgstr ""
+msgstr "Lägg till kö"
 
 #: front/src/components/audio/Player.vue:203
 msgid "Queue shuffled!"
-msgstr ""
+msgstr "Kö blandas!"
 
 #: front/src/views/radios/Detail.vue:80
 msgid "Radio"
-msgstr ""
+msgstr "Radio"
 
 #: front/src/components/library/radios/Builder.vue:205
 msgid "Radio Builder"
-msgstr ""
+msgstr "Radio Builder"
 
 #: front/src/components/library/radios/Builder.vue:11
 msgid "Radio name"
-msgstr ""
+msgstr "Radio titel"
 
 #: front/src/components/library/Library.vue:10 src/components/library/Radios.vue:141
 msgid "Radios"
-msgstr ""
+msgstr "Radio"
 
 #: front/src/views/instance/Timeline.vue:7
 msgid "Recent activity on this instance"
-msgstr ""
+msgstr "Senaste aktivitet på den här instansen"
 
 #: front/src/components/library/Home.vue:24
 msgid "Recently added"
-msgstr ""
+msgstr "Senast inlagda"
 
 #: front/src/components/library/Home.vue:11
 msgid "Recently favorited"
-msgstr ""
+msgstr "Senast favorit"
 
 #: front/src/components/library/Home.vue:6
 msgid "Recently listened"
-msgstr ""
+msgstr "Senast lyssnade"
 
 #: front/src/components/library/import/BatchDetail.vue:81
 msgid "Recording MusicBrainz ID"
-msgstr ""
+msgstr "Spelar in MusicBrainz ID"
 
 #: front/src/views/admin/users/UsersDetail.vue:84
 #: front/src/views/federation/LibraryDetail.vue:122
 msgid "Refresh"
-msgstr ""
+msgstr "Uppdatera"
 
 #: front/src/components/federation/LibraryFollowTable.vue:42
 msgid "Refused"
-msgstr ""
+msgstr "Nekade"
 
 #: front/src/components/auth/Profile.vue:12
 msgid "Registered since %{ date }"
-msgstr ""
+msgstr "Registrerad sedan % { date }"
 
 #: front/src/components/auth/Signup.vue:9
 msgid "Registration are closed on this instance, you will need an invitation code to signup."
 msgstr ""
+"Registrering på denna instans är stängd, du behöver en inbjudningskod för "
+"att registrera dig."
 
 #: front/src/components/manage/users/UsersTable.vue:71
 msgid "regular user"
-msgstr ""
+msgstr "standard användare"
 
 #: front/src/components/library/radios/Filter.vue:59
 msgid "Remove"
-msgstr ""
+msgstr "Radera"
 
 #: front/src/components/auth/Settings.vue:58
 msgid "Remove avatar"
-msgstr ""
+msgstr "Radera avatar"
 
 #: front/src/components/favorites/TrackFavoriteIcon.vue:19
 msgid "Remove from favorites"
-msgstr ""
+msgstr "Radera från favoriter"
 
 #: front/src/components/auth/SubsonicTokenForm.vue:34
 #: front/src/components/auth/SubsonicTokenForm.vue:37
 msgid "Request a new password"
-msgstr ""
+msgstr "Begär ett nytt lösenord"
 
 #: front/src/components/auth/SubsonicTokenForm.vue:35
 msgid "Request a new Subsonic API password?"
-msgstr ""
+msgstr "Begär ett nytt Subsonic API-lösenord?"
 
 #: front/src/components/auth/SubsonicTokenForm.vue:43
 msgid "Request a password"
-msgstr ""
+msgstr "Begär ett lösenord"
 
 #: front/src/App.vue:35
 msgid "Request music"
-msgstr ""
+msgstr "Begär musik"
 
 #: front/src/views/library/MusicRequest.vue:4 src/views/library/MusicRequest.vue:21
 msgid "Request some music"

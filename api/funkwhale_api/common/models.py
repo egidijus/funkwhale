@@ -267,6 +267,13 @@ class Attachment(models.Model):
         proxy_url = reverse("api:v1:attachments-proxy", kwargs={"uuid": self.uuid})
         return federation_utils.full_url(proxy_url + "?next=medium_square_crop")
 
+    @property
+    def download_url_large_square_crop(self):
+        if self.file:
+            return utils.media_url(self.file.crop["600x600"].url)
+        proxy_url = reverse("api:v1:attachments-proxy", kwargs={"uuid": self.uuid})
+        return federation_utils.full_url(proxy_url + "?next=large_square_crop")
+
 
 class MutationAttachment(models.Model):
     """
@@ -363,3 +370,24 @@ def remove_attached_content(sender, instance, **kwargs):
                 getattr(instance, field).delete()
             except Content.DoesNotExist:
                 pass
+
+
+class PluginConfiguration(models.Model):
+    """
+    Store plugin configuration in DB
+    """
+
+    code = models.CharField(max_length=100)
+    user = models.ForeignKey(
+        "users.User",
+        related_name="plugins",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    conf = JSONField(null=True, blank=True)
+    enabled = models.BooleanField(default=False)
+    creation_date = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        unique_together = ("user", "code")

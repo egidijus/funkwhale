@@ -2,9 +2,9 @@
   <span>
 
     <modal v-if="isEmbedable" :show.sync="showEmbedModal">
-      <div class="header">
+      <h4 class="header">
         <translate translate-context="Popup/Album/Title/Verb">Embed this album on your website</translate>
-      </div>
+      </h4>
       <div class="scrolling content">
         <div class="description">
           <embed-wizard type="album" :id="object.id" />
@@ -12,14 +12,23 @@
         </div>
       </div>
       <div class="actions">
-        <div class="ui basic deny button">
+        <button class="ui basic deny button">
           <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-        </div>
+        </button>
       </div>
     </modal>
-    <div role="button" class="ui floating dropdown circular icon basic button" :title="labels.more" v-dropdown="{direction: 'downward'}">
+    <button class="ui floating dropdown circular icon basic button" :title="labels.more" v-dropdown="{direction: 'downward'}">
       <i class="ellipsis vertical icon"></i>
       <div class="menu">
+        <a
+          :href="object.fid"
+          v-if="domain != $store.getters['instance/domain']"
+          target="_blank"
+          class="basic item">
+          <i class="external icon"></i>
+          <translate :translate-params="{domain: domain}" translate-context="Content/*/Button.Label/Verb">View on %{ domain }</translate>
+        </a>
+
         <div
           role="button"
           v-if="isEmbedable"
@@ -78,7 +87,7 @@
           <translate translate-context="Content/Moderation/Link/Verb">View in Django's admin</translate>&nbsp;
         </a>
       </div>
-    </div>
+    </button>
   </span>
 </template>
 <script>
@@ -86,6 +95,7 @@ import EmbedWizard from "@/components/audio/EmbedWizard"
 import Modal from '@/components/semantic/Modal'
 import ReportMixin from '@/components/mixins/Report'
 
+import {getDomain} from '@/utils'
 
 export default {
   mixins: [ReportMixin],
@@ -108,6 +118,11 @@ export default {
     }
   },
   computed: {
+    domain () {
+      if (this.object) {
+        return getDomain(this.object.fid)
+      }
+    },
     labels() {
       return {
         more: this.$pgettext('*/*/Button.Label/Noun', "More…"),

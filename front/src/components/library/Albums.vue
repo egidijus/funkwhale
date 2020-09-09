@@ -4,43 +4,48 @@
       <h2 class="ui header">
         <translate translate-context="Content/Album/Title">Browsing albums</translate>
       </h2>
-      <div :class="['ui', {'loading': isLoading}, 'form']">
+      <form :class="['ui', {'loading': isLoading}, 'form']" @submit.prevent="updatePage();updateQueryString();fetchData()">
         <div class="fields">
           <div class="field">
-            <label>
+            <label for="albums-search">
               <translate translate-context="Content/Search/Input.Label/Noun">Search</translate>
             </label>
-            <input type="text" name="search" v-model="query" :placeholder="labels.searchPlaceholder"/>
+            <div class="ui action input">
+              <input id="albums-search" type="text" name="search" v-model="query" :placeholder="labels.searchPlaceholder"/>
+              <button class="ui icon button" type="submit" :aria-label="$pgettext('Content/Search/Input.Label/Noun', 'Search')">
+                <i class="search icon"></i>
+              </button>
+            </div>
           </div>
           <div class="field">
-            <label><translate translate-context="*/*/*/Noun">Tags</translate></label>
+            <label for="tags-search"><translate translate-context="*/*/*/Noun">Tags</translate></label>
             <tags-selector v-model="tags"></tags-selector>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
-            <select class="ui dropdown" v-model="ordering">
+            <label for="album-ordering"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
+            <select id="album-ordering" class="ui dropdown" v-model="ordering">
               <option v-for="option in orderingOptions" :value="option[0]">
                 {{ sharedLabels.filters[option[1]] }}
               </option>
             </select>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
-            <select class="ui dropdown" v-model="orderingDirection">
+            <label for="album-ordering-direction"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering direction</translate></label>
+            <select id="album-ordering-direction" class="ui dropdown" v-model="orderingDirection">
               <option value="+"><translate translate-context="Content/Search/Dropdown">Ascending</translate></option>
               <option value="-"><translate translate-context="Content/Search/Dropdown">Descending</translate></option>
             </select>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Results per page</translate></label>
-            <select class="ui dropdown" v-model="paginateBy">
+            <label for="album-results"><translate translate-context="Content/Search/Dropdown.Label/Noun">Results per page</translate></label>
+            <select id="album-results" class="ui dropdown" v-model="paginateBy">
               <option :value="parseInt(12)">12</option>
               <option :value="parseInt(25)">25</option>
               <option :value="parseInt(50)">50</option>
             </select>
           </div>
         </div>
-      </div>
+      </form>
       <div class="ui hidden divider"></div>
       <div
         v-if="result"
@@ -48,7 +53,7 @@
         item-selector=".column"
         percent-position="true"
         stagger="0"
-        class="ui stackable three column doubling grid">
+        class="">
         <div
           v-if="result.results.length > 0"
           class="ui app-cards cards">
@@ -67,7 +72,7 @@
           <router-link
           v-if="$store.state.auth.authenticated"
           :to="{name: 'content.index'}"
-          class="ui green button labeled icon">
+          class="ui success button labeled icon">
           <i class="upload icon"></i>
             <translate translate-context="Content/*/Verb">
               Add some music
@@ -144,7 +149,7 @@ export default {
     }
   },
   methods: {
-    updateQueryString: _.debounce(function() {
+    updateQueryString: function() {
       history.pushState(
         {},
         null,
@@ -157,8 +162,8 @@ export default {
           ordering: this.getOrderingAsString()
         }).toString()
       )
-    }, 500),
-    fetchData: _.debounce(function() {
+    },
+    fetchData: function() {
       var self = this
       this.isLoading = true
       let url = FETCH_URL
@@ -187,33 +192,16 @@ export default {
         self.result = null
         self.isLoading = false
       })
-    }, 500),
+    },
     selectPage: function(page) {
       this.page = page
+    },
+    updatePage() {
+      this.page = this.defaultPage
     }
   },
   watch: {
     page() {
-      this.updateQueryString()
-      this.fetchData()
-    },
-    paginateBy() {
-      this.updateQueryString()
-      this.fetchData()
-    },
-    ordering() {
-      this.updateQueryString()
-      this.fetchData()
-    },
-    orderingDirection() {
-      this.updateQueryString()
-      this.fetchData()
-    },
-    query() {
-      this.updateQueryString()
-      this.fetchData()
-    },
-    tags() {
       this.updateQueryString()
       this.fetchData()
     },
@@ -223,7 +211,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

@@ -33,3 +33,27 @@ export function parseAPIErrors(responseData, parentField) {
   }
   return errors
 }
+
+export function getCookie(name) {
+  return document.cookie
+  .split('; ')
+  .find(row => row.startsWith(name))
+  .split('=')[1];
+}
+export function setCsrf(xhr) {
+  if (getCookie('csrftoken')) {
+    xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'))
+  }
+}
+
+export function checkRedirectToLogin (store, router) {
+  if (!store.state.auth.authenticated) {
+    router.push({name: 'login', query: {next: router.currentRoute.fullPath}})
+  }
+}
+
+export function getDomain (url) {
+  let parser = document.createElement("a")
+  parser.href = url
+  return parser.hostname
+}

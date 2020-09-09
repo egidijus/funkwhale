@@ -10,7 +10,7 @@
           <translate translate-context="Content/Radio/Title">Instance radios</translate>
         </h3>
         <div class="ui cards">
-          <radio-card v-if="isAuthenticated" :type="'actor_content'" :object-id="$store.state.auth.fullUsername"></radio-card>
+          <radio-card v-if="isAuthenticated" :type="'actor-content'" :object-id="$store.state.auth.fullUsername"></radio-card>
           <radio-card v-if="isAuthenticated && hasFavorites" :type="'favorites'"></radio-card>
           <radio-card :type="'random'"></radio-card>
           <radio-card v-if="$store.state.auth.authenticated" :type="'less-listened'"></radio-card>
@@ -21,27 +21,32 @@
       <h3 class="ui header">
         <translate translate-context="Content/Radio/Title">User radios</translate>
       </h3>
-      <router-link class="ui green basic button" to="/library/radios/build" exact>
+      <router-link class="ui success button" to="/library/radios/build" exact>
         <translate translate-context="Content/Radio/Button.Label/Verb">Create your own radio</translate>
       </router-link>
       <div class="ui hidden divider"></div>
-      <div :class="['ui', {'loading': isLoading}, 'form']">
+      <form :class="['ui', {'loading': isLoading}, 'form']" @submit.prevent="updateQueryString();fetchData()">
         <div class="fields">
           <div class="field">
-            <label><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
-            <input name="search" type="text" v-model="query" :placeholder="labels.searchPlaceholder"/>
+            <label for="radios-search"><translate translate-context="Content/Search/Input.Label/Noun">Search</translate></label>
+            <div class="ui action input">
+              <input id ="radios-search" type="text" name="search" v-model="query" :placeholder="labels.searchPlaceholder"/>
+              <button class="ui icon button" type="submit" :aria-label="$pgettext('Content/Search/Input.Label/Noun', 'Search')">
+                <i class="search icon"></i>
+              </button>
+            </div>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
-            <select class="ui dropdown" v-model="ordering">
+            <label for="radios-ordering"><translate translate-context="Content/Search/Dropdown.Label/Noun">Ordering</translate></label>
+            <select id="radios-ordering" class="ui dropdown" v-model="ordering">
               <option v-for="option in orderingOptions" :value="option[0]">
                 {{ sharedLabels.filters[option[1]] }}
               </option>
             </select>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Order</translate></label>
-            <select class="ui dropdown" v-model="orderingDirection">
+            <label for="radios-ordering-direction"><translate translate-context="Content/Search/Dropdown.Label/Noun">Order</translate></label>
+            <select id="radios-ordering-direction" class="ui dropdown" v-model="orderingDirection">
               <option value="+">
                 <translate translate-context="Content/Search/Dropdown">Ascending</translate>
               </option>
@@ -51,15 +56,15 @@
             </select>
           </div>
           <div class="field">
-            <label><translate translate-context="Content/Search/Dropdown.Label/Noun">Results per page</translate></label>
-            <select class="ui dropdown" v-model="paginateBy">
+            <label for="radios-results"><translate translate-context="Content/Search/Dropdown.Label/Noun">Results per page</translate></label>
+            <select id="radios-results" class="ui dropdown" v-model="paginateBy">
               <option :value="parseInt(12)">12</option>
               <option :value="parseInt(25)">25</option>
               <option :value="parseInt(50)">50</option>
             </select>
           </div>
         </div>
-      </div>
+      </form>
       <div class="ui hidden divider"></div>
       <div v-if="result && !result.results.length > 0" class="ui placeholder segment">
         <div class="ui icon header">
@@ -71,7 +76,7 @@
         <router-link
         v-if="$store.state.auth.authenticated"
         :to="{name: 'library.radios.build'}"
-        class="ui green button labeled icon">
+        class="ui success button labeled icon">
           <i class="rss icon"></i>
           <translate translate-context="Content/*/Verb">
             Create a radio
@@ -157,7 +162,7 @@ export default {
     },
   },
   methods: {
-    updateQueryString: _.debounce(function() {
+    updateQueryString: function() {
       history.pushState(
         {},
         null,
@@ -169,8 +174,8 @@ export default {
           ordering: this.getOrderingAsString()
         }).toString()
       )
-    }, 500),
-    fetchData: _.debounce(function() {
+    },
+    fetchData: function() {
       var self = this
       this.isLoading = true
       let url = FETCH_URL
@@ -186,7 +191,7 @@ export default {
         self.result = response.data
         self.isLoading = false
       })
-    }, 500),
+    },
     selectPage: function(page) {
       this.page = page
     }
@@ -196,26 +201,6 @@ export default {
       this.updateQueryString()
       this.fetchData()
     },
-    paginateBy() {
-      this.updateQueryString()
-      this.fetchData()
-    },
-    ordering() {
-      this.updateQueryString()
-      this.fetchData()
-    },
-    orderingDirection() {
-      this.updateQueryString()
-      this.fetchData()
-    },
-    query() {
-      this.updateQueryString()
-      this.fetchData()
-    }
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

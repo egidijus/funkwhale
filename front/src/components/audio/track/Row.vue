@@ -1,28 +1,28 @@
 <template>
   <tr>
     <td>
-      <play-button :class="['basic', {orange: currentTrack && isPlaying && track.id === currentTrack.id}, 'icon']" :discrete="true" :is-playable="playable" :track="track"></play-button>
+      <play-button :class="['basic', {vibrant: currentTrack && isPlaying && track.id === currentTrack.id}, 'icon']" :discrete="true" :is-playable="playable" :track="track"></play-button>
     </td>
     <td>
-      <img class="ui mini image" v-if="track.album && track.album.cover.original" v-lazy="$store.getters['instance/absoluteUrl'](track.album.cover.small_square_crop)">
-      <img class="ui mini image" v-else src="../../../assets/audio/default-cover.png">
+      <img alt="" class="ui mini image" v-if="track.album && track.album.cover && track.album.cover.urls.original" v-lazy="$store.getters['instance/absoluteUrl'](track.album.cover.urls.medium_square_crop)">
+      <img alt="" class="ui mini image" v-else src="../../../assets/audio/default-cover.png">
     </td>
     <td colspan="6">
-      <router-link class="track" :title="track.title" :to="{name: 'library.tracks.detail', params: {id: track.id }}">
+      <router-link class="track" :to="{name: 'library.tracks.detail', params: {id: track.id }}">
         <template v-if="displayPosition && track.position">
           {{ track.position }}.
         </template>
-        {{ track.title }}
+        {{ track.title|truncate(40) }}
       </router-link>
     </td>
     <td colspan="4">
       <router-link class="artist discrete link" :to="{name: 'library.artists.detail', params: {id: track.artist.id }}">
-        {{ track.artist.name }}
+        {{ track.artist.name|truncate(40) }}
       </router-link>
     </td>
     <td colspan="4">
-      <router-link v-if="track.album" class="album discrete link" :title="track.album.title" :to="{name: 'library.albums.detail', params: {id: track.album.id }}">
-        {{ track.album.title }}
+      <router-link v-if="track.album" class="album discrete link" :to="{name: 'library.albums.detail', params: {id: track.album.id }}">
+        {{ track.album.title|truncate(40) }}
       </router-link>
     </td>
     <td colspan="4" v-if="track.uploads && track.uploads.length > 0">
@@ -32,17 +32,17 @@
       <translate translate-context="*/*/*">N/A</translate>
     </td>
     <td colspan="2" v-if="displayActions" class="align right">
-      <track-favorite-icon class="favorite-icon" :track="track"></track-favorite-icon>
       <play-button
         class="play-button basic icon"
         :dropdown-only="true"
         :is-playable="track.is_playable"
-        :dropdown-icon-classes="['ellipsis', 'vertical', 'large', 'grey']"
+        :dropdown-icon-classes="['ellipsis', 'vertical', 'large really discrete']"
         :track="track"
       ></play-button>
       <track-playlist-icon
         v-if="$store.state.auth.authenticated"
         :track="track"></track-playlist-icon>
+      <track-favorite-icon class="favorite-icon" :track="track"></track-favorite-icon>
     </td>
   </tr>
 </template>
@@ -83,13 +83,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-tr:not(:hover) {
-  .favorite-icon:not(.favorited),
-  .playlist-icon {
-    visibility: hidden;
-  }
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
   <modal @update:show="update" :show="$store.state.playlists.showModal">
-    <div class="header">
+    <h4 class="header">
       <template v-if="track">
         <h2 class="ui header">
           <translate translate-context="Popup/Playlist/Title/Verb">Add to playlist</translate>
@@ -14,7 +14,7 @@
         </h2>
       </template>
       <translate v-else translate-context="Popup/Playlist/Title/Verb">Manage playlists</translate>
-    </div>
+    </h4>
     <div class="scrolling content">
       <playlist-form :key="formKey"></playlist-form>
       <div class="ui divider"></div>
@@ -28,12 +28,12 @@
             class="ui small basic cancel button"><translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
           </button>
           <button
-            class="ui small green button"
+            class="ui small success button"
             @click="addToPlaylist(lastSelectedPlaylist, true)">
               <translate translate-context="*/Playlist/Button.Label/Verb">Add anyways</translate></button>
         </div>
         <div v-if="errors.length > 0" role="alert" class="ui negative message">
-          <div class="header"><translate translate-context="Popup/Playlist/Error message.Title">The track can't be added to a playlist</translate></div>
+          <h4 class="header"><translate translate-context="Popup/Playlist/Error message.Title">The track can't be added to a playlist</translate></h4>
           <ul class="list">
             <li v-for="error in errors">{{ error }}</li>
           </ul>
@@ -43,18 +43,17 @@
           <div class="fields">
             <div class="field">
               <label for="playlist-name-filter"><translate translate-context="Popup/Playlist/Label">Filter</translate></label>
-              <input name="playlist-name-filter" v-model="playlistNameFilter" type="text" class="inline" :placeholder="labels.filterPlaylistField" />
+              <input id="playlist-name-filter" v-model="playlistNameFilter" type="text" class="inline" :placeholder="labels.filterPlaylistField" />
             </div>
           </div>
         </div>
         <table v-if="sortedPlaylists.length > 0" class="ui unstackable very basic table">
           <thead>
             <tr>
-              <th></th>
+              <th><span class="visually-hidden"><translate translate-context="*/*/*/Verb">Edit</translate></span></th>
               <th><translate translate-context="*/*/*/Noun">Name</translate></th>
               <th class="sorted descending"><translate translate-context="Popup/Playlist/Table.Label/Short">Last modification</translate></th>
               <th><translate translate-context="*/*/*">Tracks</translate></th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -62,29 +61,30 @@
               <td>
                 <router-link
                   class="ui icon basic small button"
-                  :to="{name: 'library.playlists.detail', params: {id: playlist.id }, query: {mode: 'edit'}}"><i class="ui pencil icon"></i></router-link>
+                  :to="{name: 'library.playlists.detail', params: {id: playlist.id }, query: {mode: 'edit'}}"><i class="ui pencil icon"></i>
+                  <span class="visually-hidden"><translate translate-context="*/*/*/Verb">Edit</translate></span></router-link>
               </td>
-              <td :title="playlist.name">
+              <td>
                 <router-link v-on:click.native="update(false)" :to="{name: 'library.playlists.detail', params: {id: playlist.id }}">{{ playlist.name }}</router-link></td>
               <td><human-date :date="playlist.modification_date"></human-date></td>
               <td>{{ playlist.tracks_count }}</td>
               <td>
-                <div
+                <button
                   v-if="track"
-                  class="ui green icon basic small right floated button"
+                  class="ui success icon basic small right floated button"
                   :title="labels.addToPlaylist"
-                  @click="addToPlaylist(playlist.id, false)">
+                  @click.prevent="addToPlaylist(playlist.id, false)">
                   <i class="plus icon"></i> <translate translate-context="Popup/Playlist/Table.Button.Label/Verb">Add track</translate>
-                </div>
+                </button>
               </td>
             </tr>
           </tbody>
         </table>
         <template v-else>
-          <div class="ui small placeholder segment">
-            <div class="ui header">
+          <div class="ui small placeholder segment component-placeholder">
+            <h4 class="ui header">
                <translate translate-context="Popup/Playlist/EmptyState">No results matching your filter</translate>
-            </div>
+            </h4>
           </div>
         </template>
         <template v-else>
@@ -100,7 +100,7 @@
       </div>
     </div>
     <div class="actions">
-      <div class="ui basic cancel button"><translate translate-context="*/*/Button.Label/Verb">Cancel</translate></div>
+      <button class="ui basic cancel button"><translate translate-context="*/*/Button.Label/Verb">Cancel</translate></button>
     </div>
   </modal>
 </template>
@@ -139,14 +139,13 @@ export default {
     addToPlaylist (playlistId, allowDuplicate) {
       let self = this
       let payload = {
-        track: this.track.id,
-        playlist: playlistId,
+        tracks: [this.track.id],
         allow_duplicates: allowDuplicate
       }
 
       self.lastSelectedPlaylist = playlistId
 
-      return axios.post('playlist-tracks/', payload).then(response => {
+      return axios.post(`playlists/${playlistId}/add`, payload).then(response => {
         logger.default.info('Successfully added track to playlist')
         self.update(false)
         self.$store.dispatch('playlists/fetchOwn')
@@ -197,10 +196,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.ui.small.placeholder.segment {
-  min-height: auto;
-}
-</style>

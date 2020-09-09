@@ -1,33 +1,33 @@
 <template>
   <div class="ui form">
     <div v-if="errors.length > 0" role="alert" class="ui negative message">
-      <div class="header"><translate translate-context="Content/*/Error message.Title">Your attachment cannot be saved</translate></div>
+      <h4 class="header"><translate translate-context="Content/*/Error message.Title">Your attachment cannot be saved</translate></h4>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>
       </ul>
     </div>
     <div class="ui field">
-      <label :for="attachmentId">
+      <span id="avatarLabel">
         <slot name="label"></slot>
-      </label>
+      </span>
       <div class="ui stackable grid row">
         <div class="three wide column">
-          <img :class="['ui', imageClass, 'image']" v-if="value && value === initialValue" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${value}/proxy?next=medium_square_crop`)" />
-          <img :class="['ui', imageClass, 'image']" v-else-if="attachment" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${attachment.uuid}/proxy?next=medium_square_crop`)" />
+          <img alt="" :class="['ui', imageClass, 'image']" v-if="value && value === initialValue" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${value}/proxy?next=medium_square_crop`)" />
+          <img alt="" :class="['ui', imageClass, 'image']" v-else-if="attachment" :src="$store.getters['instance/absoluteUrl'](`api/v1/attachments/${attachment.uuid}/proxy?next=medium_square_crop`)" />
           <div :class="['ui', imageClass, 'static', 'large placeholder image']" v-else></div>
         </div>
         <div class="eleven wide column">
           <div class="file-input">
-            <label class="ui basic button" :for="attachmentId">
+            <label :for="attachmentId">
               <translate translate-context="*/*/*">Upload New Picture…</translate>
             </label>
-            <input class="ui hidden input" ref="attachment" type="file" :id="attachmentId" accept="image/x-png,image/jpeg" @change="submit" />
+            <input class="ui input" ref="attachment" type="file" :id="attachmentId" accept="image/x-png,image/jpeg" @change="submit" />
           </div>
           <div class="ui very small hidden divider"></div>
           <p><translate translate-context="Content/*/Paragraph">PNG or JPG. Dimensions should be between 1400x1400px and 3000x3000px. Maximum file size allowed is 5MB.</translate></p>
-          <div class="ui basic tiny button" v-if="value" @click.stop.prevent="remove(value)">
+          <button class="ui basic tiny button" v-if="value" @click.stop.prevent="remove(value)">
             <translate translate-context="Content/Radio/Button.Label/Verb">Remove</translate>
-          </div>
+          </button>
           <div v-if="isLoading" class="ui active inverted dimmer">
             <div class="ui indeterminate text loader">
               <translate translate-context="Content/*/*/Noun">Uploading file…</translate>

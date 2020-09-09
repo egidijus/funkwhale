@@ -1,0 +1,34 @@
+
+.component-file-upload {
+  .file-uploads.ui.button {
+    display: block;
+    padding: 2em 1em;
+    width: 100%;
+    box-shadow: none;
+    border-style: dashed !important;
+    border: 2px solid rgba(50, 50, 50, 0.5);
+    font-size: 1.5em;
+  }
+  .file-uploads.channels.ui.button {
+    font-size: 1.2em;
+    padding: 0;
+    > div:not(.divider) {
+      padding: 1em;
+    }
+  }
+
+}
+.channel-file {
+  display: flex;
+  align-items: top;
+  margin-bottom: 1em;
+  > :first-child {
+    width: 3em;
+  }
+  .header {
+    margin: 0 1em;
+    .sub.header {
+      margin-top: 0.5em;
+    }
+  }
+}

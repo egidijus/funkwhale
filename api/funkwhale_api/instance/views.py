@@ -1,4 +1,5 @@
 import json
+import logging
 
 from django.conf import settings
 
@@ -16,6 +17,9 @@ from funkwhale_api.users.oauth import permissions as oauth_permissions
 from . import nodeinfo
 
 NODEINFO_2_CONTENT_TYPE = "application/json; profile=http://nodeinfo.diaspora.software/ns/schema/2.0#; charset=utf-8"  # noqa
+
+
+logger = logging.getLogger(__name__)
 
 
 class AdminSettings(preferences_viewsets.GlobalPreferencesViewSet):
@@ -44,7 +48,11 @@ class NodeInfo(views.APIView):
     authentication_classes = []
 
     def get(self, request, *args, **kwargs):
-        data = nodeinfo.get()
+        try:
+            data = nodeinfo.get()
+        except ValueError:
+            logger.warn("nodeinfo returned invalid json")
+            data = {}
         return Response(data, status=200, content_type=NODEINFO_2_CONTENT_TYPE)
 
 

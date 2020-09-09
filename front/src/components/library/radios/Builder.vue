@@ -8,14 +8,14 @@
         <p><translate translate-context="Content/Radio/Paragraph">You can use this interface to build your own custom radio, which will play tracks according to your criteria.</translate></p>
         <div class="ui form">
           <div v-if="success" class="ui positive message">
-            <div class="header">
+            <h4 class="header">
               <template v-if="radioName">
                 <translate translate-context="Content/Radio/Message">Radio updated</translate>
               </template>
               <template v-else>
                 <translate translate-context="Content/Radio/Message">Radio created</translate>
               </template>
-            </div>
+            </h4>
           </div>
           <div class="">
             <div class="field">
@@ -31,24 +31,22 @@
               <label for="public"><translate translate-context="Content/Radio/Checkbox.Label/Verb">Display publicly</translate></label>
             </div>
             <div class="ui hidden divider"></div>
-            <button :disabled="!canSave" @click="save" :class="['ui', 'green', {loading: isLoading}, 'button']">
+            <button :disabled="!canSave" @click="save" :class="['ui', 'success', {loading: isLoading}, 'button']">
               <translate translate-context="Content/*/Button.Label/Verb">Save</translate>
             </button>
             <radio-button v-if="id" type="custom" :custom-radio-id="id"></radio-button>
           </div>
         </div>
         <div class="ui form">
-          <p>
-            <translate translate-context="Content/Radio/Paragraph">Add filters to customize your radio</translate>
-          </p>
           <div class="inline field">
-            <select class="ui dropdown" v-model="currentFilterType">
+            <label id="radioFilterLabel" for="radio-filters"><translate translate-context="Content/Radio/Paragraph">Add filters to customize your radio</translate></label>
+            <select id="radio-filters" class="ui dropdown" v-model="currentFilterType">
               <option value="">
                 <translate translate-context="Content/Radio/Dropdown.Placeholder/Verb">Select a filter</translate>
               </option>
               <option v-for="f in availableFilters" :value="f.type">{{ f.label }}</option>
             </select>
-            <button :disabled="!currentFilterType" @click="add" class="ui button">
+            <button id="addFilter" :disabled="!currentFilterType" @click="add" class="ui button">
               <translate translate-context="Content/Radio/Button.Label/Verb">Add filter</translate>
             </button>
           </div>

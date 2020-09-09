@@ -9,7 +9,7 @@
       </p>
     </div>
     <h2><translate translate-context="Content/Login/Title/Verb">Log in to your Funkwhale account</translate></h2>
-    <login-form button-classes="basic green" :show-signup="false"></login-form>
+    <login-form button-classes="basic success" :show-signup="false"></login-form>
   </div>
   <form
     v-else
@@ -26,25 +26,27 @@
       <div class="ui hidden divider"></div>
     </template>
     <div v-if="errors.length > 0" role="alert" class="ui negative message">
-      <div class="header"><translate translate-context="Content/Signup/Form/Paragraph">Your account cannot be created.</translate></div>
+      <h4 class="header"><translate translate-context="Content/Signup/Form/Paragraph">Your account cannot be created.</translate></h4>
       <ul class="list">
         <li v-for="error in errors">{{ error }}</li>
       </ul>
     </div>
     <div class="required field">
-      <label><translate translate-context="Content/*/*">Username</translate></label>
+      <label for="username-field"><translate translate-context="Content/*/*">Username</translate></label>
       <input
       ref="username"
       name="username"
       required
+      id="username-field"
       type="text"
       autofocus
       :placeholder="labels.usernamePlaceholder"
       v-model="username">
     </div>
     <div class="required field">
-      <label><translate translate-context="Content/*/*/Noun">Email</translate></label>
+      <label for="email-field"><translate translate-context="Content/*/*/Noun">Email</translate></label>
       <input
+      id="email-field"
       ref="email"
       name="email"
       required
@@ -53,12 +55,13 @@
       v-model="email">
     </div>
     <div class="required field">
-      <label><translate translate-context="*/*/*">Password</translate></label>
-      <password-input v-model="password" />
+      <label for="password-field"><translate translate-context="*/*/*">Password</translate></label>
+      <password-input field-id="password-field" v-model="password" />
     </div>
     <div class="required field" v-if="!$store.state.instance.settings.users.registration_enabled.value">
-      <label><translate translate-context="Content/*/Input.Label">Invitation code</translate></label>
+      <label for="invitation-code"><translate translate-context="Content/*/Input.Label">Invitation code</translate></label>
       <input
+      id="invitation-code"
       required
       type="text"
       name="invitation"
@@ -70,10 +73,11 @@
         <label :for="`custom-field-${idx}`">{{ field.label }}</label>
         <textarea
           v-if="field.input_type === 'long_text'"
+          :id="`custom-field-${idx}`"
           :value="customFields[field.label]"
           :required="field.required"
           @input="$set(customFields, field.label, $event.target.value)" rows="5"></textarea>
-        <input v-else type="text" :value="customFields[field.label]" :required="field.required" @input="$set(customFields, field.label, $event.target.value)">
+        <input v-else :id="`custom-field-${idx}`" type="text" :value="customFields[field.label]" :required="field.required" @input="$set(customFields, field.label, $event.target.value)">
       </div>
     </template>
     <button :class="['ui', buttonClasses, {'loading': isLoading}, ' right floated button']" type="submit">
@@ -93,7 +97,7 @@ export default {
   props: {
     defaultInvitation: { type: String, required: false, default: null },
     next: { type: String, default: "/" },
-    buttonClasses: { type: String, default: "green" },
+    buttonClasses: { type: String, default: "success" },
     customization: { type: Object, default: null},
     fetchDescriptionHtml: { type: Boolean, default: false},
     fetchDescriptionHtml: { type: Boolean, default: false},
@@ -176,7 +180,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

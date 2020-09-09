@@ -1,6 +1,6 @@
 <template>
-  <div class="ui small placeholder segment">
-    <div class="ui header">
+  <div class="ui small placeholder segment component-placeholder component-empty-state">
+    <h4 class="ui header">
       <div class="content">
         <slot name="title">
 
@@ -10,7 +10,7 @@
           </translate>
         </slot>
       </div>
-    </div>
+    </h4>
     <div class="inline center aligned text">
       <slot></slot>
       <button v-if="refresh" class="ui button" @click="$emit('refresh')">
@@ -28,13 +28,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.ui.small.placeholder.segment {
-  min-height: auto;
-}
-.ui.header .content {
-  text-align: center;
-  display: block;
-}
-</style>

@@ -20,6 +20,15 @@
     <template v-else>
       <album-entries :tracks="object.tracks"></album-entries>
     </template>
+    <div class="ui center aligned basic segment">
+      <pagination
+        v-if="!isSerie && object.tracks && totalTracks > paginateBy"
+        @page-changed="updatePage"
+        :current="page"
+        :paginate-by="paginateBy"
+        :total="totalTracks"
+      ></pagination>
+    </div>
     <template v-if="!artist.channel && !isSerie">
       <h2>
         <translate translate-context="Content/*/Title/Noun">User libraries</translate>
@@ -41,14 +50,17 @@ import LibraryWidget from "@/components/federation/LibraryWidget"
 import TrackTable from "@/components/audio/track/Table"
 import ChannelEntries from '@/components/audio/ChannelEntries'
 import AlbumEntries from '@/components/audio/AlbumEntries'
+import Pagination from "@/components/Pagination"
+import PaginationMixin from "@/components/mixins/Pagination"
 
 export default {
-  props: ["object", "libraries", "discs", "isSerie", "artist"],
+  props: ["object", "libraries", "discs", "isSerie", "artist", "page", "paginateBy", "totalTracks"],
   components: {
     LibraryWidget,
     AlbumEntries,
     ChannelEntries,
-    TrackTable
+    TrackTable,
+    Pagination
   },
   data() {
     return {
@@ -56,9 +68,10 @@ export default {
       id: this.object.id,
     }
   },
+  methods: {
+    updatePage: function(page) {
+      this.$emit('page-changed', page)
+    }
+  },
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-</style>

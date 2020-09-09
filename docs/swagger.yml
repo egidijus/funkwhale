@@ -1,18 +1,10 @@
-# Undocumented endpoints:
-#  /api/v1/settings
-#  /api/v1/activity
-#  /api/v1/playlist-tracks
-#  /api/v1/search
-#  /api/v1/radios
-#  /api/v1/history
-
 openapi: "3.0.2"
 info:
   description: |
     Interactive documentation for [Funkwhale](https://funkwhale.audio) API.
 
-    The API is **not** freezed yet, but we will document breaking changes in our changelog,
-    and try to avoid those as much as possible.
+    Backward compatibility between minor versions (1.X to 1.Y) is guaranteed for all the
+    endpoints documented here.
 
     Usage
     -----
@@ -22,18 +14,25 @@ info:
     Use the "Try it out" button to send a real world payload to the endpoint and inspect
     the corresponding response.
 
-    Authentication
-    --------------
-
-    To authenticate, use OAuth. You can register your own app using the `/api/v1/oauth/apps/` endpoint. Proceed to the standard OAuth flow afterwards:
-
+    OAuth Authentication
+    --------------------
+      
+    You can register your own OAuth app using the `/api/v1/oauth/apps/` endpoint. Proceed to the standard OAuth flow afterwards:
+      
     - Our authorize URL is at `/authorize`
     - Our token acquisition and refresh URL is at `/api/v1/oauth/token`
     - The list of supported scopes is available by clicking the `Authorize` button in the Swagger UI documentation
     - Use `urn:ietf:wg:oauth:2.0:oob` as your redirect URI if you want the user to get a copy-pastable authorization code
     - At the moment, endpoints that deal with admin or moderator-level content are not accessible via OAuth, only through the Web UI
-
+    
     You can use our demo server at `https://demo.funkwhale.audio` for testing purposes.
+        
+    Application token authentication
+    --------------------------------
+    
+    If using OAuth isn't practical and you have an account on the Funkwhale pod, you can create an application by visiting `/settings`.
+
+    Once the application is created, you can authenticate using its access token in the `Authorization` header, like this: `Authorization: Bearer <token>`. 
 
     Rate limiting
     -------------
@@ -197,6 +196,8 @@ tags:
       url: https://docs.funkwhale.audio/users/upload.html#using-a-channel
   - name: Content curation
     description: Favorites, playlists, radios
+  - name: User activity
+    description: Listenings
   - name: Other
     description: Other endpoints that don't fit in the categories above
 
@@ -302,7 +303,7 @@ paths:
       responses:
         200:
           $ref: "#/responses/200"
-  /api/v1/users/users/me/:
+  /api/v1/users/me/:
     get:
       summary: Retrive profile information
       description: |
@@ -310,6 +311,53 @@ paths:
       tags:
         - "Auth and security"
 
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "./api/definitions.yml#/Me"
+    delete:
+      summary: Delete the user account performing the request
+      tags:
+        - "Auth and security"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                confirm:
+                  type: "boolean"
+                  description: "Must be set to true, to avoid accidental deletion"
+                password:
+                  type: "string"
+                  description: "The current password of the account"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "./api/definitions.yml#/Me"
+  /api/v1/users/users/change-email/:
+    post:
+      summary: Update the email address associated with a user account
+      tags:
+        - "Auth and security"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                email:
+                  type: "string"
+                  format: "email"
+                password:
+                  type: "string"
+                  description: "The current password of the account"
       responses:
         200:
           content:
@@ -352,11 +400,14 @@ paths:
                   - creation_date
                   - id
                   - name
+                  - random
         - $ref: "./api/parameters.yml#/Playable"
+        - $ref: "./api/parameters.yml#/HasAlbums"
+        - $ref: "./api/parameters.yml#/Library"
         - $ref: "./api/parameters.yml#/PageNumber"
         - $ref: "./api/parameters.yml#/PageSize"
+        - $ref: "./api/parameters.yml#/Related"
         - $ref: "./api/parameters.yml#/Scope"
-
       responses:
         200:
           content:
@@ -448,9 +499,12 @@ paths:
                   - creation_date
                   - release_date
                   - title
+                  - random
+        - $ref: "./api/parameters.yml#/Library"
         - $ref: "./api/parameters.yml#/Playable"
         - $ref: "./api/parameters.yml#/PageNumber"
         - $ref: "./api/parameters.yml#/PageSize"
+        - $ref: "./api/parameters.yml#/Related"
         - $ref: "./api/parameters.yml#/Scope"
 
       responses:
@@ -569,9 +623,12 @@ paths:
                   - creation_date
                   - release_date
                   - title
+                  - random
+        - $ref: "./api/parameters.yml#/Library"
         - $ref: "./api/parameters.yml#/Playable"
         - $ref: "./api/parameters.yml#/PageNumber"
         - $ref: "./api/parameters.yml#/PageSize"
+        - $ref: "./api/parameters.yml#/Related"
         - $ref: "./api/parameters.yml#/Scope"
 
       responses:
@@ -850,6 +907,17 @@ paths:
       tags:
         - "Channels and subscriptions"
       parameters:
+        - allOf:
+            - $ref: "./api/parameters.yml#/Ordering"
+            - default: "-creation_date"
+              schema:
+                required: false
+                type: "string"
+                example: "creation_date"
+                enum:
+                  - creation_date
+                  - modification_date
+                  - random
         - $ref: "./api/parameters.yml#/PageNumber"
         - $ref: "./api/parameters.yml#/PageSize"
         - $ref: "./api/parameters.yml#/Scope"
@@ -1318,6 +1386,120 @@ paths:
       responses:
         204:
           $ref: "#/responses/204"
+          
+      
+  #################
+  # User activity #
+  #################
+
+  /api/v1/history/listenings:
+    get:
+      tags:
+        - "User activity"
+      parameters:
+        - $ref: "./api/parameters.yml#/Search"
+        - $ref: "./api/parameters.yml#/PageNumber"
+        - $ref: "./api/parameters.yml#/PageSize"
+        - $ref: "./api/parameters.yml#/Scope"
+
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "./api/definitions.yml#/ResultPage"
+                  - type: "object"
+                    properties:
+                      results:
+                        type: "array"
+                        items:
+                          $ref: "./api/definitions.yml#/Listening"
+    post:
+      summary: Record a track in your history
+      tags:
+        - "User activity"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                track:
+                  type: "integer"
+                  format: "int64"
+                  example: 98
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: "./api/definitions.yml#/ListeningCreate"
+                
+  ##########
+  # Others #
+  ##########
+
+  /api/v1/search:
+    get:
+      tags:
+        - "Other"
+      description:
+        Search artists, tracks, albums and other resources
+      parameters:
+        - $ref: "./api/parameters.yml#/Search"
+      responses:
+        200:
+          $ref: "#/responses/200"
+        400:
+          $ref: "#/responses/400"
+      
+  /api/v1/instance/settings:
+    get:
+      tags:
+        - "Other"
+      description:
+        Retrieve pod-level configuration such as description or max playlist size
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: "array"
+                description: "List of settings with their id, label and values"
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: "string"
+                      description: "Name of the setting"
+                      example: "max_channels"
+                    section:
+                      type: "string"
+                      description: "Group of the setting"
+                      example: "audio"
+                    identifier:
+                      type: "string"
+                      description: "Unique identifier of the setting"
+                      example: "audio__max_channels"
+                    default:
+                      description: Default value of the setting
+                    value:
+                      description: Current value of the setting
+                    verbose_name:
+                      type: "string"
+                      description: Human-readable label of the setting
+                    help_text:
+                      type: "string"
+                      description: Human-readable description of the setting
+                    field:
+                      type: "object"
+                      properties:
+                        input_type:
+                          type: string
+                          description: "Input type of the setting"
+                    
 
   /api/v1/attachments/:
     post:
@@ -1366,6 +1548,7 @@ paths:
       responses:
         204:
           $ref: "#/responses/204"
+
   /api/v1/playlists/:
     get:
       summary: List playlists
@@ -1545,6 +1728,63 @@ paths:
                         type: "array"
                         items:
                           $ref: "./api/definitions.yml#/PlaylistTrack"
+  /api/v1/playlists/{id}/move:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: "integer"
+          format: "int64"
+    post:
+      tags:
+        - "Content curation"
+      summary: Move a track to another index within its playlist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                from:
+                  type: "integer"
+                  format: "int64"
+                  description: Current index of the track
+                to:
+                  type: "integer"
+                  format: "int64"
+                  description: New index of the track
+               
+      responses:
+        204:
+  /api/v1/playlists/{id}/remove:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: "integer"
+          format: "int64"
+    post:
+      tags:
+        - "Content curation"
+      summary: Remove a track from its playlist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                index:
+                  type: "integer"
+                  format: "int64"
+                  description: Index of the track to remove
+               
+      responses:
+        204:
+          
   /api/v1/playlists/{id}/clear:
     parameters:
       - name: id
@@ -1559,6 +1799,38 @@ paths:
         - "Content curation"
       responses:
         204:
+  /api/v1/radios/sessions:
+    post:
+      tags:
+        - "Content curation"
+      description: Start a new radio session
+      responses:
+        201:
+          $ref: "#/responses/201"
+        400:
+          $ref: "#/responses/400"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./api/definitions.yml#/RadioSessionCreate"
+  /api/v1/radios/tracks:
+    post:
+      tags:
+        - "Content curation"
+      description: Get a new track for a radio session
+      responses:
+        201:
+          $ref: "#/responses/201"
+        400:
+          $ref: "#/responses/400"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./api/definitions.yml#/Track"
 responses:
   200:
     description: Success

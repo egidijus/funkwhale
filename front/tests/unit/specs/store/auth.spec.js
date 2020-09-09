@@ -67,8 +67,8 @@ describe('store/auth', () => {
   })
   describe('getters', () => {
     it('header', () => {
-      const state = { token: 'helloworld' }
-      expect(store.getters['header'](state)).to.equal('JWT helloworld')
+      const state = { oauth: {accessToken: 'helloworld' }}
+      expect(store.getters['header'](state)).to.equal('Bearer helloworld')
     })
   })
   describe('actions', () => {
@@ -91,20 +91,11 @@ describe('store/auth', () => {
         action: store.actions.check,
         params: {state: {}},
         expectedMutations: [
-          { type: 'authenticated', payload: false }
-        ]
-      })
-    })
-    it('check jwt set', () => {
-      testAction({
-        action: store.actions.check,
-        params: {state: {token: 'test', username: 'user'}},
-        expectedMutations: [
-          { type: 'token', payload: 'test' }
+          { type: 'authenticated', payload: false },
+          { type: 'authenticated', payload: true },
         ],
         expectedActions: [
           { type: 'fetchProfile' },
-          { type: 'refreshToken' }
         ]
       })
     })
@@ -155,7 +146,7 @@ describe('store/auth', () => {
           admin: true
         }
       }
-      moxios.stubRequest('users/users/me/', {
+      moxios.stubRequest('users/me/', {
         status: 200,
         response: profile
       })
@@ -170,19 +161,6 @@ describe('store/auth', () => {
         expectedActions: [
           { type: 'favorites/fetch', payload: null, options: {root: true} },
           { type: 'playlists/fetchOwn', payload: null, options: {root: true} }
-        ]
-      })
-    })
-    it('refreshToken', () => {
-      moxios.stubRequest('token/refresh/', {
-        status: 200,
-        response: {token: 'newtoken'}
-      })
-      testAction({
-        action: store.actions.refreshToken,
-        params: {state: {token: 'oldtoken'}},
-        expectedMutations: [
-          { type: 'token', payload: 'newtoken' }
         ]
       })
     })

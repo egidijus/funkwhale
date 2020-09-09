@@ -1,5 +1,5 @@
 import os
-
+import pathlib
 import pytest
 
 from funkwhale_api.music import utils
@@ -91,3 +91,21 @@ def test_increment_downloads_count_already_tracked(
 
     assert upload.downloads_count == 0
     assert upload.track.downloads_count == 0
+
+
+@pytest.mark.parametrize(
+    "path,expected",
+    [
+        ("", [{"name": "Magic", "dir": True}, {"name": "System", "dir": True}]),
+        ("Magic", [{"name": "file.mp3", "dir": False}]),
+        ("System", [{"name": "file.ogg", "dir": False}]),
+    ],
+)
+def test_get_dirs_and_files(path, expected, tmpdir):
+    root_path = pathlib.Path(tmpdir)
+    (root_path / "Magic").mkdir()
+    (root_path / "Magic" / "file.mp3").touch()
+    (root_path / "System").mkdir()
+    (root_path / "System" / "file.ogg").touch()
+
+    assert utils.browse_dir(root_path, path) == expected

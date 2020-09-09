@@ -1,0 +1,16 @@
+
+html,
+body {
+  @include media("<=desktop") {
+    font-size: 90%;
+  }
+}
+
+.link:not(.list) {
+  text-decoration: var(--link-text-decoration);
+  &:hover {
+    text-decoration: var(--link-hover-text-decoration);
+  }
+}
+
+

@@ -19,12 +19,20 @@
               </translate>
             </p>
             <div class="field">
-              <label><translate translate-context="Content/Applications/Label">Application ID</translate></label>
-              <copy-input :value="application.client_id" />
+              <label for="copy-id"><translate translate-context="Content/Applications/Label">Application ID</translate></label>
+              <copy-input id="copy-id" :value="application.client_id" />
             </div>
             <div class="field">
-              <label><translate translate-context="Content/Applications/Label">Application secret</translate></label>
-              <copy-input :value="application.client_secret" />
+              <label for="copy-secret"><translate translate-context="Content/Applications/Label">Application secret</translate></label>
+              <copy-input id="copy-secret" :value="application.client_secret" />
+            </div>
+            <div class="field" v-if="application.token != undefined">
+              <label for="copy-secret"><translate translate-context="Content/Applications/Label">Access token</translate></label>
+              <copy-input id="copy-secret" :value="application.token" />
+              <a href="" @click.prevent="refreshToken">
+                <i class="refresh icon"></i>
+                <translate translate-context="Content/Applications/Label">Regenerate token</translate>
+              </a>
             </div>
           </div>
           <h2 class="ui header">
@@ -68,6 +76,12 @@ export default {
         self.errors = error.backendErrors
       })
     },
+    async refreshToken () {
+      self.isLoading = true
+      let response = await axios.post(`oauth/apps/${this.id}/refresh-token`)
+      this.application = response.data
+      self.isLoading = false
+    }
   },
   computed: {
     labels() {

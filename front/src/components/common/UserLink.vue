@@ -1,10 +1,11 @@
 <template>
-  <span>
+  <span class="component-user-link">
     <template v-if="avatar">
       <img
         class="ui tiny circular avatar"
-        v-if="user.avatar && user.avatar.small_square_crop"
-        v-lazy="$store.getters['instance/absoluteUrl'](user.avatar.small_square_crop)" />
+        alt=""
+        v-if="user.avatar && user.avatar.urls.medium_square_crop"
+        v-lazy="$store.getters['instance/absoluteUrl'](user.avatar.urls.medium_square_crop)" />
       <span v-else :style="defaultAvatarStyle" class="ui circular label">{{ user.username[0]}}</span>
       &nbsp;
     </template>
@@ -32,9 +33,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.tiny.circular.avatar {
-  width: 1.7em;
-  height: 1.7em;
-}
-</style>
