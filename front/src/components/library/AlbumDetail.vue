@@ -9,6 +9,7 @@
     <template v-else-if="discs && discs.length > 1">
       <div v-for="(tracks, discNumber) in discs" :key="discNumber">
         <div class="ui hidden divider"></div>
+        <play-button class="right floated mini inverted vibrant" :tracks="tracks"></play-button>
         <translate
           tag="h3"
           :translate-params="{number: discNumber + 1}"
@@ -52,6 +53,7 @@ import ChannelEntries from '@/components/audio/ChannelEntries'
 import AlbumEntries from '@/components/audio/AlbumEntries'
 import Pagination from "@/components/Pagination"
 import PaginationMixin from "@/components/mixins/Pagination"
+import PlayButton from "@/components/audio/PlayButton"
 
 export default {
   props: ["object", "libraries", "discs", "isSerie", "artist", "page", "paginateBy", "totalTracks"],
@@ -60,7 +62,8 @@ export default {
     AlbumEntries,
     ChannelEntries,
     TrackTable,
-    Pagination
+    Pagination,
+    PlayButton
   },
   data() {
     return {
