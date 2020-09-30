@@ -14,7 +14,7 @@ This changelog is viewable on the web at https://docs.funkwhale.audio/changelog.
 ----------------
 
 Upgrade instructions are available at
-https://docs.funkwhale.audio/index.html
+https://docs.funkwhale.audio/admin/upgrading.html
 
 
 Dropped python 3.5 support [manual action required, non-docker only]
@@ -134,21 +134,22 @@ Contributors to this release (translation, development, documentation, reviews, 
 - anonymous
 - appzer0
 - Arne
-- Bheesham Persaud
 - Ciarán Ainsworth
-- Creak
 - Daniele Lira Mereb
 - dulz
 - Francesc Galí
 - ghose
+- Kalle Anka
 - mekind
+- Meliurwen
 - Puri
 - Quentin PAGÈS
 - Raphaël Ventura
-- Simon Arlott
 - Slimane Selyan Amiri
+- SpcCw
 - Stefano Pigozzi
 - Sébastien de Melo
+- Ventura Pérez García
 - vicdorke
 - Xosé M
 
@@ -157,7 +158,7 @@ Contributors to this release (translation, development, documentation, reviews, 
 -------------------
 
 Upgrade instructions are available at
-https://docs.funkwhale.audio/index.html
+https://docs.funkwhale.audio/admin/upgrading.html
 
 Enhancements:
 
@@ -189,7 +190,7 @@ Contributors to this release (development, documentation, reviews):
 -------------------
 
 Upgrade instructions are available at
-https://docs.funkwhale.audio/index.html
+https://docs.funkwhale.audio/admin/upgrading.html
 
 
 Features:
@@ -565,7 +566,7 @@ Contributors to this release (translation, development, documentation, reviews, 
 -------------------
 
 Upgrade instructions are available at
-https://docs.funkwhale.audio/index.html
+https://docs.funkwhale.audio/admin/upgrading.html
 
 
 Denormalized audio permission logic in a separate table to enhance performance
@@ -630,7 +631,7 @@ Contributors to this release (translation, development, documentation, reviews, 
 -----------------
 
 Upgrade instructions are available at
-https://docs.funkwhale.audio/index.html
+https://docs.funkwhale.audio/admin/upgrading.html
 
 
 Support for genres via tags
@@ -955,7 +956,7 @@ Contributors to this release (translation, development, documentation, reviews, 
 -------------------
 
 Upgrade instructions are available at
-https://docs.funkwhale.audio/index.html
+https://docs.funkwhale.audio/admin/upgrading.html
 
 Enhancements:
 
