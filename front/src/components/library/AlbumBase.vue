@@ -134,15 +134,17 @@ import TagsList from "@/components/tags/List"
 import ArtistLabel from '@/components/audio/ArtistLabel'
 import AlbumDropdown from './AlbumDropdown'
 
-function groupByDisc(acc, track) {
-  var dn = track.disc_number - 1
-  if (dn < 0) dn = 0
-  if (acc[dn] == undefined) {
-    acc.push([track])
-  } else {
-    acc[dn].push(track)
+function groupByDisc(initial) {
+  function inner(acc, track) {
+    var dn = track.disc_number - initial
+    if (acc[dn] == undefined) {
+      acc.push([track])
+    } else {
+      acc[dn].push(track)
+    }
+    return acc
   }
-  return acc
+  return inner
 }
 
 export default {
@@ -180,7 +182,7 @@ export default {
       tracksResponse = await tracksResponse
       this.object = albumResponse.data
       this.object.tracks = tracksResponse.data.results
-      this.discs = this.object.tracks.reduce(groupByDisc, [])
+      this.discs = this.object.tracks.reduce(groupByDisc(this.object.tracks[0].disc_number), [])
       this.isLoading = false
     },
     remove () {
