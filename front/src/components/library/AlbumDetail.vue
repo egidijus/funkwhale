@@ -7,12 +7,12 @@
     <channel-entries v-if="artist.channel && isSerie" :limit="50" :filters="{channel: artist.channel.uuid, ordering: '-creation_date'}">
     </channel-entries>
     <template v-else-if="discs && discs.length > 1">
-      <div v-for="(tracks, discNumber) in discs" :key="discNumber">
+      <div v-for="tracks in discs" :key="tracks.disc_number">
         <div class="ui hidden divider"></div>
         <play-button class="right floated mini inverted vibrant" :tracks="tracks"></play-button>
         <translate
           tag="h3"
-          :translate-params="{number: discNumber + 1}"
+          :translate-params="{number: tracks[0].disc_number}"
           translate-context="Content/Album/"
         >Volume %{ number }</translate>
         <album-entries :tracks="tracks"></album-entries>
