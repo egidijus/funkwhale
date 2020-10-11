@@ -1364,6 +1364,7 @@ def test_update_track_metadata(factories):
         "license": "Dummy license: http://creativecommons.org/licenses/by-sa/4.0/",
         "copyright": "Someone",
         "comment": "hello there",
+        "genre": "classical",
     }
     tasks.update_track_metadata(metadata.FakeMetadata(data), track)
 
@@ -1382,6 +1383,9 @@ def test_update_track_metadata(factories):
     assert str(track.artist.mbid) == data["musicbrainz_artistid"]
     assert track.album.artist.name == "Edvard Grieg"
     assert str(track.album.artist.mbid) == "013c8e5b-d72a-4cd3-8dee-6c64d6125823"
+    assert sorted(track.tagged_items.values_list("tag__name", flat=True)) == [
+        "classical"
+    ]
 
 
 def test_fs_import_not_pending(factories):
