@@ -937,6 +937,8 @@ def update_track_metadata(audio_metadata, track):
         if obj_updated_fields:
             obj.save(update_fields=obj_updated_fields)
 
+    tags_models.set_tags(track, *new_data.get("tags", []))
+
     if track.album and "album" in new_data and new_data["album"].get("cover_data"):
         common_utils.attach_file(
             track.album, "attachment_cover", new_data["album"].get("cover_data")
