@@ -145,6 +145,7 @@ Funkwhale will pick up the new title. The following fields can be updated this w
 - Track title
 - Track position and disc number
 - Track license and copyright
+- Track genre
 - Album cover
 - Album title
 - Album mbid
