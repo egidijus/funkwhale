@@ -26,6 +26,9 @@ class FunkwhaleAccountAdapter(DefaultAccountAdapter):
     def get_login_redirect_url(self, request):
         return "noop"
 
+    def get_signup_redirect_url(self, request):
+        return "noop"
+
     def add_message(self, *args, **kwargs):
         # disable message sending
         return

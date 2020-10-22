@@ -818,7 +818,7 @@ def rss_serialize_item(upload):
     data = {
         "title": [{"value": upload.track.title}],
         "itunes:title": [{"value": upload.track.title}],
-        "guid": [{"cdata_value": str(upload.uuid), "isPermalink": "false"}],
+        "guid": [{"cdata_value": str(upload.uuid), "isPermaLink": "false"}],
         "pubDate": [{"value": rfc822_date(upload.creation_date)}],
         "itunes:duration": [{"value": rss_duration(upload.duration)}],
         "itunes:explicit": [{"value": "no"}],
@@ -841,7 +841,7 @@ def rss_serialize_item(upload):
         ],
     }
     if upload.track.description:
-        data["itunes:subtitle"] = [{"value": upload.track.description.truncate(255)}]
+        data["itunes:subtitle"] = [{"value": upload.track.description.truncate(254)}]
         data["itunes:summary"] = [{"cdata_value": upload.track.description.rendered}]
         data["description"] = [{"value": upload.track.description.as_plain_text}]
 
@@ -853,7 +853,7 @@ def rss_serialize_item(upload):
     tagged_items = getattr(upload.track, "_prefetched_tagged_items", [])
     if tagged_items:
         data["itunes:keywords"] = [
-            {"value": " ".join([ti.tag.name for ti in tagged_items])}
+            {"value": ",".join([ti.tag.name for ti in tagged_items])}
         ]
 
     return data
@@ -903,7 +903,7 @@ def rss_serialize_channel(channel):
         data["itunes:category"] = [node]
 
     if channel.artist.description:
-        data["itunes:subtitle"] = [{"value": channel.artist.description.truncate(255)}]
+        data["itunes:subtitle"] = [{"value": channel.artist.description.truncate(254)}]
         data["itunes:summary"] = [{"cdata_value": channel.artist.description.rendered}]
         data["description"] = [{"value": channel.artist.description.as_plain_text}]
 
