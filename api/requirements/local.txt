@@ -1,20 +1,20 @@
 # Local development dependencies go here
 
-coverage~=4.5
-django_coverage_plugin~=1.6
-factory_boy~=2.11
+coverage~=4.5.0
+django_coverage_plugin~=1.6.0
+factory_boy~=2.11.0
 
 # django-debug-toolbar that works with Django 1.5+
-django-debug-toolbar~=2.2
+django-debug-toolbar~=2.2.0
 
 # improved REPL
-ipdb~=0.11
-prompt_toolkit~=2.0
+ipdb~=0.11.0
+prompt_toolkit~=2.0.0
 black==19.10b0
 #profiling
 
-asynctest~=0.12
-aioresponses~=0.6
+asynctest~=0.12.0
+aioresponses~=0.6.0
 #line_profiler<3
 #https://github.com/dmclain/django-debug-toolbar-line-profiler/archive/master.zip
 #django-silk
