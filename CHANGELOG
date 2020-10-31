@@ -10,6 +10,24 @@ This changelog is viewable on the web at https://docs.funkwhale.audio/changelog.
 
 .. towncrier
 
+1.0.1 (2020-10-31)
+------------------
+
+Upgrade instructions are available at
+https://docs.funkwhale.audio/admin/upgrading.html
+
+Enhancements:
+
+- Added controls to play volume of an album (#1226)
+- Allow genre tags to be updated when rescanning files in-place (#1246)
+
+
+Bugfixes:
+
+- Fixed broken install because of upgraded dependencies
+- Fixed duplication of discs for multi-disc albums in album views (#1228)
+- Make the generated RSS feed more conformant with w3c specification (#1250)
+
 1.0 (2020-09-09)
 ----------------
 
