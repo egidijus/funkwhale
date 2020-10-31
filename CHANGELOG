@@ -28,6 +28,13 @@ Bugfixes:
 - Fixed duplication of discs for multi-disc albums in album views (#1228)
 - Make the generated RSS feed more conformant with w3c specification (#1250)
 
+Contributors to this release (development, documentation, reviews):
+
+- Agate
+- Cédric Schieli
+- Ciarán Ainsworth
+- Kuba Orlik
+
 1.0 (2020-09-09)
 ----------------
 
