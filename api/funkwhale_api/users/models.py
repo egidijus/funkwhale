@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 
 import datetime
+import os
 import random
 import string
 import uuid
@@ -29,9 +30,14 @@ from funkwhale_api.federation import models as federation_models
 from funkwhale_api.federation import utils as federation_utils
 
 
-def get_token(length=30):
-    choices = string.ascii_lowercase + string.ascii_uppercase + "0123456789"
-    return "".join(random.choice(choices) for i in range(length))
+def get_token(length=5):
+    wordlist_path = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "wordlist.txt"
+    )
+    with open(wordlist_path, "r") as f:
+        words = f.readlines()
+    phrase = "".join(random.choice(words) for i in range(length))
+    return phrase.replace("\n", "-").rstrip("-")
 
 
 PERMISSIONS_CONFIGURATION = {
