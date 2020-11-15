@@ -171,6 +171,7 @@ match what is described in :doc:`/installation/debian`:
     sudo -u funkwhale unzip "api-$FUNKWHALE_VERSION.zip" -d extracted
     sudo -u funkwhale rm -rf api/ && sudo -u funkwhale mv extracted/api .
     sudo -u funkwhale rm -rf extracted
+    sudo -u funkwhale rm api-$FUNKWHALE_VERSION.zip
 
     # update os dependencies
     sudo api/install_os_dependencies.sh install
