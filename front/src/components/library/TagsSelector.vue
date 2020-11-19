@@ -4,7 +4,7 @@
     <i class="dropdown icon"></i>
     <input id="tags-search" type="text" class="search">
     <div class="default text">
-      <translate translate-context="*/Dropdown/Placeholder/Verb">Search for tags…</translate>
+      <translate translate-context="*/Dropdown/Placeholder/Verb">Search…</translate>
     </div>
   </div>
 </template>

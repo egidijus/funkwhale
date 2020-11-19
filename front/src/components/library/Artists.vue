@@ -8,7 +8,7 @@
         <div class="fields">
           <div class="field">
             <label for="artist-search">
-              <translate translate-context="Content/Search/Input.Label/Noun">Search</translate>
+              <translate translate-context="Content/Search/Input.Label/Noun">Artist name</translate>
             </label>
             <div class="ui action input">
               <input id="artist-search" type="text" name="search" v-model="query" :placeholder="labels.searchPlaceholder"/>
@@ -138,7 +138,7 @@ export default {
   },
   computed: {
     labels() {
-      let searchPlaceholder = this.$pgettext('Content/Search/Input.Placeholder', "Enter artist name…")
+      let searchPlaceholder = this.$pgettext('Content/Search/Input.Placeholder', "Search…")
       let title = this.$pgettext('*/*/*/Noun', "Artists")
       return {
         searchPlaceholder,
