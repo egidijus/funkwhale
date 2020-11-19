@@ -1,7 +1,6 @@
   <template>
   <div class="component-file-upload">
     <div class="ui top attached tabular menu">
-      <a href="" :class="['item', {active: currentTab === 'summary'}]" @click.prevent="currentTab = 'summary'"><translate translate-context="Content/Library/Tab.Title/Short">Summary</translate></a>
       <a href="" :class="['item', {active: currentTab === 'uploads'}]" @click.prevent="currentTab = 'uploads'">
         <translate translate-context="Content/Library/Tab.Title/Short">Uploading</translate>
         <div v-if="files.length === 0" class="ui label">
@@ -27,70 +26,6 @@
         </div>
       </a>
     </div>
-    <div :class="['ui', 'bottom', 'attached', 'segment', {hidden: currentTab != 'summary'}]">
-      <h2 class="ui header"><translate translate-context="Content/Library/Title/Verb">Upload new tracks</translate></h2>
-      <div class="ui message">
-        <p><translate translate-context="Content/Library/Paragraph">You are about to upload music to your library. Before proceeding, please ensure that:</translate></p>
-        <ul>
-          <li v-if="library.privacy_level != 'me'">
-            <translate translate-context="Content/Library/List item">You are not uploading copyrighted content in a public library, otherwise you may be infringing the law</translate>
-          </li>
-          <li>
-            <translate translate-context="Content/Library/List item">The music files you are uploading are tagged properly.</translate>&nbsp;
-            <a href="http://picard.musicbrainz.org/" target='_blank'><translate translate-context="Content/Library/Link">We recommend using Picard for that purpose.</translate></a>
-          </li>
-          <li>
-            <translate translate-context="Content/Library/List item">The uploaded music files are in OGG, Flac or MP3 format</translate>
-          </li>
-        </ul>
-      </div>
-
-      <form class="ui form" @submit.prevent="currentTab = 'uploads'">
-        <div class="fields">
-          <div class="ui field">
-            <label for="import-reference"><translate translate-context="Content/Library/Input.Label/Noun">Import reference</translate></label>
-            <p><translate translate-context="Content/Library/Paragraph">This reference will be used to group imported files together.</translate></p>
-            <input id="import-reference" name="import-ref" type="text" v-model="importReference" />
-          </div>
-        </div>
-
-        <button type="submit" class="ui success button"><translate translate-context="Content/Library/Button.Label">Proceed</translate></button>
-      </form>
-
-      <template v-if="$store.state.auth.availablePermissions['library']">
-        <div class="ui divider"></div>
-        <h2 class="ui header"><translate translate-context="Content/Library/Title/Verb">Import music from your server</translate></h2>
-        <div v-if="fsErrors.length > 0" role="alert" class="ui negative message">
-          <h3 class="header"><translate translate-context="Content/*/Error message.Title">Error while launching import</translate></h3>
-          <ul class="list">
-            <li v-for="error in fsErrors">{{ error }}</li>
-          </ul>
-        </div>
-        <fs-browser
-          v-if="fsStatus"
-          v-model="fsPath"
-          @import="importFs"
-          :loading="isLoadingFs"
-          :data="fsStatus"></fs-browser>
-        
-        <template v-if="fsStatus && fsStatus.import">
-          <h3 class="ui header"><translate translate-context="Content/Library/Title/Verb">Import status</translate></h3>
-          <p v-if="fsStatus.import.reference != importReference">
-            <translate translate-context="Content/Library/Paragraph">Results of your previous import:</translate>
-          </p>
-          <p v-else>
-            <translate translate-context="Content/Library/Paragraph">Results of your import:</translate>
-          </p>
-          <button
-            class="ui button"
-            @click="cancelFsScan"
-            v-if="fsStatus.import.status === 'started' || fsStatus.import.status === 'pending'">
-            <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
-          </button>
-          <fs-logs :data="fsStatus.import"></fs-logs>
-        </template>
-      </template>
-    </div>
     <div :class="['ui', 'bottom', 'attached', 'segment', {hidden: currentTab != 'uploads'}]">
       <div :class="['ui', {loading: isLoadingQuota}, 'container']">
         <div :class="['ui', {red: remainingSpace === 0}, {warning: remainingSpace > 0 && remainingSpace <= 50}, 'small', 'statistic']">
@@ -100,6 +35,23 @@
           <div class="value">
             {{ remainingSpace * 1000 * 1000 | humanSize}}
           </div>
+        </div>
+        <div class="ui divider"></div>
+        <h2 class="ui header"><translate translate-context="Content/Library/Title/Verb">Upload music from your local storage</translate></h2>
+        <div class="ui message">
+          <p><translate translate-context="Content/Library/Paragraph">You are about to upload music to your library. Before proceeding, please ensure that:</translate></p>
+          <ul>
+            <li v-if="library.privacy_level != 'me'">
+              <translate translate-context="Content/Library/List item">You are not uploading copyrighted content in a public library, otherwise you may be infringing the law</translate>
+            </li>
+            <li>
+              <translate translate-context="Content/Library/List item">The music files you are uploading are tagged properly.</translate>&nbsp;
+              <a href="http://picard.musicbrainz.org/" target='_blank'><translate translate-context="Content/Library/Link">We recommend using Picard for that purpose.</translate></a>
+            </li>
+            <li>
+              <translate translate-context="Content/Library/List item">The music files you are uploading are in OGG, Flac or MP3 format</translate>
+            </li>
+          </ul>
         </div>
         <file-upload-widget
           :class="['ui', 'icon', 'basic', 'button']"
@@ -178,6 +130,38 @@
           </tbody>
         </table>
       </div>
+      <div class="ui divider"></div>
+      <h2 class="ui header"><translate translate-context="Content/Library/Title/Verb">Import music from your server</translate></h2>
+      <div v-if="fsErrors.length > 0" role="alert" class="ui negative message">
+        <h3 class="header"><translate translate-context="Content/*/Error message.Title">Error while launching import</translate></h3>
+        <ul class="list">
+          <li v-for="error in fsErrors">{{ error }}</li>
+        </ul>
+      </div>
+      <fs-browser
+        v-model="fsPath"
+        @import="importFs"
+        :loading="isLoadingFs"
+        :data="fsStatus"></fs-browser>
+      <div v-if="fsStatus.import.status === 'started' || fsStatus.import.status === 'pending'"></div>
+      <template v-if="fsStatus && fsStatus.import">
+        <h3 class="ui header"><translate translate-context="Content/Library/Title/Verb">Import status</translate></h3>
+        <p v-if="fsStatus.import.reference != importReference">
+          <translate translate-context="Content/Library/Paragraph">Results of your previous import:</translate>
+        </p>
+        <p v-else>
+          <translate translate-context="Content/Library/Paragraph">Results of your import:</translate>
+        </p>
+
+        <button
+          class="ui button"
+          @click="cancelFsScan"
+          v-if="fsStatus.import.status === 'started' || fsStatus.import.status === 'pending'">
+          <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
+        </button>
+        <fs-logs :data="fsStatus.import"></fs-logs>
+      </template>
+
 
     </div>
     <div :class="['ui', 'bottom', 'attached', 'segment', {hidden: currentTab != 'processing'}]">
@@ -216,7 +200,7 @@ export default {
     return {
       files: [],
       needsRefresh: false,
-      currentTab: "summary",
+      currentTab: "uploads",
       uploadUrl: this.$store.getters['instance/absoluteUrl']("/api/v1/uploads/"),
       importReference,
       isLoadingQuota: false,
