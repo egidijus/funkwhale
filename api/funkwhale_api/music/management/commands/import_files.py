@@ -17,6 +17,7 @@ from django.core.files import File
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 from django.db.models import Q
+from django.db.utils import IntegrityError
 from django.utils import timezone
 
 from rest_framework import serializers
@@ -831,6 +832,13 @@ def check_upload(stdout, upload):
                 tasks.update_track_metadata(upload.get_metadata(), track)
             except serializers.ValidationError as e:
                 stdout.write("  Invalid metadata: {}".format(e))
+                return
+            except IntegrityError:
+                stdout.write(
+                    "  Duplicate key violation for metadata. Skipping...\n{}".format(
+                        upload.source
+                    )
+                )
                 return
             else:
                 upload.checksum = checksum
