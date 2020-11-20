@@ -91,7 +91,7 @@ export default {
       this.isLoading = true
       this.errors = []
       let url = `plugins/${this.plugin.name}`
-      let enableUrl = this.enabled ? `${url}/enable` : `${url}/enable`
+      let enableUrl = this.enabled ? `${url}/enable` : `${url}/disable`
       await axios.post(enableUrl)
       try {
         await axios.post(url, this.values)
