@@ -94,6 +94,7 @@ Path to a directory containing Funkwhale plugins. These will be imported at runt
 sys.path.append(FUNKWHALE_PLUGINS_PATH)
 CORE_PLUGINS = [
     "funkwhale_api.contrib.scrobbler",
+    "funkwhale_api.contrib.listenbrainz",
 ]
 
 LOAD_CORE_PLUGINS = env.bool("FUNKWHALE_LOAD_CORE_PLUGINS", default=True)
