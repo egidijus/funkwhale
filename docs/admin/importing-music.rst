@@ -67,7 +67,7 @@ get details::
 
 .. note::
 
-    At the moment, only Flac, OGG/Vorbis and MP3 files with ID3 tags are supported
+    At the moment, only Flac, OGG/Vorbis and MP3 or AIFF files with ID3 tags are supported
 
 
 
