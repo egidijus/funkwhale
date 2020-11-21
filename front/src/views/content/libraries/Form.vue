@@ -26,7 +26,7 @@
       <translate translate-context="Content/Library/Button.Label/Verb" v-if="library">Update library</translate>
       <translate translate-context="Content/Library/Button.Label/Verb" v-else>Create library</translate>
     </button>
-    <dangerous-button v-if="library" class="ui right floated basic danger button" @confirm="remove()">
+    <dangerous-button v-if="library" type="button" class="ui right floated basic danger button" @confirm="remove()">
       <translate translate-context="*/*/*/Verb">Delete</translate>
       <p slot="modal-header">
         <translate translate-context="Popup/Library/Title">Delete this library?</translate>
