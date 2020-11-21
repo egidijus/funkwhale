@@ -151,9 +151,37 @@ def test_can_get_metadata_from_id3_mp3_file(field, value):
 
 
 @pytest.mark.parametrize(
+    "field,value",
+    [
+        ("title", "Bend"),
+        ("artist", "Binärpilot"),
+        ("album_artist", "Binärpilot"),
+        # ("artists", "Binärpilot; Another artist"),  # FW does not properly extract multi-value artists from ID3
+        ("album", "You Can't Stop Da Funk"),
+        ("date", "2006-02-07"),
+        ("position", "2/4"),
+        ("disc_number", "1/1"),
+        ("musicbrainz_albumid", "ce40cdb1-a562-4fd8-a269-9269f98d4124"),
+        ("mbid", "f269d497-1cc0-4ae4-a0c4-157ec7d73fcb"),
+        ("musicbrainz_artistid", "9c6bddde-6228-4d9f-ad0d-03f6fcb19e13"),
+        ("musicbrainz_albumartistid", "9c6bddde-6228-4d9f-ad0d-03f6fcb19e13"),
+        ("license", "https://creativecommons.org/licenses/by-nc-nd/2.5/"),
+        ("copyright", "Someone"),
+        ("comment", "Hello there"),
+    ],
+)
+def test_can_get_metadata_from_id3_aiff_file(field, value):
+    path = os.path.join(DATA_DIR, "test.aiff")
+    data = metadata.Metadata(path)
+
+    assert str(data.get(field)) == value
+
+
+@pytest.mark.parametrize(
     "name",
     [
         "test.mp3",
+        "test.aiff",
         "with_other_picture.mp3",
         "sample.flac",
         "with_cover.ogg",

@@ -253,7 +253,7 @@ CONF = {
             "comment": {"field": "comment"},
         },
     },
-    "MP3": {
+    "ID3": {
         "getter": get_id3_tag,
         "clean_pictures": clean_id3_pictures,
         "fields": {
@@ -330,6 +330,9 @@ CONF = {
         },
     },
 }
+
+CONF["MP3"] = CONF["ID3"]
+CONF["AIFF"] = CONF["ID3"]
 
 ALL_FIELDS = [
     "position",
