@@ -24,6 +24,7 @@
     }
     input {
       max-width: 8.5em;
+      padding: 1em;
     }
     &:not(:hover):not(.expanded) .popup {
       display: none;
