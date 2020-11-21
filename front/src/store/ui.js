@@ -11,7 +11,7 @@ export default {
     lastDate: new Date(),
     maxMessages: 100,
     messageDisplayDuration: 5 * 1000,
-    supportedExtensions: ["flac", "ogg", "mp3", "opus", "aac", "m4a"],
+    supportedExtensions: ["flac", "ogg", "mp3", "opus", "aac", "m4a", "aiff", "aif"],
     messages: [],
     theme: 'light',
     window: {

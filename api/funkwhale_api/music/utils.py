@@ -59,6 +59,10 @@ AUDIO_EXTENSIONS_AND_MIMETYPE = [
     ("m4a", "audio/x-m4a"),
     ("flac", "audio/x-flac"),
     ("flac", "audio/flac"),
+    ("aif", "audio/aiff"),
+    ("aif", "audio/x-aiff"),
+    ("aiff", "audio/aiff"),
+    ("aiff", "audio/x-aiff"),
 ]
 
 EXTENSION_TO_MIMETYPE = {ext: mt for ext, mt in AUDIO_EXTENSIONS_AND_MIMETYPE}
