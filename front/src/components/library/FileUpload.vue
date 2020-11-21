@@ -49,7 +49,7 @@
               <a href="http://picard.musicbrainz.org/" target='_blank'><translate translate-context="Content/Library/Link">We recommend using Picard for that purpose.</translate></a>
             </li>
             <li>
-              <translate translate-context="Content/Library/List item">The music files you are uploading are in OGG, Flac or MP3 format</translate>
+              <translate translate-context="Content/Library/List item">The music files you are uploading are in OGG, Flac, MP3 or AIFF format</translate>
             </li>
           </ul>
         </div>
