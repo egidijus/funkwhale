@@ -194,7 +194,7 @@ export default {
     isPlayable () {
       return this.object.uploads_count > 0 && (
         this.isOwner ||
-        this.object.privacy_level === 'public' ||
+        this.object.privacy_level === 'everyone' ||
         (this.object.privacy_level === 'instance' && this.$store.state.auth.authenticated && this.object.actor.domain === this.$store.getters['instance/domain']) ||
         (this.$store.getters['libraries/follow'](this.object.uuid) || {}).approved === true
       )
