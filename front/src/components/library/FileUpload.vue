@@ -143,7 +143,6 @@
         @import="importFs"
         :loading="isLoadingFs"
         :data="fsStatus"></fs-browser>
-      <div v-if="fsStatus.import.status === 'started' || fsStatus.import.status === 'pending'"></div>
       <template v-if="fsStatus && fsStatus.import">
         <h3 class="ui header"><translate translate-context="Content/Library/Title/Verb">Import status</translate></h3>
         <p v-if="fsStatus.import.reference != importReference">
