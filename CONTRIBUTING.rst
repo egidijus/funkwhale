@@ -199,7 +199,7 @@ Once everything is up, you can access the various funkwhale's components:
 
 - The Vue webapp, on http://localhost:8000
 - The API, on http://localhost:8000/api/v1/
-- The django admin, on http://localhost:800/api/admin/
+- The django admin, on http://localhost:8000/api/admin/
 
 Stopping everything
 ^^^^^^^^^^^^^^^^^^^
