@@ -551,6 +551,10 @@ export default {
         this.updateProgressThrottled.cancel()
       }
       this.currentSound.seek(t)
+      // If player is paused update progress immediately to ensure updated UI
+      if (!this.$store.state.player.playing) {
+        this.updateProgress()
+      }
     },
     ended: function () {
       let onlyTrack = this.$store.state.queue.tracks.length === 1
