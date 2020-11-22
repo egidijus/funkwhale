@@ -34,7 +34,7 @@
         max="1"
         v-model="sliderVolume" />
     </div>
-  </button class="circular control">
+  </button>
 </template>
 <script>
 import { mapState, mapGetters, mapActions } from "vuex"
