@@ -88,7 +88,7 @@
             <translate translate-context="Footer/*/Title/Short">About Funkwhale</translate>
           </h3>
           <p v-translate translate-context="Content/Home/Paragraph">This pod runs Funkwhale, a community-driven project that lets you listen and share music and audio within a decentralized, open network.</p>
-          <p v-translate translate-context="Content/Home/Paragraph">Funkwhale is free and developped by a friendly community of volunteers.</p>
+          <p v-translate translate-context="Content/Home/Paragraph">Funkwhale is free and developed by a friendly community of volunteers.</p>
           <a target="_blank" rel="noopener" href="https://funkwhale.audio">
             <i class="external alternate icon"></i>
             <translate translate-context="Content/Home/Link">Visit funkwhale.audio</translate>
