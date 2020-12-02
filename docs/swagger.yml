@@ -506,6 +506,7 @@ paths:
         - $ref: "./api/parameters.yml#/PageSize"
         - $ref: "./api/parameters.yml#/Related"
         - $ref: "./api/parameters.yml#/Scope"
+        - $ref: "./api/parameters.yml#/ContentType"
 
       responses:
         200:

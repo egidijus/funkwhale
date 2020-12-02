@@ -257,6 +257,7 @@ class AlbumFilter(
         search_fields=["title", "artist__name"],
         fts_search_fields=["body_text", "artist__body_text"],
     )
+    content_category = filters.CharFilter("artist__content_category")
     tag = TAG_FILTER
     scope = common_filters.ActorScopeFilter(
         actor_field="tracks__uploads__library__actor",

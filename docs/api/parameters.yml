@@ -1,5 +1,5 @@
 ChannelOrdering:
-  - $ref: "#/parameters/Ordering"
+  - $ref: "#/Ordering"
   - default: "-creation_date"
     schema:
       required: false
@@ -117,6 +117,20 @@ Scope:
     - "subscribed"
     - "actor:alice@example.com"
     - "domain:example.com"
+
+ContentType:
+  name: "content_type"
+  in: "query"
+  default: "all"
+  description: |
+    Limits the results to those whose artist content type matches the query.
+  
+  schema:
+    required: false
+    type: "string"
+    enum:
+    - "podcast"
+    - "music"
 
 Search:
   name: "q"
