@@ -1,6 +1,6 @@
 #!/bin/bash -eux
 
-SWAGGER_VERSION="3.13.6"
+SWAGGER_VERSION="3.37.2"
 TARGET_PATH=${TARGET_PATH-"swagger"}
 rm -rf $TARGET_PATH /tmp/swagger-ui
 git clone --branch="v$SWAGGER_VERSION" --depth=1 "https://github.com/swagger-api/swagger-ui.git" /tmp/swagger-ui

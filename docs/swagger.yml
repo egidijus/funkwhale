@@ -1,4 +1,4 @@
-openapi: "3.0.2"
+openapi: "3.0.3"
 info:
   description: |
     Interactive documentation for [Funkwhale](https://funkwhale.audio) API.
@@ -140,7 +140,6 @@ components:
       description: This API uses OAuth 2 with the Authorization Code flow. You can register an app using the /oauth/apps/ endpoint.
       flows:
         authorizationCode:
-          # Swagger doesn't support relative URLs yet (cf https://github.com/swagger-api/swagger-ui/pull/5244)
           authorizationUrl: /authorize
           tokenUrl: /api/v1/oauth/token/
           refreshUrl: /api/v1/oauth/token/
