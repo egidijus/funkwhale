@@ -57,7 +57,7 @@ Attachment:
       example: 2787000
       description: "Size of the file, in bytes"
     mimetype:
-      $ref: "./properties.yml#image_mimetype"
+      $ref: "./properties.yml#/image_mimetype"
     creation_date:
       type: "string"
       format: "date-time"
@@ -121,7 +121,7 @@ BaseArtist:
   properties:
     mbid:
       required: false
-      $ref: "./properties.yml#mbid"
+      $ref: "./properties.yml#/mbid"
     id:
       type: "integer"
       format: "int64"
@@ -160,7 +160,7 @@ BaseAlbum:
   properties:
     mbid:
       required: false
-      $ref: "./properties.yml#mbid"
+      $ref: "./properties.yml#/mbid"
     id:
       type: "integer"
       format: "int64"
@@ -249,11 +249,11 @@ ChannelCreate:
       example: "aliceandbob"
       description: "The username to associate with the channel, for use over federation. This cannot be changed afterwards."
     description:
-      $ref: "./properties.yml#description"
+      $ref: "./properties.yml#/description"
     tags:
-      $ref: "./properties.yml#tags"
+      $ref: "./properties.yml#/tags"
     content_category:
-      $ref: "./properties.yml#content_category"
+      $ref: "./properties.yml#/content_category"
     cover:
       type: string
       format: uuid
@@ -267,9 +267,9 @@ ChannelUpdate:
       example: "A short, public name for the channel"
       maxLength: 255
     description:
-      $ref: "./properties.yml#description"
+      $ref: "./properties.yml#/description"
     tags:
-      $ref: "./properties.yml#tags"
+      $ref: "./properties.yml#/tags"
     cover:
       type: string
       format: uuid
@@ -283,7 +283,7 @@ Channel:
       type: "string"
       format: "uuid"
     creation_date:
-      $ref: "./properties.yml#creation_date"
+      $ref: "./properties.yml#/creation_date"
     artist:
       $ref: "#/BaseArtist"
     attributed_to:
@@ -299,12 +299,12 @@ Subscription:
     approved:
       type: "string"
     fid:
-      $ref: "./properties.yml#fid"
+      $ref: "./properties.yml#/fid"
     uuid:
       type: "string"
       format: "uuid"
     creation_date:
-      $ref: "./properties.yml#creation_date"
+      $ref: "./properties.yml#/creation_date"
     channel:
       $ref: "#/Channel"
 
@@ -402,7 +402,7 @@ BaseTrack:
   properties:
     mbid:
       required: false
-      $ref: "./properties.yml#mbid"
+      $ref: "./properties.yml#/mbid"
     id:
       type: "integer"
       format: "int64"
@@ -472,7 +472,7 @@ ListeningCreate:
       format: "int64"
       example: 66
     creation_date:
-      $ref: "./properties.yml#creation_date"
+      $ref: "./properties.yml#/creation_date"
     track:
       type: "integer"
       format: "int64"
@@ -486,7 +486,7 @@ Listening:
       format: "int64"
       example: 66
     creation_date:
-      $ref: "./properties.yml#creation_date"
+      $ref: "./properties.yml#/creation_date"
     track:
       $ref: "#/Track"
     actor:
@@ -529,7 +529,7 @@ Upload:
       example: 128000
       description: "Bitrate of the file, in bytes/s"
     mimetype:
-      $ref: "./properties.yml#audio_mimetype"
+      $ref: "./properties.yml#/audio_mimetype"
     extension:
       type: string
       example: "ogg"
@@ -556,7 +556,7 @@ OwnedLibraryCreate:
       type: "string"
       example: "Lots of interesting content"
     privacy_level:
-      $ref: "./properties.yml#privacy_level"
+      $ref: "./properties.yml#/privacy_level"
 
 OwnedLibrary:
   type: "object"
@@ -565,7 +565,7 @@ OwnedLibrary:
       type: string
       format: uuid
     fid:
-      $ref: "./properties.yml#fid"
+      $ref: "./properties.yml#/fid"
     name:
       type: "string"
       example: "My Creative Commons library"
@@ -573,9 +573,9 @@ OwnedLibrary:
       type: "string"
       example: "All content is under CC-BY"
     creation_date:
-      $ref: "./properties.yml#creation_date"
+      $ref: "./properties.yml#/creation_date"
     privacy_level:
-      $ref: "./properties.yml#privacy_level"
+      $ref: "./properties.yml#/privacy_level"
     uploads_count:
       type: "integer"
       format: "int64"
@@ -593,7 +593,7 @@ OwnedUpload:
     - type: "object"
       properties:
         import_status:
-          $ref: "./properties.yml#import_status"
+          $ref: "./properties.yml#/import_status"
         track:
           $ref: "#/Track"
         library:
@@ -629,14 +629,14 @@ Playlist:
       description: Number of tracks in the playlist
       example: 76
     privacy_level:
-      $ref: "./properties.yml#privacy_level"
+      $ref: "./properties.yml#/privacy_level"
     actor:
       $ref: "#/Actor"
       description: Actor owning the playlist
     creation_date:
-      $ref: "./properties.yml#creation_date"
+      $ref: "./properties.yml#/creation_date"
     modification_date:
-      $ref: "./properties.yml#modification_date"
+      $ref: "./properties.yml#/modification_date"
 
 
 PlaylistCreate:
@@ -647,7 +647,7 @@ PlaylistCreate:
       description: Name of the playlist
       example: "Move your body"
     privacy_level:
-      $ref: "./properties.yml#privacy_level"
+      $ref: "./properties.yml#/privacy_level"
 
 PlaylistTrack:
   type: "object"
@@ -662,7 +662,7 @@ PlaylistTrack:
       example: 16
       description: Position of the track in the playlist
     creation_date:
-      $ref: "./properties.yml#creation_date"
+      $ref: "./properties.yml#/creation_date"
     track:
       $ref: "#/Track"
 
@@ -675,7 +675,7 @@ ImportMetadata:
       example: "My Track"
       required: true
     mbid:
-      $ref: "./properties.yml#mbid"
+      $ref: "./properties.yml#/mbid"
       required: false
     copyright:
       type: "string"
@@ -688,7 +688,7 @@ ImportMetadata:
       required: false
       description: A license code, as returned by /api/v1/licenses
     tags:
-      $ref: "./properties.yml#tags"
+      $ref: "./properties.yml#/tags"
       required: false
     position:
       description: "Position of the track in the album or channel"
@@ -708,7 +708,7 @@ TrackFavorite:
     user:
       $ref: "#/User"
     creation_date:
-      $ref: "./properties.yml#creation_date"
+      $ref: "./properties.yml#/creation_date"
 User:
   type: "object"
   properties:
@@ -750,7 +750,7 @@ Me:
           type: "string"
           format: "date-time"
         privacy_level:
-          $ref: "./properties.yml#privacy_level"
+          $ref: "./properties.yml#/privacy_level"
           description: Default privacy-level associated with the user account
         quota_status:
           $ref: "#/QuotaStatus"
@@ -771,7 +771,7 @@ Me:
 
                 The token expires after 3 days by default.
 
-                QuotaStatus:
+QuotaStatus:
   type: "object"
   properties:
     max:

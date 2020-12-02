@@ -175,6 +175,8 @@ export default {
         ordering: this.getOrderingAsString(),
         playable: "true",
         tag: this.tags,
+        include_channels: "true",
+        content_category: "music"
       }
       logger.default.debug("Fetching albums")
       axios.get(
