@@ -9,10 +9,11 @@
       class="channel-image image"
       v-if="cover && cover.urls.original"
       v-lazy="$store.getters['instance/absoluteUrl'](cover.urls.medium_square_crop)">
-    <span
+    <img
       @click="$router.push({name: 'library.tracks.detail', params: {id: entry.id}})"
       class="channel-image image"
-      v-else-if="entry.artist.content_category === 'podcast'">#{{ entry.position }}</span>
+      v-else-if="entry.artist.content_category === 'podcast' && defaultCover != undefined"
+      v-lazy="$store.getters['instance/absoluteUrl'](defaultCover.urls.medium_square_crop)">
     <img
       @click="$router.push({name: 'library.tracks.detail', params: {id: entry.id}})"
       alt=""
@@ -53,7 +54,7 @@ import { mapGetters } from "vuex"
 
 
 export default {
-  props: ['entry'],
+  props: ['entry', 'defaultCover'],
   components: {
     PlayButton,
     TrackFavoriteIcon,

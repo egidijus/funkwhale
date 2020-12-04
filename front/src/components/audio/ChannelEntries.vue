@@ -5,7 +5,7 @@
     <div v-if="isLoading" class="ui inverted active dimmer">
       <div class="ui loader"></div>
     </div>
-    <channel-entry-card v-for="entry in objects" :entry="entry" :key="entry.id" />
+    <channel-entry-card v-for="entry in objects" :default-cover="defaultCover" :entry="entry" :key="entry.id" />
     <template v-if="count > limit">
       <div class="ui hidden divider"></div>
       <div class = "ui center aligned basic segment">
@@ -38,6 +38,7 @@ export default {
   props: {
     filters: {type: Object, required: true},
     limit: {type: Number, default: 10},
+    defaultCover: {type: Object},
   },
   components: {
     ChannelEntryCard,
