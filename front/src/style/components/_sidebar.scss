@@ -1,244 +1,237 @@
-
 .ui.wide.left.sidebar {
-  @include media(">desktop") {
-    width: $desktop-sidebar-width;
-  }
-
-  @include media(">widedesktop") {
-    width: $widedesktop-sidebar-width;
-  }
+    @include media(">desktop") {
+        width: $desktop-sidebar-width;
+    }
+    @include media(">widedesktop") {
+        width: $widedesktop-sidebar-width;
+    }
 }
 
-
 .sidebar {
-  .logo {
-    &.bordered.icon {
-      padding: .5em .41em !important;
+    .logo {
+        &.bordered.icon {
+            padding: .5em .41em !important;
+        }
+        path {
+            fill: white;
+        }
     }
-    path {
-      fill: white;
+    .tab {
+        flex-direction: column;
     }
-  }
-  .tab {
-    flex-direction: column;
-  }
 }
 
 .component-sidebar {
-  .ui.search .input {
-    flex: 1;
-    .prompt {
-      border-radius: 0;
+    .ui.search .input {
+        flex: 1;
+        .prompt {
+            border-radius: 0;
+        }
     }
-  }
-  .ui.search .results {
-    vertical-align: middle;
-  }
-  .ui.search .name {
-    vertical-align: middle;
-  }
-
-  &.sidebar {
-    overflow-y: visible !important;
-    background: var(--sidebar-background);
-    z-index: 1;
-    @include media(">desktop") {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding-bottom: 4em;
+    .ui.search .results {
+        vertical-align: middle;
     }
-    > nav {
-      flex-grow: 1;
-      overflow-y: auto;
+    .ui.search .name {
+        vertical-align: middle;
     }
-    @include media(">desktop") {
-      .menu .item.collapse-button-wrapper {
+    &.sidebar {
+        overflow-y: visible !important;
+        background: var(--sidebar-background);
+        z-index: 1;
+        @include media(">desktop") {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-bottom: 4em;
+        }
+        >nav {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        @include media(">desktop") {
+            .menu .item.collapse-button-wrapper {
+                padding: 0;
+            }
+            .collapse.button {
+                display: none !important;
+            }
+        }
+        @include media("<=desktop") {
+            position: static !important;
+            width: 100% !important;
+            &.collapsed {
+                .player-wrapper,
+                .search,
+                .signup.segment,
+                nav.secondary {
+                    display: none;
+                }
+            }
+        }
+        >div {
+            margin: 0;
+            background-color: var(--sidebar-background);
+        }
+        .menu.vertical {
+            background: transparent;
+        }
+    }
+    .ui.vertical.menu {
+        .item .item {
+            font-size: 1em;
+            >i.icon {
+                float: none;
+                margin: 0 0.5em 0 0;
+            }
+        }
+        .item.active {
+            border-right: 5px solid var(--vibrant-color);
+            border-radius: 0 !important;
+            background: var(--sidebar-active-item-background) !important;
+        }
+        .item.collapsed {
+            &:not(:focus)>.menu {
+                display: none;
+            }
+            .header {
+                margin-bottom: 0;
+            }
+        }
+        .collapsible.item .header {
+            cursor: pointer;
+        }
+    }
+    .ui.secondary.menu {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .tabs {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        justify-content: space-between;
+        @include media("<=desktop") {
+            max-height: 500px;
+        }
+    }
+    .ui.tab.active {
+        display: flex;
+    }
+    .tab[data-tab="queue"] {
+        flex-direction: column;
+        tr {
+            cursor: pointer;
+        }
+        td:nth-child(2) {
+            width: 55px;
+        }
+    }
+    .item .header .angle.icon {
+        float: right;
+        margin: 0;
+    }
+    .tab[data-tab="library"] {
+        flex-direction: column;
+        flex: 1 1 auto;
+        >.menu {
+            flex: 1;
+            flex-grow: 1;
+        }
+        >.player-wrapper {
+            width: 100%;
+        }
+    }
+    .sidebar .segment {
+        margin: 0;
+        border-radius: 0;
+    }
+    .ui.menu .item.inline.admin-dropdown.dropdown>.menu {
+        left: 0;
+        right: auto;
+    }
+    .ui.segment.header-wrapper {
+        background: var(--sidebar-header-background);
+        color: var(--sidebar-header-color);
+        box-shadow: var(--sidebar-header-box-shadow);
         padding: 0;
-      }
-      .collapse.button {
-        display: none !important;
-      }
-    }
-    @include media("<=desktop") {
-      position: static !important;
-      width: 100% !important;
-      &.collapsed {
-        .player-wrapper,
-        .search,
-        .signup.segment,
-        nav.secondary {
-          display: none;
-        }
-      }
-    }
-
-    > div {
-      margin: 0;
-      background-color: var(--sidebar-background);
-    }
-    .menu.vertical {
-      background: transparent;
-    }
-  }
-
-  .ui.vertical.menu {
-    .item .item {
-      font-size: 1em;
-      > i.icon {
-        float: none;
-        margin: 0 0.5em 0 0;
-      }
-    }
-    .item.active {
-      border-right: 5px solid var(--vibrant-color);
-      border-radius: 0 !important;
-      background: var(--sidebar-active-item-background) !important;
-    }
-    .item.collapsed {
-      &:not(:focus) > .menu {
-        display: none;
-      }
-      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 4em;
         margin-bottom: 0;
-      }
-    }
-    .collaspable.item .header {
-      cursor: pointer;
-    }
-  }
-  .ui.secondary.menu {
-    margin-left: 0;
-    margin-right: 0;
-  }
-  .tabs {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    justify-content: space-between;
-    @include media("<=desktop") {
-      max-height: 500px;
-    }
-  }
-  .ui.tab.active {
-    display: flex;
-  }
-  .tab[data-tab="queue"] {
-    flex-direction: column;
-    tr {
-      cursor: pointer;
-    }
-    td:nth-child(2) {
-      width: 55px;
-    }
-  }
-  .item .header .angle.icon {
-    float: right;
-    margin: 0;
-  }
-  .tab[data-tab="library"] {
-    flex-direction: column;
-    flex: 1 1 auto;
-    > .menu {
-      flex: 1;
-      flex-grow: 1;
-    }
-    > .player-wrapper {
-      width: 100%;
-    }
-  }
-  .sidebar .segment {
-    margin: 0;
-    border-radius: 0;
-  }
-
-  .ui.menu .item.inline.admin-dropdown.dropdown > .menu {
-    left: 0;
-    right: auto;
-  }
-  .ui.segment.header-wrapper {
-    background: var(--sidebar-header-background);
-    color: var(--sidebar-header-color);
-    box-shadow: var(--sidebar-header-box-shadow);
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 4em;
-    margin-bottom: 0;
-    nav {
-      > .item, > .menu > .item > .item {
-        &:hover {
-          background-color: transparent;
+        nav {
+            >.item,
+            >.menu>.item>.item {
+                &:hover {
+                    background-color: transparent;
+                }
+            }
         }
-      }
     }
-  }
-
-  nav.top.title-menu {
-    flex-grow: 1;
-    .item {
-      font-size: 1.5em;
+    nav.top.title-menu {
+        flex-grow: 1;
+        .item {
+            font-size: 1.5em;
+        }
     }
-  }
-
-  .logo {
-    cursor: pointer;
-    display: inline-block;
-    margin: 0px;
-  }
-
-  &.collapsed .search-wrapper {
-    @include media("<desktop") {
-      padding: 0;
+    .logo {
+        cursor: pointer;
+        display: inline-block;
+        margin: 0px;
     }
-  }
-  .ui.search {
-    display: flex;
-  }
-  .ui.message.black {
-    background: var(--sidebar-background);
-  }
-
-  .ui.mini.image {
-    width: 100%;
-  }
-  nav.top {
-    align-items: self-end;
-    padding: 0.5em 0;
-    > .item, > .right.menu > .item {
-      // color: rgba(255, 255, 255, 0.9) !important;
-      font-size: 1.2em;
-      &:hover, > .dropdown > .icon {
-        // color: rgba(255, 255, 255, 0.9) !important;
-      }
-      > .label, > .dropdown > .label {
-        font-size: 0.5em;
-        right: 1.7em;
-        bottom: -0.5em;
-        z-index: 0 !important;
-      }
+    &.collapsed .search-wrapper {
+        @include media("<desktop") {
+            padding: 0;
+        }
     }
-  }
-  .ui.user-dropdown > .text > .label {
-    margin-right: 0;
-  }
-  .logo-wrapper {
-    display: inline-block;
-    margin: 0 auto;
-    @include media("<desktop") {
-      margin: 0;
+    .ui.search {
+        display: flex;
     }
-    img {
-      height: 1em;
-      display: inline-block;
-      margin: 0 auto;
+    .ui.message.black {
+        background: var(--sidebar-background);
     }
-    @include media(">tablet") {
-      img {
-        height: 1.5em;
-      }
+    .ui.mini.image {
+        width: 100%;
     }
-  }
+    nav.top {
+        align-items: self-end;
+        padding: 0.5em 0;
+        >.item,
+        >.right.menu>.item {
+            // color: rgba(255, 255, 255, 0.9) !important;
+            font-size: 1.2em;
+            &:hover,
+            >.dropdown>.icon {
+                // color: rgba(255, 255, 255, 0.9) !important;
+            }
+            >.label,
+            >.dropdown>.label {
+                font-size: 0.5em;
+                right: 1.7em;
+                bottom: -0.5em;
+                z-index: 0 !important;
+            }
+        }
+    }
+    .ui.user-dropdown>.text>.label {
+        margin-right: 0;
+    }
+    .logo-wrapper {
+        display: inline-block;
+        margin: 0 auto;
+        @include media("<desktop") {
+            margin: 0;
+        }
+        img {
+            height: 1em;
+            display: inline-block;
+            margin: 0 auto;
+        }
+        @include media(">tablet") {
+            img {
+                height: 1.5em;
+            }
+        }
+    }
 }

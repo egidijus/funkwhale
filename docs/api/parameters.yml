@@ -118,10 +118,9 @@ Scope:
     - "actor:alice@example.com"
     - "domain:example.com"
 
-ContentType:
-  name: "content_type"
+ContentCategory:
+  name: "content_category"
   in: "query"
-  default: "all"
   description: |
     Limits the results to those whose artist content type matches the query.
   

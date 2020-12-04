@@ -114,20 +114,22 @@
     <div class="ui small hidden divider"></div>
     <section :class="['ui', 'bottom', 'attached', {active: selectedTab === 'library'}, 'tab']" :aria-label="labels.mainMenu">
       <nav class="ui vertical large fluid inverted menu" role="navigation" :aria-label="labels.mainMenu">
-        <div :class="[{collapsed: !exploreExpanded}, 'collaspable item']">
+        <div :class="[{collapsed: !exploreExpanded}, 'collapsible item']">
           <h2 class="header" role="button" @click="exploreExpanded = true" tabindex="0" @focus="exploreExpanded = true">
             <translate translate-context="*/*/*/Verb">Explore</translate>
             <i class="angle right icon" v-if="!exploreExpanded"></i>
           </h2>
           <div class="menu">
+            <router-link class="item" :to="{name: 'search'}"><i class="search icon"></i><translate translate-context="Sidebar/Navigation/List item.Link/Verb">Search</translate></router-link>
             <router-link class="item" :exact="true" :to="{name: 'library.index'}"><i class="music icon"></i><translate translate-context="Sidebar/Navigation/List item.Link/Verb">Browse</translate></router-link>
+            <router-link class="item" :to="{name: 'library.podcasts.browse'}"><i class="podcast icon"></i><translate translate-context="*/*/*">Podcasts</translate></router-link>
             <router-link class="item" :to="{name: 'library.albums.browse'}"><i class="compact disc icon"></i><translate translate-context="*/*/*">Albums</translate></router-link>
             <router-link class="item" :to="{name: 'library.artists.browse'}"><i class="user icon"></i><translate translate-context="*/*/*">Artists</translate></router-link>
             <router-link class="item" :to="{name: 'library.playlists.browse'}"><i class="list icon"></i><translate translate-context="*/*/*">Playlists</translate></router-link>
             <router-link class="item" :to="{name: 'library.radios.browse'}"><i class="feed icon"></i><translate translate-context="*/*/*">Radios</translate></router-link>
           </div>
         </div>
-        <div :class="[{collapsed: !myLibraryExpanded}, 'collaspable item']" v-if="$store.state.auth.authenticated">
+        <div :class="[{collapsed: !myLibraryExpanded}, 'collapsible item']" v-if="$store.state.auth.authenticated">
           <h3 class="header" role="button" @click="myLibraryExpanded = true" tabindex="0" @focus="myLibraryExpanded = true">
             <translate translate-context="*/*/*/Noun">My Library</translate>
             <i class="angle right icon" v-if="!myLibraryExpanded"></i>
@@ -225,7 +227,9 @@ export default {
     },
     focusedMenu () {
       let mapping = {
+        "search": 'exploreExpanded',
         "library.index": 'exploreExpanded',
+        "library.podcasts.browse": 'exploreExpanded',
         "library.albums.browse": 'exploreExpanded',
         "library.albums.detail": 'exploreExpanded',
         "library.artists.browse": 'exploreExpanded',

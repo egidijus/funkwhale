@@ -45,6 +45,11 @@ export default {
         orderingDirection: "-",
         ordering: "creation_date",
       },
+      "library.podcasts.browse": {
+        paginateBy: 30,
+        orderingDirection: "-",
+        ordering: "creation_date",
+      },
       "library.radios.browse": {
         paginateBy: 12,
         orderingDirection: "-",
