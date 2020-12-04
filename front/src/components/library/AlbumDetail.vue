@@ -4,7 +4,7 @@
       <translate key="1" v-if="isSerie" translate-context="Content/Channels/*">Episodes</translate>
       <translate key="2" v-else translate-context="*/*/*">Tracks</translate>
     </h2>
-    <channel-entries v-if="artist.channel && isSerie" :limit="50" :filters="{channel: artist.channel.uuid, ordering: '-creation_date'}">
+    <channel-entries v-if="artist.channel && isSerie" :limit="50" :filters="{channel: artist.channel.uuid, album: object.id, ordering: '-creation_date'}">
     </channel-entries>
     <template v-else-if="discs && discs.length > 1">
       <div v-for="tracks in discs" :key="tracks.disc_number">
