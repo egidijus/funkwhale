@@ -407,6 +407,7 @@ paths:
         - $ref: "./api/parameters.yml#/PageSize"
         - $ref: "./api/parameters.yml#/Related"
         - $ref: "./api/parameters.yml#/Scope"
+        - $ref: "./api/parameters.yml#/ContentCategory"
       responses:
         200:
           content:
@@ -505,7 +506,7 @@ paths:
         - $ref: "./api/parameters.yml#/PageSize"
         - $ref: "./api/parameters.yml#/Related"
         - $ref: "./api/parameters.yml#/Scope"
-        - $ref: "./api/parameters.yml#/ContentType"
+        - $ref: "./api/parameters.yml#/ContentCategory"
 
       responses:
         200:

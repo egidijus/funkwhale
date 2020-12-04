@@ -43,11 +43,11 @@
     
         <empty-state v-else-if="!currentResults || currentResults.count === 0" @refresh="search" :refresh="true"></empty-state>
         
-        <div v-else-if="type === 'artists'" class="ui five app-cards cards">
+        <div v-else-if="type === 'artists' || type === 'podcasts'" class="ui five app-cards cards">
           <artist-card :artist="artist" v-for="artist in currentResults.results" :key="artist.id"></artist-card>
         </div>
         
-        <div v-else-if="type === 'albums'" class="ui five app-cards cards">
+        <div v-else-if="type === 'albums' || type === 'series'" class="ui five app-cards cards">
           <album-card
             v-for="album in currentResults.results"
             :key="album.id"
@@ -124,6 +124,8 @@ export default {
         playlists: null,
         radios: null,
         tags: null,
+        podcasts: null,
+        series: null,
       },
       isLoading: false,
       paginateBy: 25,
@@ -147,15 +149,28 @@ export default {
         submitSearch
       }
     },
+    axiosParams() {
+      const params = new URLSearchParams();
+      params.append('q', this.query);
+      params.append('page', this.page);
+      params.append('page_size', this.paginateBy);
+      if(this.currentType.contentCategory != undefined) {params.append('content_category', this.currentType.contentCategory)};
+      if(this.currentType.includeChannels != undefined) {params.append('include_channels', this.currentType.includeChannels)};
+      return params;
+    },
     types () {
       return [
         {
           id: 'artists',
           label: this.$pgettext("*/*/*/Noun", "Artists"),
+          includeChannels: true,
+          contentCategory: 'music',
         },
         {
           id: 'albums',
           label: this.$pgettext("*/*/*", "Albums"),
+          includeChannels: true,
+          contentCategory: 'music',
         },
         {
           id: 'tracks',
@@ -173,6 +188,20 @@ export default {
         {
           id: 'tags',
           label: this.$pgettext("*/*/*", "Tags"),
+        },
+        {
+          id: 'podcasts',
+          label: this.$pgettext("*/*/*", "Podcasts"),
+          endpoint: '/artists',
+          contentCategory: 'podcast',
+          includeChannels: true,
+        },
+        {
+          id: 'series',
+          label: this.$pgettext("*/*/*", "Series"),
+          endpoint: '/albums',
+          includeChannels: true,
+          contentCategory: 'podcast',
         },
       ]
     },
@@ -197,13 +226,18 @@ export default {
       this.isLoading = true
       let response = await axios.get(
         this.currentType.endpoint || this.currentType.id,
-        {params: {q: this.query, page: this.page, page_size: this.paginateBy}}
+        {params: this.axiosParams}
       )
       this.results[this.currentType.id] = response.data
       this.isLoading = false
       this.types.forEach(t => {
         if (t.id != this.currentType.id) {
-          axios.get(t.endpoint || t.id, {params: {q: this.query, page_size: 1}}).then(response => {
+          axios.get(t.endpoint || t.id, {params: {
+              q: this.query, 
+              page_size: 1,
+              content_category: t.contentCategory,
+              include_channels: t.includeChannels,
+            }}).then(response => {
             this.results[t.id] = response.data
           })
         }

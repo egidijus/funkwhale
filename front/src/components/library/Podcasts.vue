@@ -2,13 +2,13 @@
   <main v-title="labels.title">
     <section class="ui vertical stripe segment">
       <h2 class="ui header">
-        <translate translate-context="Content/Artist/Title">Browsing artists</translate>
+        <translate translate-context="Content/Podcasts/Title">Browsing Podcasts</translate>
       </h2>
       <form :class="['ui', {'loading': isLoading}, 'form']" @submit.prevent="updatePage();updateQueryString();fetchData()">
         <div class="fields">
           <div class="field">
             <label for="artist-search">
-              <translate translate-context="Content/Search/Input.Label/Noun">Artist name</translate>
+              <translate translate-context="Content/Search/Input.Label/Noun">Podcast Title</translate>
             </label>
             <div class="ui action input">
               <input id="artist-search" type="text" name="search" v-model="query" :placeholder="labels.searchPlaceholder"/>
@@ -44,13 +44,6 @@
               <option :value="parseInt(50)">50</option>
             </select>
           </div>
-          <div class="field">
-            <span id="excludeHeader">Exclude Compilation Artists</span>
-              <div id="excludeCompilation" class="ui toggle checkbox">
-              <input id="exclude-compilation" v-model="excludeCompilation" true-value="true" false-value="null" type="checkbox">
-              <label for="exclude-compilation" class="visually-hidden"><translate translate-context="Content/Search/Checkbox/Noun">Exclude Compilation Artists</translate></label>
-            </div>
-          </div>
         </div>
       </form>
       <div class="ui hidden divider"></div>
@@ -62,7 +55,7 @@
       </div>
       <div v-else-if="!isLoading" class="ui placeholder segment sixteen wide column" style="text-align: center; display: flex; align-items: center">
         <div class="ui icon header">
-          <i class="compact disc icon"></i>
+          <i class="podcast icon"></i>
           <translate translate-context="Content/Artists/Placeholder">
             No results matching your query
           </translate>
@@ -73,9 +66,17 @@
           class="ui success button labeled icon">
           <i class="upload icon"></i>
           <translate translate-context="Content/*/Verb">
-              Add some music
+            Create a Channel
           </translate>
         </router-link>
+        <h1 v-if ="$store.state.auth.authenticated" class="ui with-actions header">
+        <div class="actions">
+          <a @click.stop.prevent="showSubscribeModal = true">
+            <i class="plus icon"></i>
+            <translate translate-context="Content/Profile/Button">Subscribe to feed</translate>
+          </a>
+        </div>
+      </h1>
       </div>
       <div class="ui center aligned basic segment">
         <pagination
@@ -87,6 +88,29 @@
           ></pagination>
       </div>
     </section>
+    <modal class="tiny" :show.sync="showSubscribeModal" :fullscreen="false">
+        <h2 class="header">
+          <translate translate-context="*/*/*/Noun">Subscription</translate>
+        </h2>
+        <div class="scrolling content" ref="modalContent">
+          <remote-search-form
+            type="rss"
+            :show-submit="false"
+            :standalone="false"
+            @subscribed="showSubscribeModal = false; fetchData()"
+            :redirect="false"></remote-search-form>
+        </div>
+        <div class="actions">
+          <button class="ui basic deny button">
+            <translate translate-context="*/*/Button.Label/Verb">Cancel</translate>
+          </button>
+          <button form="remote-search" type="submit" class="ui primary button">
+            <i class="bookmark icon"></i>
+            <translate translate-context="*/*/*/Verb">Subscribe</translate>
+          </button>
+        </div>
+      </modal>
+
   </main>
 </template>
 
@@ -104,6 +128,8 @@ import TranslationsMixin from "@/components/mixins/Translations"
 import ArtistCard from "@/components/audio/artist/Card"
 import Pagination from "@/components/Pagination"
 import TagsSelector from '@/components/library/TagsSelector'
+import Modal from '@/components/semantic/Modal'
+import RemoteSearchForm from "@/components/RemoteSearchForm"
 
 const FETCH_URL = "artists/"
 
@@ -118,16 +144,18 @@ export default {
     ArtistCard,
     Pagination,
     TagsSelector,
+    RemoteSearchForm,
+    Modal,
   },
   data() {
     return {
       isLoading: true,
       result: null,
-      excludeCompilation: true,
       page: parseInt(this.defaultPage),
       query: this.defaultQuery,
       tags: (this.defaultTags || []).filter((t) => { return t.length > 0 }),
-      orderingOptions: [["creation_date", "creation_date"], ["name", "name"]]
+      orderingOptions: [["creation_date", "creation_date"], ["name", "name"]],
+      showSubscribeModal: false,
     }
   },
   created() {
@@ -139,7 +167,7 @@ export default {
   computed: {
     labels() {
       let searchPlaceholder = this.$pgettext('Content/Search/Input.Placeholder', "Search…")
-      let title = this.$pgettext('*/*/*/Noun', "Artists")
+      let title = this.$pgettext('*/*/*/Noun', "Podcasts")
       return {
         searchPlaceholder,
         title
@@ -158,8 +186,8 @@ export default {
           tag: this.tags,
           paginateBy: this.paginateBy,
           ordering: this.getOrderingAsString(),
-          content_category: 'music',
           include_channels: true,
+          content_category: 'podcast',
         }).toString()
       )
     },
@@ -177,7 +205,7 @@ export default {
         playable: "true",
         tag: this.tags,
         include_channels: "true",
-        content_category: 'music',
+        content_category: 'podcast',
       }
       logger.default.debug("Fetching artists")
       axios.get(
@@ -201,7 +229,7 @@ export default {
     },
     updatePage() {
       this.page = this.defaultPage
-    }
+    },
   },
   watch: {
     page() {

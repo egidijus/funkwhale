@@ -638,6 +638,23 @@ export default new Router({
           })
         },
         {
+          path: "podcasts/",
+          name: "library.podcasts.browse",
+          component: () =>
+            import(
+              /* webpackChunkName: "podcasts" */ "@/components/library/Podcasts"
+            ),
+          props: route => ({
+            defaultOrdering: route.query.ordering,
+            defaultQuery: route.query.query,
+            defaultTags: Array.isArray(route.query.tag || [])
+              ? route.query.tag
+              : [route.query.tag],
+            defaultPaginateBy: route.query.paginateBy,
+            defaultPage: route.query.page
+          })
+        },
+        {
           path: "me/albums",
           name: "library.albums.me",
           component: () =>

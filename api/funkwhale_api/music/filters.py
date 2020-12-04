@@ -103,6 +103,7 @@ class ArtistFilter(
     playable = filters.BooleanFilter(field_name="_", method="filter_playable")
     has_albums = filters.BooleanFilter(field_name="_", method="filter_has_albums")
     tag = TAG_FILTER
+    content_category = filters.CharFilter("content_category")
     scope = common_filters.ActorScopeFilter(
         actor_field="tracks__uploads__library__actor",
         distinct=True,
