@@ -94,11 +94,11 @@
         </h2>
         <div class="scrolling content" ref="modalContent">
           <remote-search-form
-            type="rss"
+            type="both"
             :show-submit="false"
             :standalone="false"
             @subscribed="showSubscribeModal = false; fetchData()"
-            :redirect="false"></remote-search-form>
+            :redirect="true"></remote-search-form>
         </div>
         <div class="actions">
           <button class="ui basic deny button">

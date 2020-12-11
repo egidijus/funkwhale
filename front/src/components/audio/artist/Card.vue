@@ -15,7 +15,8 @@
       <tags-list label-classes="tiny" :truncate-size="20" :limit="2" :show-more="false" :tags="artist.tags"></tags-list>
     </div>
     <div class="extra content">
-      <translate translate-context="*/*/*" :translate-params="{count: artist.tracks_count}" :translate-n="artist.tracks_count" translate-plural="%{ count } tracks">%{ count } track</translate>
+      <translate v-if="artist.content_category === 'music'" translate-context="*/*/*" :translate-params="{count: artist.tracks_count}" :translate-n="artist.tracks_count" translate-plural="%{ count } tracks">%{ count } track</translate>
+      <translate v-else translate-context="*/*/*" :translate-params="{count: artist.tracks_count}" :translate-n="artist.tracks_count" translate-plural="%{ count } episodes">%{ count } episode</translate>      
       <play-button class="right floated basic icon" :dropdown-only="true" :is-playable="artist.is_playable" :dropdown-icon-classes="['ellipsis', 'horizontal', 'large really discrete']" :artist="artist"></play-button>
     </div>
   </div>

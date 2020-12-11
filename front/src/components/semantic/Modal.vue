@@ -29,6 +29,7 @@ export default {
     if (this.control) {
       $(this.$el).modal('hide')
     }
+    this.focusTrap.deactivate()
     $(this.$el).remove()
   },
   methods: {
