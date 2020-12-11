@@ -1,5 +1,14 @@
 <template>
-  <div>
+  <div v-if="type === 'both' || type === undefined" class="two ui buttons">
+    <button class="ui left floated labeled icon button" @click.prevent="changeType('rss')"><i class="feed icon"></i>
+      <translate translate-context="Content/Search/Input.Label/Noun">RSS</translate>
+    </button>
+    <div class="or"></div>
+    <button class="ui right floated right labeled icon button" @click.prevent="changeType('artists')"><i class="globe icon"></i>
+      <translate translate-context="Content/Search/Input.Label/Noun">Fediverse</translate>
+    </button>
+  </div>
+  <div v-else>
     <form id="remote-search" :class="['ui', {loading: isLoading}, 'form']" @submit.stop.prevent="submit">
       <div v-if="errors.length > 0" role="alert" class="ui negative message">
         <h3 class="header"><translate translate-context="Content/*/Error message.Title">Error while fetching object</translate></h3>
@@ -14,7 +23,7 @@
         <p v-if="type === 'rss'">
           <translate translate-context="Content/Fetch/Paragraph">Paste here the RSS url or the fediverse address to subscribe to its feed.</translate>
         </p>
-        <p v-else>
+        <p v-else-if="type === 'artists'">
           <translate translate-context="Content/Fetch/Paragraph">Use this form to retrieve an object hosted somewhere else in the fediverse.</translate>
         </p>
         <input type="text" name="object-id" id="object-id" :placeholder="labels.fieldPlaceholder" v-model="id" required>
@@ -54,7 +63,7 @@ export default {
       if (this.type === 'rss') {
         this.rssSubscribe()
 
-      } else {
+      } else if (this.type === 'artists') {
         this.createFetch()
       }
     }
@@ -109,6 +118,9 @@ export default {
   },
 
   methods: {
+    changeType(newType) {
+      this.type = newType
+    },
     submit () {
       if (this.type === 'rss') {
         return this.rssSubscribe()
