@@ -150,13 +150,6 @@ The following example assume your setup match :ref:`frontend-setup`.
 Upgrading the API
 ^^^^^^^^^^^^^^^^^
 
-.. note::
-
-    Starting with Funkwhale 0.20, it is recommended you run Funkwhale with Python 3.6 or greater. This means upgrading to
-    Debian 10 if you're on Debian 9.
-
-    If you still want to use Python 3.5, you can, but you'll need to run ``sudo -u funkwhale -H -E /srv/funkwhale/virtualenv/bin/pip install "uvicorn==0.8.6"`` before upgrading.
-
 On non-docker, upgrade involves a few more commands. We assume your setup
 match what is described in :doc:`/installation/debian`:
 
