@@ -22,10 +22,12 @@ def get_track(track):
     album = None
     additional_info = {
         "listening_from": "Funkwhale",
-        "recording_mbid": str(track.mbid),
         "tracknumber": track.position,
         "discnumber": track.disc_number,
     }
+
+    if track.mbid:
+        additional_info["recording_mbid"] = str(track.mbid)
 
     if track.album:
         if track.album.title:
