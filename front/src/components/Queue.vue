@@ -15,10 +15,10 @@
                       {{ currentTrack.title }}
                     </router-link>
                     <div class="sub header ellipsis">
-                      <router-link class="discrete link artist" :to="{name: 'library.artists.detail', params: {id: currentTrack.artist.id }}">
-                        {{ currentTrack.artist.name }}</router-link> <template v-if="currentTrack.album">/<router-link class="discrete link album" :to="{name: 'library.albums.detail', params: {id: currentTrack.album.id }}">
-                        {{ currentTrack.album.title }}
-                      </router-link></template>
+                      <router-link class="discrete link artist" :to="{name: 'library.artists.detail', params: {id: currentTrack.artist.id }}">{{ currentTrack.artist.name }}</router-link>
+                      <template v-if="currentTrack.album"> /
+                        <router-link class="discrete link album" :to="{name: 'library.albums.detail', params: {id: currentTrack.album.id }}">{{ currentTrack.album.title }}</router-link>
+                      </template>
                     </div>
                   </div>
                 </h1>
