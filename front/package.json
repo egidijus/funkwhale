@@ -5,7 +5,7 @@
   "description": "Funkwhale front-end",
   "author": "Eliot Berriot <contact@eliotberriot.com>",
   "scripts": {
-    "serve": "vue-cli-service serve --port ${VUE_PORT:-8000} --host ${VUE_HOST:-0.0.0.0}",
+    "serve": "[ ! -d src/translations ] && npm run i18n-compile; vue-cli-service serve --port ${VUE_PORT:-8080} --host ${VUE_HOST:-0.0.0.0}",
     "build": "scripts/i18n-compile.sh && vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
