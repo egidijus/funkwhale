@@ -128,7 +128,12 @@
               <h2 class="ui header">
                 <div class="content">
                   <button
-                    class="ui right floated basic icon button"
+                    class="ui right floated basic button"
+                    @click="$store.commit('ui/queueFocused', null)">
+                      <translate translate-context="*/Queue/*/Verb">Close</translate>
+                  </button>
+                  <button
+                    class="ui right floated basic button danger"
                     @click="$store.dispatch('queue/clean')">
                       <translate translate-context="*/Queue/*/Verb">Clear</translate>
                   </button>
