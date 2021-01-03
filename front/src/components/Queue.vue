@@ -15,10 +15,10 @@
                       {{ currentTrack.title }}
                     </router-link>
                     <div class="sub header ellipsis">
-                      <router-link class="discrete link artist" :to="{name: 'library.artists.detail', params: {id: currentTrack.artist.id }}">
-                        {{ currentTrack.artist.name }}</router-link> <template v-if="currentTrack.album">/<router-link class="discrete link album" :to="{name: 'library.albums.detail', params: {id: currentTrack.album.id }}">
-                        {{ currentTrack.album.title }}
-                      </router-link></template>
+                      <router-link class="discrete link artist" :to="{name: 'library.artists.detail', params: {id: currentTrack.artist.id }}">{{ currentTrack.artist.name }}</router-link>
+                      <template v-if="currentTrack.album"> /
+                        <router-link class="discrete link album" :to="{name: 'library.albums.detail', params: {id: currentTrack.album.id }}">{{ currentTrack.album.title }}</router-link>
+                      </template>
                     </div>
                   </div>
                 </h1>
@@ -128,7 +128,12 @@
               <h2 class="ui header">
                 <div class="content">
                   <button
-                    class="ui right floated basic icon button"
+                    class="ui right floated basic button"
+                    @click="$store.commit('ui/queueFocused', null)">
+                      <translate translate-context="*/Queue/*/Verb">Close</translate>
+                  </button>
+                  <button
+                    class="ui right floated basic button danger"
                     @click="$store.dispatch('queue/clean')">
                       <translate translate-context="*/Queue/*/Verb">Clear</translate>
                   </button>

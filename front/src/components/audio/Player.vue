@@ -24,10 +24,10 @@
               </router-link>
             </strong>
             <div class="meta">
-              <router-link @click.stop.prevent="" class="discrete link" :to="{name: 'library.artists.detail', params: {id: currentTrack.artist.id }}">
-                {{ currentTrack.artist.name }}</router-link><template v-if="currentTrack.album"> /<router-link @click.stop.prevent="" class="discrete link" :to="{name: 'library.albums.detail', params: {id: currentTrack.album.id }}">
-                {{ currentTrack.album.title }}
-              </router-link></template>
+              <router-link @click.stop.prevent="" class="discrete link" :to="{name: 'library.artists.detail', params: {id: currentTrack.artist.id }}">{{ currentTrack.artist.name }}</router-link>
+              <template v-if="currentTrack.album"> /
+                <router-link @click.stop.prevent="" class="discrete link" :to="{name: 'library.albums.detail', params: {id: currentTrack.album.id }}">{{ currentTrack.album.title }}</router-link>
+              </template>
             </div>
           </div>
         </div>
