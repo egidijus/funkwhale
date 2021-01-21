@@ -39,10 +39,10 @@
                 <p>
                   <translate translate-context="Content/Notifications/Paragraph">We noticed you've been here for a while. If Funkwhale is useful to you, we could use your help to make it even better!</translate>
                 </p>
-                <a href="https://funkwhale.audio/support-us" _target="blank" rel="noopener" class="ui primary inverted button">
+                <a href="https://funkwhale.audio/support-us" target="_blank" rel="noopener" class="ui primary inverted button">
                   <translate translate-context="Content/Notifications/Button.Label/Verb">Donate</translate>
                 </a>
-                <a href="https://contribute.funkwhale.audio" _target="blank" rel="noopener" class="ui secondary inverted button">
+                <a href="https://contribute.funkwhale.audio" target="_blank" rel="noopener" class="ui secondary inverted button">
                   <translate translate-context="Content/Notifications/Button.Label/Verb">Discover other ways to help</translate>
                 </a>
               </div>
