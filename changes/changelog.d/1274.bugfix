@@ -1,0 +1,1 @@
+Changed audio format detection to happen via sniffing and not file extensions (#1274)

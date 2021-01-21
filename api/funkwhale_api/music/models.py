@@ -855,8 +855,7 @@ class Upload(models.Model):
         if not input:
             return
 
-        input_format = utils.MIMETYPE_TO_EXTENSION[self.mimetype]
-        audio = pydub.AudioSegment.from_file(input, format=input_format)
+        audio = pydub.AudioSegment.from_file(input)
         return audio
 
     def save(self, **kwargs):

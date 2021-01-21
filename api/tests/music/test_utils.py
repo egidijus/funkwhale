@@ -1,6 +1,7 @@
 import os
 import pathlib
 import pytest
+import tempfile
 
 from funkwhale_api.music import utils
 
@@ -28,6 +29,7 @@ def test_guess_mimetype_try_using_extension_if_fail(wrong, factories, mocker):
         ("sample.flac", {"bitrate": 1608000, "length": 0.001}),
         ("test.mp3", {"bitrate": 8000, "length": 267.70285714285717}),
         ("test.ogg", {"bitrate": 112000, "length": 1}),
+        ("test.opus", {"bitrate": 0, "length": 1}),  # This Opus file lacks a bitrate
     ],
 )
 def test_get_audio_file_data(name, expected):
@@ -109,3 +111,22 @@ def test_get_dirs_and_files(path, expected, tmpdir):
     (root_path / "System" / "file.ogg").touch()
 
     assert utils.browse_dir(root_path, path) == expected
+
+
+@pytest.mark.parametrize(
+    "name, expected",
+    [
+        ("sample.flac", {"bitrate": 128000, "length": 0}),
+        ("test.mp3", {"bitrate": 16000, "length": 268}),
+        ("test.ogg", {"bitrate": 128000, "length": 1}),
+        ("test.opus", {"bitrate": 128000, "length": 1}),
+    ],
+)
+def test_transcode_file(name, expected):
+    path = pathlib.Path(os.path.join(DATA_DIR, name))
+    with tempfile.NamedTemporaryFile() as dest:
+        utils.transcode_file(path, pathlib.Path(dest.name))
+        with open(dest.name, "rb") as f:
+            result = {k: round(v) for k, v in utils.get_audio_file_data(f).items()}
+
+            assert result == expected
