@@ -11,7 +11,7 @@ class APIAutenticationRequired(types.BooleanPreference):
     verbose_name = "API Requires authentication"
     default = True
     help_text = (
-        "If disabled, anonymous users will be able to query the API"
+        "If disabled, anonymous users will be able to query the API "
         "and access music data (as well as other data exposed in the API "
         "without specific permissions)."
     )
