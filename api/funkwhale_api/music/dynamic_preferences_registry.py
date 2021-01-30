@@ -27,7 +27,7 @@ class MusicCacheDuration(types.IntPreference):
     default = 60 * 24 * 7
     verbose_name = "Transcoding cache duration"
     help_text = (
-        "How much minutes do you want to keep a copy of transcoded tracks "
+        "How many minutes do you want to keep a copy of transcoded tracks "
         "on the server? Transcoded files that were not listened in this interval "
         "will be erased and retranscoded on the next listening."
     )
